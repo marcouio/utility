@@ -61,4 +61,15 @@ public class XmlUtil {
 		}
 		return elemento;
 	}
+	
+	public Node getNodo(String nodo, String path) throws ParserConfigurationException, SAXException, IOException {
+		NodeList listaNodi = getNodeList(path);
+		for(int i = 0; i < listaNodi.getLength(); i++){
+			Node nodoDaLista = listaNodi.item(i);
+			if(nodoDaLista.getNodeName().equals(nodo)){
+				return nodoDaLista;
+			}
+		}
+		return null;
+	}
 }
