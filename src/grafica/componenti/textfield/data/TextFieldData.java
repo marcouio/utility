@@ -35,7 +35,6 @@ public class TextFieldData extends TextFieldBase {
 		super(format);
 		this.formatter = new FormatterData(format);
 		this.style = new StyleTFData();
-		init();
 	}
 
 	public class StyleTFData extends StyleBaseTF {
