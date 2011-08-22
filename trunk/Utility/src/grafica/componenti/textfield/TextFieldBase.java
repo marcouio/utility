@@ -11,8 +11,8 @@ import javax.swing.JTextField;
 public class TextFieldBase extends JTextField implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	protected IFormatterTF formatter;
-	protected StyleBase style = new StyleBaseTF();;
+	protected IFormatterTF    formatter;
+	protected StyleBase       style            = new StyleBaseTF(); ;
 
 	public static void main(final String[] args) {
 		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy");
@@ -38,7 +38,6 @@ public class TextFieldBase extends JTextField implements FocusListener {
 
 	protected void settaStile() {
 		style.setPadre(this);
-		// StyleBase.caricaInfoStyle(style);
 		this.setFont(style.getFont());
 		this.setForeground(style.getForeground());
 		this.setBackground(style.getBackground());
@@ -51,19 +50,19 @@ public class TextFieldBase extends JTextField implements FocusListener {
 				formatter.parsifica(getText());
 			} catch (final Exception e) {
 				Alert.segnalazioneErroreGrave("Testo non inserito correttamente: " + e.getMessage());
-				e.printStackTrace();
 			}
 		}
 		return testoConvertito;
 	}
 
 	@Override
-	public void focusGained(final FocusEvent arg0) {
-	}
+	public void focusGained(final FocusEvent arg0) {}
 
 	@Override
 	public void focusLost(final FocusEvent arg0) {
-		this.getTestoConvertitoInTipo();
+		if (this.getTestoConvertitoInTipo() == null) {
+			;
+		}
 	}
 
 	public class StyleBaseTF extends StyleBase {

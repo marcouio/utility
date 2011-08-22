@@ -8,6 +8,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import xml.CoreXMLManager;
 import xml.XmlUtil;
 
 /**
@@ -23,20 +24,20 @@ import xml.XmlUtil;
  */
 public class StyleBase {
 
-	private static final String FONT = "font";
+	private static final String FONT       = "font";
 	private static final String BACKGROUND = "background";
 	private static final String FOREGROUND = "foreground";
 	private static final String FONTFAMILY = "font-family";
-	private static final String TYPE = "type";
-	private static final String SIZE = "size";
-	private static final String R = "r";
-	private static final String G = "g";
-	private static final String B = "b";
+	private static final String TYPE       = "type";
+	private static final String SIZE       = "size";
+	private static final String R          = "r";
+	private static final String G          = "g";
+	private static final String B          = "b";
 
-	private Font font;
-	private Color foreground;
-	private Color background;
-	private Component padre;
+	private Font                font;
+	private Color               foreground;
+	private Color               background;
+	private Component           padre;
 
 	public static void main(final String[] args) {
 		final StyleBase base = new StyleBase();
@@ -80,7 +81,7 @@ public class StyleBase {
 
 	private void caricaInfoStyleBase() {
 		try {
-			final NodeList listaNodi = XmlUtil.getNodeList("./config-style.xml");
+			final NodeList listaNodi = XmlUtil.getNodeList(CoreXMLManager.getSingleton().getXMLStyleFilePath());
 			if (listaNodi != null) {
 				for (int i = 0; i < listaNodi.getLength(); i++) {
 					final Node nodo = listaNodi.item(i);
