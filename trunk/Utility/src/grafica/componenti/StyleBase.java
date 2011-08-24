@@ -8,8 +8,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+
+import xml.UtilXml;
 import xml.CoreXMLManager;
-import xml.XmlUtil;
 
 /**
  * Gli oggetti nella gerarchia di StyleBase sono interni ad altri oggetti swing,
@@ -81,7 +82,7 @@ public class StyleBase {
 
 	private void caricaInfoStyleBase() {
 		try {
-			final NodeList listaNodi = XmlUtil.getNodeList(CoreXMLManager.getSingleton().getXMLStyleFilePath());
+			final NodeList listaNodi = UtilXml.getNodeList(CoreXMLManager.getSingleton().getXMLStyleFilePath());
 			if (listaNodi != null) {
 				for (int i = 0; i < listaNodi.getLength(); i++) {
 					final Node nodo = listaNodi.item(i);
@@ -110,13 +111,13 @@ public class StyleBase {
 	}
 
 	protected static void settaForeground(final StyleBase style, final Node nodoComponente) {
-		final Element elemento = XmlUtil.getElement(nodoComponente);
+		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
 			try {
 				final NodeList listaFigliForeground = nodoComponente.getChildNodes();
 				for (int z = 0; z < listaFigliForeground.getLength(); z++) {
 					final Node figlioForeground = listaFigliForeground.item(z);
-					final Element elementoForeground = XmlUtil.getElement(figlioForeground);
+					final Element elementoForeground = UtilXml.getElement(figlioForeground);
 					if (elementoForeground != null) {
 						try {
 							final int r = Integer.parseInt(elementoForeground.getAttribute(R));
@@ -136,13 +137,13 @@ public class StyleBase {
 
 	protected static void settaBackground(final StyleBase style, final Node nodoComponente) {
 
-		final Element elemento = XmlUtil.getElement(nodoComponente);
+		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
 			try {
 				final NodeList listaFigliBackground = nodoComponente.getChildNodes();
 				for (int z = 0; z < listaFigliBackground.getLength(); z++) {
 					final Node colorBackground = listaFigliBackground.item(z);
-					final Element elementoColorBackground = XmlUtil.getElement(colorBackground);
+					final Element elementoColorBackground = UtilXml.getElement(colorBackground);
 					if (elementoColorBackground != null) {
 						try {
 							final int r = Integer.parseInt(elementoColorBackground.getAttribute(R));
@@ -162,7 +163,7 @@ public class StyleBase {
 	}
 
 	protected static void settaFont(final Node nodo, final StyleBase style, final Node nodoComponente) {
-		final Element elemento = XmlUtil.getElement(nodoComponente);
+		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
 			final String carattere = elemento.getAttribute(FONTFAMILY);
 			final int tipo = Integer.parseInt(elemento.getAttribute(TYPE));
