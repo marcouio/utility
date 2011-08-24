@@ -16,13 +16,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class ImageUtil extends JPanel {
+public class UtilImage extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	public static void main(final String[] args) {
 		final JFrame f = new JFrame();
-		f.getContentPane().add(new ImageUtil());
+		f.getContentPane().add(new UtilImage());
 		f.setBounds(0, 0, 800, 600);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

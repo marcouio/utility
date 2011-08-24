@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class IoUtil {
+public class UtilIo {
 
 	public static String[] deleteFileDaDirectory2(final String Dir) {
 		final File dir = new File(Dir);

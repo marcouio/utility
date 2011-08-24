@@ -18,7 +18,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-import disegno.immagini.ImageUtil;
+import disegno.immagini.UtilImage;
 
 public class Tree extends JTree {
 
@@ -34,7 +34,7 @@ public class Tree extends JTree {
 
 				String path = "/home/marcouio/Immagini/linux-serverLinux-TUX06.jpg";
 				ImageIcon icona = new ImageIcon(path);
-				icona = ImageUtil.resizeImage(10, 10, icona);
+				icona = UtilImage.resizeImage(10, 10, icona);
 				TreeObjectFoglia foglia1 = new TreeObjectFoglia("foglia1", icona);
 				tree.setRenderer(foglia1);
 
@@ -58,7 +58,7 @@ public class Tree extends JTree {
 			private TreeObjectRamo initTree(Tree tree) {
 				String path = "/home/marcouio/Immagini/linux-serverLinux-TUX06.jpg";
 				ImageIcon icona = new ImageIcon(path);
-				icona = ImageUtil.resizeImage(10, 10, icona);
+				icona = UtilImage.resizeImage(10, 10, icona);
 				TreeObjectFoglia fogliaroot = new TreeObjectFoglia("root", icona);
 				TreeObjectRamo ramoRoot = new TreeObjectRamo(fogliaroot, "ramo", fogliaroot.getIcona());
 				tree.setRenderer(ramoRoot);

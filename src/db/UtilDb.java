@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class DbUtil {
+public class UtilDb {
 
 	/**
 	 * Metodo utile quando puo' capitare di ottenere in input un integer come
