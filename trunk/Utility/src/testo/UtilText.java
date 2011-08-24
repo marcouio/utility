@@ -1,6 +1,6 @@
 package testo;
 
-public class TextUtil {
+public class UtilText {
 
 	/**
 	 * Dato un campo, ne valuta la lunghezza. Se e' piu' corto della dimensione

@@ -1,6 +1,6 @@
 package math;
 
-public class MathUtil {
+public class UtilMath {
 
 	/**
 	 * Restituisce un indice casuale da un valore massimo. L'indice è generato
