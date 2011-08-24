@@ -6,9 +6,11 @@ import java.awt.Graphics;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 /**
  * La classe estende JToggleButton per modificarne il funzionamento di default.
@@ -20,8 +22,8 @@ import javax.swing.SwingConstants;
  */
 public class ToggleBtn extends JToggleButton {
 	private static final long serialVersionUID = 1L;
-	String s;
-	ImageIcon i;
+	String testo;
+	ImageIcon imageIcon;
 
 	MyIcon icona;
 	private JPanel padre;
@@ -74,7 +76,7 @@ public class ToggleBtn extends JToggleButton {
 	public ToggleBtn(final String text) {
 		super("");
 		setxPartenzaTesto(10);
-		s = text;
+		testo = text;
 	}
 
 	public ToggleBtn(final String text, final ImageIcon icon, final JPanel padre) {
@@ -84,13 +86,13 @@ public class ToggleBtn extends JToggleButton {
 
 	public ToggleBtn(final String text, final ImageIcon icon) {
 		super("", icon);
-		s = text;
-		i = icon;
+		testo = text;
+		imageIcon = icon;
 	}
 
 	public ToggleBtn(final ImageIcon icon) {
 		super(icon);
-		i = icon;
+		imageIcon = icon;
 	}
 
 	@Override
@@ -105,12 +107,13 @@ public class ToggleBtn extends JToggleButton {
 		// invece di far disegnare il testo al paintcomponent ho settato il text
 		// a "" nel costruttore e il testo lo disegno qui così ho un
 		// maggiore controllo
-		g.drawString(s != null ? s : "", getLarghezzaImmagine(i) + distanzaBordoImageX + calcolaTextGap(i), (getHeight() + g.getFontMetrics().getAscent()) / 2 - 1);
+		g.drawString(testo != null ? testo : "", getLarghezzaImmagine(imageIcon) + distanzaBordoImageX
+				+ calcolaTextGap(imageIcon), (getHeight() + g.getFontMetrics().getAscent()) / 2 - 1);
 
 		// reimposto l'icona a quella passata e la disegno per il funzionamento
 		// default
-		this.setIcon(i);
-		getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - i.getIconHeight() / 2);
+		this.setIcon(imageIcon);
+		getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - imageIcon.getIconHeight() / 2);
 
 		if (this.isSelected()) {
 			// effetto pulsante premuto ridefinito
@@ -135,10 +138,12 @@ public class ToggleBtn extends JToggleButton {
 		// disegna il bordo
 		g.drawRoundRect(1, 1, w - 2, h - 2, 7, 7);
 		g.setColor(foreground); // foreground color
-		if (i != null) {
-			g.drawImage(i.getImage(), distanzaBordoImageX, getHeight() / 2 - i.getIconHeight() / 2, null);
+		if (imageIcon != null) {
+			g.drawImage(imageIcon.getImage(), distanzaBordoImageX, getHeight() / 2 - imageIcon.getIconHeight() / 2,
+					null);
 		}
-		g.drawString(s != null ? s : "", getLarghezzaImmagine(i) + distanzaBordoImageX + calcolaTextGap(i), (h + g.getFontMetrics().getAscent()) / 2 - 1);
+		g.drawString(testo != null ? testo : "", getLarghezzaImmagine(imageIcon) + distanzaBordoImageX
+				+ calcolaTextGap(imageIcon), (h + g.getFontMetrics().getAscent()) / 2 - 1);
 	}
 
 	private int getLarghezzaImmagine(final Icon i) {
@@ -150,7 +155,14 @@ public class ToggleBtn extends JToggleButton {
 
 	}
 
-	// metodo da verificare
+	// TODO metodo da verificare
+	/**
+	 * Setta la proprietà "xPartenzaTesto" sulla base delle impostazioni iniziali della proprietà, 
+	 * sulla larghezza dell'immagine e la distanza dal bordo ovest dell'immagine
+	 * 
+	 * @param i
+	 * @return
+	 */
 	private int calcolaTextGap(final Icon i) {
 		if (i != null) {
 			if (xPartenzaTesto > (i.getIconWidth() - distanzaBordoImageX)) {
@@ -194,20 +206,20 @@ public class ToggleBtn extends JToggleButton {
 		return padre;
 	}
 
-	public String getS() {
-		return s;
+	public String getTesto() {
+		return testo;
 	}
 
-	public void setS(final String s) {
-		this.s = s;
+	public void setTesto(final String s) {
+		this.testo = s;
 	}
 
-	public ImageIcon getI() {
-		return i;
+	public ImageIcon getImageIcon() {
+		return imageIcon;
 	}
 
-	public void setI(final ImageIcon i) {
-		this.i = i;
+	public void setImageIcon(final ImageIcon i) {
+		this.imageIcon = i;
 	}
 
 	public MyIcon getIcona() {
@@ -343,4 +355,27 @@ public class ToggleBtn extends JToggleButton {
 		}
 	}
 
+	public static void main(String[] args) {
+
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+
+				ToggleBtn tb = new ToggleBtn("Ciao", new ImageIcon(
+						"C:\\Documents and Settings\\marco.molinari\\Documenti\\Download\\Mio\\Immaginiplay.jpg"));
+				tb.setBounds(10, 10, 200, 100);
+				ToggleBtn tb2 = new ToggleBtn("Ciao2", new ImageIcon(
+						"C:\\Documents and Settings\\marco.molinari\\Documenti\\Download\\Mio\\Immaginiplay.jpg"));
+				tb2.setBounds(10, 140, 200, 100);
+				JFrame frame = new JFrame();
+				frame.getContentPane().add(tb);
+				frame.getContentPane().add(tb2);
+				frame.setLayout(null);
+				frame.setVisible(true);
+				frame.setSize(600, 600);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			}
+		});
+	}
 }
