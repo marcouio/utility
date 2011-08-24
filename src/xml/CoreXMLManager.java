@@ -14,7 +14,7 @@ public class CoreXMLManager {
 
 	private CoreXMLManager() {
 		try {
-			doc = XmlUtil.createDocument(new File(XMLCOREPATH));
+			doc = UtilXml.createDocument(new File(XMLCOREPATH));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -34,8 +34,8 @@ public class CoreXMLManager {
 	}
 
 	public String getLanguage() {
-		Node nodo = XmlUtil.getNodo("lang", doc);
-		Element elemento = XmlUtil.getElement(nodo);
+		Node nodo = UtilXml.getNodo("lang", doc);
+		Element elemento = UtilXml.getElement(nodo);
 		if (elemento != null) {
 			return elemento.getAttribute("locale");
 		}
@@ -43,12 +43,12 @@ public class CoreXMLManager {
 	}
 
 	public String getXMLStyleFilePath() {
-		Node nodo = XmlUtil.getNodo("style", doc);
+		Node nodo = UtilXml.getNodo("style", doc);
 		NodeList listaFigli = nodo.getChildNodes();
 		for (int i = 0; i < listaFigli.getLength(); i++) {
 			Node nodoFiglio = listaFigli.item(i);
 			if (nodoFiglio.getNodeName().equals("file")) {
-				Element elemento = XmlUtil.getElement(nodoFiglio);
+				Element elemento = UtilXml.getElement(nodoFiglio);
 				if (elemento != null) {
 					return elemento.getAttribute("url");
 				}
@@ -58,12 +58,12 @@ public class CoreXMLManager {
 	}
 
 	public String getFileMessaggiName() {
-		Node nodo = XmlUtil.getNodo("messaggi", doc);
+		Node nodo = UtilXml.getNodo("messaggi", doc);
 		NodeList listaFigli = nodo.getChildNodes();
 		for (int i = 0; i < listaFigli.getLength(); i++) {
 			Node nodoFiglio = listaFigli.item(i);
 			if (nodoFiglio.getNodeName().equals("file")) {
-				Element elemento = XmlUtil.getElement(nodoFiglio);
+				Element elemento = UtilXml.getElement(nodoFiglio);
 				if (elemento != null) {
 					return elemento.getAttribute("nome");
 				}
