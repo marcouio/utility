@@ -1,5 +1,7 @@
 package grafica.componenti.tree;
 
+import grafica.componenti.StyleBase;
+
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.Hashtable;
@@ -22,103 +24,43 @@ import javax.swing.tree.TreeSelectionModel;
 
 import disegno.immagini.UtilImage;
 
-public class Tree extends JTree implements TreeSelectionListener {
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				JFrame frame = new JFrame();
-				JPanel panel = new JPanel(new GridLayout(0, 1));
-				panel.setSize(400, 400);
-				Tree tree = new Tree();
-
-				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
-				ImageIcon icona = new ImageIcon(path + "play.jpg");
-				ImageIcon icona2 = new ImageIcon(path + "playrosso.jpg");
-				ImageIcon icona3 = new ImageIcon(path + "stop.jpg");
-
-				icona = UtilImage.resizeImage(10, 10, icona);
-				icona2 = UtilImage.resizeImage(10, 10, icona2);
-				icona3 = UtilImage.resizeImage(10, 10, icona3);
-
-				TreeObjectFoglia foglia1 = new TreeObjectFoglia("foglia1", icona);
-
-				TreeObjectFoglia foglia2 = new TreeObjectFoglia("foglia2", icona2);
-				TreeObjectRamo ramo1 = new TreeObjectRamo(foglia2, "ramo1", foglia2.getIcona());
-				TreeObjectFoglia foglia3 = new TreeObjectFoglia("foglia3", icona2);
-				ramo1.addFoglia(foglia3);
-				ramo1.addChildrenToTree();
-
-				DefaultMutableTreeNode root = initTree(tree).getTreeNode();
-
-				root.add(foglia1.getTreeNode());
-				root.add(ramo1.getTreeNode());
-				root.add(new DefaultMutableTreeNode("Ciao"));
-				panel.add(tree);
-				//				tree.setIconForAll(null, null, icona3);
-				frame.getContentPane().add(panel);
-				frame.setVisible(true);
-				frame.setSize(400, 400);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				tree.expandRow(0);
-			}
-
-			private TreeObjectRamo initTree(Tree tree) {
-				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
-				ImageIcon icona = new ImageIcon(path + "stop.jpg");
-				icona = UtilImage.resizeImage(10, 10, icona);
-				TreeObjectFoglia fogliaroot = new TreeObjectFoglia("root", icona);
-				TreeObjectRamo ramoRoot = new TreeObjectRamo(fogliaroot, "ramo", fogliaroot.getIcona());
-				//				tree.setImmagineTreeObject(ramoRoot);
-				//				tree.setIconOnlyFoglie(icona);
-				//				tree.setIconForAll();
-				DefaultTreeModel treeModel = new DefaultTreeModel(ramoRoot.getTreeNode());
-				tree.setModel(treeModel);
-				tree.setEditable(false);
-				tree.setRootVisible(true);
-				tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-
-				return ramoRoot;
-			}
-		});
-	}
-
+public class TreeBase extends JTree implements TreeSelectionListener {
+	
+	protected StyleBase style = new StyleBaseTree();
 	private static final long serialVersionUID = 1L;
 	private DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
 
-	public Tree() {
+	public TreeBase() {
 		super();
 		init();
 	}
 
-	public Tree(Object[] userObjects) {
+	public TreeBase(Object[] userObjects) {
 		super(userObjects);
 		init();
 	}
 
-	public Tree(TreeModel model) {
+	public TreeBase(TreeModel model) {
 		super(model);
 		init();
 	}
 
-	public Tree(TreeNode treeNode) {
+	public TreeBase(TreeNode treeNode) {
 		super(treeNode);
 		init();
 	}
 
-	public Tree(Hashtable<String, ITreeObject> mappaObjects) {
+	public TreeBase(Hashtable<String, ITreeObject> mappaObjects) {
 		super(mappaObjects);
 		init();
 	}
 
-	public Tree(Vector<ITreeObject> userObjects) {
+	public TreeBase(Vector<ITreeObject> userObjects) {
 		super(userObjects);
 		init();
 	}
 
-	public Tree(TreeNode treeNode, boolean arg) {
+	public TreeBase(TreeNode treeNode, boolean arg) {
 		super(treeNode, arg);
 		init();
 	}
@@ -130,7 +72,7 @@ public class Tree extends JTree implements TreeSelectionListener {
 		this.addTreeSelectionListener(this);
 		this.setCellRenderer(treeCellRenderer);
 	}
-
+	
 	public void espandiTutto() {
 		int row = this.getRowCount();
 		for (int i = 0; i < row; i++) {
@@ -247,5 +189,71 @@ public class Tree extends JTree implements TreeSelectionListener {
 			((TreeObjectRamo) nodeInfo).eseguiAzioneListener();
 		}
 	}
+	
+	public class StyleBaseTree extends StyleBase {
+
+	}
+	
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				JFrame frame = new JFrame();
+				JPanel panel = new JPanel(new GridLayout(0, 1));
+				panel.setSize(400, 400);
+				TreeBase tree = new TreeBase();
+
+				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
+				ImageIcon icona = new ImageIcon(path + "play.jpg");
+				ImageIcon icona2 = new ImageIcon(path + "playrosso.jpg");
+				ImageIcon icona3 = new ImageIcon(path + "stop.jpg");
+
+				icona = UtilImage.resizeImage(10, 10, icona);
+				icona2 = UtilImage.resizeImage(10, 10, icona2);
+				icona3 = UtilImage.resizeImage(10, 10, icona3);
+
+				TreeObjectFoglia foglia1 = new TreeObjectFoglia("foglia1", icona);
+
+				TreeObjectFoglia foglia2 = new TreeObjectFoglia("foglia2", icona2);
+				TreeObjectRamo ramo1 = new TreeObjectRamo(foglia2, "ramo1", foglia2.getIcona());
+				TreeObjectFoglia foglia3 = new TreeObjectFoglia("foglia3", icona2);
+				ramo1.addFoglia(foglia3);
+				ramo1.addChildrenToTree();
+
+				DefaultMutableTreeNode root = initTree(tree).getTreeNode();
+
+				root.add(foglia1.getTreeNode());
+				root.add(ramo1.getTreeNode());
+				root.add(new DefaultMutableTreeNode("Ciao"));
+				panel.add(tree);
+				//				tree.setIconForAll(null, null, icona3);
+				frame.getContentPane().add(panel);
+				frame.setVisible(true);
+				frame.setSize(400, 400);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				tree.expandRow(0);
+			}
+
+			private TreeObjectRamo initTree(TreeBase tree) {
+				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
+				ImageIcon icona = new ImageIcon(path + "stop.jpg");
+				icona = UtilImage.resizeImage(10, 10, icona);
+				TreeObjectFoglia fogliaroot = new TreeObjectFoglia("root", icona);
+				TreeObjectRamo ramoRoot = new TreeObjectRamo(fogliaroot, "ramo", fogliaroot.getIcona());
+				//				tree.setImmagineTreeObject(ramoRoot);
+				//				tree.setIconOnlyFoglie(icona);
+				//				tree.setIconForAll();
+				DefaultTreeModel treeModel = new DefaultTreeModel(ramoRoot.getTreeNode());
+				tree.setModel(treeModel);
+				tree.setEditable(false);
+				tree.setRootVisible(true);
+				tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+
+				return ramoRoot;
+			}
+		});
+	}
+
 
 }
