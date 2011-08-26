@@ -1,5 +1,7 @@
 package grafica.componenti.tree;
 
+import grafica.componenti.Alert;
+
 import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -50,5 +52,12 @@ public class TreeObjectFoglia implements ITreeObject {
 	@Override
 	public String toString() {
 		return getNome();
+	}
+
+	/**
+	 * Il metodo non fa nulla oppure ha un comportamento standard, comunque va esteso per avere un comportamento specifico
+	 */
+	public void eseguiAzioneListener() {
+		Alert.info(getNome() + " Foglia", "Foglia");
 	}
 }
