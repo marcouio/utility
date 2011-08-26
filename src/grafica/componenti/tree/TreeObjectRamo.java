@@ -1,11 +1,13 @@
 package grafica.componenti.tree;
 
+import grafica.componenti.Alert;
+
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class TreeObjectRamo extends TreeObjectFoglia implements ITreeObject {
+public class TreeObjectRamo extends TreeObjectFoglia {
 
 	private final ITreeObject treeObject;
 	private final ArrayList<ITreeObject> foglie = new ArrayList<ITreeObject>();
@@ -24,11 +26,6 @@ public class TreeObjectRamo extends TreeObjectFoglia implements ITreeObject {
 	}
 
 	@Override
-	public DefaultMutableTreeNode getTreeNode() {
-		return treeObject.getTreeNode();
-	}
-
-	@Override
 	public void setNome(String nome) {
 		this.treeObject.setNome(nome);
 	}
@@ -36,6 +33,16 @@ public class TreeObjectRamo extends TreeObjectFoglia implements ITreeObject {
 	@Override
 	public String getNome() {
 		return treeObject.getNome();
+	}
+
+	@Override
+	public ImageIcon getIcona() {
+		return treeObject.getIcona();
+	}
+
+	@Override
+	public void setIcona(ImageIcon icona) {
+		treeObject.setIcona(icona);
 	}
 
 	@Override
@@ -69,6 +76,14 @@ public class TreeObjectRamo extends TreeObjectFoglia implements ITreeObject {
 			}
 		}
 
+	}
+
+	/**
+	 * Il metodo non fa nulla oppure ha un comportamento standard, comunque va esteso per avere un comportamento specifico
+	 */
+	@Override
+	public void eseguiAzioneListener() {
+		Alert.info(getNome() + " Ramo", "Ramo");
 	}
 
 }

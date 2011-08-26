@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -20,7 +22,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import disegno.immagini.UtilImage;
 
-public class Tree extends JTree {
+public class Tree extends JTree implements TreeSelectionListener {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -32,15 +34,20 @@ public class Tree extends JTree {
 				panel.setSize(400, 400);
 				Tree tree = new Tree();
 
-				String path = "/home/marcouio/Immagini/linux-serverLinux-TUX06.jpg";
-				ImageIcon icona = new ImageIcon(path);
-				icona = UtilImage.resizeImage(10, 10, icona);
-				TreeObjectFoglia foglia1 = new TreeObjectFoglia("foglia1", icona);
-				tree.setRenderer(foglia1);
+				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
+				ImageIcon icona = new ImageIcon(path + "play.jpg");
+				ImageIcon icona2 = new ImageIcon(path + "playrosso.jpg");
+				ImageIcon icona3 = new ImageIcon(path + "stop.jpg");
 
-				TreeObjectFoglia foglia2 = new TreeObjectFoglia("foglia2", icona);
+				icona = UtilImage.resizeImage(10, 10, icona);
+				icona2 = UtilImage.resizeImage(10, 10, icona2);
+				icona3 = UtilImage.resizeImage(10, 10, icona3);
+
+				TreeObjectFoglia foglia1 = new TreeObjectFoglia("foglia1", icona);
+
+				TreeObjectFoglia foglia2 = new TreeObjectFoglia("foglia2", icona2);
 				TreeObjectRamo ramo1 = new TreeObjectRamo(foglia2, "ramo1", foglia2.getIcona());
-				TreeObjectFoglia foglia3 = new TreeObjectFoglia("foglia3", icona);
+				TreeObjectFoglia foglia3 = new TreeObjectFoglia("foglia3", icona2);
 				ramo1.addFoglia(foglia3);
 				ramo1.addChildrenToTree();
 
@@ -48,23 +55,28 @@ public class Tree extends JTree {
 
 				root.add(foglia1.getTreeNode());
 				root.add(ramo1.getTreeNode());
+				root.add(new DefaultMutableTreeNode("Ciao"));
 				panel.add(tree);
+				//				tree.setIconForAll(null, null, icona3);
 				frame.getContentPane().add(panel);
 				frame.setVisible(true);
-				frame.setSize(400,400);
+				frame.setSize(400, 400);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				tree.expandRow(0);
 			}
 
 			private TreeObjectRamo initTree(Tree tree) {
-				String path = "/home/marcouio/Immagini/linux-serverLinux-TUX06.jpg";
-				ImageIcon icona = new ImageIcon(path);
+				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
+				ImageIcon icona = new ImageIcon(path + "stop.jpg");
 				icona = UtilImage.resizeImage(10, 10, icona);
 				TreeObjectFoglia fogliaroot = new TreeObjectFoglia("root", icona);
 				TreeObjectRamo ramoRoot = new TreeObjectRamo(fogliaroot, "ramo", fogliaroot.getIcona());
-				tree.setRenderer(ramoRoot);
+				//				tree.setImmagineTreeObject(ramoRoot);
+				//				tree.setIconOnlyFoglie(icona);
+				//				tree.setIconForAll();
 				DefaultTreeModel treeModel = new DefaultTreeModel(ramoRoot.getTreeNode());
 				tree.setModel(treeModel);
-				tree.setEditable(true);
+				tree.setEditable(false);
 				tree.setRootVisible(true);
 				tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
@@ -74,6 +86,7 @@ public class Tree extends JTree {
 	}
 
 	private static final long serialVersionUID = 1L;
+	private DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
 
 	public Tree() {
 		super();
@@ -111,12 +124,81 @@ public class Tree extends JTree {
 	}
 
 	private void init() {
-
+		this.setEditable(true);
+		this.setRootVisible(true);
+		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		this.addTreeSelectionListener(this);
+		this.setCellRenderer(treeCellRenderer);
 	}
 
-	public void setRenderer(ITreeObject ramoTree) {
-		// 	l'immagine dell'oggetto
-		final ImageIcon icon = ramoTree.getIcona();
+	public void espandiTutto() {
+		int row = this.getRowCount();
+		for (int i = 0; i < row; i++) {
+			this.expandRow(i);
+		}
+	}
+
+	public void setIconAllNode(ImageIcon icon) {
+		treeCellRenderer.setIcon(icon);
+	}
+
+	public void setIconForAll(final ImageIcon iconFoglia, final ImageIcon iconRoot, final ImageIcon iconRamo) {
+
+		treeCellRenderer = new DefaultTreeCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel,
+					final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
+
+				final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row,
+						hasFocus);
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+				if (iconFoglia != null && node.isLeaf()) {
+					label.setIcon(iconFoglia);
+				} else if (node.isRoot()) {
+					label.setIcon(iconRoot);
+				} else if (iconRamo != null && node.getChildCount() > 0) {
+					label.setIcon(iconRamo);
+				} else if (node.getUserObject() instanceof ITreeObject) {
+					ITreeObject treeObject = (ITreeObject) node.getUserObject();
+					if (treeObject.getIcona() != null) {
+						label.setIcon(treeObject.getIcona());
+					}
+				}
+				return label;
+			}
+		};
+		this.setCellRenderer(treeCellRenderer);
+	}
+
+	public void setIconForAll() {
+
+		treeCellRenderer = new DefaultTreeCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel,
+					final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
+
+				final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row,
+						hasFocus);
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+				if (node.getUserObject() instanceof ITreeObject) {
+					ITreeObject treeObject = (ITreeObject) node.getUserObject();
+					if (treeObject.getIcona() != null) {
+						label.setIcon(treeObject.getIcona());
+					}
+				}
+				return label;
+			}
+		};
+		this.setCellRenderer(treeCellRenderer);
+	}
+
+	public void setIconOnlyForRoot(ITreeObject ramoRoot) {
+		// 	l'immagine dell'oggetto che avranno tutti
+		final ImageIcon icon = ramoRoot.getIcona();
 
 		if (icon != null) {
 			final DefaultTreeCellRenderer dtcr = new DefaultTreeCellRenderer() {
@@ -128,14 +210,42 @@ public class Tree extends JTree {
 
 					final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf,
 							row, hasFocus);
-					//					if (((DefaultMutableTreeNode) value).isRoot()) {
-					label.setIcon(icon);
-					//					}
+					if (((DefaultMutableTreeNode) value).isRoot()) {
+						label.setIcon(icon);
+					}
 					return label;
 				}
 			};
 			this.setCellRenderer(dtcr);
 		}
-
 	}
+
+	public void setIconOnlyFoglie(ImageIcon leafIcon) {
+		if (leafIcon != null) {
+			treeCellRenderer.setLeafIcon(leafIcon);
+		}
+	}
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		//Returns the last path element of the selection.
+		//This method is useful only when the selection model allows a single selection.
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) this.getLastSelectedPathComponent();
+
+		((DefaultTreeModel) treeModel).nodeChanged(node);
+		this.getParent().getParent().repaint();
+
+		if (node == null) {
+			//Nothing is selected.	
+			return;
+		}
+
+		Object nodeInfo = node.getUserObject();
+		if (node.isLeaf() && nodeInfo instanceof TreeObjectFoglia) {
+			((TreeObjectFoglia) nodeInfo).eseguiAzioneListener();
+		} else if (nodeInfo instanceof TreeObjectFoglia) {
+			((TreeObjectRamo) nodeInfo).eseguiAzioneListener();
+		}
+	}
+
 }
