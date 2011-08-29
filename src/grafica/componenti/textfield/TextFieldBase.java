@@ -1,6 +1,5 @@
 package grafica.componenti.textfield;
 
-import grafica.componenti.Alert;
 import grafica.componenti.StyleBase;
 
 import java.awt.event.FocusEvent;
@@ -49,7 +48,7 @@ public class TextFieldBase extends JTextField implements FocusListener {
 			try {
 				formatter.parsifica(getText());
 			} catch (final Exception e) {
-				Alert.segnalazioneErroreGrave("Testo non inserito correttamente: " + e.getMessage());
+				formatter.metodoForCatch(e);
 			}
 		}
 		return testoConvertito;

@@ -37,7 +37,7 @@ public class Alert {
 		// TODO LOG
 	}
 
-	public String getMessaggioErrore(final String messaggio) {
+	public static String getMessaggioErrore(final String messaggio) {
 		return "Operazione non eseguita: " + messaggio;
 	}
 
