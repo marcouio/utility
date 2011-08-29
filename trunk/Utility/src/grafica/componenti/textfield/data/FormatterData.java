@@ -1,5 +1,6 @@
 package grafica.componenti.textfield.data;
 
+import grafica.componenti.Alert;
 import grafica.componenti.textfield.IFormatterTF;
 
 import java.text.SimpleDateFormat;
@@ -18,4 +19,15 @@ public class FormatterData extends SimpleDateFormat implements IFormatterTF {
 		return super.parse(testo);
 	}
 
+	@Override
+	public Object metodoForCatch(Exception e){
+		if(e instanceof NumberFormatException){
+			Alert.segnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
+		}else if(e instanceof IllegalArgumentException){
+			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Non hai inserito una data, " + e.getMessage()));
+		}else if(e instanceof StringIndexOutOfBoundsException){
+			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Numero di caratteri errato per una data, " + e.getMessage()));
+		}
+		return e;
+	}
 }
