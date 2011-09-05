@@ -26,7 +26,6 @@ public class TextFieldBase extends JTextField implements FocusListener {
 
 	public TextFieldBase(final String testo) {
 		super(testo);
-		this.style = new StyleBaseTF();
 		init();
 	}
 
