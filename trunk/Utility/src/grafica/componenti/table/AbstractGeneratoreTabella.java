@@ -31,7 +31,7 @@ public abstract class AbstractGeneratoreTabella {
 		for (int i = 0; i < nomiRighe.length; i++) {
 			for (int x = 1; x < nomiColonne.length; x++) {
 				try {
-					matrice[i][x] = setCellaMatrice(i, x);
+					matrice[i][x] = setCellaMatricePerRicorsione(i, x);
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
@@ -91,10 +91,15 @@ public abstract class AbstractGeneratoreTabella {
 
 		TableBase table = new TableBase(primo, nomiColonne);
 		TableScrollPane pane = new TableScrollPane(table);
+		table.setContenitore(pane);
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
 		table.setRowHeight(13);
 		return pane;
+	}
+
+	public void setCellaMatrice(int i, int x, Object valore) {
+		matrice[i][x] = valore;
 	}
 
 	/**
@@ -103,7 +108,7 @@ public abstract class AbstractGeneratoreTabella {
 	 * @param x
 	 * @return
 	 */
-	public abstract Object setCellaMatrice(int i, int x);
+	public abstract Object setCellaMatricePerRicorsione(int i, int x);
 
 	public Object[][] getMatrice() {
 		return matrice;
@@ -113,7 +118,7 @@ public abstract class AbstractGeneratoreTabella {
 		AbstractGeneratoreTabella gen = new AbstractGeneratoreTabella() {
 
 			@Override
-			public Object setCellaMatrice(int i, int x) {
+			public Object setCellaMatricePerRicorsione(int i, int x) {
 				return "Ciao";
 			}
 
@@ -132,8 +137,10 @@ public abstract class AbstractGeneratoreTabella {
 				return nomiRighe;
 			}
 		};
+		gen.setCellaMatrice(2, 2, "bobobbo");
 		TableBase table = AbstractGeneratoreTabella.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
-		table.setBounds(140, 140, 400, 400);
+		table.setStyleColumn();
+		table.setBounds(140, 140, 400, 100);
 		TableScrollPane pane = new TableScrollPane(table);
 		table.setOpaque(true); //content panes must be opaque
 		JPanel panel = UtilComponenti.initContenitoreFrame(null);
