@@ -24,6 +24,8 @@ public class TableBase2d extends JTable implements FocusListener {
 	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
 	TableScrollPane contenitore;
+	protected Color colorForegroung = Color.WHITE;
+	protected Color colorBackground = new Color(220,220,220);
 
 	private static final long serialVersionUID = 1L;
 
@@ -149,8 +151,8 @@ public class TableBase2d extends JTable implements FocusListener {
 					//					setForeground(Color.BLUE);
 				}
 				if (column == 0) {
-					setBackground(Color.LIGHT_GRAY);
-					setForeground(Color.WHITE);
+					setBackground(colorBackground);
+					setForeground(colorForegroung);
 				}
 
 				return value instanceof JLabel ? (JLabel) value : super.getTableCellRendererComponent(table, value,
@@ -187,5 +189,29 @@ public class TableBase2d extends JTable implements FocusListener {
 			return fm.getHeight();
 		}
 		return getHeight();
+	}
+
+	public StyleBase getStyle() {
+		return style;
+	}
+
+	public void setStyle(final StyleBase style) {
+		this.style = style;
+	}
+
+	public Color getColorForegroung() {
+		return colorForegroung;
+	}
+
+	public void setColorForegroung(final Color colorForegroung) {
+		this.colorForegroung = colorForegroung;
+	}
+
+	public Color getColorBackground() {
+		return colorBackground;
+	}
+
+	public void setColorBackground(final Color colorBackground) {
+		this.colorBackground = colorBackground;
 	}
 }
