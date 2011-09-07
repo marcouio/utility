@@ -13,11 +13,11 @@ import javax.swing.JPanel;
  * @author marco.molinari
  * 
  */
-public abstract class AbstractGeneratoreTabella {
+public abstract class AbstractGeneratoreTabella2d {
 
 	private Object[][] matrice;
 
-	public AbstractGeneratoreTabella() {
+	public AbstractGeneratoreTabella2d() {
 		init();
 	}
 
@@ -70,8 +70,8 @@ public abstract class AbstractGeneratoreTabella {
 	 * @param nomiColonne
 	 * @return Table
 	 */
-	public static TableBase createTable(final Object[][] primo, final String[] nomiColonne) {
-		TableBase table = new TableBase(primo, nomiColonne);
+	public static TableBase2d createTable(final Object[][] primo, final String[] nomiColonne) {
+		TableBase2d table = new TableBase2d(primo, nomiColonne);
 
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
@@ -89,7 +89,7 @@ public abstract class AbstractGeneratoreTabella {
 	 */
 	public static TableScrollPane createTableScrollPane(final Object[][] primo, final String[] nomiColonne) {
 
-		TableBase table = new TableBase(primo, nomiColonne);
+		TableBase2d table = new TableBase2d(primo, nomiColonne);
 		TableScrollPane pane = new TableScrollPane(table);
 		table.setContenitore(pane);
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
@@ -115,7 +115,7 @@ public abstract class AbstractGeneratoreTabella {
 	}
 
 	public static void main(String[] args) {
-		AbstractGeneratoreTabella gen = new AbstractGeneratoreTabella() {
+		AbstractGeneratoreTabella2d gen = new AbstractGeneratoreTabella2d() {
 
 			@Override
 			public Object setCellaMatricePerRicorsione(int i, int x) {
@@ -138,7 +138,7 @@ public abstract class AbstractGeneratoreTabella {
 			}
 		};
 		gen.setCellaMatrice(2, 2, "bobobbo");
-		TableBase table = AbstractGeneratoreTabella.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
+		TableBase2d table = AbstractGeneratoreTabella2d.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
 		table.setStyleColumn();
 		table.setBounds(140, 140, 400, 100);
 		TableScrollPane pane = new TableScrollPane(table);

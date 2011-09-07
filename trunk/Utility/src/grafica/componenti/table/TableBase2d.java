@@ -19,7 +19,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-public class TableBase extends JTable implements FocusListener {
+public class TableBase2d extends JTable implements FocusListener {
 
 	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
@@ -27,37 +27,37 @@ public class TableBase extends JTable implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
-	public TableBase() {
+	public TableBase2d() {
 		init();
 	}
 
-	public TableBase(final TableModel dm) {
+	public TableBase2d(final TableModel dm) {
 		super(dm);
 		init();
 	}
 
-	public TableBase(final TableModel dm, final TableColumnModel cm) {
+	public TableBase2d(final TableModel dm, final TableColumnModel cm) {
 		super(dm, cm);
 		init();
 	}
 
-	public TableBase(final int numRows, final int numColumns) {
+	public TableBase2d(final int numRows, final int numColumns) {
 		super(numRows, numColumns);
 		init();
 	}
 
-	public TableBase(@SuppressWarnings("rawtypes") final Vector rowData,
+	public TableBase2d(@SuppressWarnings("rawtypes") final Vector rowData,
 			@SuppressWarnings("rawtypes") final Vector columnNames) {
 		super(rowData, columnNames);
 		init();
 	}
 
-	public TableBase(final Object[][] rowData, final Object[] columnNames) {
+	public TableBase2d(final Object[][] rowData, final Object[] columnNames) {
 		super(rowData, columnNames);
 		init();
 	}
 
-	public TableBase(final TableModel dm, final TableColumnModel cm, final ListSelectionModel sm) {
+	public TableBase2d(final TableModel dm, final TableColumnModel cm, final ListSelectionModel sm) {
 		super(dm, cm, sm);
 		init();
 	}
@@ -67,11 +67,11 @@ public class TableBase extends JTable implements FocusListener {
 		return this.isCellEditable;
 	}
 
-	public void setCellEditable(boolean isCellEditable) {
+	public void setCellEditable(final boolean isCellEditable) {
 		this.isCellEditable = isCellEditable;
 	}
 
-	public void setBounds(int x, int y, int width, int height, boolean aggiornaPadre) {
+	public void setBounds(final int x, final int y, final int width, final int height, final boolean aggiornaPadre) {
 		if (aggiornaPadre && contenitore != null) {
 			contenitore.setBounds(x, y, width, height);
 		}
@@ -85,8 +85,8 @@ public class TableBase extends JTable implements FocusListener {
 	}
 
 	public void generaDimensioniMinime() {
-		int altezza = this.getRowCount() * this.getRowHeight();
-		int larghezza = this.getColumnCount() * this.getLarghezzaMinimaColonna();
+		final int altezza = this.getRowCount() * this.getRowHeight();
+		final int larghezza = this.getColumnCount() * this.getLarghezzaMinimaColonna();
 		this.setBounds(10, 10, larghezza, altezza);
 
 	}
@@ -94,8 +94,8 @@ public class TableBase extends JTable implements FocusListener {
 	private int getLarghezzaMinimaColonna() {
 		int larghezzaMinima = 0;
 		for (int i = 0; i < getColumnCount(); i++) {
-			String nomeColonna = getColumnName(i);
-			int larghezzaNome = getLarghezzaLabel(this.getGraphics(), nomeColonna);
+			final String nomeColonna = getColumnName(i);
+			final int larghezzaNome = getLarghezzaLabel(this.getGraphics(), nomeColonna);
 			if (larghezzaNome > larghezzaMinima) {
 				larghezzaMinima = larghezzaNome;
 			}
@@ -111,13 +111,13 @@ public class TableBase extends JTable implements FocusListener {
 	}
 
 	@Override
-	public void focusGained(FocusEvent arg0) {
+	public void focusGained(final FocusEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void focusLost(FocusEvent arg0) {
+	public void focusLost(final FocusEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
@@ -126,23 +126,23 @@ public class TableBase extends JTable implements FocusListener {
 		return contenitore;
 	}
 
-	public void setContenitore(TableScrollPane contenitore) {
+	public void setContenitore(final TableScrollPane contenitore) {
 		this.contenitore = contenitore;
 	}
 
 	@Override
-	public TableCellRenderer getCellRenderer(int row, int column) {
+	public TableCellRenderer getCellRenderer(final int row, final int column) {
 		return setStyleColumn();
 	}
 
 	public TableCellRenderer setStyleColumn() {
 
-		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer() {
+		final DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
+			public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected,
+					final boolean hasFocus, final int row, final int column) {
 				if (isSelected) {
 					//					setOpaque(true);
 					//					setBackground(table.getSelectionBackground());
@@ -168,15 +168,24 @@ public class TableBase extends JTable implements FocusListener {
 		if (g == null) {
 			g = this.getParent().getGraphics();
 		}
-		final FontMetrics fm = g.getFontMetrics(this.getFont());
-		return fm.stringWidth(label);
+		if(g!=null){
+			final FontMetrics fm = g.getFontMetrics(this.getFont());
+			return fm.stringWidth(label);
+		}
+		return getWidth();
 	}
 
 	public int getAltezzaLabel(Graphics g) {
 		if (g == null) {
+			g = this.getContenitore().getGraphics();
+		}
+		if (g == null) {
 			g = this.getParent().getGraphics();
 		}
-		final FontMetrics fm = g.getFontMetrics(this.getFont());
-		return fm.getHeight();
+		if(g!=null){
+			final FontMetrics fm = g.getFontMetrics(this.getFont());
+			return fm.getHeight();
+		}
+		return getHeight();
 	}
 }
