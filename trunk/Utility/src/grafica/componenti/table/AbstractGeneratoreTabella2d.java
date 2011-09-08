@@ -2,8 +2,6 @@ package grafica.componenti.table;
 
 import grafica.componenti.UtilComponenti;
 
-import java.awt.Dimension;
-
 import javax.swing.JPanel;
 
 /**
@@ -64,46 +62,6 @@ public abstract class AbstractGeneratoreTabella2d {
 
 	/**
 	 * 
-	 * Permette di generare una tabella
-	 * 
-	 * @param primo
-	 * @param nomiColonne
-	 * @return Table
-	 */
-	public static TableBase2d createTable(final Object[][] primo, final String[] nomiColonne) {
-		final TableBase2d table = new TableBase2d(primo, nomiColonne);
-
-		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-		table.setFillsViewportHeight(true);
-		table.setRowHeight(13);
-		return table;
-	}
-
-	/**
-	 * 
-	 * Permette di generare una tabella dentro uno scrollpane
-	 * 
-	 * @param primo
-	 * @param nomiColonne
-	 * @return Table
-	 */
-	public static TableScrollPane createTableScrollPane(final Object[][] primo, final String[] nomiColonne) {
-
-		final TableBase2d table = new TableBase2d(primo, nomiColonne);
-		final TableScrollPane pane = new TableScrollPane(table);
-		table.setContenitore(pane);
-		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-		table.setFillsViewportHeight(true);
-		table.setRowHeight(13);
-		return pane;
-	}
-
-	public void setCellaMatrice(final int i, final int x, final Object valore) {
-		matrice[i][x] = valore;
-	}
-
-	/**
-	 * 
 	 * @param i
 	 * @param x
 	 * @return
@@ -112,6 +70,10 @@ public abstract class AbstractGeneratoreTabella2d {
 
 	public Object[][] getMatrice() {
 		return matrice;
+	}
+
+	public void setCellaMatrice(final int i, final int x, final Object valore) {
+		matrice[i][x] = valore;
 	}
 
 	public static void main(final String[] args) {
@@ -138,7 +100,8 @@ public abstract class AbstractGeneratoreTabella2d {
 			}
 		};
 		gen.setCellaMatrice(2, 2, "bobobbo");
-		final TableBase2d table = AbstractGeneratoreTabella2d.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
+		//		final TableBase2d table = AbstractGeneratoreTabella2d.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
+		final TableBase2d table = new TableBase2d(3, 3); 
 		table.setStyleColumn();
 		table.setBounds(140, 140, 400, 100);
 		final TableScrollPane pane = new TableScrollPane(table);
@@ -146,4 +109,5 @@ public abstract class AbstractGeneratoreTabella2d {
 		final JPanel panel = UtilComponenti.initContenitoreFrame(null);
 		panel.add(pane);
 	}
+
 }
