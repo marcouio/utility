@@ -17,7 +17,7 @@ public class TableScrollPane extends JScrollPane {
 		return tabellaFiglia;
 	}
 
-	public void setTabellaFiglia(TableBase2d tabellaFiglia) {
+	public void setTabellaFiglia(final TableBase2d tabellaFiglia) {
 		this.tabellaFiglia = tabellaFiglia;
 	}
 }

@@ -39,7 +39,7 @@ public abstract class AbstractGeneratoreTabella2d {
 		}
 	}
 
-	private void inserisciNomiRigheToMatrice(Object[][] matrice2, String[] nomiRighe) {
+	private void inserisciNomiRigheToMatrice(final Object[][] matrice2, final String[] nomiRighe) {
 		for (int i = 0; i < nomiRighe.length; i++) {
 			matrice[i][0] = nomiRighe[i];
 		}
@@ -71,7 +71,7 @@ public abstract class AbstractGeneratoreTabella2d {
 	 * @return Table
 	 */
 	public static TableBase2d createTable(final Object[][] primo, final String[] nomiColonne) {
-		TableBase2d table = new TableBase2d(primo, nomiColonne);
+		final TableBase2d table = new TableBase2d(primo, nomiColonne);
 
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
@@ -89,8 +89,8 @@ public abstract class AbstractGeneratoreTabella2d {
 	 */
 	public static TableScrollPane createTableScrollPane(final Object[][] primo, final String[] nomiColonne) {
 
-		TableBase2d table = new TableBase2d(primo, nomiColonne);
-		TableScrollPane pane = new TableScrollPane(table);
+		final TableBase2d table = new TableBase2d(primo, nomiColonne);
+		final TableScrollPane pane = new TableScrollPane(table);
 		table.setContenitore(pane);
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
@@ -98,7 +98,7 @@ public abstract class AbstractGeneratoreTabella2d {
 		return pane;
 	}
 
-	public void setCellaMatrice(int i, int x, Object valore) {
+	public void setCellaMatrice(final int i, final int x, final Object valore) {
 		matrice[i][x] = valore;
 	}
 
@@ -114,11 +114,11 @@ public abstract class AbstractGeneratoreTabella2d {
 		return matrice;
 	}
 
-	public static void main(String[] args) {
-		AbstractGeneratoreTabella2d gen = new AbstractGeneratoreTabella2d() {
+	public static void main(final String[] args) {
+		final AbstractGeneratoreTabella2d gen = new AbstractGeneratoreTabella2d() {
 
 			@Override
-			public Object setCellaMatricePerRicorsione(int i, int x) {
+			public Object setCellaMatricePerRicorsione(final int i, final int x) {
 				return "Ciao";
 			}
 
@@ -130,7 +130,7 @@ public abstract class AbstractGeneratoreTabella2d {
 
 			@Override
 			protected String[] costruisciArrayNomeRighe() {
-				String[] nomiRighe = new String[3];
+				final String[] nomiRighe = new String[3];
 				for (int i = 0; i < nomiRighe.length; i++) {
 					nomiRighe[i] = "nomeRiga" + i;
 				}
@@ -138,12 +138,12 @@ public abstract class AbstractGeneratoreTabella2d {
 			}
 		};
 		gen.setCellaMatrice(2, 2, "bobobbo");
-		TableBase2d table = AbstractGeneratoreTabella2d.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
+		final TableBase2d table = AbstractGeneratoreTabella2d.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
 		table.setStyleColumn();
 		table.setBounds(140, 140, 400, 100);
-		TableScrollPane pane = new TableScrollPane(table);
+		final TableScrollPane pane = new TableScrollPane(table);
 		table.setOpaque(true); //content panes must be opaque
-		JPanel panel = UtilComponenti.initContenitoreFrame(null);
+		final JPanel panel = UtilComponenti.initContenitoreFrame(null);
 		panel.add(pane);
 	}
 }

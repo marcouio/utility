@@ -24,8 +24,6 @@ public class TableBase2d extends JTable implements FocusListener {
 	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
 	TableScrollPane contenitore;
-	protected Color colorForegroung = Color.WHITE;
-	protected Color colorBackground = new Color(220,220,220);
 
 	private static final long serialVersionUID = 1L;
 
@@ -151,8 +149,8 @@ public class TableBase2d extends JTable implements FocusListener {
 					//					setForeground(Color.BLUE);
 				}
 				if (column == 0) {
-					setBackground(colorBackground);
-					setForeground(colorForegroung);
+					setBackground(Color.LIGHT_GRAY);
+					setForeground(Color.WHITE);
 				}
 
 				return value instanceof JLabel ? (JLabel) value : super.getTableCellRendererComponent(table, value,
@@ -170,48 +168,15 @@ public class TableBase2d extends JTable implements FocusListener {
 		if (g == null) {
 			g = this.getParent().getGraphics();
 		}
-		if(g!=null){
-			final FontMetrics fm = g.getFontMetrics(this.getFont());
-			return fm.stringWidth(label);
-		}
-		return getWidth();
+		final FontMetrics fm = g.getFontMetrics(this.getFont());
+		return fm.stringWidth(label);
 	}
 
 	public int getAltezzaLabel(Graphics g) {
 		if (g == null) {
-			g = this.getContenitore().getGraphics();
-		}
-		if (g == null) {
 			g = this.getParent().getGraphics();
 		}
-		if(g!=null){
-			final FontMetrics fm = g.getFontMetrics(this.getFont());
-			return fm.getHeight();
-		}
-		return getHeight();
-	}
-
-	public StyleBase getStyle() {
-		return style;
-	}
-
-	public void setStyle(final StyleBase style) {
-		this.style = style;
-	}
-
-	public Color getColorForegroung() {
-		return colorForegroung;
-	}
-
-	public void setColorForegroung(final Color colorForegroung) {
-		this.colorForegroung = colorForegroung;
-	}
-
-	public Color getColorBackground() {
-		return colorBackground;
-	}
-
-	public void setColorBackground(final Color colorBackground) {
-		this.colorBackground = colorBackground;
+		final FontMetrics fm = g.getFontMetrics(this.getFont());
+		return fm.getHeight();
 	}
 }
