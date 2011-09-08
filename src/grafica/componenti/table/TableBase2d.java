@@ -4,6 +4,7 @@ import grafica.componenti.StyleBase;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.FocusEvent;
@@ -133,6 +134,23 @@ public class TableBase2d extends JTable implements FocusListener {
 	@Override
 	public TableCellRenderer getCellRenderer(final int row, final int column) {
 		return setStyleColumn();
+	}
+
+	/**
+	 * 
+	 * Permette di generare una tabella
+	 * 
+	 * @param primo
+	 * @param nomiColonne
+	 * @return Table
+	 */
+	public static TableBase2d createTable(final Object[][] primo, final String[] nomiColonne) {
+		final TableBase2d table = new TableBase2d(primo, nomiColonne);
+
+		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+		table.setFillsViewportHeight(true);
+		table.setRowHeight(13);
+		return table;
 	}
 
 	public TableCellRenderer setStyleColumn() {
