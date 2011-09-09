@@ -3,6 +3,7 @@ package grafica.componenti.table;
 import grafica.componenti.UtilComponenti;
 
 import javax.swing.JPanel;
+import javax.swing.table.AbstractTableModel;
 
 /**
  * Fornisce il codice comune per le tabelle e stabilisce i metodi da
@@ -11,8 +12,9 @@ import javax.swing.JPanel;
  * @author marco.molinari
  * 
  */
-public abstract class AbstractGeneratoreTabella2d {
+public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel{
 
+	private static final long serialVersionUID = 1L;
 	private Object[][] matrice;
 
 	public AbstractGeneratoreTabella2d() {
@@ -101,13 +103,28 @@ public abstract class AbstractGeneratoreTabella2d {
 		};
 		gen.setCellaMatrice(2, 2, "bobobbo");
 		//		final TableBase2d table = AbstractGeneratoreTabella2d.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
-		final TableBase2d table = new TableBase2d(3, 3); 
+		final TableBase2d table = new TableBase2d(gen); 
 		table.setStyleColumn();
 		table.setBounds(140, 140, 400, 100);
 		final TableScrollPane pane = new TableScrollPane(table);
 		table.setOpaque(true); //content panes must be opaque
 		final JPanel panel = UtilComponenti.initContenitoreFrame(null);
 		panel.add(pane);
+	}
+
+	@Override
+	public int getRowCount() {
+		return costruisciArrayNomeRighe().length;
+	}
+
+	@Override
+	public int getColumnCount() {
+		return costruisciArrayNomiColonna().length;
+	}
+
+	@Override
+	public Object getValueAt(final int rowIndex, final int columnIndex) {
+		return matrice[rowIndex][columnIndex];
 	}
 
 }
