@@ -1,5 +1,6 @@
 package grafica.componenti.textfield.data;
 
+import grafica.componenti.StyleBase;
 import grafica.componenti.textfield.TextFieldBase;
 
 import javax.swing.JFrame;
@@ -34,10 +35,16 @@ public class TextFieldData extends TextFieldBase {
 	public TextFieldData(final String format) {
 		super(format);
 		this.formatter = new FormatterData(format);
-		this.style = new StyleTFData();
 	}
+
 
 	public class StyleTFData extends StyleBaseTF {
 
+	}
+
+
+	@Override
+	protected StyleBase settaStileOverride() {
+		return new StyleTFData();
 	}
 }

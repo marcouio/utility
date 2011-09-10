@@ -7,15 +7,15 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
-public class TextFieldBase extends JTextField implements FocusListener {
+public abstract class TextFieldBase extends JTextField implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	protected IFormatterTF    formatter;
 	protected StyleBase       style            = new StyleBaseTF();
 
 	public static void main(final String[] args) {
-		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy");
-		System.out.println(tfb.getBackground());
+		//		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy");
+		//		System.out.println(tfb.getBackground());
 	}
 
 	public TextFieldBase(final String testo, final IFormatterTF formatter) {
@@ -35,11 +35,14 @@ public class TextFieldBase extends JTextField implements FocusListener {
 	}
 
 	protected void settaStile() {
+		style=settaStileOverride()!=null?settaStileOverride():style;
 		style.setPadre(this);
 		this.setFont(style.getFont());
 		this.setForeground(style.getForeground());
 		this.setBackground(style.getBackground());
 	}
+
+	protected abstract StyleBase settaStileOverride();
 
 	public Object getTestoConvertitoInTipo() {
 		final Object testoConvertito = null;
