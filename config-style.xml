@@ -29,4 +29,35 @@
 			<color r="253" g="255" b="255"></color>
 		</background>
 	</styletfdata>
+	
+	<stylebaseL>
+		<font font-family="Eras Light ITC" type="0" size="12" />
+		<foreground>
+			<color r="98" g="100" b="100"></color>
+		</foreground>
+		<background>
+			<color r="253" g="255" b="255"></color>
+		</background>
+	</stylebaseL>
+	
+	<stylebaseLTP>
+		<font font-family="Eras Light ITC" type="0" size="8" />
+		<foreground>
+			<color r="98" g="100" b="100"></color>
+		</foreground>
+		<background>
+			<color r="253" g="255" b="255"></color>
+		</background>
+	</stylebaseLTP>
+	<stylebaseLTMP>
+		<font font-family="Eras Light ITC" type="0" size="5" />
+		<foreground>
+			<color r="98" g="100" b="100"></color>
+		</foreground>
+		<background>
+			<color r="253" g="255" b="255"></color>
+		</background>
+	</stylebaseLTMP>
+	
+	
 </styles>

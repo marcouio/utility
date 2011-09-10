@@ -6,20 +6,20 @@ import grafica.componenti.UtilComponenti;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class LabelTestoPiccolo extends Label{
+public class LabelTestoMoltoPiccolo extends LabelTestoPiccolo{
+
 
 	private static final long serialVersionUID = 1L;
 
-	public LabelTestoPiccolo() {
+	public LabelTestoMoltoPiccolo() {
 		super();
 	}
 
-	public LabelTestoPiccolo(final String string) {
+	public LabelTestoMoltoPiccolo(final String string) {
 		super(string);
-		settaStile();
 	}
 
-	public class StyleBaseLTP extends StyleBaseL {
+	public class StyleBaseLTMP extends StyleBaseL {
 
 	}
 
@@ -37,16 +37,13 @@ public class LabelTestoPiccolo extends Label{
 		base.setBounds(10, 0, 200, 30);
 		final LabelTestoPiccolo piccolo = new LabelTestoPiccolo("Piccolo");
 		piccolo.setBounds(10, 40, 200, 30);
-		final LabelTestoMoltoPiccolo moltoPiccolo = new LabelTestoMoltoPiccolo("Molto piccolo");
-		moltoPiccolo.setBounds(10, 120, 200, 30);
 		panel.add(base);
 		panel.add(piccolo);
-		panel.add(moltoPiccolo);
 	}
 
 	@Override
 	protected StyleBase settaStileOverride() {
-		return new StyleBaseLTP();
+		return new StyleBaseLTMP();
 	}
 
 }
