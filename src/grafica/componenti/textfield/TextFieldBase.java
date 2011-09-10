@@ -11,7 +11,7 @@ public class TextFieldBase extends JTextField implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	protected IFormatterTF    formatter;
-	protected StyleBase       style            = new StyleBaseTF(); ;
+	protected StyleBase       style            = new StyleBaseTF();
 
 	public static void main(final String[] args) {
 		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy");
