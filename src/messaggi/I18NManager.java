@@ -7,9 +7,8 @@ import xml.CoreXMLManager;
 
 public class I18NManager {
 
-	public static void main(String[] args) {
-		I18NManager.getSingleton().caricaMessaggi(CoreXMLManager.getSingleton().getLanguage(), null);
-		String prova = I18NManager.getSingleton().messages.getString("titolo");
+	public static void main(final String[] args) {
+		final String prova = I18NManager.getSingleton().getMessaggio("titolo", new String[]{"primoP","secondoP"});
 		System.out.println(prova);
 	}
 
@@ -31,8 +30,34 @@ public class I18NManager {
 
 	}
 
-	public String getMessaggio(String key) {
-		return this.getMessages().getString(key);
+	public String getMessaggio(final String key) {
+		try {
+			if(this.getMessages() == null){
+				this.caricaMessaggi(CoreXMLManager.getSingleton().getLanguage(), null);
+			}
+			return this.getMessages().getString(key);
+		} catch (final Exception e) {
+			return key;
+		}
+	}
+
+	public String getMessaggio(final String key, final String[] params) {
+		try {
+			String msgTot = "";
+			final String messaggio = getMessaggio(key);
+			final String[] msgSplit = messaggio.split("@");
+			if(msgSplit.length-1 == params.length){
+				for (int i = 0; i < params.length; i++) {
+					msgTot += msgSplit[i] + params[i];
+					if(i==params.length-1){
+						msgTot += msgSplit[msgSplit.length-1];
+					}
+				}
+			}
+			return msgTot;
+		} catch (final Exception e) {
+			return key;
+		}
 	}
 
 	private void creaLocale(final String language, final String country) {
@@ -46,20 +71,20 @@ public class I18NManager {
 
 	}
 
-	public void setLocale(String language) {
+	public void setLocale(final String language) {
 		currentLocale = new Locale(language);
 	}
 
-	public void setLocale(String language, String country) {
+	public void setLocale(final String language, final String country) {
 		currentLocale = new Locale(language, country);
 	}
 
-	public void caricaMessaggi(String language, String country) {
+	public void caricaMessaggi(final String language, final String country) {
 		creaLocale(language, country);
 		setMessages(ResourceBundle.getBundle(CoreXMLManager.getSingleton().getFileMessaggiName(), currentLocale));
 	}
 
-	public void setMessages(ResourceBundle messages) {
+	public void setMessages(final ResourceBundle messages) {
 		this.messages = messages;
 	}
 
