@@ -1,79 +1,100 @@
 package db;
 
 import java.sql.Connection;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class OggettoInsertBase extends OggettoSQL{
 
-	private String tabella;
-	private HashMap<String, Object> campi = new HashMap<String, Object>();
-	private StringBuffer sbSQL = new StringBuffer();
-	public OggettoInsertBase(Connection cn) {
+
+	public OggettoInsertBase(final Connection cn) {
 		super(cn);
 	}
-	
-	public boolean insert(String tabella, HashMap<String, Object> campi) throws Exception{
+
+	public boolean insert(final String tabella, final HashMap<String, Object> campi) throws Exception{
 		this.tabella = tabella;
 		this.campi = campi;
-		
-		sbSQL.append(INSERTINTO).append(tabella);
-		sbSQL.append("(");
-		Iterator<String> iterInsert = campi.keySet().iterator();
 
-		while (iterInsert.hasNext()) {
-			String prossimo = iterInsert.next();
-			// aggiunge nome colonna
-			sbSQL.append(prossimo);
-			if (iterInsert.hasNext())
-				sbSQL.append(", ");
+		introComando(tabella);
+		sbSQL.append("(");
+		inserisciNomiColonne(campi);
+		sbSQL.append(")");
+		middleCommand();
+		sbSQL.append("(");
+		inserisciValori(campi);
+		sbSQL.append(")");
+
+		if(aggiornaSqlFromString(sbSQL.toString())){
+			return true;
 		}
-		sbSQL.append(")").append(VALUES).append("(");
-		Iterator<String> iterInsert2 = campi.keySet().iterator();
+		return false;
+	}
+
+	private void middleCommand() {
+		sbSQL.append(VALUES);
+	}
+
+	private StringBuffer introComando(final String tabella) {
+		return sbSQL.append(INSERTINTO).append(tabella);
+	}
+
+	protected void inserisciValori() {
+		final Iterator<String> iterInsert2 = campi.keySet().iterator();
 		while (iterInsert2.hasNext()) {
-			String prossimo = iterInsert2.next();
+			final String prossimo = iterInsert2.next();
 			try {
 				sbSQL.append(Integer.parseInt((String) campi.get(prossimo)));
-			} catch (NumberFormatException e) {
+			} catch (final NumberFormatException e) {
 				sbSQL.append("'" + campi.get(prossimo) + "'");
 			}
 			if (iterInsert2.hasNext())
 				sbSQL.append(", ");
 		}
-
-		sbSQL.append(")");
-		Statement st = cn.createStatement();
-		if (st.executeUpdate(sbSQL.toString()) != 0)
-			return true;
-		cn.close();
-		return false;
-
-		
 	}
-	
-	public boolean insert(String comandoInsert) throws Exception{
+
+	private void inserisciValori(final HashMap<String, Object> campi) {
+		final Iterator<String> iterInsert2 = campi.keySet().iterator();
+		while (iterInsert2.hasNext()) {
+			final String prossimo = iterInsert2.next();
+			try {
+				sbSQL.append(Integer.parseInt((String) campi.get(prossimo)));
+			} catch (final NumberFormatException e) {
+				sbSQL.append("'" + campi.get(prossimo) + "'");
+			}
+			if (iterInsert2.hasNext())
+				sbSQL.append(", ");
+		}
+	}
+
+	protected void inserisciNomiColonne() {
+		final Iterator<String> iterInsert = campi.keySet().iterator();
+
+		while (iterInsert.hasNext()) {
+			final String prossimo = iterInsert.next();
+			// aggiunge nome colonna
+			sbSQL.append(prossimo);
+			if (iterInsert.hasNext())
+				sbSQL.append(", ");
+		}
+	}
+
+	protected void inserisciNomiColonne(final HashMap<String, Object> campi) {
+		final Iterator<String> iterInsert = campi.keySet().iterator();
+
+		while (iterInsert.hasNext()) {
+			final String prossimo = iterInsert.next();
+			// aggiunge nome colonna
+			sbSQL.append(prossimo);
+			if (iterInsert.hasNext())
+				sbSQL.append(", ");
+		}
+	}
+
+	public boolean insert(final String comandoInsert) throws Exception{
 		return aggiornaSqlFromString(comandoInsert);			
 	}
-	
-	public void putCampoValore(String campo, Object valore){
+
+	public void putCampoValore(final String campo, final Object valore){
 		campi.put(campo, valore);
 	}
-
-	public HashMap<String, Object> getCampi() {
-		return campi;
-	}
-
-	public void setCampi(HashMap<String, Object> campi) {
-		this.campi = campi;
-	}
-
-	public String getTabella() {
-		return tabella;
-	}
-
-	public void setTabella(String tabella) {
-		this.tabella = tabella;
-	}
-	
 }
