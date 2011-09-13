@@ -17,9 +17,9 @@ public class OggettoUpdateBase extends OggettoSQL {
 		this.campi = campi;
 		this.clausole = clausole;
 
-		introComando(tabella);
-		settaCampi(campi);
-		settaClausole(clausole);
+		introComando();
+		settaCampi();
+		settaClausole();
 
 		if (aggiornaSqlFromString(sbSQL.toString())) {
 			cn.close();
@@ -29,28 +29,6 @@ public class OggettoUpdateBase extends OggettoSQL {
 	}
 
 	protected void settaClausole() {
-		if (!clausole.isEmpty()) {
-			sbSQL.append(" WHERE 1=1");
-			final Iterator<String> where = clausole.keySet().iterator();
-
-			while (where.hasNext()) {
-				sbSQL.append(" AND ");
-				final String prossimo = where.next();
-				sbSQL.append(prossimo).append(" = ");
-				try {
-					sbSQL.append(Integer.parseInt((String) clausole.get(prossimo)));
-				} catch (final NumberFormatException e) {
-					sbSQL.append("'" + clausole.get(prossimo) + "'");
-				}
-				if (where.hasNext()) {
-					sbSQL.append(", ");
-				}
-			}
-		}
-	}
-
-	protected void settaClausole(final HashMap<String, Object> clausole) {
-		this.clausole = clausole;
 		if (!clausole.isEmpty()) {
 			sbSQL.append(" WHERE 1=1");
 			final Iterator<String> where = clausole.keySet().iterator();
@@ -91,28 +69,7 @@ public class OggettoUpdateBase extends OggettoSQL {
 		}
 	}
 
-	protected void settaCampi(final HashMap<String, Object> campi) {
-		this.campi = campi;
-		final Iterator<String> iterUpdate = campi.keySet().iterator();
-		while (iterUpdate.hasNext()) {
-			final String prossimo = iterUpdate.next();
-			sbSQL.append(prossimo).append(" = ");
-			try {
-				if (((String) campi.get(prossimo)).contains(".")) {
-					sbSQL.append(Double.parseDouble((String) campi.get(prossimo)));
-				} else {
-					sbSQL.append(Integer.parseInt((String) campi.get(prossimo)));
-				}
-			} catch (final NumberFormatException e) {
-				sbSQL.append("'" + campi.get(prossimo) + "'");
-			}
-			if (iterUpdate.hasNext()) {
-				sbSQL.append(", ");
-			}
-		}
-	}
-
-	protected void introComando(final String tabella) {
+	protected void introComando() {
 		sbSQL.append(UPDATE).append(" " + tabella).append(" SET ");
 	}
 

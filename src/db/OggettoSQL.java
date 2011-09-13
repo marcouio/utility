@@ -11,11 +11,13 @@ import java.util.Iterator;
 public class OggettoSQL {
 
 	public static final String SELECT = "select";
+	public static final String ALTER = "alter";
+	public static final String ALTERTABLE = "alter table ";
 	public static final String UPDATE = "update";
 	public static final String DELETE = "delete";
-	public static final String INSERT = "insert"; 
+	public static final String INSERT = "insert";
 	public static final String INSERTINTO = "insert into ";
-	public static final String FROM = "from";
+	public static final String FROM = " from ";
 	public static final String INTO = " into ";
 	public static final String WHERE = "where";
 	public static final String WHERE1_1 = "where 1=1";
@@ -30,13 +32,12 @@ public class OggettoSQL {
 	public static Connection cn;
 
 	public OggettoSQL(final Connection cn) {
-		OggettoSQL.cn = cn; 
+		OggettoSQL.cn = cn;
 	}
 
-
-	public boolean aggiornaSqlFromString(final String comandoSql) throws SQLException{
+	public boolean aggiornaSqlFromString(final String comandoSql) throws SQLException {
 		final Statement st = cn.createStatement();
-		if (st.executeUpdate(comandoSql) != 0){
+		if (st.executeUpdate(comandoSql) != 0) {
 			cn.close();
 			return true;
 		}
@@ -45,14 +46,14 @@ public class OggettoSQL {
 
 	}
 
-	public ResultSet resultSetfromIstruzione(final String comandoSql) throws Exception{
+	public ResultSet resultSetfromIstruzione(final String comandoSql) throws Exception {
 		final Statement st = cn.createStatement();
 		final ResultSet rs = st.executeQuery(comandoSql);
 		cn.close();
 		return rs;
 	}
 
-	public ResultSetMetaData metaDataFromIstruzione(final String comandoSql) throws Exception{
+	public ResultSetMetaData metaDataFromIstruzione(final String comandoSql) throws Exception {
 		final ResultSet rs = resultSetfromIstruzione(comandoSql);
 		return rs.getMetaData();
 	}
@@ -242,6 +243,5 @@ public class OggettoSQL {
 	public void setSbSQL(final StringBuffer sbSQL) {
 		this.sbSQL = sbSQL;
 	}
-
 
 }
