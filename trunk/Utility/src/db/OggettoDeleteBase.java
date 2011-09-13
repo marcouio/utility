@@ -1,11 +1,12 @@
 package db;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class OggettoDeleteBase extends OggettoSQL{
+
+	HashMap<String, Object> clausole = new HashMap<String, Object>();
 
 	public OggettoDeleteBase(final Connection cn) {
 		super(cn);
@@ -14,40 +15,84 @@ public class OggettoDeleteBase extends OggettoSQL{
 	public boolean delete(final String comandoSql){
 		return false;
 	}
-	public boolean delete(final String tabella, final HashMap<String, Object> campi){
+
+	public boolean delete() throws Exception{
+		introComando(tabella);
+		settaClausole();
+		if(aggiornaSqlFromString(sbSQL.toString())){
+			cn.close();
+			return true;
+		}
+		cn.close();
 		return false;
 	}
 
+	public boolean delete(final String tabella, final HashMap<String, Object> clausole) throws Exception{
+		introComando(tabella);
+		settaClausole(clausole);
+		if(aggiornaSqlFromString(sbSQL.toString())){
+			cn.close();
+			return true;
+		}
+		cn.close();
+		return false;
+	}
 
-	private boolean gestioneIstruzioneDelete(final String tabella, final HashMap<String, String> clausole, final boolean ok,
-			final StringBuffer sql, final String command) throws SQLException {
-		sql.append(command).append(" FROM ").append(tabella);
+	protected void settaClausole() {
 		if (!clausole.isEmpty()) {
-			sql.append(" WHERE 1=1");
+			sbSQL.append(" WHERE 1=1");
 			final Iterator<String> where = clausole.keySet().iterator();
 			while (where.hasNext()) {
-				sql.append(" AND ");
+				sbSQL.append(" AND ");
 
 				final String prossimo = where.next();
-				sql.append(prossimo).append(" = ");
+				sbSQL.append(prossimo).append(" = ");
 
 				try {
-					sql.append(Integer.parseInt(clausole.get(prossimo)));
+					sbSQL.append(Integer.parseInt((String) clausole.get(prossimo)));
 				} catch (final NumberFormatException e) {
-					sql.append("'" + clausole.get(prossimo) + "'");
+					sbSQL.append("'" + clausole.get(prossimo) + "'");
 				}
 			}
 			if (where.hasNext()) {
-				sql.append(", ");
+				sbSQL.append(", ");
 			}
-			//			final Connection cn = DBUtil.getConnection();
-			//			final Statement st = cn.createStatement();
-			//			if (st.executeUpdate(sql.toString()) != 0) {
-			//				ok = true;
-			//			}
-			cn.close();
 		}
-		return ok;
 	}
 
+	protected void settaClausole(final HashMap<String, Object> clausole) {
+		this.clausole = clausole;
+		if (!clausole.isEmpty()) {
+			sbSQL.append(" WHERE 1=1");
+			final Iterator<String> where = clausole.keySet().iterator();
+			while (where.hasNext()) {
+				sbSQL.append(" AND ");
+
+				final String prossimo = where.next();
+				sbSQL.append(prossimo).append(" = ");
+
+				try {
+					sbSQL.append(Integer.parseInt((String) clausole.get(prossimo)));
+				} catch (final NumberFormatException e) {
+					sbSQL.append("'" + clausole.get(prossimo) + "'");
+				}
+			}
+			if (where.hasNext()) {
+				sbSQL.append(", ");
+			}
+		}
+	}
+
+	private void introComando(final String tabella) {
+		this.tabella = tabella;
+		sbSQL.append(DELETE).append(FROM).append(tabella);
+	}
+
+	public HashMap<String, Object> getClausole() {
+		return clausole;
+	}
+
+	public void setClausole(final HashMap<String, Object> clausole) {
+		this.clausole = clausole;
+	}
 }

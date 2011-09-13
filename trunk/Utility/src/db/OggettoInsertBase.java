@@ -15,13 +15,13 @@ public class OggettoInsertBase extends OggettoSQL{
 		this.tabella = tabella;
 		this.campi = campi;
 
-		introComando(tabella);
+		introComando();
 		sbSQL.append("(");
-		inserisciNomiColonne(campi);
+		inserisciNomiColonne();
 		sbSQL.append(")");
 		middleCommand();
 		sbSQL.append("(");
-		inserisciValori(campi);
+		inserisciValori();
 		sbSQL.append(")");
 
 		if(aggiornaSqlFromString(sbSQL.toString())){
@@ -34,7 +34,7 @@ public class OggettoInsertBase extends OggettoSQL{
 		sbSQL.append(VALUES);
 	}
 
-	private StringBuffer introComando(final String tabella) {
+	private StringBuffer introComando() {
 		return sbSQL.append(INSERTINTO).append(tabella);
 	}
 
@@ -52,33 +52,7 @@ public class OggettoInsertBase extends OggettoSQL{
 		}
 	}
 
-	private void inserisciValori(final HashMap<String, Object> campi) {
-		final Iterator<String> iterInsert2 = campi.keySet().iterator();
-		while (iterInsert2.hasNext()) {
-			final String prossimo = iterInsert2.next();
-			try {
-				sbSQL.append(Integer.parseInt((String) campi.get(prossimo)));
-			} catch (final NumberFormatException e) {
-				sbSQL.append("'" + campi.get(prossimo) + "'");
-			}
-			if (iterInsert2.hasNext())
-				sbSQL.append(", ");
-		}
-	}
-
 	protected void inserisciNomiColonne() {
-		final Iterator<String> iterInsert = campi.keySet().iterator();
-
-		while (iterInsert.hasNext()) {
-			final String prossimo = iterInsert.next();
-			// aggiunge nome colonna
-			sbSQL.append(prossimo);
-			if (iterInsert.hasNext())
-				sbSQL.append(", ");
-		}
-	}
-
-	protected void inserisciNomiColonne(final HashMap<String, Object> campi) {
 		final Iterator<String> iterInsert = campi.keySet().iterator();
 
 		while (iterInsert.hasNext()) {
