@@ -49,7 +49,8 @@ public class UtilIo {
 	}
 
 	public boolean check(final String estensione, final File file) {
-		return file.exists() && file.isFile() ? checkEstensione(estensione, file) && checkLunghezzaNome(estensione, file) && checkAssenzaParentesi(estensione, file) : true;
+		return file.exists() && file.isFile() ? checkEstensione(estensione, file)
+				&& checkLunghezzaNome(estensione, file) && checkAssenzaParentesi(estensione, file) : true;
 	}
 
 	public boolean checkEstensione(final String estensione, final File file) {
@@ -85,5 +86,16 @@ public class UtilIo {
 
 	public boolean moveFile(final File origine, final File destinazione) {
 		return origine.renameTo(destinazione);
+	}
+
+	public static String slash() {
+		String slash = "";
+		final String os = System.getProperty("os.name");
+		if (os.startsWith("Win")) {
+			slash = "\\";
+		} else {
+			slash = "/";
+		}
+		return slash;
 	}
 }

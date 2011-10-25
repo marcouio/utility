@@ -3,6 +3,8 @@ package Listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.SwingUtilities;
+
 import aggiornatori.AggiornatoreManager;
 import aggiornatori.IAggiornatore;
 
@@ -20,8 +22,15 @@ public abstract class AscoltatoreBase implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		actionPerformedOverride(e);
-		aggiornatore.aggiorna();
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				actionPerformedOverride(e);
+				aggiornatore.aggiorna();
+			}
+		});
+
 	}
 
 	protected abstract void actionPerformedOverride(final ActionEvent e);
