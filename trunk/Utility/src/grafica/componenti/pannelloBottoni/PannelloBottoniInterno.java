@@ -1,4 +1,5 @@
-package grafica.componenti;
+package grafica.componenti.pannelloBottoni;
+
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

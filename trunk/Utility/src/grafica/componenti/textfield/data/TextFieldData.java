@@ -3,6 +3,8 @@ package grafica.componenti.textfield.data;
 import grafica.componenti.StyleBase;
 import grafica.componenti.textfield.TextFieldBase;
 
+import java.awt.Container;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -19,7 +21,7 @@ public class TextFieldData extends TextFieldBase {
 			@Override
 			public void run() {
 				final JFrame inst = new JFrame();
-				final TextFieldData textFieldData = new TextFieldData("dd-MM-yyyy");
+				final TextFieldData textFieldData = new TextFieldData("dd-MM-yyyy", inst.getContentPane());
 				System.out.println(textFieldData.getBackground());
 				textFieldData.setSize(25, 50);
 				inst.getContentPane().add(textFieldData);
@@ -32,19 +34,18 @@ public class TextFieldData extends TextFieldBase {
 
 	private static final long serialVersionUID = 1L;
 
-	public TextFieldData(final String format) {
-		super(format);
+	public TextFieldData(final String format, final Container componentePadre) {
+		super(format, componentePadre);
 		this.formatter = new FormatterData(format);
 	}
-
 
 	public class StyleTFData extends StyleBaseTF {
 
 	}
 
-
 	@Override
 	protected StyleBase settaStileOverride() {
 		return new StyleTFData();
 	}
+
 }

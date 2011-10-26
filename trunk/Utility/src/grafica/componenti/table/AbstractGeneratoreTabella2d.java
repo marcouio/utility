@@ -2,6 +2,8 @@ package grafica.componenti.table;
 
 import grafica.componenti.UtilComponenti;
 
+import java.awt.FlowLayout;
+
 import javax.swing.JPanel;
 import javax.swing.table.AbstractTableModel;
 
@@ -12,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  * @author marco.molinari
  * 
  */
-public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel{
+public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	private Object[][] matrice;
@@ -81,6 +83,8 @@ public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel{
 	public static void main(final String[] args) {
 		final AbstractGeneratoreTabella2d gen = new AbstractGeneratoreTabella2d() {
 
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Object setCellaMatricePerRicorsione(final int i, final int x) {
 				return "Ciao";
@@ -103,12 +107,12 @@ public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel{
 		};
 		gen.setCellaMatrice(2, 2, "bobobbo");
 		//		final TableBase2d table = AbstractGeneratoreTabella2d.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
-		final TableBase2d table = new TableBase2d(gen); 
+		final TableScrollPane pane = new TableScrollPane();
+		final TableBase2d table = new TableBase2d(gen, pane);
 		table.setStyleColumn();
 		table.setBounds(140, 140, 400, 100);
-		final TableScrollPane pane = new TableScrollPane(table);
 		table.setOpaque(true); //content panes must be opaque
-		final JPanel panel = UtilComponenti.initContenitoreFrame(null);
+		final JPanel panel = UtilComponenti.initContenitoreFrame(new FlowLayout());
 		panel.add(pane);
 	}
 

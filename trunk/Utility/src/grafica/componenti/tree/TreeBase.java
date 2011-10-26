@@ -1,16 +1,24 @@
 package grafica.componenti.tree;
 
+import grafica.componenti.ComponenteBase;
+import grafica.componenti.IComponenteBase;
 import grafica.componenti.StyleBase;
 
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
@@ -24,55 +32,68 @@ import javax.swing.tree.TreeSelectionModel;
 
 import disegno.immagini.UtilImage;
 
-public class TreeBase extends JTree implements TreeSelectionListener {
-	
+public abstract class TreeBase extends JTree implements TreeSelectionListener, IComponenteBase {
+
+	private Container contenitorePadre;
+	private final ComponenteBase componenteBase = new ComponenteBase();
 	protected StyleBase style = new StyleBaseTree();
 	private static final long serialVersionUID = 1L;
 	private DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
 
-	public TreeBase() {
+	public TreeBase(final Container contenitorePadre) {
 		super();
-		init();
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
 	}
 
-	public TreeBase(Object[] userObjects) {
+	public TreeBase(final Object[] userObjects, final Container contenitorePadre) {
 		super(userObjects);
-		init();
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
 	}
 
-	public TreeBase(TreeModel model) {
+	public TreeBase(final TreeModel model, final Container contenitorePadre) {
 		super(model);
-		init();
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
 	}
 
-	public TreeBase(TreeNode treeNode) {
+	public TreeBase(final TreeNode treeNode, final Container contenitorePadre) {
 		super(treeNode);
-		init();
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
 	}
 
-	public TreeBase(Hashtable<String, ITreeObject> mappaObjects) {
+	public TreeBase(final Hashtable<String, ITreeObject> mappaObjects, final Container contenitorePadre) {
 		super(mappaObjects);
-		init();
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
 	}
 
-	public TreeBase(Vector<ITreeObject> userObjects) {
+	public TreeBase(final Vector<ITreeObject> userObjects, final Container contenitorePadre) {
 		super(userObjects);
-		init();
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
 	}
 
-	public TreeBase(TreeNode treeNode, boolean arg) {
+	public TreeBase(final TreeNode treeNode, final boolean arg, final Container contenitorePadre) {
 		super(treeNode, arg);
-		init();
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
 	}
 
-	private void init() {
+	@Override
+	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
+		componenteBase.init(contenitorePadre2, componenteFiglio);
+		this.settaStile();
+		this.setContenitorePadre(contenitorePadre2);
 		this.setEditable(true);
 		this.setRootVisible(true);
 		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.addTreeSelectionListener(this);
 		this.setCellRenderer(treeCellRenderer);
 	}
-	
+
 	public void espandiTutto() {
 		int row = this.getRowCount();
 		for (int i = 0; i < row; i++) {
@@ -80,7 +101,7 @@ public class TreeBase extends JTree implements TreeSelectionListener {
 		}
 	}
 
-	public void setIconAllNode(ImageIcon icon) {
+	public void setIconAllNode(final ImageIcon icon) {
 		treeCellRenderer.setIcon(icon);
 	}
 
@@ -138,7 +159,7 @@ public class TreeBase extends JTree implements TreeSelectionListener {
 		this.setCellRenderer(treeCellRenderer);
 	}
 
-	public void setIconOnlyForRoot(ITreeObject ramoRoot) {
+	public void setIconOnlyForRoot(final ITreeObject ramoRoot) {
 		// 	l'immagine dell'oggetto che avranno tutti
 		final ImageIcon icon = ramoRoot.getIcona();
 
@@ -162,14 +183,19 @@ public class TreeBase extends JTree implements TreeSelectionListener {
 		}
 	}
 
-	public void setIconOnlyFoglie(ImageIcon leafIcon) {
+	public void setIconOnlyFoglie(final ImageIcon leafIcon) {
 		if (leafIcon != null) {
 			treeCellRenderer.setLeafIcon(leafIcon);
 		}
 	}
 
+	public boolean repaintFattoDaMe() {
+		return true;
+
+	}
+
 	@Override
-	public void valueChanged(TreeSelectionEvent e) {
+	public void valueChanged(final TreeSelectionEvent e) {
 		//Returns the last path element of the selection.
 		//This method is useful only when the selection model allows a single selection.
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) this.getLastSelectedPathComponent();
@@ -189,20 +215,60 @@ public class TreeBase extends JTree implements TreeSelectionListener {
 			((TreeObjectRamo) nodeInfo).eseguiAzioneListener();
 		}
 	}
-	
+
+	@Override
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+
+	}
+
+	@Override
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
+			final int distanzaVerticale) {
+		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, this);
+	}
+
+	@Override
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	@Override
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
 	public class StyleBaseTree extends StyleBase {
 
 	}
-	
-	public static void main(String[] args) {
+
+	public Component getContenitorePadre() {
+		return contenitorePadre;
+	}
+
+	public void setContenitorePadre(final Container contenitorePadre) {
+		this.contenitorePadre = contenitorePadre;
+	}
+
+	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
 				JFrame frame = new JFrame();
-				JPanel panel = new JPanel(new GridLayout(0, 1));
+				JPanel pane = new JPanel();
+				JScrollPane panel = new JScrollPane();
 				panel.setSize(400, 400);
-				TreeBase tree = new TreeBase();
+				final TreeBase tree = new TreeBase(panel) {
+					@Override
+					protected StyleBase settaStileOverride() {
+						// TODO Auto-generated method stub
+						return null;
+					}
+				};
 
 				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
 				ImageIcon icona = new ImageIcon(path + "play.jpg");
@@ -226,16 +292,29 @@ public class TreeBase extends JTree implements TreeSelectionListener {
 				root.add(foglia1.getTreeNode());
 				root.add(ramo1.getTreeNode());
 				root.add(new DefaultMutableTreeNode("Ciao"));
-				panel.add(tree);
-				//				tree.setIconForAll(null, null, icona3);
+				panel.setViewportView(tree);
+
+				tree.setIconForAll(null, null, icona3);
 				frame.getContentPane().add(panel);
+				frame.getContentPane().add(pane);
+				frame.getContentPane().setLayout(new GridLayout(0, 1));
 				frame.setVisible(true);
 				frame.setSize(400, 400);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				tree.expandRow(0);
+
+				JButton button = new JButton("aggiorna tree");
+				pane.add(button);
+				button.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(final ActionEvent e) {
+						tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Ciao")));
+					}
+				});
 			}
 
-			private TreeObjectRamo initTree(TreeBase tree) {
+			private TreeObjectRamo initTree(final TreeBase tree) {
 				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
 				ImageIcon icona = new ImageIcon(path + "stop.jpg");
 				icona = UtilImage.resizeImage(10, 10, icona);
@@ -255,5 +334,27 @@ public class TreeBase extends JTree implements TreeSelectionListener {
 		});
 	}
 
+	@Override
+	public boolean repaintCustomizzato(final Object[] parametri) {
+		return componenteBase.repaintCustomizzato(parametri);
+	}
+
+	@Override
+	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
+		return componenteBase.getLarghezzaSingleStringa(g, label, this);
+	}
+
+	@Override
+	public int getAltezzaSingleStringa(final Graphics g) {
+		return componenteBase.getAltezzaSingleStringa(g, this);
+	}
+
+	@Override
+	public void settaStile() {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected abstract StyleBase settaStileOverride();
 
 }
