@@ -24,11 +24,6 @@ public class LabelTestoMoltoPiccolo extends LabelTestoPiccolo {
 
 	}
 
-	@Override
-	public void settaStile() {
-		super.settaStile();
-	}
-
 	public static void main(final String[] args) {
 		final JPanel panel = UtilComponenti.initContenitoreFrame(null);
 		final JLabel label = new JLabel("Label");

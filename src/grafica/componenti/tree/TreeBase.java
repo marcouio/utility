@@ -32,6 +32,13 @@ import javax.swing.tree.TreeSelectionModel;
 
 import disegno.immagini.UtilImage;
 
+/**
+ * La classe è un oggetto grafico base che estende il JTree di Swing. Oltre alle funzionalita'
+ * degli oggetti grafici base del framework, fornisce una serie di metodi di utilità e 
+ * implementazioni per facilitare l'utilizzo dei 'tree'.
+ * 
+ * @author marco.molinari
+ */
 public abstract class TreeBase extends JTree implements TreeSelectionListener, IComponenteBase {
 
 	private Container contenitorePadre;
@@ -263,9 +270,11 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 				JScrollPane panel = new JScrollPane();
 				panel.setSize(400, 400);
 				final TreeBase tree = new TreeBase(panel) {
+
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					protected StyleBase settaStileOverride() {
-						// TODO Auto-generated method stub
 						return null;
 					}
 				};
@@ -351,8 +360,11 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 
 	@Override
 	public void settaStile() {
-		// TODO Auto-generated method stub
-
+		style = settaStileOverride() != null ? settaStileOverride() : style;
+		style.setPadre(this);
+		this.setFont(style.getFont());
+		this.setForeground(style.getForeground());
+		this.setBackground(style.getBackground());
 	}
 
 	protected abstract StyleBase settaStileOverride();

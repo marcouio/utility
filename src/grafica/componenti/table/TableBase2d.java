@@ -21,9 +21,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-public class TableBase2d extends JTable implements FocusListener, IComponenteBase {
+public abstract class TableBase2d extends JTable implements FocusListener, IComponenteBase {
 
-	protected StyleBase style = new StyleBase();
+	protected StyleBase style = new StyleBaseTable2d();
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
@@ -113,11 +113,14 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 
 	@Override
 	public void settaStile() {
+		style = settaStileOverride() != null ? settaStileOverride() : style;
 		style.setPadre(this);
 		this.setFont(style.getFont());
 		this.setForeground(style.getForeground());
 		this.setBackground(style.getBackground());
 	}
+
+	public abstract StyleBase settaStileOverride();
 
 	@Override
 	public void focusGained(final FocusEvent arg0) {
@@ -171,7 +174,15 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 	 */
 	public static TableBase2d createTable(final Object[][] primo, final String[] nomiColonne,
 			final Container contenitorePadre) {
-		final TableBase2d table = new TableBase2d(primo, nomiColonne, contenitorePadre);
+		final TableBase2d table = new TableBase2d(primo, nomiColonne, contenitorePadre) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public StyleBase settaStileOverride() {
+				return null;
+			}
+		};
 
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
@@ -202,6 +213,10 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 			}
 		};
 		return dtcr;
+
+	}
+
+	public class StyleBaseTable2d extends StyleBase {
 
 	}
 
