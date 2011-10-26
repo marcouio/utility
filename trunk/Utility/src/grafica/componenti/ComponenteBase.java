@@ -18,6 +18,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 
+/**
+ * La classe è per uso privato all'interno degli oggetti grafici base. Non va chiamata direttamente ne la classe,
+ * ne nessun suo metodo
+ * 
+ * @author marco.molinari
+ *
+ */
 public class ComponenteBase extends Component implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;

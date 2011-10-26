@@ -1,5 +1,6 @@
 package grafica.componenti.table;
 
+import grafica.componenti.StyleBase;
 import grafica.componenti.UtilComponenti;
 
 import java.awt.Dimension;
@@ -46,7 +47,15 @@ public class TableScrollPane extends JScrollPane {
 	public static TableScrollPane createTableScrollPane(final Object[][] primo, final String[] nomiColonne) {
 
 		final TableScrollPane pane = new TableScrollPane();
-		final TableBase2d table = new TableBase2d(primo, nomiColonne, pane);
+		final TableBase2d table = new TableBase2d(primo, nomiColonne, pane) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public StyleBase settaStileOverride() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
 		//		table.setContenitore(pane);
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
@@ -64,7 +73,14 @@ public class TableScrollPane extends JScrollPane {
 	 */
 	public TableScrollPane createTableScrollPane2(final Object[][] primo, final String[] nomiColonne) {
 
-		final TableBase2d table = new TableBase2d(primo, nomiColonne, this);
+		final TableBase2d table = new TableBase2d(primo, nomiColonne, this) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public StyleBase settaStileOverride() {
+				return null;
+			}
+		};
 		//		table.setContenitore(pane);
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);

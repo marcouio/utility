@@ -18,16 +18,10 @@ public class LabelTestoPiccolo extends Label {
 
 	public LabelTestoPiccolo(final String string, final Container contenitorePadre) {
 		super(string, contenitorePadre);
-		settaStile();
 	}
 
 	public class StyleBaseLTP extends StyleBaseL {
 
-	}
-
-	@Override
-	public void settaStile() {
-		super.settaStile();
 	}
 
 	public static void main(final String[] args) {

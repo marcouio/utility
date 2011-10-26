@@ -1,5 +1,6 @@
 package grafica.componenti.table;
 
+import grafica.componenti.StyleBase;
 import grafica.componenti.UtilComponenti;
 
 import java.awt.FlowLayout;
@@ -108,7 +109,14 @@ public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel {
 		gen.setCellaMatrice(2, 2, "bobobbo");
 		//		final TableBase2d table = AbstractGeneratoreTabella2d.createTable(gen.matrice, gen.costruisciArrayNomiColonna());
 		final TableScrollPane pane = new TableScrollPane();
-		final TableBase2d table = new TableBase2d(gen, pane);
+		final TableBase2d table = new TableBase2d(gen, pane) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public StyleBase settaStileOverride() {
+				return null;
+			}
+		};
 		table.setStyleColumn();
 		table.setBounds(140, 140, 400, 100);
 		table.setOpaque(true); //content panes must be opaque
