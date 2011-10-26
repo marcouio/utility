@@ -8,9 +8,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
-import xml.UtilXml;
 import xml.CoreXMLManager;
+import xml.UtilXml;
 
 /**
  * Gli oggetti nella gerarchia di StyleBase sono interni ad altri oggetti swing,
@@ -25,20 +24,20 @@ import xml.CoreXMLManager;
  */
 public class StyleBase {
 
-	private static final String FONT       = "font";
+	private static final String FONT = "font";
 	private static final String BACKGROUND = "background";
 	private static final String FOREGROUND = "foreground";
 	private static final String FONTFAMILY = "font-family";
-	private static final String TYPE       = "type";
-	private static final String SIZE       = "size";
-	private static final String R          = "r";
-	private static final String G          = "g";
-	private static final String B          = "b";
+	private static final String TYPE = "type";
+	private static final String SIZE = "size";
+	private static final String R = "r";
+	private static final String G = "g";
+	private static final String B = "b";
 
-	private Font                font;
-	private Color               foreground;
-	private Color               background;
-	private Component           padre;
+	private Font font;
+	private Color foreground;
+	private Color background;
+	private Component padre;
 
 	public static void main(final String[] args) {
 		final StyleBase base = new StyleBase();
@@ -56,30 +55,9 @@ public class StyleBase {
 		this.background = background;
 	}
 
-	public Font getFont() {
-		return font;
-	}
-
-	public Color getForeground() {
-		return foreground;
-	}
-
-	public Color getBackground() {
-		return background;
-	}
-
-	public void setFont(final Font font) {
-		this.font = font;
-	}
-
-	public void setForeground(final Color foreground) {
-		this.foreground = foreground;
-	}
-
-	public void setBackground(final Color background) {
-		this.background = background;
-	}
-
+	/**
+	 * Scorre tutti i nodi e delega al metodo 'settaStileBase' il compito di settare lo stile per ogni nodo
+	 */
 	private void caricaInfoStyleBase() {
 		try {
 			final NodeList listaNodi = UtilXml.getNodeList(CoreXMLManager.getSingleton().getXMLStyleFilePath());
@@ -94,6 +72,11 @@ public class StyleBase {
 		}
 	}
 
+	/**
+	 * Controlla il tipo di proprieta' da settare e richiama il rispettivo metodo. Per implementare nuove caratteristiche di stile, 
+	 * aggiungere altri if else con relativi controlli alle proprietà e metodi per settarli
+	 * @param nodo
+	 */
 	private void settaStileBase(final Node nodo) {
 		if (nodo.getNodeName().equalsIgnoreCase(this.getClass().getSimpleName())) {
 			final NodeList figliNodoComponente = nodo.getChildNodes();
@@ -110,6 +93,11 @@ public class StyleBase {
 		}
 	}
 
+	/**
+	 * Metodo per settare il colore del testo
+	 * @param style
+	 * @param nodoComponente
+	 */
 	protected static void settaForeground(final StyleBase style, final Node nodoComponente) {
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
@@ -135,6 +123,11 @@ public class StyleBase {
 		}
 	}
 
+	/**
+	 * Metodo per settare il colore di sfondo
+	 * @param style
+	 * @param nodoComponente
+	 */
 	protected static void settaBackground(final StyleBase style, final Node nodoComponente) {
 
 		final Element elemento = UtilXml.getElement(nodoComponente);
@@ -162,6 +155,12 @@ public class StyleBase {
 		}
 	}
 
+	/**
+	 * Metodo per settare il font
+	 * @param nodo
+	 * @param style
+	 * @param nodoComponente
+	 */
 	protected static void settaFont(final Node nodo, final StyleBase style, final Node nodoComponente) {
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
@@ -180,6 +179,30 @@ public class StyleBase {
 
 	public Component getPadre() {
 		return padre;
+	}
+
+	public Font getFont() {
+		return font;
+	}
+
+	public Color getForeground() {
+		return foreground;
+	}
+
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setFont(final Font font) {
+		this.font = font;
+	}
+
+	public void setForeground(final Color foreground) {
+		this.foreground = foreground;
+	}
+
+	public void setBackground(final Color background) {
+		this.background = background;
 	}
 
 }
