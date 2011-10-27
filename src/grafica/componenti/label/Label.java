@@ -14,10 +14,7 @@ public class Label extends LabelBase {
 
 	public Label(final String string, final Container contenitorePadre) {
 		super(string, contenitorePadre);
-		int width = getLarghezzaSingleStringa(contenitorePadre.getGraphics(), string);
-		int height = getAltezzaSingleStringa(contenitorePadre.getGraphics());
 		settaStile();
-		setSize(width, height);
 	}
 
 	@Override

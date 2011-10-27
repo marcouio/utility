@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <styles>
 	<stylebase>
-		<font font-family="Eras Light ITC" type="0" size="12" />
+		<font font-family="Eras Light ITC" type="0" size="15" />
 		<foreground>
 			<color r="100" g="100" b="100"></color>
 		</foreground>
@@ -11,7 +11,7 @@
 	</stylebase>
 	
 	<stylebasetf>
-		<font font-family="Eras Light ITC" type="0" size="12" />
+		<font font-family="Eras Light ITC" type="0" size="15" />
 		<foreground>
 			<color r="99" g="100" b="100"></color>
 		</foreground>
@@ -21,7 +21,7 @@
 	</stylebasetf>
 	
 	<styletfdata>
-		<font font-family="Eras Light ITC" type="0" size="12" />
+		<font font-family="Eras Light ITC" type="0" size="15" />
 		<foreground>
 			<color r="98" g="100" b="100"></color>
 		</foreground>
@@ -31,7 +31,7 @@
 	</styletfdata>
 	
 	<stylebaseL>
-		<font font-family="Eras Light ITC" type="0" size="12" />
+		<font font-family="Eras Light ITC" type="0" size="15" />
 		<foreground>
 			<color r="98" g="100" b="100"></color>
 		</foreground>
@@ -41,7 +41,7 @@
 	</stylebaseL>
 	
 	<stylebaseLTP>
-		<font font-family="Eras Light ITC" type="0" size="8" />
+		<font font-family="Eras Light ITC" type="0" size="11" />
 		<foreground>
 			<color r="98" g="100" b="100"></color>
 		</foreground>
@@ -50,7 +50,7 @@
 		</background>
 	</stylebaseLTP>
 	<stylebaseLTMP>
-		<font font-family="Eras Light ITC" type="0" size="5" />
+		<font font-family="Eras Light ITC" type="0" size="8" />
 		<foreground>
 			<color r="98" g="100" b="100"></color>
 		</foreground>

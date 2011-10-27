@@ -13,14 +13,49 @@ import xml.UtilXml;
 
 /**
  * Gli oggetti nella gerarchia di StyleBase sono interni ad altri oggetti swing,
- * con lo scopo di poterne configurare l'aspetto. Sia le proprietà (font,
- * foreground, background) che i relativi metodi setter e getter possono
- * apparire a prima vista una duplicazione di codice inutile dei rispettivi
- * swing. In realtà questi oggetti sono indispensabili per garantire
- * l'ereditarietà del comportamento: ad esempio non configurando sull'xml un
+ * con lo scopo di poterne configurare l'aspetto tramite il file xml definito 
+ * all'interno di config-core.xml. Sia le proprietà (font,foreground, background) 
+ * che i relativi metodi setter e getter possono apparire a prima vista una 
+ * duplicazione di codice inutile dei rispettiviswing. 
+ * In realtà, questi oggetti sono indispensabili per garantire l'ereditarietà 
+ * del comportamento: ad esempio, non configurando sull'xml un
  * oggetto (textData) non potrei stabilire se un eventuale padre (text) è stato
  * configurato e quindi mi rimarebbero le informazioni di default. In questa
- * maniera invece l'ereditarietà viene impostata runtime
+ * maniera invece l'ereditarietà viene impostata runtime. 
+ * <p>
+ * <b>Per il funzionamento</b>: gli oggetti "base" dovranno implementare il metodo 
+ * settaStile definito in IComponenteBase che dichiarerà un metodo astratto al proprio 
+ * interno "settaStileOverride" il quale deve essere ridefinito all'interno 
+ * dei relativi figli. Ecco un esempio di "settaStile" e "settaStileOverride:
+ *  <p>
+ *<pre><code>
+ *
+   	public void settaStile() {
+		style = settaStileOverride() != null ? settaStileOverride() : style;
+		style.setPadre(this);
+		this.setFont(style.getFont());
+		this.setForeground(style.getForeground());
+		this.setBackground(style.getBackground());
+	}
+	
+	protected abstract StyleBase settaStileOverride();
+ * </code></pre>
+ * "style" è una proprietà interna alla classe che dovrà essere di tipo StyleBase o una
+ * sua specializzazione
+ * <p>
+ * In più, ogni classe estesa che vorrà uno stile personalizzato dovrà creare una classe interna
+ * che estende stylebase, ad esempio:
+ * 
+ *<pre><code>
+ *
+   	public class StyleBaseL extends StyleBase {
+
+	}
+ * </code></pre>
+ * Naturalmente se creiamo la classe un'istanza di essa sarà ciò che ritorna il metodo
+ * settaStileOverride oppure la proprietà style dovrà essere di quel tipo
+ * 
+ * <p>Infine, la classe dovrà avere lo stesso nome di quello dichiarato all'interno dell'xml
  */
 public class StyleBase {
 

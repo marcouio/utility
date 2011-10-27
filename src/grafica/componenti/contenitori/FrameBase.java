@@ -13,21 +13,12 @@ import javax.swing.JFrame;
 
 public abstract class FrameBase extends JFrame implements IFrame, IComponenteBase {
 
-	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
 	protected StyleBase style = new StyleBaseFrame();
 	private static final long serialVersionUID = 1L;
 
 	public FrameBase() {
 		this.getContentPane().setLayout(null);
-	}
-
-	public Container getContenitorePadre() {
-		return contenitorePadre;
-	}
-
-	public void setContenitorePadre(final Container contenitorePadre) {
-		this.contenitorePadre = contenitorePadre;
 	}
 
 	public StyleBase getStyle() {
