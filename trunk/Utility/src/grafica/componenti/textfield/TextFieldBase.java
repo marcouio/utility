@@ -25,22 +25,22 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 		//		System.out.println(tfb.getBackground());
 	}
 
-	public TextFieldBase(final String testo, final IFormatterTF formatter, final Container contenitorePadre) {
+	public TextFieldBase(final String testo, final IFormatterTF formatter, final Container contenitore) {
 		super(testo);
 		this.formatter = formatter;
-		this.contenitorePadre = contenitorePadre;
+		this.contenitorePadre = contenitore;
 		init(contenitorePadre, this);
 	}
 
-	public TextFieldBase(final String testo, final Container contenitorePadre) {
+	public TextFieldBase(final String testo, final Container contenitore) {
 		super(testo);
-		this.contenitorePadre = contenitorePadre;
+		this.contenitorePadre = contenitore;
 		init(contenitorePadre, this);
 	}
 
-	public TextFieldBase(final Container contenitorePadre) {
+	public TextFieldBase(final Container contenitore) {
 		super();
-		this.contenitorePadre = contenitorePadre;
+		this.contenitorePadre = contenitore;
 		init(contenitorePadre, this);
 	}
 
@@ -49,6 +49,9 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
 		this.settaStile();
+		int width = getLarghezzaSingleStringa(contenitorePadre2.getGraphics(), this.getText());
+		int height = getAltezzaSingleStringa(contenitorePadre2.getGraphics());
+		setSize(width, height);
 	}
 
 	@Override
@@ -116,19 +119,19 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 	@Override
 	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
 			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, this);
+		return componenteBase.aSinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, this);
 	}
 
 	@Override
 	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
 			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+		return componenteBase.sottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
 	@Override
 	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
 			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+		return componenteBase.sopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
 	@Override

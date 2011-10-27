@@ -1,24 +1,35 @@
 package controller;
 
-import grafica.componenti.IFrame;
+import java.awt.Graphics2D;
+
+import javax.swing.JFrame;
 
 import command.CommandManager;
 
 public abstract class ControlloreBase {
 
-	protected IFrame frame;
+	protected JFrame applicationframe;
 	protected CommandManager commandManager;
 	protected static IUtente utenteLogin;
+	protected static Graphics2D applicationGraphics2d;
 
-	public IFrame getFrame() {
-		return frame;
+	public JFrame getApplicationframe() {
+		return applicationframe;
 	}
 
-	public void setFrame(IFrame frame) {
-		this.frame = frame;
+	public void setApplicationframe(final JFrame applicationframe) {
+		this.applicationframe = applicationframe;
 	}
 
-	public void setCommandManager(CommandManager commandManager) {
+	public static Graphics2D getApplicationGraphics2d() {
+		return applicationGraphics2d;
+	}
+
+	public static void setApplicationGraphics2d(final Graphics2D applicationGraphics2d) {
+		ControlloreBase.applicationGraphics2d = applicationGraphics2d;
+	}
+
+	public void setCommandManager(final CommandManager commandManager) {
 		this.commandManager = commandManager;
 	}
 
@@ -26,7 +37,7 @@ public abstract class ControlloreBase {
 		return utenteLogin;
 	}
 
-	public void setUtenteLogin(IUtente utenteLogin) {
+	public void setUtenteLogin(final IUtente utenteLogin) {
 		ControlloreBase.utenteLogin = utenteLogin;
 	}
 

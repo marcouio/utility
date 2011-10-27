@@ -29,6 +29,7 @@ public abstract class LabelBase extends JLabel implements IComponenteBase {
 		init(contenitorePadre, this);
 	}
 
+	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
 		style.setPadre(this);
@@ -47,7 +48,9 @@ public abstract class LabelBase extends JLabel implements IComponenteBase {
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.settaStile();
-
+		int width = getLarghezzaSingleStringa(contenitorePadre2.getGraphics(), this.getText());
+		int height = getAltezzaSingleStringa(contenitorePadre2.getGraphics());
+		setSize(width, height);
 	}
 
 	@Override

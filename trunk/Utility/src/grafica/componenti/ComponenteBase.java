@@ -1,22 +1,24 @@
 package grafica.componenti;
 
+import grafica.componenti.contenitori.FrameBase;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Window;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.RootPaneContainer;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+
+import controller.ControlloreBase;
 
 /**
  * La classe è per uso privato all'interno degli oggetti grafici base. Non va chiamata direttamente ne la classe,
@@ -28,10 +30,14 @@ import javax.swing.tree.TreeModel;
 public class ComponenteBase extends Component implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
+	public static final int HEIGHT_STRING_DEFAULT = 30;
+	public static final int WIDTH_STRING_DEFAULT = 100;
+	public static final int WIDTH_STRING_MIN = 5;
+	public static final int HEIGHT_STRING_MIN = 5;
 
 	public void aggiungiAlContenitore(final Container contenitorePadre2, final Component componenteFiglio) {
-		if (contenitorePadre2 instanceof Window) {
-			((RootPaneContainer) contenitorePadre2).getContentPane().add(componenteFiglio);
+		if (contenitorePadre2 instanceof FrameBase) {
+			((FrameBase) contenitorePadre2).getContentPane().add(componenteFiglio);
 		} else if (contenitorePadre2 instanceof JScrollPane) {
 			((JScrollPane) contenitorePadre2).setViewportView(componenteFiglio);
 		} else {
@@ -43,6 +49,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		aggiungiAlContenitore(contenitorePadre2, componenteFiglio);
 		componenteFiglio.setLocation(0, 0);
+		if (!(componenteFiglio instanceof Container)) {
+			componenteFiglio.setSize(WIDTH_STRING_DEFAULT, HEIGHT_STRING_DEFAULT);
+		}
 	}
 
 	@Override
@@ -154,19 +163,35 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare) {
-		if (g == null) {
-			g = this.getParent().getGraphics();
+		int larghezza = 0;
+		g = trovaUnGraphicsValido(g);
+		if (g != null) {
+			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
+			larghezza = fm.stringWidth(label);
 		}
-		final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
-		return fm.stringWidth(label) + 3;
+		return larghezza > ComponenteBase.WIDTH_STRING_MIN ? larghezza + 3 : ComponenteBase.WIDTH_STRING_DEFAULT;
 	}
 
 	public int getAltezzaSingleStringa(Graphics g, final Component compDaPosizionare) {
-		if (g == null) {
-			g = this.getParent().getGraphics();
+		int altezza = 0;
+		g = trovaUnGraphicsValido(g);
+		if (g != null) {
+			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
+			altezza = fm.getHeight();
 		}
-		final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
-		return fm.getHeight() + 3;
+		return altezza > ComponenteBase.HEIGHT_STRING_MIN ? altezza + 3 : ComponenteBase.HEIGHT_STRING_DEFAULT;
+	}
+
+	public Graphics trovaUnGraphicsValido(Graphics g) {
+		if (g == null) {
+			if (this.getParent() != null) {
+				g = this.getParent().getGraphics();
+			}
+			if (g == null) {
+				g = ControlloreBase.getApplicationGraphics2d();
+			}
+		}
+		return g;
 	}
 
 	@Override
