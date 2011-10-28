@@ -60,13 +60,13 @@ public abstract class TextAreaBase extends JTextArea implements IComponenteBase 
 	}
 
 	@Override
-	public void init(final Container contenitorePadre2, final Component componenteFiglio) throws ExceptionGraphics {
+	public void init(final Container contenitorePadre2, final Component componenteFiglio){
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		settaStile();
 	}
 
 	@Override
-	public boolean repaintCustomizzato(final Object[] parametri) throws ExceptionGraphics {
+	public boolean repaintCustomizzato(final Object[] parametri){
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 

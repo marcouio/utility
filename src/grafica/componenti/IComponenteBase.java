@@ -19,7 +19,7 @@ public interface IComponenteBase {
 	 * @param componenteFiglio
 	 * @throws ExceptionGraphics
 	 */
-	public void init(final Container contenitorePadre2, final Component componenteFiglio) throws ExceptionGraphics;
+	public void init(final Container contenitorePadre2, final Component componenteFiglio);
 
 	/**
 	 * Metodo implementato all'interno della classe ComponenteBase, ridisegna l'oggetto che lo richiama in base al suo tipo.
@@ -27,7 +27,7 @@ public interface IComponenteBase {
 	 * 			I parametri non sono sempre nullabili
 	 * @return
 	 */
-	public boolean repaintCustomizzato(Object[] parametri) throws ExceptionGraphics;
+	public boolean repaintCustomizzato(Object[] parametri);
 
 	/**
 	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
@@ -108,7 +108,6 @@ public interface IComponenteBase {
 	 * prevedere l'estensione dello stile. Vedi esempio LabelBase. ATTENZIONE!!! il metodo dovrebbe essere privato e va 
 	 * richimato solo alla fine del metodo 'init', qualsiasi altro utilizzo non è sicuro.
 	 * 
-	 * @throws ExceptionGraphics 
 	 */
-	public void settaStile() throws ExceptionGraphics;
+	public void settaStile();
 }
