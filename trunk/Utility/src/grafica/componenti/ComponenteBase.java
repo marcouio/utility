@@ -174,9 +174,13 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	@Override
-	public void settaStile() throws ExceptionGraphics {
-		throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
-				"Richiamare stesso metodo ma del componente corretto");
+	public void settaStile() {
+		try {
+			throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
+					"Richiamare stesso metodo ma del componente corretto");
+		} catch (ExceptionGraphics e) {
+			e.printStackTrace();
+		}
 	}
 
 }

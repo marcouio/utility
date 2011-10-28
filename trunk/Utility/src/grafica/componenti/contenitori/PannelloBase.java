@@ -53,7 +53,7 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 	}
 
 	@Override
-	public boolean repaintCustomizzato(final Object[] parametri) throws ExceptionGraphics {
+	public boolean repaintCustomizzato(final Object[] parametri){
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
