@@ -12,7 +12,8 @@ public interface IComponenteBase {
 
 	/**
 	 * Esegue alcune operazioni preliminari sugli oggetti grafici come l'add sui contenitori. Viene implementato nella classe 
-	 * ComponenteBase e richiamato all'interno degli oggetti grafici base.
+	 * ComponenteBase e richiamato all'interno degli oggetti grafici base. Questo metodo deve essere l'ultimo metodo del costruttore
+	 * perché se necessario sovrascrive alcune informazioni di setting assegnate dal framework in una prima fase.
 	 * 
 	 * @param contenitorePadre2
 	 * @param componenteFiglio
@@ -28,27 +29,84 @@ public interface IComponenteBase {
 	 */
 	public boolean repaintCustomizzato(Object[] parametri) throws ExceptionGraphics;
 
+	/**
+	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
+	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base 
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @param compDaPosizionare
+	 * @return
+	 */
 	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics;
+			final int distanzaVerticale, final Component compDaPosizionare);
 
+	/**
+	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
+	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzontale
+	 * @param distanzaVerticale
+	 * @param compDaPosizionare
+	 * @return
+	 */
 	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale) throws ExceptionGraphics;
+			final int distanzaVerticale, final Component compDaPosizionare);
 
+	/**
+	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
+	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @param compDaPosizionare
+	 * @return
+	 */
 	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics;
+			final int distanzaVerticale, final Component compDaPosizionare);
 
+	/**
+	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
+	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @param compDaPosizionare
+	 * @return
+	 */
 	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics;
+			final int distanzaVerticale, final Component compDaPosizionare);
 
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) throws ExceptionGraphics;
+	/**
+	 * Calcola la larghezza di un campo sulla base del testo che lo contiene. 
+	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
+	 * 
+	 * @param g
+	 * @param label
+	 * @param compDaValutare
+	 * @return
+	 */
+	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component compDaValutare);
 
-	public int getAltezzaSingleStringa(final Graphics g) throws ExceptionGraphics;
+	/**
+	 * Calcola la larghezza di un campo sulla base del testo che lo contiene. 
+	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
+	 * 
+	 * @param g
+	 * @param compDaValutare
+	 * @return
+	 */
+	public int getAltezzaSingleStringa(final Graphics g, final Component compDaValutare);
 
 	/**
 	 * Ogni oggetto di base deve implementare tale metodo per settare il proprio stile. In più all'interno della classe 
 	 * deve essere creato un metodo (settaStileOverride)astratto da richiamare all'interno di questo metodo per 
 	 * prevedere l'estensione dello stile. Vedi esempio LabelBase. ATTENZIONE!!! il metodo dovrebbe essere privato e va 
-	 * richimato solo all'interno del metodo 'init'
+	 * richimato solo alla fine del metodo 'init', qualsiasi altro utilizzo non è sicuro.
 	 * 
 	 * @throws ExceptionGraphics 
 	 */

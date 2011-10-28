@@ -11,8 +11,9 @@ import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
-public abstract class FrameBase extends JFrame implements IFrame, IComponenteBase {
+public abstract class FrameBase extends JFrame implements IFrame, IComponenteBase, IContainerBase {
 
+	private final ContainerBase containerBase = new ContainerBase();
 	private final ComponenteBase componenteBase = new ComponenteBase();
 	protected StyleBase style = new StyleBaseFrame();
 	private static final long serialVersionUID = 1L;
@@ -48,39 +49,116 @@ public abstract class FrameBase extends JFrame implements IFrame, IComponenteBas
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
-	@Override
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
 	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
 			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
 
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	@Override
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
 	}
 
 	@Override
 	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale) {
-		return componenteBase.aSinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, this);
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
+				componenteDaRiposizionare);
 	}
 
 	@Override
 	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
-		return componenteBase.sottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
 	}
 
 	@Override
 	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
-		return componenteBase.sopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
+		return false;
 	}
 
-	@Override
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param g
+	 * @param label
+	 * @return
+	 */
 	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, this);
+		return getLarghezzaSingleStringa(g, label, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param g
+	 * @return
+	 */
+	public int getAltezzaSingleStringa(final Graphics g) {
+		return getAltezzaSingleStringa(g, this);
 	}
 
 	@Override
-	public int getAltezzaSingleStringa(final Graphics g) {
-		return componenteBase.getAltezzaSingleStringa(g, this);
+	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
+		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
+	}
+
+	@Override
+	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
+		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
 	}
 
 	@Override
@@ -95,4 +173,13 @@ public abstract class FrameBase extends JFrame implements IFrame, IComponenteBas
 
 	protected abstract StyleBase settaStileOverride();
 
+	@Override
+	public int getMaxDimensionX() {
+		return containerBase.getMaxDimensionX(this.getContentPane());
+	}
+
+	@Override
+	public int getMaxDimensionY() {
+		return containerBase.getMaxDimensionY(this.getContentPane());
+	}
 }
