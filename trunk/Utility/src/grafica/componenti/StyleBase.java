@@ -56,6 +56,8 @@ import xml.UtilXml;
  * settaStileOverride oppure la proprietà style dovrà essere di quel tipo
  * 
  * <p>Infine, la classe dovrà avere lo stesso nome di quello dichiarato all'interno dell'xml
+ * <p>ATTENZIONE: tutte le impostazioni indicate negli style sovrapporranno quelle indicati nei costruttori degli oggetti grafici base,
+ * ma non delle loro specializzazioni.
  */
 public class StyleBase {
 

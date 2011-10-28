@@ -92,13 +92,13 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
 		this.setContenitorePadre(contenitorePadre2);
 		this.setEditable(true);
 		this.setRootVisible(true);
 		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.addTreeSelectionListener(this);
 		this.setCellRenderer(treeCellRenderer);
+		this.settaStile();
 	}
 
 	public void espandiTutto() {
@@ -223,31 +223,6 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 		}
 	}
 
-	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
-
-	}
-
-	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, this);
-	}
-
-	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
-	}
-
-	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
-	}
-
 	public class StyleBaseTree extends StyleBase {
 
 	}
@@ -348,14 +323,116 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
-	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, this);
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
 	@Override
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
+	}
+
+	@Override
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
+				componenteDaRiposizionare);
+	}
+
+	@Override
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
+	}
+
+	@Override
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
+		return false;
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param g
+	 * @param label
+	 * @return
+	 */
+	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
+		return getLarghezzaSingleStringa(g, label, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param g
+	 * @return
+	 */
 	public int getAltezzaSingleStringa(final Graphics g) {
-		return componenteBase.getAltezzaSingleStringa(g, this);
+		return getAltezzaSingleStringa(g, this);
+	}
+
+	@Override
+	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
+		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
+	}
+
+	@Override
+	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
+		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
 	}
 
 	@Override

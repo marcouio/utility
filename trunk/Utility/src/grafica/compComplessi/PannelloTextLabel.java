@@ -9,6 +9,8 @@ import grafica.componenti.textfield.testo.TextFieldTesto;
 
 import java.awt.Container;
 
+import javax.swing.plaf.BorderUIResource;
+
 public class PannelloTextLabel extends PannelloBase {
 
 	private static final long serialVersionUID = 1L;
@@ -35,8 +37,8 @@ public class PannelloTextLabel extends PannelloBase {
 		this.setLayout(null);
 		this.label = new Label(label, this);
 		this.textField = new TextFieldTesto(text, this);
-		textField.posizionaSottoA(this.label, 0, 30);
-
+		textField.posizionaSottoA(this.label, 30, 60);
+		this.setBorder(BorderUIResource.getLoweredBevelBorderUIResource());
 		this.setSize(getMaxDimensionX(), getMaxDimensionY());
 		this.setPreferredSize(this.getSize());
 	}

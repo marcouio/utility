@@ -57,9 +57,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
 		Object objForRepaint = parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
-		if (modelIsNull(objForRepaint, parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
-			return false;
-		}
+		//		if (modelIsNull(objForRepaint, parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
+		//			return false;
+		//		}
 		if (objForRepaint == null) {
 			return false;
 		}
@@ -86,6 +86,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		((Component) objForRepaint).invalidate();
 		((Component) objForRepaint).validate();
 		((Component) objForRepaint).repaint();
+
 		return true;
 	}
 
@@ -98,7 +99,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
-	public boolean aDestraDi(final Component componenteParagone, final int distanzaOrizzantale,
+	@Override
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
 			final int distanzaVerticale, final Component compDaPosizionare) {
 		Point location = componenteParagone.getLocation();
 		int nuovaX = (int) (location.getX() + componenteParagone.getWidth() + distanzaOrizzantale);
@@ -107,7 +109,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
-	public boolean aSinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
+	@Override
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
 			final int distanzaVerticale, final Component compDaPosizionare) {
 		Point location = componenteParagone.getLocation();
 		int nuovaX = (int) (location.getX() - compDaPosizionare.getWidth() - distanzaOrizzontale);
@@ -116,7 +119,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
-	public boolean sottoA(final Component componenteParagone, final int distanzaOrizzantale,
+	@Override
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
 			final int distanzaVerticale, final Component compDaPosizionare) {
 		Point location = componenteParagone.getLocation();
 		int nuovaX = (int) (location.getX() + distanzaOrizzantale);
@@ -125,7 +129,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
-	public boolean sopraA(final Component componenteParagone, final int distanzaOrizzantale,
+	@Override
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
 			final int distanzaVerticale, final Component compDaPosizionare) {
 		Point location = componenteParagone.getLocation();
 		int nuovaX = (int) (location.getX() + distanzaOrizzantale);
@@ -135,33 +140,6 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics {
-		throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
-				"Richiamare stesso metodo ma del componente da posizionare");
-	}
-
-	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale) throws ExceptionGraphics {
-		throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
-				"Richiamare stesso metodo ma del componente da posizionare");
-	}
-
-	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics {
-		throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
-				"Richiamare stesso metodo ma del componente da posizionare");
-	}
-
-	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics {
-		throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
-				"Richiamare stesso metodo ma del componente da posizionare");
-	}
-
 	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare) {
 		int larghezza = 0;
 		g = trovaUnGraphicsValido(g);
@@ -172,6 +150,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return larghezza > ComponenteBase.WIDTH_STRING_MIN ? larghezza + 3 : ComponenteBase.WIDTH_STRING_DEFAULT;
 	}
 
+	@Override
 	public int getAltezzaSingleStringa(Graphics g, final Component compDaPosizionare) {
 		int altezza = 0;
 		g = trovaUnGraphicsValido(g);
@@ -195,20 +174,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) throws ExceptionGraphics {
-		throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
-				"Richiamare stesso metodo ma del componente corretto");
-	}
-
-	@Override
-	public int getAltezzaSingleStringa(final Graphics g) throws ExceptionGraphics {
-		throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
-				"Richiamare stesso metodo ma del componente corretto");
-	}
-
-	@Override
 	public void settaStile() throws ExceptionGraphics {
 		throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
 				"Richiamare stesso metodo ma del componente corretto");
 	}
+
 }

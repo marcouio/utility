@@ -87,9 +87,8 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
-		this.settaStile();
 		this.generaDimensioniMinime();
-
+		this.settaStile();
 	}
 
 	public void generaDimensioniMinime() {
@@ -103,7 +102,7 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 		int larghezzaMinima = 0;
 		for (int i = 0; i < getColumnCount(); i++) {
 			final String nomeColonna = getColumnName(i);
-			final int larghezzaNome = getLarghezzaSingleStringa(this.getGraphics(), nomeColonna);
+			final int larghezzaNome = getLarghezzaSingleStringa(this.getGraphics(), nomeColonna, this);
 			if (larghezzaNome > larghezzaMinima) {
 				larghezzaMinima = larghezzaNome;
 			}
@@ -137,31 +136,6 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 	@Override
 	public TableCellRenderer getCellRenderer(final int row, final int column) {
 		return setStyleColumn();
-	}
-
-	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
-
-	}
-
-	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale) {
-		return componenteBase.aSinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, this);
-	}
-
-	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
-		return componenteBase.sottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
-	}
-
-	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
-		return componenteBase.sopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
 	/**
@@ -237,13 +211,115 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
-	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, this);
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
 	@Override
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
+	}
+
+	@Override
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
+				componenteDaRiposizionare);
+	}
+
+	@Override
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
+	}
+
+	@Override
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
+		return false;
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param g
+	 * @param label
+	 * @return
+	 */
+	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
+		return getLarghezzaSingleStringa(g, label, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param g
+	 * @return
+	 */
 	public int getAltezzaSingleStringa(final Graphics g) {
-		return componenteBase.getAltezzaSingleStringa(g, this);
+		return getAltezzaSingleStringa(g, this);
+	}
+
+	@Override
+	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
+		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
+	}
+
+	@Override
+	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
+		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
 	}
 }

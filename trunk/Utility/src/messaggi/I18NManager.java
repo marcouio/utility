@@ -8,13 +8,14 @@ import xml.CoreXMLManager;
 public class I18NManager {
 
 	public static void main(final String[] args) {
-		final String prova = I18NManager.getSingleton().getMessaggio("titolo", new String[]{"primoP","secondoP"});
+		final String prova = I18NManager.getSingleton().getMessaggio("titolo",
+				new String[] { "primoP", "secondoP", "terzoP" });
 		System.out.println(prova);
 	}
 
 	private static I18NManager singleton;
-	private Locale             currentLocale;
-	private ResourceBundle     messages;
+	private Locale currentLocale;
+	private ResourceBundle messages;
 
 	/**
 	 * @return the singleton
@@ -32,7 +33,7 @@ public class I18NManager {
 
 	public String getMessaggio(final String key) {
 		try {
-			if(this.getMessages() == null){
+			if (this.getMessages() == null) {
 				this.caricaMessaggi(CoreXMLManager.getSingleton().getLanguage(), null);
 			}
 			return this.getMessages().getString(key);
@@ -46,12 +47,17 @@ public class I18NManager {
 			String msgTot = "";
 			final String messaggio = getMessaggio(key);
 			final String[] msgSplit = messaggio.split("@");
-			if(msgSplit.length-1 == params.length){
+			if (msgSplit.length - 1 == params.length) {
 				for (int i = 0; i < params.length; i++) {
 					msgTot += msgSplit[i] + params[i];
-					if(i==params.length-1){
-						msgTot += msgSplit[msgSplit.length-1];
+					if (i == params.length - 1) {
+						msgTot += msgSplit[msgSplit.length - 1];
 					}
+				}
+				// lo split non funziona quando il regex e' alla fine
+			} else if (msgSplit.length == params.length && messaggio.endsWith("@")) {
+				for (int i = 0; i < params.length; i++) {
+					msgTot += msgSplit[i] + params[i];
 				}
 			}
 			return msgTot;

@@ -20,7 +20,7 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 	private static final long serialVersionUID = 1L;
 	private final ComponenteBase componenteBase = new ComponenteBase();
 
-	public PannelloBase(final Container contenitore) throws ExceptionGraphics {
+	public PannelloBase(final Container contenitore) {
 		super();
 		this.contenitorePadre = contenitore;
 		init(contenitore, this);
@@ -46,9 +46,10 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 	}
 
 	@Override
-	public void init(final Container contenitorePadre2, final Component componenteFiglio) throws ExceptionGraphics {
+	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.settaStile();
+		this.setLayout(null);
 	}
 
 	@Override
@@ -56,43 +57,120 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param componenteParagone
+	 * @param distanzaOrizzantale
+	 * @param distanzaVerticale
+	 * @return
+	 */
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
+			final int distanzaVerticale) {
+		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
 	@Override
 	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics {
-		return componenteBase.aDestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
 	}
 
 	@Override
 	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale) throws ExceptionGraphics {
-		return componenteBase.aSinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, this);
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
+				componenteDaRiposizionare);
 	}
 
 	@Override
 	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics {
-		return componenteBase.sottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
 	}
 
 	@Override
 	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) throws ExceptionGraphics {
-		componenteBase.sopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+			final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
+				componenteDaRiposizionare);
 		return false;
 	}
 
-	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) throws ExceptionGraphics {
-		return componenteBase.getLarghezzaSingleStringa(g, label, this);
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param g
+	 * @param label
+	 * @return
+	 */
+	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
+		return getLarghezzaSingleStringa(g, label, this);
+	}
+
+	/**
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * 
+	 * @param g
+	 * @return
+	 */
+	public int getAltezzaSingleStringa(final Graphics g) {
+		return getAltezzaSingleStringa(g, this);
 	}
 
 	@Override
-	public int getAltezzaSingleStringa(final Graphics g) throws ExceptionGraphics {
-		return componenteBase.getAltezzaSingleStringa(g, this);
+	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
+		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
 	}
 
 	@Override
-	public void settaStile() throws ExceptionGraphics {
+	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
+		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
+	}
+
+	@Override
+	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
 		style.setPadre(this);
 		this.setFont(style.getFont());
