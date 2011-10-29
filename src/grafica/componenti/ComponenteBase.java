@@ -57,9 +57,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
 		Object objForRepaint = parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
-		//		if (modelIsNull(objForRepaint, parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
-		//			return false;
-		//		}
+		if (parametri.length>1 && modelIsNull(objForRepaint, parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
+			return false;
+		}
 		if (objForRepaint == null) {
 			return false;
 		}
@@ -142,7 +142,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare) {
 		int larghezza = 0;
-		g = trovaUnGraphicsValido(g);
+		g = trovaUnGraphicsValido(g, compDaPosizionare);
 		if (g != null) {
 			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
 			larghezza = fm.stringWidth(label);
@@ -153,7 +153,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public int getAltezzaSingleStringa(Graphics g, final Component compDaPosizionare) {
 		int altezza = 0;
-		g = trovaUnGraphicsValido(g);
+		g = trovaUnGraphicsValido(g,compDaPosizionare);
 		if (g != null) {
 			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
 			altezza = fm.getHeight();
@@ -161,10 +161,10 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return altezza > ComponenteBase.HEIGHT_STRING_MIN ? altezza + 3 : ComponenteBase.HEIGHT_STRING_DEFAULT;
 	}
 
-	public Graphics trovaUnGraphicsValido(Graphics g) {
+	public Graphics trovaUnGraphicsValido(Graphics g, final Component compDaPosizionare) {
 		if (g == null) {
-			if (this.getParent() != null) {
-				g = this.getParent().getGraphics();
+			if (compDaPosizionare.getParent() != null) {
+				g = compDaPosizionare.getParent().getGraphics();
 			}
 			if (g == null) {
 				g = ControlloreBase.getApplicationGraphics2d();
