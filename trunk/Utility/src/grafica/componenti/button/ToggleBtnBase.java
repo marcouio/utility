@@ -3,7 +3,6 @@ package grafica.componenti.button;
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
 import grafica.componenti.StyleBase;
-import grafica.componenti.ToggleBtn;
 
 import java.awt.Component;
 import java.awt.Container;

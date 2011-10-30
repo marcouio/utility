@@ -1,6 +1,6 @@
 package grafica.componenti.pannelloBottoni;
 
-import grafica.componenti.ToggleBtn;
+import grafica.componenti.button.ToggleBtn;
 
 import java.awt.GridLayout;
 
