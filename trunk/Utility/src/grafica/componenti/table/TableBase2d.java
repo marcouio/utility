@@ -202,10 +202,6 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 		this.contenitorePadre = contenitorePadre;
 	}
 
-	public ComponenteBase getComponenteBase() {
-		return componenteBase;
-	}
-
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
 		return componenteBase.repaintCustomizzato(parametri);

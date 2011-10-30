@@ -202,13 +202,4 @@ public abstract class ScrollPaneBase extends JScrollPane implements IComponenteB
 		this.contenitorePadre = contenitorePadre;
 	}
 
-	public ContainerBase getContainerBase() {
-		return containerBase;
-	}
-
-	public ComponenteBase getComponenteBase() {
-		return componenteBase;
-	}
-
-
 }

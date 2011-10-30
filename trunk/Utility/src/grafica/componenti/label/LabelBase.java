@@ -74,10 +74,6 @@ public abstract class LabelBase extends JLabel implements IComponenteBase {
 		this.contenitorePadre = contenitorePadre;
 	}
 
-	public ComponenteBase getComponenteBase() {
-		return componenteBase;
-	}
-
 	/**
 	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
 	 * 
