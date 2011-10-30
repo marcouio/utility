@@ -1,4 +1,4 @@
-package grafica.componenti;
+package grafica.componenti.button;
 
 import java.awt.Color;
 import java.awt.Component;
