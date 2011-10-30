@@ -103,7 +103,7 @@ public interface IComponenteBase {
 	public int getAltezzaSingleStringa(final Graphics g, final Component compDaValutare);
 
 	/**
-	 * Ogni oggetto di base deve implementare tale metodo per settare il proprio stile. In più all'interno della classe 
+	 * Ogni oggetto di base deve implementare tale metodo per settare il proprio stile dall'xml. In più all'interno della classe 
 	 * deve essere creato un metodo (settaStileOverride)astratto da richiamare all'interno di questo metodo per 
 	 * prevedere l'estensione dello stile. Vedi esempio LabelBase. ATTENZIONE!!! il metodo dovrebbe essere privato e va 
 	 * richimato solo alla fine del metodo 'init', qualsiasi altro utilizzo non è sicuro.
