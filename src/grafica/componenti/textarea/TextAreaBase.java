@@ -209,8 +209,4 @@ public abstract class TextAreaBase extends JTextArea implements IComponenteBase 
 		this.contenitorePadre = contenitorePadre;
 	}
 
-	public ComponenteBase getComponenteBase() {
-		return componenteBase;
-	}
-
 }

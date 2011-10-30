@@ -30,10 +30,6 @@ public abstract class FrameBase extends JFrame implements IFrame, IComponenteBas
 		this.style = style;
 	}
 
-	public ComponenteBase getComponenteBase() {
-		return componenteBase;
-	}
-
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);

@@ -105,10 +105,6 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 		this.contenitorePadre = contenitorePadre;
 	}
 
-	public ComponenteBase getComponenteBase() {
-		return componenteBase;
-	}
-
 	/**
 	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
 	 * 
