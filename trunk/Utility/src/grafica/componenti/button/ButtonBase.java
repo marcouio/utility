@@ -49,17 +49,17 @@ public abstract class ButtonBase extends JButton implements IComponenteBase {
 	}
 
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBaseB();
+	protected StyleBase style = new StyleBase();
 	private final ComponenteBase componenteBase = new ComponenteBase();
 	private Container contenitorePadre;
 
 	@Override
 	public void init(Container contenitorePadre2, Component componenteFiglio){
 		componenteBase.init(contenitorePadre2, componenteFiglio);
+		this.settaStile();
 		int width = getLarghezzaSingleStringa(contenitorePadre2.getGraphics(), this.getText(), this);
 		int height = getAltezzaSingleStringa(contenitorePadre2.getGraphics(), this);
 		setSize(width, height);
-		this.settaStile();
 	}
 
 	@Override
@@ -188,6 +188,8 @@ public abstract class ButtonBase extends JButton implements IComponenteBase {
 		this.setBackground(style.getBackground());
 	}
 
-	protected abstract StyleBase settaStileOverride();
+	protected StyleBase settaStileOverride(){
+		return new StyleBaseB();
+	}
 
 }

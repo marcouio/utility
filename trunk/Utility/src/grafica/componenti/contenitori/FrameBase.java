@@ -15,7 +15,7 @@ public abstract class FrameBase extends JFrame implements IFrame, IComponenteBas
 
 	private final ContainerBase containerBase = new ContainerBase();
 	private final ComponenteBase componenteBase = new ComponenteBase();
-	protected StyleBase style = new StyleBaseFrame();
+	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 
 	public FrameBase() {
@@ -167,7 +167,9 @@ public abstract class FrameBase extends JFrame implements IFrame, IComponenteBas
 
 	}
 
-	protected abstract StyleBase settaStileOverride();
+	protected StyleBase settaStileOverride(){
+		return new StyleBaseFrame();
+	}
 
 	@Override
 	public int getMaxDimensionX() {
