@@ -15,15 +15,28 @@ public abstract class AscoltatoreBase implements ActionListener {
 
 	protected AggiornatoreBase aggiornatore;
 
-	public AscoltatoreBase(final String classe, final Object[] parametri, final IComponenteBase componente) {
+	public AscoltatoreBase(final String classe, final Object[] parametri) {
 		this.aggiornatore = (AggiornatoreBase) AggiornatoreManager.getSingleton().creaAggiornatore(classe);
-		this.aggiornatore.setComp(componente);
+		
+		if(parametri!=null && parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT]!=null){
+			if(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] instanceof IComponenteBase){
+				IComponenteBase componente = (IComponenteBase) parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
+				this.aggiornatore.setComp(componente);
+			}
+		}
 		this.aggiornatore.setParametri(parametri);
 	}
 
-	public AscoltatoreBase(final IAggiornatore aggiornatore, final Object[] parametri, final IComponenteBase componente) {
+	public AscoltatoreBase(final IAggiornatore aggiornatore, final Object[] parametri) {
 		this.aggiornatore = (AggiornatoreBase) aggiornatore;
-		this.aggiornatore.setComp(componente);
+		
+		if(parametri!=null && parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT]!=null){
+			if(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] instanceof IComponenteBase){
+				IComponenteBase componente = (IComponenteBase) parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
+				this.aggiornatore.setComp(componente);
+			}
+		}
+		
 		this.aggiornatore.setParametri(parametri);
 	}
 
