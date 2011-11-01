@@ -86,7 +86,6 @@ public class StyleBase {
 	}
 
 	public StyleBase(final Font font, final Color foreground, final Color background) {
-		super();
 		this.font = font;
 		this.foreground = foreground;
 		this.background = background;
@@ -101,7 +100,7 @@ public class StyleBase {
 			if (listaNodi != null) {
 				for (int i = 0; i < listaNodi.getLength(); i++) {
 					final Node nodo = listaNodi.item(i);
-					settaStileBase(nodo);
+					settaStileBase(nodo, this);
 				}
 			}
 		} catch (final Exception e) {
@@ -114,8 +113,8 @@ public class StyleBase {
 	 * aggiungere altri if else con relativi controlli alle proprietà e metodi per settarli
 	 * @param nodo
 	 */
-	private void settaStileBase(final Node nodo) {
-		if (nodo.getNodeName().equalsIgnoreCase(this.getClass().getSimpleName())) {
+	private void settaStileBase(final Node nodo,StyleBase stile) {
+		if (nodo.getNodeName().equalsIgnoreCase(stile.getClass().getSimpleName())) {
 			final NodeList figliNodoComponente = nodo.getChildNodes();
 			for (int x = 0; x < figliNodoComponente.getLength(); x++) {
 				final Node nodoComponente = figliNodoComponente.item(x);

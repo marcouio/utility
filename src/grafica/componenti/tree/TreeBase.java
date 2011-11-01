@@ -43,7 +43,7 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
-	protected StyleBase style = new StyleBaseTree();
+	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	private DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
 
@@ -444,6 +444,8 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 		this.setBackground(style.getBackground());
 	}
 
-	protected abstract StyleBase settaStileOverride();
+	protected StyleBase settaStileOverride(){
+		return new StyleBaseTree();
+	}
 
 }

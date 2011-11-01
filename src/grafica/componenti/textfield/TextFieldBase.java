@@ -16,7 +16,7 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 
 	private static final long serialVersionUID = 1L;
 	protected IFormatterTF formatter;
-	protected StyleBase style = new StyleBaseTF();
+	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
 
@@ -48,10 +48,10 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
+		this.settaStile();
 		int width = getLarghezzaSingleStringa(contenitorePadre2.getGraphics(), this.getText(), this);
 		int height = getAltezzaSingleStringa(contenitorePadre2.getGraphics(), this);
 		setSize(width, height);
-		this.settaStile();
 	}
 
 	@Override
@@ -63,7 +63,9 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 		this.setBackground(style.getBackground());
 	}
 
-	protected abstract StyleBase settaStileOverride();
+	protected StyleBase settaStileOverride(){
+		return new StyleBaseTF();
+	}
 
 	public Object getTestoConvertitoInTipo() {
 		final Object testoConvertito = null;

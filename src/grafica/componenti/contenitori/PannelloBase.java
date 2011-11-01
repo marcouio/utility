@@ -16,7 +16,7 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 
 	private Container contenitorePadre;
 	private final ContainerBase containerBase = new ContainerBase();
-	protected StyleBase style = new StyleBasePannello();
+	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	private final ComponenteBase componenteBase = new ComponenteBase();
 
@@ -179,7 +179,9 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 
 	}
 
-	protected abstract StyleBase settaStileOverride();
+	protected StyleBase settaStileOverride(){
+		return new StyleBasePannello(); 
+	}
 
 	public class StyleBasePannello extends StyleBase {
 

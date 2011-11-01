@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
+import messaggi.I18NManager;
+
 import command.CommandManager;
 
 public abstract class ControlloreBase {
@@ -32,6 +34,10 @@ public abstract class ControlloreBase {
 	public void setCommandManager(final CommandManager commandManager) {
 		this.commandManager = commandManager;
 	}
+	
+	public String getMessaggio(final String chiave) {
+		return I18NManager.getSingleton().getMessaggio(chiave);
+	}
 
 	public IUtente getUtenteLogin() {
 		return utenteLogin;
@@ -49,12 +55,13 @@ public abstract class ControlloreBase {
 	}
 
 	/**
-	 * Controlla se esiste sul db l'utente guest, altrimenti lo crea
+	 * Controlla se esiste sul db l'utente guest, altrimenti lo crea.
+	 * Se non serve, lascialo vuoto
 	 */
 	public abstract void setStartUtenteLogin();
 
 	/**
-	 * Verifica presenza del db
+	 * Verifica presenza del db. Se non necessari lasciarlo vuoto
 	 */
 	public abstract void verificaPresenzaDb();
 

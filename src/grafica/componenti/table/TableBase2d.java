@@ -23,7 +23,7 @@ import javax.swing.table.TableModel;
 
 public abstract class TableBase2d extends JTable implements FocusListener, IComponenteBase {
 
-	protected StyleBase style = new StyleBaseTable2d();
+	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
@@ -87,8 +87,8 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
-		this.generaDimensioniMinime();
 		this.settaStile();
+		this.generaDimensioniMinime();
 	}
 
 	public void generaDimensioniMinime() {
@@ -119,7 +119,9 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 		this.setBackground(style.getBackground());
 	}
 
-	public abstract StyleBase settaStileOverride();
+	public StyleBase settaStileOverride(){
+		return new StyleBaseTable2d();
+	}
 
 	@Override
 	public void focusGained(final FocusEvent arg0) {
