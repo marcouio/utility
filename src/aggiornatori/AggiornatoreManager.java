@@ -24,7 +24,7 @@ public class AggiornatoreManager {
 		try {
 			aggiornatore = classe != null ? (IAggiornatore) Class.forName(classe).newInstance() : new AggiornatoreBase();
 		} catch (final Exception e) {
-			e.printStackTrace();
+			aggiornatore = new AggiornatoreBase();
 		}
 		return aggiornatore;
 	}
