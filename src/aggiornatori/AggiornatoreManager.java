@@ -22,11 +22,10 @@ public class AggiornatoreManager {
 	public IAggiornatore creaAggiornatore(final String classe) {
 		IAggiornatore aggiornatore = null;
 		try {
-			aggiornatore = classe != null ? (IAggiornatore) Class.forName(classe).newInstance() : new AggiornatoreNull();
+			aggiornatore = classe != null ? (IAggiornatore) Class.forName(classe).newInstance() : new AggiornatoreBase();
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return aggiornatore;
 	}
-
 }
