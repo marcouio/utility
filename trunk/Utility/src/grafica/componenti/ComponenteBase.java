@@ -56,13 +56,10 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
+		if(!checkPreliminariForRepaint(parametri)){
+			return false;
+		}
 		Object objForRepaint = parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
-		if (parametri.length>1 && modelIsNull(objForRepaint, parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
-			return false;
-		}
-		if (objForRepaint == null) {
-			return false;
-		}
 		//JTREE
 		if (objForRepaint instanceof JTree) {
 			TreeModel treeModel = (DefaultTreeModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
@@ -90,13 +87,26 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
+	private boolean checkPreliminariForRepaint(final Object[] parametri) {
+		if(parametri == null || parametri.length == 0){
+			return false;
+		}
+		if (parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] == null) {
+			return false;
+		}
+		if (parametri.length>1 && modelIsNull(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT], parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
+			return false;
+		}
+		return true;
+	}
+
 	private boolean modelIsNull(final Object objForRepaint, final Object model) {
 		if (objForRepaint instanceof JTree || objForRepaint instanceof JComboBox || objForRepaint instanceof JTable) {
 			if (model == null) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override
