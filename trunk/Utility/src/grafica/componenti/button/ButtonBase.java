@@ -3,6 +3,7 @@ package grafica.componenti.button;
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
 import grafica.componenti.style.StyleBase;
+import grafica.componenti.UtilComponenti;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -11,9 +12,16 @@ import java.awt.Graphics;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class ButtonBase extends JButton implements IComponenteBase {
 
+	public static void main(String[] args) {
+		JPanel p = UtilComponenti.initContenitoreFrame(null);
+		ButtonBase b = new ButtonBase("button",p) {};
+		System.out.println(b.getFont().getSize());
+	}
+	
 	public ButtonBase(final Container contenitore) {
 		super();
 		this.contenitorePadre = contenitore;
