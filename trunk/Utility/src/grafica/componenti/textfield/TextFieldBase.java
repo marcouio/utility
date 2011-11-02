@@ -3,6 +3,7 @@ package grafica.componenti.textfield;
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
 import grafica.componenti.StyleBase;
+import grafica.componenti.UtilComponenti;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -10,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public abstract class TextFieldBase extends JTextField implements FocusListener, IComponenteBase {
@@ -21,8 +23,10 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 	private final ComponenteBase componenteBase = new ComponenteBase();
 
 	public static void main(final String[] args) {
-		//		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy");
-		//		System.out.println(tfb.getBackground());
+		JPanel p = UtilComponenti.initContenitoreFrame(null);
+		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy", p) {
+		};
+		System.out.println(tfb.getBackground());
 	}
 
 	public TextFieldBase(final String testo, final IFormatterTF formatter, final Container contenitore) {
@@ -63,8 +67,8 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 		this.setBackground(style.getBackground());
 	}
 
-	protected StyleBase settaStileOverride(){
-		return new StyleBaseTF();
+	protected StyleBase settaStileOverride() {
+		return new StyleBase("StyleBaseTF");
 	}
 
 	public Object getTestoConvertitoInTipo() {
@@ -93,10 +97,6 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 		if (this.getTestoConvertitoInTipo() == null) {
 			;
 		}
-	}
-
-	public class StyleBaseTF extends StyleBase {
-
 	}
 
 	public Container getContenitorePadre() {

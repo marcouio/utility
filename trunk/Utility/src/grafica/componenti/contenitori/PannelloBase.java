@@ -53,7 +53,7 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 	}
 
 	@Override
-	public boolean repaintCustomizzato(final Object[] parametri){
+	public boolean repaintCustomizzato(final Object[] parametri) {
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
@@ -179,12 +179,8 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 
 	}
 
-	protected StyleBase settaStileOverride(){
-		return new StyleBasePannello(); 
-	}
-
-	public class StyleBasePannello extends StyleBase {
-
+	protected StyleBase settaStileOverride() {
+		return new StyleBase("StyleBasePannello");
 	}
 
 	public Container getContenitorePadre() {

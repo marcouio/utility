@@ -14,12 +14,8 @@ import javax.swing.text.Document;
 
 public abstract class TextAreaBase extends JTextArea implements IComponenteBase {
 
-	public class StyleBaseTA extends StyleBase {
-
-	}
-
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBaseTA();
+	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
 
@@ -60,13 +56,13 @@ public abstract class TextAreaBase extends JTextArea implements IComponenteBase 
 	}
 
 	@Override
-	public void init(final Container contenitorePadre2, final Component componenteFiglio){
+	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		settaStile();
 	}
 
 	@Override
-	public boolean repaintCustomizzato(final Object[] parametri){
+	public boolean repaintCustomizzato(final Object[] parametri) {
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
@@ -191,7 +187,9 @@ public abstract class TextAreaBase extends JTextArea implements IComponenteBase 
 		this.setBackground(style.getBackground());
 	}
 
-	protected abstract StyleBase settaStileOverride();
+	protected StyleBase settaStileOverride() {
+		return new StyleBase("StyleBaseTA");
+	}
 
 	public StyleBase getStyle() {
 		return style;

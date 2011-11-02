@@ -36,10 +36,6 @@ public abstract class FrameBase extends JFrame implements IFrame, IComponenteBas
 		this.settaStile();
 	}
 
-	public class StyleBaseFrame extends StyleBase {
-
-	}
-
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
 		return componenteBase.repaintCustomizzato(parametri);
@@ -167,8 +163,8 @@ public abstract class FrameBase extends JFrame implements IFrame, IComponenteBas
 
 	}
 
-	protected StyleBase settaStileOverride(){
-		return new StyleBaseFrame();
+	protected StyleBase settaStileOverride() {
+		return new StyleBase("StyleBaseFrame");
 	}
 
 	@Override
