@@ -1,4 +1,6 @@
-package grafica.componenti;
+package grafica.componenti.style;
+
+import grafica.componenti.IComponenteBase;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -48,8 +50,11 @@ public class StyleBase {
 	private static final String FONTFAMILY = "font-family";
 	private static final String TYPE = "type";
 	private static final String SIZE = "size";
+	protected static final String VALUE = "value";
+	protected static final String STYLE = "style";
+	protected static final String NAME = "name";
 
-	private static final String DIMENSION = "dimension";
+	protected static final String DIMENSION = "dimension";
 	private static final String WIDTH = "width";
 	private static final String HEIGHT = "height";
 
@@ -107,18 +112,22 @@ public class StyleBase {
 	 * @param nodo
 	 */
 	protected void settaStileBase(final Node nodo, final String stile) {
-		if (nodo.getNodeName().equalsIgnoreCase(stile)) {
-			final NodeList figliNodoComponente = nodo.getChildNodes();
-			for (int x = 0; x < figliNodoComponente.getLength(); x++) {
-				final Node nodoComponente = figliNodoComponente.item(x);
-				if (nodoComponente.getNodeName().equals(FONT)) {
-					settaFont(nodo, this, nodoComponente);
-				} else if (nodoComponente.getNodeName().equals(BACKGROUND)) {
-					settaBackground(this, nodoComponente);
-				} else if (nodoComponente.getNodeName().equals(FOREGROUND)) {
-					settaForeground(this, nodoComponente);
-				} else if (nodoComponente.getNodeName().equals(DIMENSION)) {
-					settaDimension(this, nodoComponente);
+		if (nodo.getNodeName().equalsIgnoreCase(STYLE)) {
+			Element elementoStyle = UtilXml.getElement(nodo);
+			String nomeStile = elementoStyle.getAttribute(NAME);
+			if (nomeStile != null && nomeStile.equalsIgnoreCase(stile)) {
+				final NodeList figliNodoComponente = nodo.getChildNodes();
+				for (int x = 0; x < figliNodoComponente.getLength(); x++) {
+					final Node nodoComponente = figliNodoComponente.item(x);
+					if (nodoComponente.getNodeName().equals(FONT)) {
+						settaFont(nodo, this, nodoComponente);
+					} else if (nodoComponente.getNodeName().equals(BACKGROUND)) {
+						settaBackground(this, nodoComponente);
+					} else if (nodoComponente.getNodeName().equals(FOREGROUND)) {
+						settaForeground(this, nodoComponente);
+					} else if (nodoComponente.getNodeName().equals(DIMENSION)) {
+						settaDimension(this, nodoComponente);
+					}
 				}
 			}
 		}
@@ -132,10 +141,16 @@ public class StyleBase {
 	private void settaDimension(final StyleBase styleBase, final Node nodoComponente) {
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
-			final int height = Integer.parseInt(elemento.getAttribute(HEIGHT));
-			final int width = Integer.parseInt(elemento.getAttribute(WIDTH));
-			styleBase.setHeight(height);
-			styleBase.setWidth(width);
+			try {
+				int height = Integer.parseInt(elemento.getAttribute(HEIGHT));
+				int width = Integer.parseInt(elemento.getAttribute(WIDTH));
+				styleBase.setHeight(height);
+				styleBase.setWidth(width);
+			} catch (Exception e) {
+				styleBase.setHeight(0);
+				styleBase.setWidth(0);
+			}
+
 		}
 	}
 
@@ -159,7 +174,7 @@ public class StyleBase {
 							final int b = Integer.parseInt(elementoForeground.getAttribute(B));
 							style.setForeground(new Color(r, g, b));
 						} catch (final Exception e) {
-							e.printStackTrace();
+							style.setForeground(new Color(0, 0, 0));
 						}
 					}
 				}
@@ -190,7 +205,7 @@ public class StyleBase {
 							final int b = Integer.parseInt(elementoColorBackground.getAttribute(B));
 							style.setBackground(new Color(r, g, b));
 						} catch (final Exception e) {
-							e.printStackTrace();
+							style.setBackground(new Color(0, 0, 0));
 						}
 					}
 				}

@@ -2,7 +2,7 @@ package grafica.componenti.button;
 
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public abstract class ToggleBtnBase extends ToggleBtn implements IComponenteBase {
+public class ToggleBtnBase extends ToggleBtn implements IComponenteBase {
 
 	public ToggleBtnBase(final ImageIcon icon, final Container contenitore) {
 		super(icon);
@@ -177,10 +177,7 @@ public abstract class ToggleBtnBase extends ToggleBtn implements IComponenteBase
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
+		componenteBase.settaStile(style, this);
 	}
 
 	protected StyleBase settaStileOverride() {

@@ -1,6 +1,6 @@
 package grafica.componenti.label;
 
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Container;
 

@@ -2,7 +2,7 @@ package grafica.componenti.table;
 
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -21,7 +21,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-public abstract class TableBase2d extends JTable implements FocusListener, IComponenteBase {
+public class TableBase2d extends JTable implements FocusListener, IComponenteBase {
 
 	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
@@ -113,10 +113,7 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
+		componenteBase.settaStile(style, this);
 	}
 
 	public StyleBase settaStileOverride() {

@@ -1,6 +1,7 @@
 package grafica.componenti;
 
 import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -15,9 +16,11 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 
+import xml.CoreXMLManager;
 import controller.ControlloreBase;
 
 /**
@@ -56,7 +59,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		if(!checkPreliminariForRepaint(parametri)){
+		if (!checkPreliminariForRepaint(parametri)) {
 			return false;
 		}
 		Object objForRepaint = parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
@@ -88,13 +91,15 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	private boolean checkPreliminariForRepaint(final Object[] parametri) {
-		if(parametri == null || parametri.length == 0){
+		if (parametri == null || parametri.length == 0) {
 			return false;
 		}
 		if (parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] == null) {
 			return false;
 		}
-		if (parametri.length>1 && modelIsNull(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT], parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
+		if (parametri.length > 1
+				&& modelIsNull(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT],
+						parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
 			return false;
 		}
 		return true;
@@ -153,7 +158,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare) {
 		int larghezza = 0;
 		g = trovaUnGraphicsValido(g, compDaPosizionare);
-		if (g != null) {
+		if (g != null && compDaPosizionare.getFont() != null) {
 			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
 			larghezza = fm.stringWidth(label);
 		}
@@ -163,8 +168,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public int getAltezzaSingleStringa(Graphics g, final Component compDaPosizionare) {
 		int altezza = 0;
-		g = trovaUnGraphicsValido(g,compDaPosizionare);
-		if (g != null) {
+		g = trovaUnGraphicsValido(g, compDaPosizionare);
+		if (g != null && compDaPosizionare.getFont() != null) {
 			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
 			altezza = fm.getHeight();
 		}
@@ -193,4 +198,33 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		}
 	}
 
+	public void settaStile(final StyleBase style, final IComponenteBase padre) {
+		style.setPadre(padre);
+		Component padreComponent = ((Component) padre);
+		padreComponent.setFont(style.getFont());
+		padreComponent.setForeground(style.getForeground());
+		padreComponent.setBackground(style.getBackground());
+		padreComponent.setSize(style.getWidth(), style.getHeight());
+		if (CoreXMLManager.getSingleton().isAutoConfig()) {
+			if (ihaveToSetDimension(style, padreComponent)) {
+				String text = ((JTextComponent) padreComponent).getText();
+				int width = getLarghezzaSingleStringa(padreComponent.getGraphics(), text, padreComponent);
+				int height = getAltezzaSingleStringa(padreComponent.getGraphics(), padreComponent);
+				padreComponent.setSize(width, height);
+			}
+		}
+	}
+
+	public boolean ihaveToSetDimension(final StyleBase style, final Component padreComponent) {
+		if (padreComponent instanceof JTextComponent) {
+			if (style.getWidth() == 0 && style.getHeight() == 0) {
+				if ((padreComponent.getWidth() != 0 && padreComponent.getHeight() != 0)) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

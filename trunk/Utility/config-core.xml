@@ -8,4 +8,5 @@
 	<messaggi>
 		<file nome="messaggi"></file>
 	</messaggi>
+	<auto-config value="true"></auto-config>	
 </configs>

@@ -2,8 +2,8 @@ package grafica.componenti.textfield;
 
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.StyleBase;
 import grafica.componenti.UtilComponenti;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -14,7 +14,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public abstract class TextFieldBase extends JTextField implements FocusListener, IComponenteBase {
+public class TextFieldBase extends JTextField implements FocusListener, IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
 	protected IFormatterTF formatter;
@@ -24,9 +24,10 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 
 	public static void main(final String[] args) {
 		JPanel p = UtilComponenti.initContenitoreFrame(null);
-		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy", p) {
-		};
+		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy", p);
 		System.out.println(tfb.getBackground());
+		System.out.println(tfb.getWidth());
+		System.out.println(tfb.getHeight());
 	}
 
 	public TextFieldBase(final String testo, final IFormatterTF formatter, final Container contenitore) {
@@ -53,18 +54,12 @@ public abstract class TextFieldBase extends JTextField implements FocusListener,
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
 		this.settaStile();
-		int width = getLarghezzaSingleStringa(contenitorePadre2.getGraphics(), this.getText(), this);
-		int height = getAltezzaSingleStringa(contenitorePadre2.getGraphics(), this);
-		setSize(width, height);
 	}
 
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
+		componenteBase.settaStile(style, this);
 	}
 
 	protected StyleBase settaStileOverride() {
