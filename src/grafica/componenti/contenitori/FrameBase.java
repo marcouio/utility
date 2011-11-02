@@ -3,7 +3,7 @@ package grafica.componenti.contenitori;
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
 import grafica.componenti.IFrame;
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -11,7 +11,7 @@ import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
-public abstract class FrameBase extends JFrame implements IFrame, IComponenteBase, IContainerBase {
+public class FrameBase extends JFrame implements IFrame, IComponenteBase, IContainerBase {
 
 	private final ContainerBase containerBase = new ContainerBase();
 	private final ComponenteBase componenteBase = new ComponenteBase();
@@ -156,11 +156,7 @@ public abstract class FrameBase extends JFrame implements IFrame, IComponenteBas
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
-
+		componenteBase.settaStile(style, this);
 	}
 
 	protected StyleBase settaStileOverride() {

@@ -1,6 +1,6 @@
 package grafica.componenti.textfield.data;
 
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 import grafica.componenti.textfield.TextFieldBase;
 
 import java.awt.Container;

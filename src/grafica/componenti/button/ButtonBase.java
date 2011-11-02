@@ -2,7 +2,7 @@ package grafica.componenti.button;
 
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -12,7 +12,7 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
-public abstract class ButtonBase extends JButton implements IComponenteBase {
+public class ButtonBase extends JButton implements IComponenteBase {
 
 	public ButtonBase(final Container contenitore) {
 		super();
@@ -177,10 +177,7 @@ public abstract class ButtonBase extends JButton implements IComponenteBase {
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
+		componenteBase.settaStile(style, this);
 	}
 
 	protected StyleBase settaStileOverride() {

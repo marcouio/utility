@@ -1,6 +1,6 @@
 package grafica.componenti.textfield.testo;
 
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 import grafica.componenti.textfield.IFormatterTF;
 import grafica.componenti.textfield.TextFieldBase;
 

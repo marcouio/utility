@@ -1,7 +1,7 @@
 package grafica.componenti.table;
 
-import grafica.componenti.StyleBase;
 import grafica.componenti.UtilComponenti;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.FlowLayout;
 

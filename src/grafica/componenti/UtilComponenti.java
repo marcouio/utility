@@ -1,6 +1,7 @@
 package grafica.componenti;
 
 import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;

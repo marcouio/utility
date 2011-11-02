@@ -1,9 +1,9 @@
 package grafica.compComplessi;
 
 import grafica.componenti.ExceptionGraphics;
-import grafica.componenti.StyleBase;
 import grafica.componenti.contenitori.PannelloBase;
 import grafica.componenti.label.Label;
+import grafica.componenti.style.StyleBase;
 import grafica.componenti.textfield.TextFieldBase;
 import grafica.componenti.textfield.testo.TextFieldTesto;
 

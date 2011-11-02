@@ -1,9 +1,9 @@
 package grafica.componenti.textarea;
 
 import grafica.componenti.ComponenteBase;
-import grafica.componenti.ExceptionGraphics;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
+import grafica.componenti.style.StyleTextArea;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -12,33 +12,33 @@ import java.awt.Graphics;
 import javax.swing.JTextArea;
 import javax.swing.text.Document;
 
-public abstract class TextAreaBase extends JTextArea implements IComponenteBase {
+public class TextAreaBase extends JTextArea implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBase();
+	protected StyleBase style = new StyleTextArea();
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
 
-	public TextAreaBase(final Container contenitore) throws ExceptionGraphics {
+	public TextAreaBase(final Container contenitore) {
 		super();
 		this.contenitorePadre = contenitore;
 		init(contenitorePadre, this);
 	}
 
 	public TextAreaBase(final Document doc, final String text, final int rows, final int columns,
-			final Container contenitore) throws ExceptionGraphics {
+			final Container contenitore) {
 		super(doc, text, rows, columns);
 		this.contenitorePadre = contenitore;
 		init(contenitorePadre, this);
 	}
 
-	public TextAreaBase(final Document doc, final Container contenitore) throws ExceptionGraphics {
+	public TextAreaBase(final Document doc, final Container contenitore) {
 		super(doc);
 		this.contenitorePadre = contenitore;
 		init(contenitorePadre, this);
 	}
 
-	public TextAreaBase(final int rows, final int columns, final Container contenitore) throws ExceptionGraphics {
+	public TextAreaBase(final int rows, final int columns, final Container contenitore) {
 		super(rows, columns);
 		this.contenitorePadre = contenitore;
 		init(contenitorePadre, this);
@@ -49,7 +49,7 @@ public abstract class TextAreaBase extends JTextArea implements IComponenteBase 
 		this.contenitorePadre = contenitore;
 	}
 
-	public TextAreaBase(final String text, final Container contenitore) throws ExceptionGraphics {
+	public TextAreaBase(final String text, final Container contenitore) {
 		super(text);
 		this.contenitorePadre = contenitore;
 		init(contenitorePadre, this);
@@ -181,14 +181,18 @@ public abstract class TextAreaBase extends JTextArea implements IComponenteBase 
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
+		StyleTextArea styleTextArea = (StyleTextArea) style;
+		componenteBase.settaStile(styleTextArea, this);
+		this.setLineWrap(styleTextArea.isLineWrap());
+		this.setWrapStyleWord(styleTextArea.isWrapStyleWord());
+		this.setAutoscrolls(styleTextArea.isAutoscroll());
+		this.setRows(styleTextArea.getRows());
+		this.setColumns(styleTextArea.getColumns());
 	}
 
 	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseTA");
+		return null;
+		//		return new StyleTextArea("StyleBaseTA");
 	}
 
 	public StyleBase getStyle() {

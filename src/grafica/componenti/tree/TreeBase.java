@@ -2,7 +2,7 @@ package grafica.componenti.tree;
 
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -39,7 +39,7 @@ import disegno.immagini.UtilImage;
  * 
  * @author marco.molinari
  */
-public abstract class TreeBase extends JTree implements TreeSelectionListener, IComponenteBase {
+public class TreeBase extends JTree implements TreeSelectionListener, IComponenteBase {
 
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
@@ -434,10 +434,7 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
+		componenteBase.settaStile(style, this);
 	}
 
 	protected StyleBase settaStileOverride() {

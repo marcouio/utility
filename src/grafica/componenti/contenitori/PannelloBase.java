@@ -3,7 +3,7 @@ package grafica.componenti.contenitori;
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.ExceptionGraphics;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -12,7 +12,7 @@ import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
 
-public abstract class PannelloBase extends JPanel implements IComponenteBase, IContainerBase {
+public class PannelloBase extends JPanel implements IComponenteBase, IContainerBase {
 
 	private Container contenitorePadre;
 	private final ContainerBase containerBase = new ContainerBase();
@@ -172,11 +172,7 @@ public abstract class PannelloBase extends JPanel implements IComponenteBase, IC
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
-
+		componenteBase.settaStile(style, this);
 	}
 
 	protected StyleBase settaStileOverride() {

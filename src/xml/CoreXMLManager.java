@@ -10,7 +10,7 @@ import org.w3c.dom.NodeList;
 public class CoreXMLManager {
 
 	private static final String XMLCOREPATH = "./config-core.xml";
-	private Document            doc;
+	private Document doc;
 
 	private CoreXMLManager() {
 		try {
@@ -33,6 +33,9 @@ public class CoreXMLManager {
 		return singleton;
 	}
 
+	/**
+	 * @return il codice della lingua impostata come "Locale"
+	 */
 	public String getLanguage() {
 		Node nodo = UtilXml.getNodo("lang", doc);
 		Element elemento = UtilXml.getElement(nodo);
@@ -42,6 +45,21 @@ public class CoreXMLManager {
 		return null;
 	}
 
+	/**
+	 * @return true se è impostata la modalità di autoconfigurazione
+	 */
+	public boolean isAutoConfig() {
+		Node nodo = UtilXml.getNodo("auto-config", doc);
+		Element elemento = UtilXml.getElement(nodo);
+		if (elemento != null) {
+			return new Boolean(elemento.getAttribute("value")).booleanValue();
+		}
+		return false;
+	}
+
+	/**
+	 * @return path del file di style in formato stringa
+	 */
 	public String getXMLStyleFilePath() {
 		Node nodo = UtilXml.getNodo("style", doc);
 		NodeList listaFigli = nodo.getChildNodes();
@@ -57,6 +75,9 @@ public class CoreXMLManager {
 		return null;
 	}
 
+	/**
+	 * @return il nome del file dei messaggi
+	 */
 	public String getFileMessaggiName() {
 		Node nodo = UtilXml.getNodo("messaggi", doc);
 		NodeList listaFigli = nodo.getChildNodes();

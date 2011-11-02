@@ -2,20 +2,45 @@ package grafica.componenti.label;
 
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.StyleBase;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 
-public abstract class LabelBase extends JLabel implements IComponenteBase {
+public class LabelBase extends JLabel implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
 	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase();
+
+	public LabelBase(final Icon image, final int horizontalAlignment, final Container contenitorePadre) {
+		super(image, horizontalAlignment);
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
+	}
+
+	public LabelBase(final Icon image, final Container contenitorePadre) {
+		super(image);
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
+	}
+
+	public LabelBase(final String text, final Icon icon, final int horizontalAlignment, final Container contenitorePadre) {
+		super(text, icon, horizontalAlignment);
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
+	}
+
+	public LabelBase(final String text, final int horizontalAlignment, final Container contenitorePadre) {
+		super(text, horizontalAlignment);
+		this.contenitorePadre = contenitorePadre;
+		init(contenitorePadre, this);
+	}
 
 	public LabelBase(final Container contenitorePadre) {
 		super();
@@ -32,10 +57,7 @@ public abstract class LabelBase extends JLabel implements IComponenteBase {
 	@Override
 	public void settaStile() {
 		style = settaStileOverride() != null ? settaStileOverride() : style;
-		style.setPadre(this);
-		this.setFont(style.getFont());
-		this.setForeground(style.getForeground());
-		this.setBackground(style.getBackground());
+		componenteBase.settaStile(style, this);
 	}
 
 	protected StyleBase settaStileOverride() {
