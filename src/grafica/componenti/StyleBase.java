@@ -77,12 +77,16 @@ public class StyleBase {
 	private Component padre;
 
 	public static void main(final String[] args) {
-		final StyleBase base = new StyleBase();
-		System.out.println(base.getBackground());
+		//		final StyleBase base = new StyleBase();
+		//		System.out.println(base.getBackground());
 	}
 
 	public StyleBase() {
-		caricaInfoStyleBase();
+		caricaInfoStyleBase("stylebase");
+	}
+
+	public StyleBase(final String stile) {
+		caricaInfoStyleBase(stile);
 	}
 
 	public StyleBase(final Font font, final Color foreground, final Color background) {
@@ -93,14 +97,15 @@ public class StyleBase {
 
 	/**
 	 * Scorre tutti i nodi e delega al metodo 'settaStileBase' il compito di settare lo stile per ogni nodo
+	 * @param stile 
 	 */
-	private void caricaInfoStyleBase() {
+	private void caricaInfoStyleBase(final String stile) {
 		try {
 			final NodeList listaNodi = UtilXml.getNodeList(CoreXMLManager.getSingleton().getXMLStyleFilePath());
 			if (listaNodi != null) {
 				for (int i = 0; i < listaNodi.getLength(); i++) {
 					final Node nodo = listaNodi.item(i);
-					settaStileBase(nodo, this);
+					settaStileBase(nodo, stile);
 				}
 			}
 		} catch (final Exception e) {
@@ -113,8 +118,8 @@ public class StyleBase {
 	 * aggiungere altri if else con relativi controlli alle proprietà e metodi per settarli
 	 * @param nodo
 	 */
-	private void settaStileBase(final Node nodo,StyleBase stile) {
-		if (nodo.getNodeName().equalsIgnoreCase(stile.getClass().getSimpleName())) {
+	private void settaStileBase(final Node nodo, final String stile) {
+		if (nodo.getNodeName().equalsIgnoreCase(stile)) {
 			final NodeList figliNodoComponente = nodo.getChildNodes();
 			for (int x = 0; x < figliNodoComponente.getLength(); x++) {
 				final Node nodoComponente = figliNodoComponente.item(x);

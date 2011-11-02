@@ -38,12 +38,8 @@ public abstract class LabelBase extends JLabel implements IComponenteBase {
 		this.setBackground(style.getBackground());
 	}
 
-	protected StyleBase settaStileOverride(){
-		return new StyleBaseL();
-	}
-
-	public class StyleBaseL extends StyleBase {
-		
+	protected StyleBase settaStileOverride() {
+		return new StyleBase("StyleBaseL");
 	}
 
 	@Override

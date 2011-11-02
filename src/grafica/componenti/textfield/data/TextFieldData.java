@@ -39,13 +39,9 @@ public class TextFieldData extends TextFieldBase {
 		this.formatter = new FormatterData(format);
 	}
 
-	public class StyleTFData extends StyleBaseTF {
-
-	}
-
 	@Override
 	protected StyleBase settaStileOverride() {
-		return new StyleTFData();
+		return new StyleBase("StyleTFData");
 	}
 
 }

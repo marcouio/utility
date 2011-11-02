@@ -20,10 +20,6 @@ public class LabelTestoMoltoPiccolo extends LabelTestoPiccolo {
 		super(string, contenitorePadre);
 	}
 
-	public class StyleBaseLTMP extends StyleBaseL {
-
-	}
-
 	public static void main(final String[] args) {
 		final JPanel panel = UtilComponenti.initContenitoreFrame(null);
 		final JLabel label = new JLabel("Label");
@@ -37,7 +33,7 @@ public class LabelTestoMoltoPiccolo extends LabelTestoPiccolo {
 
 	@Override
 	protected StyleBase settaStileOverride() {
-		return new StyleBaseLTMP();
+		return new StyleBase("StyleBaseLTMP");
 	}
 
 }

@@ -119,8 +119,8 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 		this.setBackground(style.getBackground());
 	}
 
-	public StyleBase settaStileOverride(){
-		return new StyleBaseTable2d();
+	public StyleBase settaStileOverride() {
+		return new StyleBase("StyleBaseTable2d");
 	}
 
 	@Override
@@ -189,10 +189,6 @@ public abstract class TableBase2d extends JTable implements FocusListener, IComp
 			}
 		};
 		return dtcr;
-
-	}
-
-	public class StyleBaseTable2d extends StyleBase {
 
 	}
 

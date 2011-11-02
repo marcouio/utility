@@ -223,10 +223,6 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 		}
 	}
 
-	public class StyleBaseTree extends StyleBase {
-
-	}
-
 	public Component getContenitorePadre() {
 		return contenitorePadre;
 	}
@@ -444,8 +440,8 @@ public abstract class TreeBase extends JTree implements TreeSelectionListener, I
 		this.setBackground(style.getBackground());
 	}
 
-	protected StyleBase settaStileOverride(){
-		return new StyleBaseTree();
+	protected StyleBase settaStileOverride() {
+		return new StyleBase("StyleBaseTree");
 	}
 
 }
