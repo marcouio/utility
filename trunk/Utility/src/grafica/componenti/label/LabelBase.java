@@ -56,8 +56,11 @@ public class LabelBase extends JLabel implements IComponenteBase {
 
 	@Override
 	public void settaStile() {
-		style = settaStileOverride() != null ? settaStileOverride() : style;
 		componenteBase.settaStile(style, this);
+		if (settaStileOverride() != null) {
+			style = settaStileOverride();
+			componenteBase.settaStile(style, this);
+		}
 	}
 
 	protected StyleBase settaStileOverride() {
