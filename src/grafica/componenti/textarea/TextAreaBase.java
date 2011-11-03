@@ -180,9 +180,12 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 
 	@Override
 	public void settaStile() {
-		style = settaStileOverride() != null ? settaStileOverride() : style;
 		StyleTextArea styleTextArea = (StyleTextArea) style;
-		componenteBase.settaStile(styleTextArea, this);
+		componenteBase.settaStile(style, this);
+		if (settaStileOverride() != null) {
+			style = settaStileOverride();
+			componenteBase.settaStile(styleTextArea, this);
+		}
 		this.setLineWrap(styleTextArea.isLineWrap());
 		this.setWrapStyleWord(styleTextArea.isWrapStyleWord());
 		this.setAutoscrolls(styleTextArea.isAutoscroll());

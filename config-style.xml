@@ -10,6 +10,7 @@
 			<color r="255" g="255" b="255"></color>
 		</background>
 		<dimensionarea rows="60" columns="60" />
+		<dimension width="101" height="131"/> 
 	</style>
 	
 	<style name="stylebasetf">
