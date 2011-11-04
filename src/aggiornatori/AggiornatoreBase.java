@@ -3,17 +3,17 @@ package aggiornatori;
 import grafica.componenti.IComponenteBase;
 
 public class AggiornatoreBase implements IAggiornatore {
-	
-	private Object[] parametri;
-	private IComponenteBase comp;
-	
+
+	protected Object[] parametri;
+	protected IComponenteBase comp;
+
 	public AggiornatoreBase() {
 	}
 
 	@Override
 	public boolean aggiorna() {
-		if(comp!=null){
-			if(comp.repaintCustomizzato(parametri)){
+		if (comp != null) {
+			if (comp.repaintCustomizzato(parametri)) {
 				return true;
 			}
 		}
@@ -24,7 +24,7 @@ public class AggiornatoreBase implements IAggiornatore {
 		return parametri;
 	}
 
-	public void setParametri(Object[] parametri) {
+	public void setParametri(final Object[] parametri) {
 		this.parametri = parametri;
 	}
 
@@ -32,7 +32,7 @@ public class AggiornatoreBase implements IAggiornatore {
 		return comp;
 	}
 
-	public void setComp(IComponenteBase comp) {
+	public void setComp(final IComponenteBase comp) {
 		this.comp = comp;
 	}
 

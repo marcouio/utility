@@ -16,7 +16,7 @@ public abstract class AscoltatoreBase implements ActionListener {
 	protected AggiornatoreBase aggiornatore;
 
 	public AscoltatoreBase(final String classe, final Object[] parametri) {
-		this.aggiornatore = (AggiornatoreBase) AggiornatoreManager.getSingleton().creaAggiornatore(classe);
+		this.aggiornatore = (AggiornatoreBase) AggiornatoreManager.getSingleton().creaAggiornatoreByClasse(classe);
 		
 		if(parametri!=null && parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT]!=null){
 			if(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] instanceof IComponenteBase){
