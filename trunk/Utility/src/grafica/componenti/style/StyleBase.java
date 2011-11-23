@@ -68,6 +68,7 @@ public class StyleBase {
 	private IComponenteBase padre;
 	private int width;
 	private int height;
+	private boolean trovato;
 
 	public static void main(final String[] args) {
 		//		final StyleBase base = new StyleBase();
@@ -116,6 +117,7 @@ public class StyleBase {
 			Element elementoStyle = UtilXml.getElement(nodo);
 			String nomeStile = elementoStyle.getAttribute(NAME);
 			if (nomeStile != null && nomeStile.equalsIgnoreCase(stile)) {
+				trovato = true;
 				final NodeList figliNodoComponente = nodo.getChildNodes();
 				for (int x = 0; x < figliNodoComponente.getLength(); x++) {
 					final Node nodoComponente = figliNodoComponente.item(x);
@@ -280,6 +282,14 @@ public class StyleBase {
 
 	public void setHeight(final int height) {
 		this.height = height;
+	}
+
+	public boolean isTrovato() {
+		return trovato;
+	}
+
+	public void setTrovato(boolean trovato) {
+		this.trovato = trovato;
 	}
 
 }
