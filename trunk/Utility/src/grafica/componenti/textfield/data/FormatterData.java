@@ -1,6 +1,6 @@
 package grafica.componenti.textfield.data;
 
-import grafica.componenti.Alert;
+import grafica.componenti.alert.Alert;
 import grafica.componenti.textfield.IFormatterTF;
 
 import java.text.SimpleDateFormat;

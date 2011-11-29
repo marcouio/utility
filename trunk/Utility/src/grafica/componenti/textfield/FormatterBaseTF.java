@@ -1,6 +1,6 @@
 package grafica.componenti.textfield;
 
-import grafica.componenti.Alert;
+import grafica.componenti.alert.Alert;
 
 public class FormatterBaseTF implements IFormatterTF {
 

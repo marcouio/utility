@@ -1,4 +1,4 @@
-package grafica.componenti;
+package grafica.componenti.alert;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;

@@ -1,6 +1,6 @@
 package grafica.componenti.tree;
 
-import grafica.componenti.Alert;
+import grafica.componenti.alert.Alert;
 
 import java.util.ArrayList;
 
