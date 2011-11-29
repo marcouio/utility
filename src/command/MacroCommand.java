@@ -6,7 +6,9 @@ import java.util.Iterator;
 public class MacroCommand extends AbstractCommand {
 
 	ArrayList<AbstractCommand> listaComandiInterna = new ArrayList<AbstractCommand>();
+	private int indiceCorrente = 0;
 	
+
 	public void add(final AbstractCommand comando) {
 		listaComandiInterna.add(comando);
 	}
@@ -25,22 +27,32 @@ public class MacroCommand extends AbstractCommand {
 	
 	@Override
 	public boolean execute() {
+		boolean ok = true;
 		for (Iterator<AbstractCommand> iterator = listaComandiInterna.iterator(); iterator.hasNext();) {
 			AbstractCommand comando = (AbstractCommand) iterator.next();
-			comando.execute();
-			return true;
+			if(!comando.execute()){
+				ok = false;
+				break;
+			}else{
+				indiceCorrente++;
+			}
 		}
-		return false;
+		return ok;
 	}
 
 	@Override
 	public boolean unExecute() {
+		boolean ok = true;
 		for (Iterator<AbstractCommand> iterator = listaComandiInterna.iterator(); iterator.hasNext();) {
 			AbstractCommand comando = (AbstractCommand) iterator.next();
-			comando.unExecute();
-			return true;
+			if(!comando.unExecute()){
+				ok = false;
+				break;
+			}else{
+				indiceCorrente--;
+			}
 		}
-		return false;
+		return ok;
 	}
 
 	@Override
@@ -55,4 +67,11 @@ public class MacroCommand extends AbstractCommand {
 
 	}
 
+	public ArrayList<AbstractCommand> getListaComandiInterna() {
+		return listaComandiInterna;
+	}
+	
+	public int getIndiceCorrente() {
+		return indiceCorrente;
+	}
 }
