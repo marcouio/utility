@@ -2,8 +2,8 @@ package grafica.componenti.button;
 
 import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
-import grafica.componenti.style.StyleBase;
 import grafica.componenti.UtilComponenti;
+import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -16,12 +16,12 @@ import javax.swing.JPanel;
 
 public class ButtonBase extends JButton implements IComponenteBase {
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		JPanel p = UtilComponenti.initContenitoreFrame(null);
-		ButtonBase b = new ButtonBase("button",p) {};
+		ButtonBase b = new ButtonBase("button", p);
 		System.out.println(b.getFont().getSize());
 	}
-	
+
 	public ButtonBase(final Container contenitore) {
 		super();
 		this.contenitorePadre = contenitore;
@@ -72,31 +72,23 @@ public class ButtonBase extends JButton implements IComponenteBase {
 	}
 
 	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
-		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				compDaPosizionare);
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
-		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
-				compDaPosizionare);
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component compDaPosizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
-		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				compDaPosizionare);
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
-		return componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				compDaPosizionare);
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
+		return componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
@@ -117,8 +109,7 @@ public class ButtonBase extends JButton implements IComponenteBase {
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -130,8 +121,7 @@ public class ButtonBase extends JButton implements IComponenteBase {
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -143,8 +133,7 @@ public class ButtonBase extends JButton implements IComponenteBase {
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -156,8 +145,7 @@ public class ButtonBase extends JButton implements IComponenteBase {
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 

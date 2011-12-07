@@ -8,29 +8,29 @@ import javax.swing.JPanel;
 public class Bottone extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private AbstractButton    bottone;
-	private PannelloBottoni   contenuto;
-	private boolean           isEspanso;
+	private AbstractButton bottone;
+	private PannelloBottoni contenuto;
+	private boolean isEspanso;
 
-	public static final int   RIEMPITO         = 0;
+	public static final int RIEMPITO = 0;
 
 	public Bottone() {
 		init();
 	}
 
-	public Bottone(AbstractButton bottone) {
+	public Bottone(final AbstractButton bottone) {
 		init();
 		this.bottone = bottone;
 		this.add(bottone);
 	}
 
-	public Bottone(PannelloBottoni contenuto) {
+	public Bottone(final PannelloBottoni contenuto) {
 		init();
 		this.contenuto = contenuto;
 		this.add(contenuto);
 	}
 
-	public Bottone(PannelloBottoni contenuto, AbstractButton bottone) {
+	public Bottone(final PannelloBottoni contenuto, final AbstractButton bottone) {
 		init();
 		this.contenuto = contenuto;
 		this.bottone = bottone;
@@ -64,7 +64,7 @@ public class Bottone extends JPanel {
 		return bottone;
 	}
 
-	protected void setBottone(AbstractButton bottone) {
+	protected void setBottone(final AbstractButton bottone) {
 		this.bottone = bottone;
 	}
 
@@ -72,18 +72,22 @@ public class Bottone extends JPanel {
 		return contenuto;
 	}
 
-	protected void setContenuto(PannelloBottoni contenuto) {
+	protected void setContenuto(final PannelloBottoni contenuto) {
 		this.contenuto = contenuto;
 		add(contenuto);
 		this.contenuto.setVisible(false);
 	}
 
-	public void setEspanso(boolean isEspanso) {
+	public void setEspanso(final boolean isEspanso) {
 		this.isEspanso = isEspanso;
 	}
 
 	public boolean isEspanso() {
 		return isEspanso;
+	}
+
+	public static void main(final String[] args) {
+		System.out.println(Math.round(Math.random() * 6) + 1);
 	}
 
 }

@@ -65,31 +65,23 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	}
 
 	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
-		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				compDaPosizionare);
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
-		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
-				compDaPosizionare);
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component compDaPosizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
-		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				compDaPosizionare);
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
-		return componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				compDaPosizionare);
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
+		return componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
@@ -144,8 +136,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -157,8 +148,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -170,8 +160,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -183,8 +172,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -194,6 +182,11 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 
 	public void setContenitorePadre(final Container contenitorePadre) {
 		this.contenitorePadre = contenitorePadre;
+	}
+
+	@Override
+	public ContainerBase getContainerBase() {
+		return containerBase;
 	}
 
 }
