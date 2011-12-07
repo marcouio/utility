@@ -1,9 +1,9 @@
 package grafica.componenti.alert;
 
-import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
 import grafica.componenti.UtilComponenti;
 import grafica.componenti.button.ButtonBase;
+import grafica.componenti.componenteBase.ComponenteBase;
 import grafica.componenti.contenitori.ContainerBase;
 import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.IContainerBase;

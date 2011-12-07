@@ -1,5 +1,7 @@
-package grafica.componenti;
+package grafica.componenti.componenteBase;
 
+import grafica.componenti.ExceptionGraphics;
+import grafica.componenti.IComponenteBase;
 import grafica.componenti.alert.DialogoBase;
 import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.ScrollPaneBase;

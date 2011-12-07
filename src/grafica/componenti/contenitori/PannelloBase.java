@@ -1,8 +1,8 @@
 package grafica.componenti.contenitori;
 
-import grafica.componenti.ComponenteBase;
 import grafica.componenti.ExceptionGraphics;
 import grafica.componenti.IComponenteBase;
+import grafica.componenti.componenteBase.ComponenteBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
