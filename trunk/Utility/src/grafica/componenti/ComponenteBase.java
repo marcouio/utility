@@ -1,6 +1,8 @@
 package grafica.componenti;
 
+import grafica.componenti.alert.DialogoBase;
 import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.ScrollPaneBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
@@ -38,13 +40,31 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public static final int WIDTH_STRING_MIN = 5;
 	public static final int HEIGHT_STRING_MIN = 5;
 
+	/**
+	 * Se parametri non sono null aggiunge il component nel container
+	 * @param contenitorePadre2
+	 * @param componenteFiglio
+	 */
 	public void aggiungiAlContenitore(final Container contenitorePadre2, final Component componenteFiglio) {
-		if (contenitorePadre2 instanceof FrameBase) {
-			((FrameBase) contenitorePadre2).getContentPane().add(componenteFiglio);
-		} else if (contenitorePadre2 instanceof JScrollPane) {
-			((JScrollPane) contenitorePadre2).setViewportView(componenteFiglio);
-		} else {
-			contenitorePadre2.add(componenteFiglio);
+		if (contenitorePadre2 != null && componenteFiglio != null) {
+			if (contenitorePadre2 instanceof ScrollPaneBase) {
+				((ScrollPaneBase) contenitorePadre2).setViewportView(componenteFiglio);
+			} else {
+				Container cont = null;
+				if (contenitorePadre2 instanceof FrameBase) {
+					cont = ((FrameBase) contenitorePadre2).getContentPane();
+				} else if (contenitorePadre2 instanceof DialogoBase) {
+					cont = ((DialogoBase) contenitorePadre2).getContentPane();
+				} else {
+					cont = contenitorePadre2;
+				}
+				if (cont != null) {
+					cont.add(componenteFiglio);
+					if (cont.getComponentCount() == 1) {
+						componenteFiglio.setLocation(cont.getX() + 10, cont.getY() + 10);
+					}
+				}
+			}
 		}
 	}
 
@@ -97,9 +117,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		if (parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] == null) {
 			return false;
 		}
-		if (parametri.length > 1
-				&& modelIsNull(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT],
-						parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
+		if (parametri.length > 1 && modelIsNull(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT], parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
 			return false;
 		}
 		return true;
@@ -115,8 +133,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		Point location = componenteParagone.getLocation();
 		int nuovaX = (int) (location.getX() + componenteParagone.getWidth() + distanzaOrizzantale);
 		int nuovaY = (int) (location.getY() + distanzaVerticale);
@@ -125,8 +142,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component compDaPosizionare) {
 		Point location = componenteParagone.getLocation();
 		int nuovaX = (int) (location.getX() - compDaPosizionare.getWidth() - distanzaOrizzontale);
 		int nuovaY = (int) (location.getY() + distanzaVerticale);
@@ -135,8 +151,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		Point location = componenteParagone.getLocation();
 		int nuovaX = (int) (location.getX() + distanzaOrizzantale);
 		int nuovaY = (int) (location.getY() + componenteParagone.getHeight() + distanzaVerticale);
@@ -145,8 +160,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare) {
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		Point location = componenteParagone.getLocation();
 		int nuovaX = (int) (location.getX() + distanzaOrizzantale);
 		int nuovaY = (int) (location.getY() - compDaPosizionare.getHeight() - distanzaVerticale);
@@ -191,8 +205,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public void settaStile() {
 		try {
-			throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente",
-					"Richiamare stesso metodo ma del componente corretto");
+			throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente", "Richiamare stesso metodo ma del componente corretto");
 		} catch (ExceptionGraphics e) {
 			e.printStackTrace();
 		}

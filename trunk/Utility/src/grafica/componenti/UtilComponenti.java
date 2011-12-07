@@ -31,8 +31,10 @@ public class UtilComponenti {
 		contentPane.setLayout(lm);
 		frame.setVisible(true);
 		frame.setSize(400, 400);
-		controllore.setApplicationframe(frame);
-		ControlloreBase.setApplicationGraphics2d((Graphics2D) frame.getGraphics());
+		if (controllore != null) {
+			ControlloreBase.setApplicationframe(frame);
+			ControlloreBase.setApplicationGraphics2d((Graphics2D) frame.getGraphics());
+		}
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		return frame;
 	}
