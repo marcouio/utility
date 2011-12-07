@@ -1,8 +1,8 @@
 package grafica.componenti.contenitori;
 
-import grafica.componenti.IComponenteBase;
 import grafica.componenti.IFrame;
-import grafica.componenti.componenteBase.ComponenteBase;
+import grafica.componenti.componenteBase.ComponenteBaseFrame;
+import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 public class FrameBase extends JFrame implements IFrame, IComponenteBase, IContainerBase {
 
 	private final ContainerBase containerBase = new ContainerBase();
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBaseFrame componenteBase = new ComponenteBaseFrame();
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 

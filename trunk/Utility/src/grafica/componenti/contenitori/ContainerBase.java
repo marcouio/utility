@@ -1,6 +1,7 @@
 package grafica.componenti.contenitori;
 
 import grafica.componenti.alert.DialogoBase;
+import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.label.LabelBase;
 
 import java.awt.Component;
@@ -55,7 +56,7 @@ public class ContainerBase extends Container {
 	public int getMaxDimensionY(final Container container) {
 		int maxY = 0;
 		Component[] componenti = null;
-		if (container instanceof PannelloBase || container instanceof JPanel) {
+		if (container instanceof JPanel) {
 			componenti = container.getComponents();
 		} else if (container instanceof DialogoBase || container instanceof FrameBase) {
 			componenti = ((DialogoBase) container).getContentPane().getComponents();
@@ -63,10 +64,11 @@ public class ContainerBase extends Container {
 		if (componenti != null) {
 			for (Component componente : componenti) {
 				int altezzaComponente = componente.getHeight();
-				if (componente instanceof LabelBase) {
-					LabelBase compLabel = ((LabelBase) componente);
-					altezzaComponente = compLabel.getAltezzaSingleStringa(getGraphics());
+				if (componente instanceof IComponenteBase) {
+					IComponenteBase compLabel = ((IComponenteBase) componente);
+					altezzaComponente = compLabel.getAltezzaSingleStringa(getGraphics(), componente);
 				}
+
 				int y = (int) (componente.getLocation().getY() + altezzaComponente);
 				if (y > maxY) {
 					maxY = y;

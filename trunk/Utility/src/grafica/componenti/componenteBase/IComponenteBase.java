@@ -1,4 +1,6 @@
-package grafica.componenti;
+package grafica.componenti.componenteBase;
+
+import grafica.componenti.ExceptionGraphics;
 
 import java.awt.Component;
 import java.awt.Container;

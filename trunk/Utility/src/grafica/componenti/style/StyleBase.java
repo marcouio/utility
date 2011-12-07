@@ -1,6 +1,6 @@
 package grafica.componenti.style;
 
-import grafica.componenti.IComponenteBase;
+import grafica.componenti.componenteBase.IComponenteBase;
 
 import java.awt.Color;
 import java.awt.Font;

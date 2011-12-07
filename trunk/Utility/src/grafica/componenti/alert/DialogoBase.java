@@ -1,9 +1,9 @@
 package grafica.componenti.alert;
 
-import grafica.componenti.IComponenteBase;
 import grafica.componenti.UtilComponenti;
 import grafica.componenti.button.ButtonBase;
-import grafica.componenti.componenteBase.ComponenteBase;
+import grafica.componenti.componenteBase.ComponenteBaseDialogo;
+import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.ContainerBase;
 import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.IContainerBase;
@@ -26,7 +26,7 @@ import javax.swing.JFrame;
 public class DialogoBase extends JDialog implements IComponenteBase, IContainerBase {
 
 	private final ContainerBase containerBase = new ContainerBase();
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBaseDialogo componenteBase = new ComponenteBaseDialogo();
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	private Container padre;

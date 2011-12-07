@@ -1,6 +1,6 @@
 package Listener;
 
-import grafica.componenti.IComponenteBase;
+import grafica.componenti.componenteBase.IComponenteBase;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

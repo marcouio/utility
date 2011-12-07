@@ -1,7 +1,7 @@
 package grafica.componenti.button;
 
-import grafica.componenti.IComponenteBase;
 import grafica.componenti.componenteBase.ComponenteBase;
+import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;

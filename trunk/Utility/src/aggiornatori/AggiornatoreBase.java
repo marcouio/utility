@@ -1,6 +1,6 @@
 package aggiornatori;
 
-import grafica.componenti.IComponenteBase;
+import grafica.componenti.componenteBase.IComponenteBase;
 
 public class AggiornatoreBase implements IAggiornatore {
 
