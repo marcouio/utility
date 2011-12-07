@@ -1,10 +1,6 @@
 package grafica.componenti.componenteBase;
 
 import grafica.componenti.ExceptionGraphics;
-import grafica.componenti.IComponenteBase;
-import grafica.componenti.alert.DialogoBase;
-import grafica.componenti.contenitori.FrameBase;
-import grafica.componenti.contenitori.ScrollPaneBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
@@ -49,23 +45,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	 */
 	public void aggiungiAlContenitore(final Container contenitorePadre2, final Component componenteFiglio) {
 		if (contenitorePadre2 != null && componenteFiglio != null) {
-			if (contenitorePadre2 instanceof ScrollPaneBase) {
-				((ScrollPaneBase) contenitorePadre2).setViewportView(componenteFiglio);
-			} else {
-				Container cont = null;
-				if (contenitorePadre2 instanceof FrameBase) {
-					cont = ((FrameBase) contenitorePadre2).getContentPane();
-				} else if (contenitorePadre2 instanceof DialogoBase) {
-					cont = ((DialogoBase) contenitorePadre2).getContentPane();
-				} else {
-					cont = contenitorePadre2;
-				}
-				if (cont != null) {
-					cont.add(componenteFiglio);
-					if (cont.getComponentCount() == 1) {
-						componenteFiglio.setLocation(cont.getX() + 10, cont.getY() + 10);
-					}
-				}
+			contenitorePadre2.add(componenteFiglio);
+			if (contenitorePadre2.getComponentCount() == 1) {
+				componenteFiglio.setLocation(contenitorePadre2.getX() + 10, contenitorePadre2.getY() + 10);
 			}
 		}
 	}
