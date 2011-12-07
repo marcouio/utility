@@ -1,7 +1,7 @@
 package grafica.componenti.tree;
 
-import grafica.componenti.ComponenteBase;
 import grafica.componenti.IComponenteBase;
+import grafica.componenti.componenteBase.ComponenteBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
