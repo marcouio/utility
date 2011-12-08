@@ -152,7 +152,6 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
-	@Override
 	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare) {
 		int larghezza = 0;
 		g = trovaUnGraphicsValido(g, compDaPosizionare);
@@ -163,7 +162,6 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return larghezza > ComponenteBase.WIDTH_STRING_MIN ? larghezza + 3 : ComponenteBase.WIDTH_STRING_DEFAULT;
 	}
 
-	@Override
 	public int getAltezzaSingleStringa(Graphics g, final Component compDaPosizionare) {
 		int altezza = 0;
 		g = trovaUnGraphicsValido(g, compDaPosizionare);
@@ -205,8 +203,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		if (CoreXMLManager.getSingleton().isAutoConfig()) {
 			if (ihaveToSetDimension(style, padreComponent)) {
 				String text = ((JTextComponent) padreComponent).getText();
-				int width = getLarghezzaSingleStringa(padreComponent.getGraphics(), text, padreComponent);
-				int height = getAltezzaSingleStringa(padreComponent.getGraphics(), padreComponent);
+				int width = getLarghezza();
+				int height = getAltezza();
 				padreComponent.setSize(width, height);
 			}
 		}
@@ -223,5 +221,17 @@ public class ComponenteBase extends Component implements IComponenteBase {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int getLarghezza() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAltezza() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -1,13 +1,9 @@
-package grafica.componenti.contenitori;
+package grafica.componenti.contenitori.contenitoreBase;
 
-import grafica.componenti.alert.DialogoBase;
 import grafica.componenti.componenteBase.IComponenteBase;
-import grafica.componenti.label.LabelBase;
 
 import java.awt.Component;
 import java.awt.Container;
-
-import javax.swing.JPanel;
 
 public class ContainerBase extends Container {
 
@@ -31,18 +27,15 @@ public class ContainerBase extends Container {
 
 	public int getMaxDimensionX(final Container container) {
 		int maxX = 0;
-		Component[] componenti = null;
-		if (container instanceof PannelloBase || container instanceof JPanel) {
-			componenti = container.getComponents();
-		} else if (container instanceof DialogoBase || container instanceof FrameBase) {
-			componenti = ((DialogoBase) container).getContentPane().getComponents();
-		}
+		Component[] componenti = container.getComponents();
 		if (componenti != null) {
 			for (Component componente : componenti) {
 				int larghezzaComponente = componente.getWidth();
-				if (componente instanceof LabelBase) {
-					LabelBase compLabel = ((LabelBase) componente);
-					larghezzaComponente = compLabel.getLarghezzaSingleStringa(getGraphics(), compLabel.getText(), componente);
+				if (componente instanceof IComponenteBase) {
+					IComponenteBase comp = (IComponenteBase) componente;
+					if (larghezzaComponente < comp.getLarghezza()) {
+						larghezzaComponente = comp.getLarghezza();
+					}
 				}
 				int x = (int) (componente.getLocation().getX() + larghezzaComponente);
 				if (x > maxX) {
@@ -55,18 +48,16 @@ public class ContainerBase extends Container {
 
 	public int getMaxDimensionY(final Container container) {
 		int maxY = 0;
-		Component[] componenti = null;
-		if (container instanceof JPanel) {
-			componenti = container.getComponents();
-		} else if (container instanceof DialogoBase || container instanceof FrameBase) {
-			componenti = ((DialogoBase) container).getContentPane().getComponents();
-		}
+		Component[] componenti = container.getComponents();
 		if (componenti != null) {
 			for (Component componente : componenti) {
 				int altezzaComponente = componente.getHeight();
 				if (componente instanceof IComponenteBase) {
 					IComponenteBase compLabel = ((IComponenteBase) componente);
-					altezzaComponente = compLabel.getAltezzaSingleStringa(getGraphics(), componente);
+					if (altezzaComponente < compLabel.getAltezza()) {
+						altezzaComponente = compLabel.getAltezza();
+					}
+
 				}
 
 				int y = (int) (componente.getLocation().getY() + altezzaComponente);

@@ -7,7 +7,6 @@ import grafica.componenti.style.StyleTextArea;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
 
 import javax.swing.JTextArea;
 import javax.swing.text.Document;
@@ -21,42 +20,37 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 
 	public TextAreaBase(final Container contenitore) {
 		super();
-		this.contenitorePadre = contenitore;
-		init(contenitorePadre, this);
+		init(contenitore, this);
 	}
 
-	public TextAreaBase(final Document doc, final String text, final int rows, final int columns,
-			final Container contenitore) {
+	public TextAreaBase(final Document doc, final String text, final int rows, final int columns, final Container contenitore) {
 		super(doc, text, rows, columns);
-		this.contenitorePadre = contenitore;
-		init(contenitorePadre, this);
+		init(contenitore, this);
 	}
 
 	public TextAreaBase(final Document doc, final Container contenitore) {
 		super(doc);
-		this.contenitorePadre = contenitore;
-		init(contenitorePadre, this);
+		init(contenitore, this);
 	}
 
 	public TextAreaBase(final int rows, final int columns, final Container contenitore) {
 		super(rows, columns);
-		this.contenitorePadre = contenitore;
-		init(contenitorePadre, this);
+		init(contenitore, this);
 	}
 
 	public TextAreaBase(final String text, final int rows, final int columns, final Container contenitore) {
 		super(text, rows, columns);
-		this.contenitorePadre = contenitore;
+		init(contenitore, this);
 	}
 
 	public TextAreaBase(final String text, final Container contenitore) {
 		super(text);
-		this.contenitorePadre = contenitore;
-		init(contenitorePadre, this);
+		init(contenitore, this);
 	}
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
+		this.contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		settaStile();
 	}
@@ -74,8 +68,7 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -87,8 +80,7 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -100,8 +92,7 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -113,69 +104,29 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
 	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 		return false;
-	}
-
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @param label
-	 * @return
-	 */
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return getLarghezzaSingleStringa(g, label, this);
-	}
-
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @return
-	 */
-	public int getAltezzaSingleStringa(final Graphics g) {
-		return getAltezzaSingleStringa(g, this);
-	}
-
-	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
-	}
-
-	@Override
-	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
-		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
 	}
 
 	@Override
@@ -212,6 +163,18 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 
 	public void setContenitorePadre(final Container contenitorePadre) {
 		this.contenitorePadre = contenitorePadre;
+	}
+
+	@Override
+	public int getLarghezza() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAltezza() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -4,11 +4,13 @@ import grafica.componenti.ExceptionGraphics;
 import grafica.componenti.componenteBase.ComponenteBase;
 import grafica.componenti.componenteBase.ComponenteBasePannello;
 import grafica.componenti.componenteBase.IComponenteBase;
+import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
+import grafica.componenti.contenitori.contenitoreBase.ContainerBasePannello;
+import grafica.componenti.contenitori.contenitoreBase.IContainerBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
@@ -16,32 +18,28 @@ import javax.swing.JPanel;
 public class PannelloBase extends JPanel implements IComponenteBase, IContainerBase {
 
 	private Container contenitorePadre;
-	private final ContainerBase containerBase = new ContainerBase();
+	private final ContainerBasePannello containerBase = new ContainerBasePannello();
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	private final ComponenteBasePannello componenteBase = new ComponenteBasePannello();
 
 	public PannelloBase(final Container contenitore) {
 		super();
-		this.contenitorePadre = contenitore;
 		init(contenitore, this);
 	}
 
 	public PannelloBase(final boolean isDoubleBuffered, final Container contenitore) throws ExceptionGraphics {
 		super(isDoubleBuffered);
-		this.contenitorePadre = contenitore;
 		init(contenitore, this);
 	}
 
 	public PannelloBase(final LayoutManager layout, final boolean isDoubleBuffered, final Container contenitore) throws ExceptionGraphics {
 		super(layout, isDoubleBuffered);
-		this.contenitorePadre = contenitore;
 		init(contenitore, this);
 	}
 
 	public PannelloBase(final LayoutManager layout, final Container contenitore) throws ExceptionGraphics {
 		super(layout);
-		this.contenitorePadre = contenitore;
 		init(contenitore, this);
 	}
 
@@ -126,37 +124,6 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 		return false;
 	}
 
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @param label
-	 * @return
-	 */
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return getLarghezzaSingleStringa(g, label, this);
-	}
-
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @return
-	 */
-	public int getAltezzaSingleStringa(final Graphics g) {
-		return getAltezzaSingleStringa(g, this);
-	}
-
-	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
-	}
-
-	@Override
-	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
-		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
-	}
-
 	@Override
 	public void settaStile() {
 		componenteBase.settaStile(style, this);
@@ -203,5 +170,15 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	@Override
 	public ContainerBase getContainerBase() {
 		return containerBase;
+	}
+
+	@Override
+	public int getLarghezza() {
+		return getMaxDimensionX();
+	}
+
+	@Override
+	public int getAltezza() {
+		return getMaxDimensionY();
 	}
 }

@@ -16,7 +16,7 @@ public abstract class AbstractBuilderBase implements IBuilderDialogo {
 	private int messageType;
 	private Icon icon;
 	private Dimension dimensioni;
-	private int[] listaBottoni = new int[3];
+	private int[] listaBottoni = new int[] { -1, -1, -1 };
 	protected DialogoBase dialogo;
 
 	private static final int INDEX_BTN_POSITIVE = 0;

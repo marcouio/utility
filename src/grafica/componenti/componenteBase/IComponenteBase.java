@@ -4,7 +4,6 @@ import grafica.componenti.ExceptionGraphics;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
 
 public interface IComponenteBase {
 
@@ -41,8 +40,7 @@ public interface IComponenteBase {
 	 * @param compDaPosizionare
 	 * @return
 	 */
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare);
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare);
 
 	/**
 	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
@@ -54,8 +52,7 @@ public interface IComponenteBase {
 	 * @param compDaPosizionare
 	 * @return
 	 */
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale, final Component compDaPosizionare);
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component compDaPosizionare);
 
 	/**
 	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
@@ -67,8 +64,7 @@ public interface IComponenteBase {
 	 * @param compDaPosizionare
 	 * @return
 	 */
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare);
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare);
 
 	/**
 	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
@@ -80,29 +76,7 @@ public interface IComponenteBase {
 	 * @param compDaPosizionare
 	 * @return
 	 */
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component compDaPosizionare);
-
-	/**
-	 * Calcola la larghezza di un campo sulla base del testo che lo contiene. 
-	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
-	 * 
-	 * @param g
-	 * @param label
-	 * @param compDaValutare
-	 * @return
-	 */
-	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component compDaValutare);
-
-	/**
-	 * Calcola la larghezza di un campo sulla base del testo che lo contiene. 
-	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
-	 * 
-	 * @param g
-	 * @param compDaValutare
-	 * @return
-	 */
-	public int getAltezzaSingleStringa(final Graphics g, final Component compDaValutare);
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare);
 
 	/**
 	 * Ogni oggetto di base deve implementare tale metodo per settare il proprio stile dall'xml. In più all'interno della classe 
@@ -112,4 +86,8 @@ public interface IComponenteBase {
 	 * 
 	 */
 	public void settaStile();
+
+	public int getLarghezza();
+
+	public int getAltezza();
 }
