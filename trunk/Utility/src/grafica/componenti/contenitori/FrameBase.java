@@ -3,17 +3,19 @@ package grafica.componenti.contenitori;
 import grafica.componenti.IFrame;
 import grafica.componenti.componenteBase.ComponenteBaseFrame;
 import grafica.componenti.componenteBase.IComponenteBase;
+import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
+import grafica.componenti.contenitori.contenitoreBase.ContainerBaseFrame;
+import grafica.componenti.contenitori.contenitoreBase.IContainerBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
 public class FrameBase extends JFrame implements IFrame, IComponenteBase, IContainerBase {
 
-	private final ContainerBase containerBase = new ContainerBase();
+	private final ContainerBaseFrame containerBase = new ContainerBaseFrame();
 	private final ComponenteBaseFrame componenteBase = new ComponenteBaseFrame();
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
@@ -111,37 +113,6 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 		return false;
 	}
 
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @param label
-	 * @return
-	 */
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return getLarghezzaSingleStringa(g, label, this);
-	}
-
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @return
-	 */
-	public int getAltezzaSingleStringa(final Graphics g) {
-		return getAltezzaSingleStringa(g, this);
-	}
-
-	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
-	}
-
-	@Override
-	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
-		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
-	}
-
 	@Override
 	public void settaStile() {
 		componenteBase.settaStile(style, this);
@@ -168,5 +139,15 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 	@Override
 	public ContainerBase getContainerBase() {
 		return getContainerBase();
+	}
+
+	@Override
+	public int getLarghezza() {
+		return getMaxDimensionX();
+	}
+
+	@Override
+	public int getAltezza() {
+		return getMaxDimensionY();
 	}
 }

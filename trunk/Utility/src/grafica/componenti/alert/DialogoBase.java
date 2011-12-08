@@ -4,9 +4,10 @@ import grafica.componenti.UtilComponenti;
 import grafica.componenti.button.ButtonBase;
 import grafica.componenti.componenteBase.ComponenteBaseDialogo;
 import grafica.componenti.componenteBase.IComponenteBase;
-import grafica.componenti.contenitori.ContainerBase;
 import grafica.componenti.contenitori.FrameBase;
-import grafica.componenti.contenitori.IContainerBase;
+import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
+import grafica.componenti.contenitori.contenitoreBase.ContainerBaseDialogo;
+import grafica.componenti.contenitori.contenitoreBase.IContainerBase;
 import grafica.componenti.label.Label;
 import grafica.componenti.style.StyleBase;
 
@@ -14,7 +15,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,23 +25,23 @@ import javax.swing.JFrame;
 
 public class DialogoBase extends JDialog implements IComponenteBase, IContainerBase {
 
-	private final ContainerBase containerBase = new ContainerBase();
+	private final ContainerBaseDialogo containerBase = new ContainerBaseDialogo();
 	private final ComponenteBaseDialogo componenteBase = new ComponenteBaseDialogo();
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	private Container padre;
 	private int opzioneScelta = -1;
 
-	private DialogoBase(final JFrame frame) {
+	public DialogoBase(final JFrame frame) {
 		super(frame);
-		init(null, this);
 		this.padre = frame;
+		init(null, this);
 	}
 
-	private DialogoBase(final Dialog owner) {
+	public DialogoBase(final Dialog owner) {
 		super(owner);
-		init(null, this);
 		this.padre = owner;
+		init(null, this);
 	}
 
 	public StyleBase getStyle() {
@@ -76,21 +76,19 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 		@Override
 		protected Object creaDialogButtonBar(final int[] listaBottoni2, final Object labelIcona, final Object labelMessaggio) {
 			ButtonBase buttonOld = null;
-			for (int i = 0; i < listaBottoni2.length; i++) {
-				int buttonPresente = listaBottoni2[i];
+			for (int buttonPresente : listaBottoni2) {
 				if (buttonPresente != -1) {
 					ButtonBase button = chiamaMetodoPerCreazioneButton(buttonPresente);
-					if (i == 0) {
+					if (buttonOld == null) {
 						if (labelIcona != null) {
-							button.posizionaSottoA((Label) labelIcona, 0, 20);
+							button.posizionaSottoA((Label) labelIcona, 0, 0);
 						} else if (labelMessaggio != null) {
-							button.posizionaSottoA((Label) labelMessaggio, 0, 20);
+							button.posizionaSottoA((Label) labelMessaggio, 0, 0);
 						}
 					} else {
 						button.posizionaADestraDi(buttonOld, 10, 0);
 					}
 					buttonOld = button;
-					System.out.println(button.getLocation());
 				}
 			}
 			return null;
@@ -110,7 +108,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 			if (dimensioni2 != null) {
 				dialogo.setSize(dimensioni2);
 			} else {
-				dialogo.setSize(dialogo.getMaxDimensionX(), dialogo.getMaxDimensionY());
+				dialogo.setSize(dialogo.getLarghezza(), dialogo.getAltezza());
 			}
 			return dimensioni2;
 		}
@@ -161,12 +159,12 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 
 	@Override
 	public int getMaxDimensionX() {
-		return containerBase.getMaxDimensionX(this.getContentPane());
+		return containerBase.getMaxDimensionX(this);
 	}
 
 	@Override
 	public int getMaxDimensionY() {
-		return containerBase.getMaxDimensionY(this.getContentPane());
+		return containerBase.getMaxDimensionY(this);
 	}
 
 	@Override
@@ -250,37 +248,6 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 		return componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @param label
-	 * @return
-	 */
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return getLarghezzaSingleStringa(g, label, this);
-	}
-
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @return
-	 */
-	public int getAltezzaSingleStringa(final Graphics g) {
-		return getAltezzaSingleStringa(g, this);
-	}
-
-	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
-	}
-
-	@Override
-	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
-		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
-	}
-
 	@Override
 	public void settaStile() {
 		componenteBase.settaStile(style, this);
@@ -305,6 +272,16 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 
 	public void setOpzioneScelta(final int opzioneScelta) {
 		this.opzioneScelta = opzioneScelta;
+	}
+
+	@Override
+	public int getLarghezza() {
+		return getMaxDimensionX();
+	}
+
+	@Override
+	public int getAltezza() {
+		return getMaxDimensionY();
 	}
 
 }

@@ -1,4 +1,5 @@
-package grafica.componenti.contenitori;
+package grafica.componenti.contenitori.contenitoreBase;
+
 
 public interface IContainerBase {
 

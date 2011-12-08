@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.Vector;
@@ -32,45 +31,36 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 
 	public TableBase2d(final Container contenitorePadre) {
 		super();
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TableBase2d(final TableModel dm, final Container contenitorePadre) {
 		super(dm);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TableBase2d(final TableModel dm, final TableColumnModel cm, final Container contenitorePadre) {
 		super(dm, cm);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TableBase2d(final int numRows, final int numColumns, final Container contenitorePadre) {
 		super(numRows, numColumns);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
-	public TableBase2d(@SuppressWarnings("rawtypes") final Vector rowData,
-			@SuppressWarnings("rawtypes") final Vector columnNames, final Container contenitorePadre) {
+	public TableBase2d(@SuppressWarnings("rawtypes") final Vector rowData, @SuppressWarnings("rawtypes") final Vector columnNames, final Container contenitorePadre) {
 		super(rowData, columnNames);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TableBase2d(final Object[][] rowData, final Object[] columnNames, final Container contenitorePadre) {
 		super(rowData, columnNames);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
-	public TableBase2d(final TableModel dm, final TableColumnModel cm, final ListSelectionModel sm,
-			final Container contenitorePadre) {
+	public TableBase2d(final TableModel dm, final TableColumnModel cm, final ListSelectionModel sm, final Container contenitorePadre) {
 		super(dm, cm, sm);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
@@ -85,6 +75,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
+		this.contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
 		this.settaStile();
@@ -102,7 +93,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 		int larghezzaMinima = 0;
 		for (int i = 0; i < getColumnCount(); i++) {
 			final String nomeColonna = getColumnName(i);
-			final int larghezzaNome = getLarghezzaSingleStringa(this.getGraphics(), nomeColonna, this);
+			final int larghezzaNome = componenteBase.getLarghezzaSingleStringa(this.getGraphics(), nomeColonna, this);
 			if (larghezzaNome > larghezzaMinima) {
 				larghezzaMinima = larghezzaNome;
 			}
@@ -148,8 +139,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 	 * @param nomiColonne
 	 * @return Table
 	 */
-	public static TableBase2d createTable(final Object[][] primo, final String[] nomiColonne,
-			final Container contenitorePadre) {
+	public static TableBase2d createTable(final Object[][] primo, final String[] nomiColonne, final Container contenitorePadre) {
 		final TableBase2d table = new TableBase2d(primo, nomiColonne, contenitorePadre) {
 
 			private static final long serialVersionUID = 1L;
@@ -172,8 +162,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Component getTableCellRendererComponent(final JTable table, final Object value,
-					final boolean isSelected, final boolean hasFocus, final int row, final int column) {
+			public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
 				if (isSelected) {
 					//					setOpaque(true);
 					//					setBackground(table.getSelectionBackground());
@@ -184,8 +173,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 					setForeground(Color.WHITE);
 				}
 
-				return value instanceof JLabel ? (JLabel) value : super.getTableCellRendererComponent(table, value,
-						isSelected, hasFocus, row, column);
+				return value instanceof JLabel ? (JLabel) value : super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			}
 		};
 		return dtcr;
@@ -213,8 +201,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -226,8 +213,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -239,8 +225,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -252,68 +237,41 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
 	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 		return false;
 	}
 
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @param label
-	 * @return
-	 */
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return getLarghezzaSingleStringa(g, label, this);
-	}
-
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @return
-	 */
-	public int getAltezzaSingleStringa(final Graphics g) {
-		return getAltezzaSingleStringa(g, this);
+	@Override
+	public int getLarghezza() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
+	public int getAltezza() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
-	@Override
-	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
-		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
-	}
 }

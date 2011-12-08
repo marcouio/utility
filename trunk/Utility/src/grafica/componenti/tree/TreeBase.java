@@ -6,7 +6,6 @@ import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,48 +48,42 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	public TreeBase(final Container contenitorePadre) {
 		super();
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final Object[] userObjects, final Container contenitorePadre) {
 		super(userObjects);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final TreeModel model, final Container contenitorePadre) {
 		super(model);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final TreeNode treeNode, final Container contenitorePadre) {
 		super(treeNode);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final Hashtable<String, ITreeObject> mappaObjects, final Container contenitorePadre) {
 		super(mappaObjects);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final Vector<ITreeObject> userObjects, final Container contenitorePadre) {
 		super(userObjects);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final TreeNode treeNode, final boolean arg, final Container contenitorePadre) {
 		super(treeNode, arg);
-		this.contenitorePadre = contenitorePadre;
 		init(contenitorePadre, this);
 	}
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
+		this.contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.setContenitorePadre(contenitorePadre2);
 		this.setEditable(true);
@@ -118,11 +111,9 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel,
-					final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
+			public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
 
-				final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row,
-						hasFocus);
+				final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 				if (iconFoglia != null && node.isLeaf()) {
 					label.setIcon(iconFoglia);
@@ -148,11 +139,9 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel,
-					final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
+			public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
 
-				final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row,
-						hasFocus);
+				final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 				if (node.getUserObject() instanceof ITreeObject) {
 					ITreeObject treeObject = (ITreeObject) node.getUserObject();
@@ -175,11 +164,9 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel,
-						final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
+				public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
 
-					final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf,
-							row, hasFocus);
+					final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 					if (((DefaultMutableTreeNode) value).isRoot()) {
 						label.setIcon(icon);
 					}
@@ -327,8 +314,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -340,8 +326,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaASinistraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -353,8 +338,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
@@ -366,69 +350,29 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	 * @param distanzaVerticale
 	 * @return
 	 */
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale) {
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
 	@Override
-	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 	}
 
 	@Override
-	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale,
-			final int distanzaVerticale, final Component componenteDaRiposizionare) {
-		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale,
-				componenteDaRiposizionare);
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component componenteDaRiposizionare) {
+		componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, componenteDaRiposizionare);
 		return false;
-	}
-
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @param label
-	 * @return
-	 */
-	public int getLarghezzaSingleStringa(final Graphics g, final String label) {
-		return getLarghezzaSingleStringa(g, label, this);
-	}
-
-	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
-	 * 
-	 * @param g
-	 * @return
-	 */
-	public int getAltezzaSingleStringa(final Graphics g) {
-		return getAltezzaSingleStringa(g, this);
-	}
-
-	@Override
-	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component componenteDaRiposizionare) {
-		return componenteBase.getLarghezzaSingleStringa(g, label, componenteDaRiposizionare);
-	}
-
-	@Override
-	public int getAltezzaSingleStringa(final Graphics g, final Component componenteDaRiposizionare) {
-		return componenteBase.getAltezzaSingleStringa(g, componenteDaRiposizionare);
 	}
 
 	@Override
@@ -442,6 +386,18 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	protected StyleBase settaStileOverride() {
 		return new StyleBase("StyleBaseTree");
+	}
+
+	@Override
+	public int getLarghezza() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAltezza() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
