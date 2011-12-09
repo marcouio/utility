@@ -1,6 +1,6 @@
 package grafica.componenti.table;
 
-import grafica.componenti.componenteBase.ComponenteBase;
+import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.style.StyleBase;
 
@@ -25,7 +25,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
 
 	private static final long serialVersionUID = 1L;
 

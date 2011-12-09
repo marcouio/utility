@@ -1,7 +1,7 @@
 package grafica.componenti.button;
 
 import grafica.componenti.UtilComponenti;
-import grafica.componenti.componenteBase.ComponenteBase;
+import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBaseBottone;
@@ -51,7 +51,7 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 
 	private static final long serialVersionUID = 1L;
 	protected StyleBase style = new StyleBase();
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
 	private final ContainerBaseBottone containerBase = new ContainerBaseBottone();
 	private Container contenitorePadre;
 

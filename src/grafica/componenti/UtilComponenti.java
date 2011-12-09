@@ -1,7 +1,6 @@
 package grafica.componenti;
 
 import grafica.componenti.contenitori.FrameBase;
-import grafica.componenti.style.StyleBase;
 
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;
@@ -18,15 +17,7 @@ public class UtilComponenti {
 	}
 
 	public static FrameBase initContenitoreFrameApplicazione(final LayoutManager lm, final ControlloreBase controllore) {
-		FrameBase frame = new FrameBase() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected StyleBase settaStileOverride() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
+		FrameBase frame = new FrameBase();
 		JPanel contentPane = (JPanel) frame.getContentPane();
 		contentPane.setLayout(lm);
 		frame.setVisible(true);

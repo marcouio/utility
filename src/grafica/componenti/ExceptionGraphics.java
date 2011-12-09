@@ -16,7 +16,7 @@ public class ExceptionGraphics extends Exception {
 	@Override
 	public String getMessage() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(LineStackTracePrinter.scriviLineaDellErrore());
+		sb.append(LineStackTracePrinter.scriviLineaDellErrore(6));
 		sb.append(". Motivo: ");
 		if (message != null && help != null) {
 			sb.append(message + " - " + help);

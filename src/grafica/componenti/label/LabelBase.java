@@ -1,6 +1,6 @@
 package grafica.componenti.label;
 
-import grafica.componenti.componenteBase.ComponenteBase;
+import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
 import grafica.componenti.contenitori.contenitoreBase.IContainerBase;
@@ -18,7 +18,7 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ContainerBase containerBase = new ContainerBase();
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
 
 	public LabelBase(final Icon image, final int horizontalAlignment, final Container contenitorePadre) {
 		super(image, horizontalAlignment);
