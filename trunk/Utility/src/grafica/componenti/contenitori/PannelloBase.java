@@ -2,7 +2,7 @@ package grafica.componenti.contenitori;
 
 import grafica.componenti.ExceptionGraphics;
 import grafica.componenti.componenteBase.ComponenteBase;
-import grafica.componenti.componenteBase.ComponenteBasePannello;
+import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBasePannello;
@@ -21,7 +21,7 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	private final ContainerBasePannello containerBase = new ContainerBasePannello();
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
-	private final ComponenteBasePannello componenteBase = new ComponenteBasePannello();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
 
 	public PannelloBase(final Container contenitore) {
 		super();

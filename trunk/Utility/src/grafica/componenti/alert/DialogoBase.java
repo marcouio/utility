@@ -5,6 +5,7 @@ import grafica.componenti.button.ButtonBase;
 import grafica.componenti.componenteBase.ComponenteBaseDialogo;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.PannelloBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBaseDialogo;
 import grafica.componenti.contenitori.contenitoreBase.IContainerBase;
@@ -52,7 +53,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 		this.style = style;
 	}
 
-	public class Builder extends AbstractBuilderBase {
+	public class Builder extends AbstractBuilderDialogoBase {
 
 		public Builder(final Container padre) {
 			if (padre instanceof JFrame) {
@@ -60,6 +61,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 			} else if (padre instanceof Dialog) {
 				dialogo = new DialogoBase((Dialog) padre);
 			}
+			pannelloButtonBar = new PannelloBase(dialogo);
 			dialogo.padre = padre;
 		}
 
@@ -75,23 +77,30 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 
 		@Override
 		protected Object creaDialogButtonBar(final int[] listaBottoni2, final Object labelIcona, final Object labelMessaggio) {
+
+			if (labelIcona != null) {
+				pannelloButtonBar.posizionaSottoA((Label) labelIcona, 0, 0);
+			} else if (labelMessaggio != null) {
+				pannelloButtonBar.posizionaSottoA((Label) labelMessaggio, 0, 0);
+			}
 			ButtonBase buttonOld = null;
 			for (int buttonPresente : listaBottoni2) {
 				if (buttonPresente != -1) {
 					ButtonBase button = chiamaMetodoPerCreazioneButton(buttonPresente);
-					if (buttonOld == null) {
-						if (labelIcona != null) {
-							button.posizionaSottoA((Label) labelIcona, 0, 0);
-						} else if (labelMessaggio != null) {
-							button.posizionaSottoA((Label) labelMessaggio, 0, 0);
-						}
-					} else {
+					if (buttonOld != null) {
 						button.posizionaADestraDi(buttonOld, 10, 0);
 					}
 					buttonOld = button;
 				}
 			}
+			pannelloButtonBar.setSize(pannelloButtonBar.getLarghezza(), pannelloButtonBar.getAltezza());
 			return null;
+		}
+
+		private void accentra(final PannelloBase pannelloButtonBar, final DialogoBase dialogo) {
+			int x = ((dialogo.getX() + dialogo.getWidth()) / 2) - (pannelloButtonBar.getWidth() / 2);
+			pannelloButtonBar.setLocation(x, pannelloButtonBar.getY());
+
 		}
 
 		@Override
@@ -110,6 +119,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 			} else {
 				dialogo.setSize(dialogo.getLarghezza(), dialogo.getAltezza());
 			}
+			accentra(pannelloButtonBar, dialogo);
 			return dimensioni2;
 		}
 

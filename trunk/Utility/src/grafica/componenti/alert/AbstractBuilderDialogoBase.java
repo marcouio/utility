@@ -1,6 +1,7 @@
 package grafica.componenti.alert;
 
 import grafica.componenti.button.ButtonBase;
+import grafica.componenti.contenitori.PannelloBase;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -9,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
-public abstract class AbstractBuilderBase implements IBuilderDialogo {
+public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 
 	private String titolo;
 	private String message;
@@ -18,6 +19,7 @@ public abstract class AbstractBuilderBase implements IBuilderDialogo {
 	private Dimension dimensioni;
 	private int[] listaBottoni = new int[] { -1, -1, -1 };
 	protected DialogoBase dialogo;
+	PannelloBase pannelloButtonBar;
 
 	private static final int INDEX_BTN_POSITIVE = 0;
 	private static final int INDEX_BTN_NEGATIVE = 1;
@@ -74,7 +76,7 @@ public abstract class AbstractBuilderBase implements IBuilderDialogo {
 	}
 
 	protected ButtonBase creaPositiveButton() {
-		ButtonBase positive = new ButtonBase("Ok", dialogo);
+		ButtonBase positive = new ButtonBase("Ok", pannelloButtonBar);
 		positive.addActionListener(new ActionListener() {
 
 			@Override
@@ -86,7 +88,7 @@ public abstract class AbstractBuilderBase implements IBuilderDialogo {
 	}
 
 	protected ButtonBase creaNegativeButton() {
-		ButtonBase negative = new ButtonBase("No", dialogo);
+		ButtonBase negative = new ButtonBase("No", pannelloButtonBar);
 		negative.addActionListener(new ActionListener() {
 
 			@Override
@@ -98,7 +100,7 @@ public abstract class AbstractBuilderBase implements IBuilderDialogo {
 	}
 
 	protected ButtonBase creaCancelButton() {
-		ButtonBase cancel = new ButtonBase("Cancel", dialogo);
+		ButtonBase cancel = new ButtonBase("Cancel", pannelloButtonBar);
 		cancel.setMargin(null);
 		cancel.addActionListener(new ActionListener() {
 

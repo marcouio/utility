@@ -44,11 +44,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	 * @param componenteFiglio
 	 */
 	public void aggiungiAlContenitore(final Container contenitorePadre2, final Component componenteFiglio) {
-		if (contenitorePadre2 != null && componenteFiglio != null) {
-			contenitorePadre2.add(componenteFiglio);
-			if (contenitorePadre2.getComponentCount() == 1) {
-				componenteFiglio.setLocation(contenitorePadre2.getX() + 10, contenitorePadre2.getY() + 10);
-			}
+		contenitorePadre2.add(componenteFiglio);
+		if (contenitorePadre2.getComponentCount() == 1) {
+			componenteFiglio.setLocation(contenitorePadre2.getX() + 10, contenitorePadre2.getY() + 10);
 		}
 	}
 

@@ -22,7 +22,7 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 
 	public FrameBase() {
 		this.getContentPane().setLayout(null);
-		init(null, this);
+		init(null, FrameBase.this);
 	}
 
 	public StyleBase getStyle() {
