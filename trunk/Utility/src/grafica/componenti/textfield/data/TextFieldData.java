@@ -1,11 +1,13 @@
 package grafica.componenti.textfield.data;
 
+import grafica.componenti.UtilComponenti;
+import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.style.StyleBase;
 import grafica.componenti.textfield.TextFieldBase;
+import grafica.componenti.textfield.testo.TextFieldTesto;
 
 import java.awt.Container;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -20,14 +22,10 @@ public class TextFieldData extends TextFieldBase {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				final JFrame inst = new JFrame();
-				final TextFieldData textFieldData = new TextFieldData("dd-MM-yyyy", inst.getContentPane());
-				System.out.println(textFieldData.getBackground());
-				textFieldData.setSize(25, 50);
-				inst.getContentPane().add(textFieldData);
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-				inst.pack();
+				FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, null);
+				final TextFieldData textFieldData = new TextFieldData("dd-MM-yyyy", frame.getContentPane());
+				final TextFieldTesto textFieldTesto = new TextFieldTesto("testo", frame.getContentPane());
+				textFieldTesto.posizionaSottoA(textFieldData, 0, 0);
 			}
 		});
 	}

@@ -20,13 +20,15 @@ public class FormatterData extends SimpleDateFormat implements IFormatterTF {
 	}
 
 	@Override
-	public Object metodoForCatch(Exception e){
-		if(e instanceof NumberFormatException){
+	public Object metodoForCatch(final Exception e) {
+		if (e instanceof NumberFormatException) {
 			Alert.segnalazioneErroreGrave("Inserire la data con valori numerici e con il formato suggerito: AAAA/MM/GG");
-		}else if(e instanceof IllegalArgumentException){
+		} else if (e instanceof IllegalArgumentException) {
 			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Non hai inserito una data, " + e.getMessage()));
-		}else if(e instanceof StringIndexOutOfBoundsException){
+		} else if (e instanceof StringIndexOutOfBoundsException) {
 			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Numero di caratteri errato per una data, " + e.getMessage()));
+		} else {
+			Alert.segnalazioneErroreGrave(Alert.getMessaggioErrore("Data non inserita correttamente: " + e.getMessage()));
 		}
 		return e;
 	}
