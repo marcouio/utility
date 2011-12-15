@@ -36,6 +36,10 @@ public abstract class ControlloreBase {
 		});
 	}
 
+	/**
+	 * La parte di codice necessaria a far partire l'applicazione va inserita qui.
+	 * @param frame
+	 */
 	public abstract void mainOverridato(FrameBase frame);
 
 	public static FrameBase getApplicationframe() {
