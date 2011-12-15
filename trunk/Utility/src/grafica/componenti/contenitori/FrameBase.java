@@ -128,12 +128,12 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 
 	@Override
 	public int getMaxDimensionX() {
-		return containerBase.getMaxDimensionX(this.getContentPane());
+		return containerBase.getMaxDimensionX(this);
 	}
 
 	@Override
 	public int getMaxDimensionY() {
-		return containerBase.getMaxDimensionY(this.getContentPane());
+		return containerBase.getMaxDimensionY(this);
 	}
 
 	@Override

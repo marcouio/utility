@@ -1,14 +1,18 @@
 package grafica.compComplessi;
 
 import grafica.componenti.ExceptionGraphics;
+import grafica.componenti.UtilComponenti;
 import grafica.componenti.contenitori.PannelloBase;
 import grafica.componenti.label.Label;
 import grafica.componenti.style.StyleBase;
 import grafica.componenti.textfield.TextFieldBase;
 import grafica.componenti.textfield.testo.TextFieldTesto;
 
+import java.awt.Color;
 import java.awt.Container;
 
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.BorderUIResource;
 
 public class PannelloTextLabel extends PannelloBase {
@@ -18,26 +22,29 @@ public class PannelloTextLabel extends PannelloBase {
 	private Label label;
 
 	public static void main(final String[] args) {
-		//		SwingUtilities.invokeLater(new Runnable() {
-		//
-		//			@Override
-		//			public void run() {
-		//				JPanel pannello = UtilComponenti.initContenitoreFrame(null);
-		//				PannelloTextLabel ptl = new PannelloTextLabel("LABEL", "TESTO");
-		//				ptl.setBounds(0, 0, 400, 400);
-		//				ptl.setBackground(Color.CYAN);
-		//				pannello.add(ptl);
-		//			}
-		//		});
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				JPanel pannello = UtilComponenti.initContenitoreFrame(null);
+				PannelloTextLabel ptl = null;
+				try {
+					ptl = new PannelloTextLabel("LABEL", "TESTO", pannello);
+				} catch (ExceptionGraphics e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				ptl.setBackground(Color.CYAN);
+			}
+		});
 	}
 
-	public PannelloTextLabel(final String label, final String text, final Container contenitore)
-			throws ExceptionGraphics {
+	public PannelloTextLabel(final String label, final String text, final Container contenitore) throws ExceptionGraphics {
 		super(contenitore);
 		this.setLayout(null);
 		this.label = new Label(label, this);
 		this.textField = new TextFieldTesto(text, this);
-		textField.posizionaSottoA(this.label, 30, 60);
+		textField.posizionaSottoA(this.label, 0, 0);
 		this.setBorder(BorderUIResource.getLoweredBevelBorderUIResource());
 		this.setSize(getMaxDimensionX(), getMaxDimensionY());
 		this.setPreferredSize(this.getSize());
