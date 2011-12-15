@@ -200,9 +200,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		padreComponent.setSize(style.getWidth(), style.getHeight());
 		if (CoreXMLManager.getSingleton().isAutoConfig()) {
 			if (ihaveToSetDimension(style, padreComponent)) {
-				String text = ((JTextComponent) padreComponent).getText();
-				int width = getLarghezza();
-				int height = getAltezza();
+				int width = ((IComponenteBase) padreComponent).getLarghezza();
+				int height = ((IComponenteBase) padreComponent).getAltezza();
 				padreComponent.setSize(width, height);
 			}
 		}

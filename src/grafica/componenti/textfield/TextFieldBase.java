@@ -90,7 +90,6 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	@Override
 	public void focusLost(final FocusEvent arg0) {
 		if (this.getTestoConvertitoInTipo() == null) {
-			;
 		}
 	}
 
@@ -173,13 +172,11 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 
 	@Override
 	public int getLarghezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		return componenteBase.getLarghezzaSingleStringa(getGraphics(), this.getText(), this);
 	}
 
 	@Override
 	public int getAltezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		return componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 	}
 }
