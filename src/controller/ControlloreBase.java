@@ -22,7 +22,7 @@ public abstract class ControlloreBase {
 	protected static Graphics2D applicationGraphics2d;
 	private static Logger log;
 
-	public void myMain(final ControlloreBase controllore) {
+	public void myMain(final ControlloreBase controllore, final boolean dimensiona) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -32,6 +32,9 @@ public abstract class ControlloreBase {
 				controllore.setStartUtenteLogin();
 				verificaPresenzaDb();
 				controllore.mainOverridato(frame);
+				if (dimensiona) {
+					frame.setSize(frame.getLarghezza(), frame.getAltezza());
+				}
 			}
 		});
 	}
