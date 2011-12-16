@@ -23,16 +23,19 @@ public interface IComponenteBase {
 	public void init(final Container contenitorePadre2, final Component componenteFiglio);
 
 	/**
-	 * Metodo implementato all'interno della classe ComponenteBase, ridisegna l'oggetto che lo richiama in base al suo tipo.
-	 * @param parametri: parametri[0],l'oggetto da ridisegnare; parametri[1], il suo model; parametri[2],l'oggetto contenuto da sostituire.
+	 * Metodo implementato all'interno della classe ComponenteBase o di una sua estensione, 
+	 * ridisegna l'oggetto che lo richiama in base al suo tipo.
+	 * 
+	 * @param <b>parametri[0]</b>,l'oggetto da ridisegnare; <p><b>parametri[1]</b>, il suo model; 
+	 * <p><b>parametri[2]</b>,l'oggetto contenuto da sostituire.
 	 * 			I parametri non sono sempre nullabili
-	 * @return
+	 * @return <b>true</b> se l'aggiornamento è andato a buon fine
 	 */
 	public boolean repaintCustomizzato(Object[] parametri);
 
 	/**
 	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
-	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base 
+	 * Implementato all'interno di ComponenteBase o di una sua estensione e utilizzato all'interno di oggetti grafici base 
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -44,7 +47,7 @@ public interface IComponenteBase {
 
 	/**
 	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
-	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
+	 * Implementato all'interno di ComponenteBase o di una sua estensione e utilizzato all'interno di oggetti grafici base
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzontale
@@ -56,7 +59,7 @@ public interface IComponenteBase {
 
 	/**
 	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
-	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
+	 * Implementato all'interno di ComponenteBase o di una sua estensione e utilizzato all'interno di oggetti grafici base
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -68,7 +71,7 @@ public interface IComponenteBase {
 
 	/**
 	 * Metodo di posizionamento utilizzabile solo con layout a null. Permette di posizionare un oggetto rispetto ad un altro.
-	 * Implementato all'interno di ComponenteBase e utilizzato all'interno di oggetti grafici base
+	 * Implementato all'interno di ComponenteBase o di una sua estensione e utilizzato all'interno di oggetti grafici base
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale

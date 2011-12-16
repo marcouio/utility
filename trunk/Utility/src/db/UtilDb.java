@@ -22,34 +22,9 @@ public class UtilDb {
 	 * 
 	 * @param corrente
 	 * @return String
-package db;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-
-public class UtilDb {
-
-	/**
-	 * Metodo utile quando puo' capitare di ottenere in input un integer come
-	 * mese con una sola cifra. In tal caso lo trasforma in stringa
-	 * aggiungendogli uno zero davanti. In questa maniera e' possibile
-	 * utilizzarlo per comporre una data
-	 * 
-	 * @param corrente
-	 * @return String
 	 * @throws Exception
 	 */
-	public static String convertiMese2(final int corrente)
-			throws Exception {
+	public static String convertiMese2(final int corrente) throws Exception {
 		String mesi = null;
 		if (corrente < 10) {
 			mesi = "0" + corrente;
@@ -215,8 +190,7 @@ public class UtilDb {
 	 * @param clausole
 	 * @return boolean
 	 */
-	public boolean eseguiIstruzioneSql(final Connection cn, final String comando, final String tabella,
-			final HashMap<String, String> campi, final HashMap<String, String> clausole) {
+	public boolean eseguiIstruzioneSql(final Connection cn, final String comando, final String tabella, final HashMap<String, String> campi, final HashMap<String, String> clausole) {
 		boolean ok = false;
 		try {
 			ok = false;
