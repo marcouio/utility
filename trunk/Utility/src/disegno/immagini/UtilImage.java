@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.io.ByteArrayOutputStream;
@@ -27,6 +28,23 @@ public class UtilImage extends JPanel {
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
+	
+	/**
+	 * Potrebbe non funzionare: verificare se il parametro image deve essere un bufferedImage
+	 * 
+	 * @param image
+	 * @param scale
+	 */
+	public static Image getScaledImage(Image image, double scale){
+		int w = image.getWidth(null);
+		int h = image.getHeight(null);
+		BufferedImage scaled = new BufferedImage((int) (w * scale), (int) (h * scale), ((BufferedImage) image).getType()); 
+		AffineTransform at = AffineTransform.getScaleInstance(scale, scale); 
+		Graphics2D g2d = (Graphics2D) scaled.getGraphics(); 
+		g2d.drawImage((BufferedImage) image, new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR), 0, 0); 
+		return image = scaled;
+	} 
+
 
 	@Override
 	public void paint(final Graphics g) {

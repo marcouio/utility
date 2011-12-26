@@ -1,6 +1,14 @@
 package testo;
 
+import java.awt.GraphicsEnvironment;
+
 public class UtilText {
+
+	public String[] listSystemFontsName() {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		String[] fontsName = ge.getAvailableFontFamilyNames();
+		return fontsName;
+	}
 
 	/**
 	 * Dato un campo, ne valuta la lunghezza. Se e' piu' corto della dimensione
@@ -11,7 +19,8 @@ public class UtilText {
 	 * @param dimensione
 	 * @return String
 	 */
-	public static String creaStringStessaDimensione(String campo, final int dimensione) {
+	public static String creaStringStessaDimensione(String campo,
+			final int dimensione) {
 		if (campo.length() < dimensione) {
 			for (int i = campo.length(); i < dimensione + 1; i++) {
 				campo = campo + " ";
