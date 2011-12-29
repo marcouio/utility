@@ -16,6 +16,13 @@ public class UtilComponenti {
 
 	}
 
+	/**
+	 * Fornisce i settaggi default per il funzionamento di un frame
+	 * 
+	 * @param lm
+	 * @param controllore
+	 * @return
+	 */
 	public static FrameBase initContenitoreFrameApplicazione(final LayoutManager lm, final ControlloreBase controllore) {
 		FrameBase frame = new FrameBase();
 		JPanel contentPane = (JPanel) frame.getContentPane();
@@ -30,6 +37,12 @@ public class UtilComponenti {
 		return frame;
 	}
 
+	/**
+	 * Fornisce i settaggi default per il funzionamento di un frame
+	 * 
+	 * @param lm
+	 * @return
+	 */
 	public static JPanel initContenitoreFrame(final LayoutManager lm) {
 		JFrame frame = new JFrame();
 		JPanel contentPane = (JPanel) frame.getContentPane();
