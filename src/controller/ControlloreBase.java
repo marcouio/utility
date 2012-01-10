@@ -6,6 +6,7 @@ import grafica.componenti.contenitori.FrameBase;
 import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import log.LoggerOggetto;
