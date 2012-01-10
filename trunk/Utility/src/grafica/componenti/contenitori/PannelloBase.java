@@ -11,6 +11,7 @@ import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Graphics;
 import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
@@ -135,6 +136,17 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 
 	protected StyleBase settaStileOverride() {
 		return new StyleBase("StyleBasePannello");
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
+		super.paint(g);
 	}
 
 	public Container getContenitorePadre() {
