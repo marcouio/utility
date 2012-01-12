@@ -42,7 +42,7 @@ public class UtilDisegno {
 
 	public static boolean isInRegion(final int x, final int y, final Rectangle rectangle) {
 
-		if ((x >= rectangle.getX() && x <= rectangle.getX() + rectangle.getWidth()) && (y <= rectangle.getY() && y >= rectangle.getY() - rectangle.getHeight() - 1)) {
+		if ((x >= rectangle.getX() && x <= rectangle.getX() + rectangle.getWidth()) && (y >= rectangle.getY() && y <= rectangle.getY() + rectangle.getHeight() - 1)) {
 			return true;
 		} else {
 			return false;
