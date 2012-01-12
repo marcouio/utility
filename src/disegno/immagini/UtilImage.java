@@ -2,12 +2,15 @@ package disegno.immagini;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 import java.awt.print.PageFormat;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,23 +31,22 @@ public class UtilImage extends JPanel {
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	
+
 	/**
 	 * Potrebbe non funzionare: verificare se il parametro image deve essere un bufferedImage
 	 * 
 	 * @param image
 	 * @param scale
 	 */
-	public static Image getScaledImage(Image image, double scale){
+	public static Image getScaledImage(Image image, final double scale) {
 		int w = image.getWidth(null);
 		int h = image.getHeight(null);
-		BufferedImage scaled = new BufferedImage((int) (w * scale), (int) (h * scale), ((BufferedImage) image).getType()); 
-		AffineTransform at = AffineTransform.getScaleInstance(scale, scale); 
-		Graphics2D g2d = (Graphics2D) scaled.getGraphics(); 
-		g2d.drawImage((BufferedImage) image, new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR), 0, 0); 
+		BufferedImage scaled = new BufferedImage((int) (w * scale), (int) (h * scale), ((BufferedImage) image).getType());
+		AffineTransform at = AffineTransform.getScaleInstance(scale, scale);
+		Graphics2D g2d = (Graphics2D) scaled.getGraphics();
+		g2d.drawImage((BufferedImage) image, new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR), 0, 0);
 		return image = scaled;
-	} 
-
+	}
 
 	@Override
 	public void paint(final Graphics g) {
@@ -156,4 +158,34 @@ public class UtilImage extends JPanel {
 		final Image newimg = imageicon.getImage().getScaledInstance(nuovaLarghezza, nuovaAltezza, Image.SCALE_SMOOTH);
 		return new ImageIcon(newimg);
 	}
+
+	/**
+	 * Invece di creare una semplice Image per
+	 * il double buffering creiamo una VolatileImage che sfrutta maggiormente la
+	 * scheda grafica e garantisce performance maggiori.
+	 * 
+	 * @param width
+	 * @param height
+	 * @param transparency
+	 * @return
+	 */
+	public static VolatileImage createVolatileImage(final int width, final int height, final int transparency) {
+		//prende la configurazione grafica dell'ambiente
+		final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		final GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+
+		//creazione
+		VolatileImage image = gc.createCompatibleVolatileImage(width, height);
+
+		final int valid = image.validate(gc);
+
+		//verifica sul corretto contenuto e sulla validità dell'immagine (VolatileImage è più performante ma può perdere il suo contenuto) 
+		if (valid == VolatileImage.IMAGE_INCOMPATIBLE) {
+			image = createVolatileImage(width, height, transparency);
+			return image;
+		}
+
+		return image;
+	}
+
 }
