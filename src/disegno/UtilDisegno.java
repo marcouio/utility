@@ -49,4 +49,8 @@ public class UtilDisegno {
 		}
 
 	}
+	
+	public static boolean isInRegion(final Point mouse, final Rectangle rectangle) {
+			return isInRegion((int)mouse.getX(), (int)mouse.getY(), rectangle);
+	}
 }
