@@ -40,11 +40,6 @@ public class UtilDisegno {
 		return false;
 	}
 	
-	public static boolean isInRegion(final Point mouse, final Rectangle rectangle) {
-		int x = (int) mouse.getX(), y = (int) mouse.getY();
-		return isInRegion(x, y, rectangle);
-	}
-
 	public static boolean isInRegion(final int x, final int y, final Rectangle rectangle) {
 
 		if ((x >= rectangle.getX() && x <= rectangle.getX() + rectangle.getWidth()) && (y >= rectangle.getY() && y <= rectangle.getY() + rectangle.getHeight() - 1)) {
