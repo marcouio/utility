@@ -24,7 +24,7 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-public class DialogoBase extends JDialog implements IComponenteBase, IContainerBase {
+public class DialogoBase extends JDialog implements IComponenteBase, IContainerBase, IContainerBuilderDialog {
 
 	private final ContainerBaseDialogo containerBase = new ContainerBaseDialogo();
 	private final ComponenteBaseDialogo componenteBase = new ComponenteBaseDialogo();
@@ -144,6 +144,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 		}
 	}
 
+	@Override
 	public Builder getBuilder() {
 		return new Builder(padre);
 	}
