@@ -6,7 +6,7 @@ import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-public class AlertSwing {
+public class AlertSwing implements IContainerBuilderDialog {
 
 	public class BuilderSwing implements IBuilderDialogo {
 
@@ -61,6 +61,11 @@ public class AlertSwing {
 
 			return null;
 		}
+	}
+
+	@Override
+	public IBuilderDialogo getBuilder() {
+		return new BuilderSwing();
 	}
 
 	public static void main(final String[] args) {
