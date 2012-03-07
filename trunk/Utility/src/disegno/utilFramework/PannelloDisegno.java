@@ -22,21 +22,21 @@ public class PannelloDisegno extends PannelloBase {
 
 	public PannelloDisegno(final Container contenitore) {
 		super(contenitore);
-		Rettangolo ret = new Rettangolo();
-		ret.setSize(100, 100);
-		ret.setLocation(0, 0);
-		ret.setBackground(Color.GREEN);
-		oggetti.add(ret);
-		Point uno = new Point(120, 120);
-		Point due = new Point(240, 120);
-		Segmento l = new Segmento(uno, due);
-		PuntaTriangolo punta = new PuntaTriangolo(l, 20);
-		punta.setBackground(Color.RED);
-		oggetti.add(l);
-		oggetti.add(punta);
-		MyMouseListener mouseListener = new MyMouseListener();
-		this.addMouseListener(mouseListener.getMouseAdapter());
-		this.addMouseMotionListener(mouseListener.getMouseMotionAdapter());
+//		Rettangolo ret = new Rettangolo();
+//		ret.setSize(100, 100);
+//		ret.setLocation(0, 0);
+//		ret.setBackground(Color.GREEN);
+//		oggetti.add(ret);
+//		Point uno = new Point(120, 120);
+//		Point due = new Point(240, 120);
+//		Segmento l = new Segmento(uno, due);
+//		PuntaTriangolo punta = new PuntaTriangolo(l, 20);
+//		punta.setBackground(Color.RED);
+//		oggetti.add(l);
+//		oggetti.add(punta);
+//		MyMouseListener mouseListener = new MyMouseListener();
+//		this.addMouseListener(mouseListener.getMouseAdapter());
+//		this.addMouseMotionListener(mouseListener.getMouseMotionAdapter());
 	}
 
 	@Override
