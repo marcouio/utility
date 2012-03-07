@@ -16,29 +16,18 @@ import disegno.oggetti.FormaGeometrica;
 import disegno.oggetti.FormaGeometrica2D;
 import disegno.utilFramework.PannelloDisegno;
 
-public class ControlloreDisegno extends ControlloreBase {
-
-	private static ControlloreDisegno singleton;
-
-	public static ControlloreDisegno getSingleton() {
-		if (singleton == null) {
-			singleton = new ControlloreDisegno();
-		}
-		return singleton;
-	}
-
-	public static void main(final String[] args) {
-		ControlloreDisegno.getSingleton().myMain(ControlloreDisegno.getSingleton(), false, "app");
-	}
+public abstract class ControlloreDisegno extends ControlloreBase {
 
 	public static PannelloDisegno p;
 
 	@Override
 	public void mainOverridato(final FrameBase frame) {
-		p = new PannelloDisegno(frame);
+		p = getPannello(frame);
 		p.setSize(400, 600);
 		p.setBackground(Color.white);
 	}
+
+	protected abstract PannelloDisegno getPannello(FrameBase frame);
 
 	@Override
 	public boolean setStartUtenteLogin() {
