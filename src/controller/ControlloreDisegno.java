@@ -14,7 +14,7 @@ import java.util.Iterator;
 import disegno.UtilDisegno;
 import disegno.oggetti.FormaGeometrica;
 import disegno.oggetti.FormaGeometrica2D;
-import disegno.utilFramework.Pannello;
+import disegno.utilFramework.PannelloDisegno;
 
 public class ControlloreDisegno extends ControlloreBase {
 
@@ -31,11 +31,11 @@ public class ControlloreDisegno extends ControlloreBase {
 		ControlloreDisegno.getSingleton().myMain(ControlloreDisegno.getSingleton(), false, "app");
 	}
 
-	public static Pannello p;
+	public static PannelloDisegno p;
 
 	@Override
 	public void mainOverridato(final FrameBase frame) {
-		p = new Pannello(frame);
+		p = new PannelloDisegno(frame);
 		p.setSize(400, 600);
 		p.setBackground(Color.white);
 	}
