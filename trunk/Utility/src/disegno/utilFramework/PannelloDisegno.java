@@ -15,8 +15,8 @@ import disegno.oggetti.punte.PuntaTriangolo;
 
 public class PannelloDisegno extends PannelloBase {
 
-	ArrayList<FormaGeometrica> oggetti = new ArrayList<FormaGeometrica>();
-	FormaGeometrica oggettoSelezionato;
+	protected ArrayList<FormaGeometrica> oggetti = new ArrayList<FormaGeometrica>();
+	protected FormaGeometrica oggettoSelezionato;
 
 	private static final long serialVersionUID = 1L;
 
