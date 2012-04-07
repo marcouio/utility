@@ -9,7 +9,7 @@ import org.w3c.dom.NodeList;
 
 public class CoreXMLManager {
 
-	private static final String XMLCOREPATH = "./config-core.xml";
+	public static final String XMLCOREPATH = "./config-core.xml";
 	private Document doc;
 
 	private CoreXMLManager() {
@@ -59,20 +59,24 @@ public class CoreXMLManager {
 
 	/**
 	 * @return path del file di style in formato stringa
+	 * @throws Exception 
 	 */
-	public String getXMLStyleFilePath() {
+	public String getXMLStyleFilePath() throws Exception {
 		Node nodo = UtilXml.getNodo("style", doc);
-		NodeList listaFigli = nodo.getChildNodes();
-		for (int i = 0; i < listaFigli.getLength(); i++) {
-			Node nodoFiglio = listaFigli.item(i);
-			if (nodoFiglio.getNodeName().equals("file")) {
-				Element elemento = UtilXml.getElement(nodoFiglio);
-				if (elemento != null) {
-					return elemento.getAttribute("url");
+		if(nodo != null){
+			NodeList listaFigli = nodo.getChildNodes();
+			for (int i = 0; i < listaFigli.getLength(); i++) {
+				Node nodoFiglio = listaFigli.item(i);
+				if (nodoFiglio.getNodeName().equals("file")) {
+					Element elemento = UtilXml.getElement(nodoFiglio);
+					if (elemento != null) {
+						return elemento.getAttribute("url");
+					}
 				}
 			}
 		}
-		return null;
+		String msg = "<style><file url=\"./config-style.xml\" /></style>";
+		throw new Exception("E' necessario mantenere nel config-core.xml:" + msg);
 	}
 
 	/**

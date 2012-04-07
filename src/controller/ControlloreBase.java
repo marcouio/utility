@@ -4,13 +4,22 @@ import grafica.componenti.UtilComponenti;
 import grafica.componenti.contenitori.FrameBase;
 
 import java.awt.Graphics2D;
+import java.io.File;
 import java.util.logging.Logger;
 
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import log.LoggerOggetto;
 import messaggi.I18NManager;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import xml.CoreXMLManager;
+import xml.UtilXml;
 
 import command.AbstractCommand;
 import command.CommandManager;
@@ -35,7 +44,7 @@ public abstract class ControlloreBase {
 
 	/**
 	 * Gestore dei comandi. Contiene la lista dei comandi eseguiti. Per eseguire un comando, chiamare il metodo invocaComando
-	 * della classe ControlloreBase
+	 * della classe ControlloreBase. Per creare un comando bisogna estendere un AbstractCommand
 	 */
 	protected CommandManager commandManager;
 
@@ -45,12 +54,12 @@ public abstract class ControlloreBase {
 	protected static IUtente utenteLogin;
 
 	/**
-	 * Viene creata e mantenuta l'istanza di un "Graphics2D", cosicchè nel caso servisse ce ne sia sempre una disponibile 
+	 * Viene creata e mantenuta l'istanza di un "Graphics2D", in modo che non ci casi in cui serva e sia null 
 	 */
 	protected static Graphics2D applicationGraphics2d;
 
 	/**
-	 * 
+	 * Logger dell'applicazione
 	 */
 	private static Logger log;
 
@@ -60,13 +69,19 @@ public abstract class ControlloreBase {
 
 			@Override
 			public void run() {
-				FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
-				ControlloreBase.setApplicationframe(frame);
-				controllore.setStartUtenteLogin();
-				verificaPresenzaDb();
-				controllore.mainOverridato(frame);
-				if (dimensiona) {
-					frame.setSize(frame.getLarghezza(), frame.getAltezza());
+				try {
+					creaFileXmlConfigurazione();
+				
+					FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
+					ControlloreBase.setApplicationframe(frame);
+					controllore.setStartUtenteLogin();
+					verificaPresenzaDb();
+					controllore.mainOverridato(frame);
+					if (dimensiona) {
+						frame.setSize(frame.getLarghezza(), frame.getAltezza());
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});
@@ -150,5 +165,58 @@ public abstract class ControlloreBase {
 	 * Verifica presenza del db. Se non necessario lasciarlo vuoto
 	 */
 	public abstract boolean verificaPresenzaDb();
+	
+	public static void creaFileXmlConfigurazione() throws Exception{
+		String pathFile = CoreXMLManager.XMLCOREPATH;
+		File fileConf = new File(pathFile);
+		Document doc = UtilXml.createDocument(fileConf);
+		
+		Node nodo = UtilXml.getNodo("configs", doc);
+		NodeList nodeList = UtilXml.getNodeList(doc);
+		if(nodo == null && nodeList == null){
+			
+			Element rootElement = doc.createElement("configs");
+			
+			doc.appendChild(rootElement);
+
+			//Style
+			Element style = doc.createElement("style");
+			rootElement.appendChild(style);
+			Element file = doc.createElement("file");
+			style.appendChild(file);
+			Attr attrUrl = doc.createAttribute("url");
+			attrUrl.setValue("./config-style.xml");
+			file.setAttributeNode(attrUrl);
+			
+			//lang
+			Element lang = doc.createElement("lang");
+			rootElement.appendChild(lang);
+			Attr attrLocale = doc.createAttribute("locale");
+			attrLocale.setValue("it");
+			lang.setAttributeNode(attrLocale);
+			
+			//messaggi
+			Element messaggi = doc.createElement("messaggi");
+			rootElement.appendChild(messaggi);
+			Element fileM = doc.createElement("file");
+			messaggi.appendChild(fileM);
+			Attr attrNome = doc.createAttribute("nome");
+			attrNome.setValue("messaggi");
+			fileM.setAttributeNode(attrNome);
+			
+			//auto-config
+			Element auto_config = doc.createElement("auto-config");
+			rootElement.appendChild(auto_config);
+			Attr attrValue = doc.createAttribute("value");
+			attrValue.setValue("true");
+			auto_config.setAttributeNode(attrValue);
+			
+			UtilXml.writeXmlFile(doc, pathFile);
+		}
+		
+	}
+	public static void main(String[] args) throws Exception {
+		ControlloreBase.creaFileXmlConfigurazione();
+	}
 
 }
