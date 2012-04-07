@@ -220,4 +220,10 @@ public class UtilXml {
 		return attr;
 	}
 
+	public static Element addRootElement(Document doc, String rootNome) {
+		Element root = doc.createElement(rootNome);
+		doc.appendChild(root);
+		return root;
+	}
+
 }

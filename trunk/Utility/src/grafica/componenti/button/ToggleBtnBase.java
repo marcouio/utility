@@ -1,7 +1,10 @@
 package grafica.componenti.button;
 
-import grafica.componenti.componenteBase.ComponenteBase;
+import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
+import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
+import grafica.componenti.contenitori.contenitoreBase.ContainerBaseBottone;
+import grafica.componenti.contenitori.contenitoreBase.IContainerBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
@@ -10,7 +13,7 @@ import java.awt.Container;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class ToggleBtnBase extends ToggleBtn implements IComponenteBase {
+public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContainerBase {
 
 	public ToggleBtnBase(final ImageIcon icon, final Container contenitore) {
 		super(icon);
@@ -39,7 +42,8 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
 	protected StyleBase style = new StyleBase();
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
+	private final ContainerBaseBottone containerBase = new ContainerBaseBottone();
 	private Container contenitorePadre;
 
 	@Override
@@ -138,21 +142,40 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase {
 
 	@Override
 	public int getLarghezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		int margineSinitro = this.getMargin().left;
+		int margineDestro = this.getMargin().right;
+		int larghezzaTesto = this.componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
+		return getMaxDimensionX() + margineSinitro + margineDestro + larghezzaTesto;
 	}
 
 	@Override
 	public int getAltezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		int margineAlto = this.getMargin().top;
+		int margineBasso = this.getMargin().bottom;
+		int altezzaTesto = this.componenteBase.getAltezzaSingleStringa(getGraphics(), this);
+		return getMaxDimensionY() + margineAlto + margineBasso + altezzaTesto;
+	}
+	
+	@Override
+	public ContainerBase getContainerBase() {
+		return containerBase;
+	}
+
+	@Override
+	public int getMaxDimensionX() {
+		return containerBase.getMaxDimensionY(this);
+	}
+
+	@Override
+	public int getMaxDimensionY() {
+		return containerBase.getMaxDimensionY(this);
 	}
 
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
 
-	public void setContenitorePadre(Container contenitorePadre) {
+	public void setContenitorePadre(final Container contenitorePadre) {
 		this.contenitorePadre = contenitorePadre;
 	}
 

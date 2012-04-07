@@ -12,7 +12,6 @@ import javax.swing.SwingUtilities;
 import log.LoggerOggetto;
 import messaggi.I18NManager;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -71,7 +70,7 @@ public abstract class ControlloreBase {
 			public void run() {
 				try {
 					creaFileXmlConfigurazione();
-				
+					creaFileXmlStyle();
 					FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
 					ControlloreBase.setApplicationframe(frame);
 					controllore.setStartUtenteLogin();
@@ -166,8 +165,53 @@ public abstract class ControlloreBase {
 	 */
 	public abstract boolean verificaPresenzaDb();
 	
-	public static void creaFileXmlStyle(){
+	public static void creaFileXmlStyle() throws Exception{
 		
+		String pathFile = CoreXMLManager.getSingleton().getXMLStyleFilePath();
+		
+		File fileConf = new File(pathFile);
+		Document doc = UtilXml.createDocument(fileConf);
+		Node nodo = UtilXml.getNodo("styles", doc);
+		NodeList nodeList = UtilXml.getNodeList(doc);
+		if(nodo == null && nodeList == null){
+			Element rootElement = UtilXml.addRootElement(doc, "styles");
+			
+			//style
+			Element styleElement = UtilXml.addElement(doc, rootElement, "style");
+			UtilXml.addAttribute(doc, styleElement, "nome", "stylebase");
+			
+			//font
+			Element fontElement = UtilXml.addElement(doc, styleElement, "font");
+			UtilXml.addAttribute(doc, fontElement, "font-family", "Arial");
+			UtilXml.addAttribute(doc, fontElement, "type", "0");
+			UtilXml.addAttribute(doc, fontElement, "size", "15");
+			
+			//foreground
+			Element foregroundElement = UtilXml.addElement(doc, styleElement, "foreground");
+			Element colorForeElement = UtilXml.addElement(doc, foregroundElement, "color");
+			UtilXml.addAttribute(doc, colorForeElement, "r", "100");
+			UtilXml.addAttribute(doc, colorForeElement, "g", "100");
+			UtilXml.addAttribute(doc, colorForeElement, "b", "100");
+			
+			//background
+			Element backgroundElement = UtilXml.addElement(doc, styleElement, "background");
+			Element colorBackElement = UtilXml.addElement(doc, backgroundElement, "color");
+			UtilXml.addAttribute(doc, colorBackElement, "r", "255");
+			UtilXml.addAttribute(doc, colorBackElement, "g", "255");
+			UtilXml.addAttribute(doc, colorBackElement, "b", "255");
+			
+			//dimensionarea
+			Element dimensionAreaElement = UtilXml.addElement(doc, styleElement, "dimensionarea");
+			UtilXml.addAttribute(doc, dimensionAreaElement, "rows", "60");
+			UtilXml.addAttribute(doc, dimensionAreaElement, "columns", "60");
+			
+			//dimension
+			Element dimensionElement = UtilXml.addElement(doc, styleElement, "dimension");
+			UtilXml.addAttribute(doc, dimensionElement, "width", "101");
+			UtilXml.addAttribute(doc, dimensionElement, "height", "131");
+			
+			UtilXml.writeXmlFile(doc, pathFile);
+		}
 	}
 	
 	public static void creaFileXmlConfigurazione() throws Exception{
