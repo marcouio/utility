@@ -1,5 +1,3 @@
-- Copiare ed incollare i file config-style.xml e config-core.xml direttamente dentro il progetto che si sta creando
-
 Il Controller
 
 - Creare un Controllore che estende uno dei 'ControlloreBase'. 

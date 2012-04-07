@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 public class CoreXMLManager {
 
 	public static final String XMLCOREPATH = "./config-core.xml";
+	public static final String XMLSTYLEPATH = "./config-style.xml";
 	private Document doc;
 
 	private CoreXMLManager() {
