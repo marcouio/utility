@@ -113,7 +113,9 @@ public class ToggleBtn extends JToggleButton {
 		// reimposto l'icona a quella passata e la disegno per il funzionamento
 		// default
 		this.setIcon(imageIcon);
-		getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - imageIcon.getIconHeight() / 2);
+		if(imageIcon != null){
+			getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - imageIcon.getIconHeight() / 2);
+		}
 
 		if (this.isSelected()) {
 			// effetto pulsante premuto ridefinito
