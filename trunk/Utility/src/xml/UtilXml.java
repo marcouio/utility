@@ -103,6 +103,14 @@ public class UtilXml {
 		}
 		return null;
 	}
+	
+	public static Element addElement(final Document doc, 
+									 final Element elementoPadre,
+									 final String nomeElemento) {
+		Element style = doc.createElement(nomeElemento);
+		elementoPadre.appendChild(style);
+		return style;
+	}
 
 	public static Node getNodo(String nodo, Document doc) {
 		NodeList listaNodi = getNodeList(doc);
@@ -200,6 +208,16 @@ public class UtilXml {
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	public static Attr addAttribute(final Document doc,
+									final Element element, 
+									final String attrNome,
+									final String attrValue) {
+		Attr attr = doc.createAttribute(attrNome);
+		attr.setValue(attrValue);
+		element.setAttributeNode(attr);
+		return attr;
 	}
 
 }
