@@ -1,10 +1,7 @@
 package xml;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -71,8 +68,10 @@ public class UtilXml {
 	public static NodeList getNodeList(final Document doc) {
 		if(doc != null){
 			final Element root = doc.getDocumentElement();
-			final NodeList listaNodi = (root.hasChildNodes()) ? root.getChildNodes() : null;
-			return listaNodi;
+			if(root!=null){
+				final NodeList listaNodi = (root.hasChildNodes()) ? root.getChildNodes() : null;
+				return listaNodi;
+			}
 		}
 		return null;
 	}
@@ -85,8 +84,10 @@ public class UtilXml {
 	 */
 	public static Element getElement(final Node nodoComponente) {
 		Element elemento = null;
-		if (nodoComponente.getNodeType() == Node.ELEMENT_NODE) {
-			elemento = (Element) nodoComponente;
+		if(nodoComponente != null){
+			if (nodoComponente.getNodeType() == Node.ELEMENT_NODE) {
+				elemento = (Element) nodoComponente;
+			}
 		}
 		return elemento;
 	}
@@ -105,79 +106,99 @@ public class UtilXml {
 
 	public static Node getNodo(String nodo, Document doc) {
 		NodeList listaNodi = getNodeList(doc);
-		for (int i = 0; i < listaNodi.getLength(); i++) {
-			Node nodoDaLista = listaNodi.item(i);
-			if (nodoDaLista.getNodeName().equals(nodo)) {
-				return nodoDaLista;
+		if(listaNodi!=null){
+			for (int i = 0; i < listaNodi.getLength(); i++) {
+				Node nodoDaLista = listaNodi.item(i);
+				if (nodoDaLista.getNodeName().equals(nodo)) {
+					return nodoDaLista;
+				}
 			}
 		}
 		return null;
 	}
-
+	
 	// This method writes a DOM document to a file
-	public static void writeXmlFile2(Document doc, String filename) {
-		try {
-			// save the result
-			Transformer xformer = TransformerFactory.newInstance().newTransformer();
-			xformer.transform(new DOMSource(doc), new StreamResult(new File(filename)));
-
-		} catch (Exception e) {
-			// TODO: handle exception
+		public static StreamResult writeXmlFile2(Document doc, StreamResult stream) {
+			try {
+				// save the result
+				Transformer xformer = TransformerFactory.newInstance().newTransformer();
+				
+				StreamResult outputTarget = stream;
+				xformer.transform(new DOMSource(doc), outputTarget);
+				return outputTarget;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
-	}
+
 	public static void writeXmlFile(Document doc, String path) {
 
 		FileOutputStream fos = null;
+		File file = new File(path);
 		try {
-			fos = new FileOutputStream(path);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		// XERCES 1 or 2 additionnal classes.
-		OutputFormat of = new OutputFormat("XML","ISO-8859-1",true);
-		of.setIndent(1);
-		of.setIndenting(true);
-		of.setDoctype(null,"users.dtd");
-		XMLSerializer serializer = new XMLSerializer(fos,of);
-		// As a DOM Serializer
-		try {
+			fos = new FileOutputStream(file);
+			// XERCES 1 or 2 additionnal classes.
+			OutputFormat of = new OutputFormat("XML","ISO-8859-1",true);
+			of.setIndent(1);
+			of.setIndenting(true);
+			of.setDoctype(null,"users.dtd");
+			XMLSerializer serializer = new XMLSerializer(fos,of);
+			// As a DOM Serializer
+			
 			serializer.asDOMSerializer();
 			serializer.serialize( doc);
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			fos.close();		
+
+		} catch (Exception e1) {
+			writeXmlFile2(doc, new StreamResult(file));
 		}
 	}
 	
 	public static void main(String[] args) {
 		try {
-			Document doc = UtilXml.createDocument(new File("/home/kiwi2/Scrivania/file.xml"));
-			Element rootElement = doc.createElement("config");
-			doc.appendChild(rootElement);
 			
+			String pathname = "/home/kiwi/Documenti/file.xml";
+			Document doc = UtilXml.createDocument(new File(pathname));
+			Element rootElement = doc.createElement("configs");
+			
+			doc.appendChild(rootElement);
+
+			//Style
+			Element style = doc.createElement("style");
+			rootElement.appendChild(style);
+			Element file = doc.createElement("file");
+			style.appendChild(file);
+			Attr attrUrl = doc.createAttribute("url");
+			attrUrl.setValue("./config-style.xml");
+			file.setAttributeNode(attrUrl);
+			
+			//lang
 			Element lang = doc.createElement("lang");
 			rootElement.appendChild(lang);
-			
 			Attr attrLocale = doc.createAttribute("locale");
 			attrLocale.setValue("it");
 			lang.setAttributeNode(attrLocale);
 			
-			Element utente = doc.createElement("utenteDefault");
-			rootElement.appendChild(utente);
+			//messaggi
+			Element messaggi = doc.createElement("messaggi");
+			rootElement.appendChild(messaggi);
+			Element fileM = doc.createElement("file");
+			messaggi.appendChild(fileM);
+			Attr attrNome = doc.createAttribute("nome");
+			attrNome.setValue("messaggi");
+			fileM.setAttributeNode(attrNome);
 			
-			Attr attrUser = doc.createAttribute("user");
-			attrUser.setValue("user");
-			lang.setAttributeNode(attrUser);
+			//auto-config
+			Element auto_config = doc.createElement("auto-config");
+			rootElement.appendChild(auto_config);
+			Attr attrValue = doc.createAttribute("value");
+			attrValue.setValue("true");
+			auto_config.setAttributeNode(attrValue);
 			
-			Attr attrPass = doc.createAttribute("pass");
-			attrPass.setValue("pass");
-			lang.setAttributeNode(attrPass);
-			UtilXml.writeXmlFile(doc, "/home/kiwi2/Scrivania/file.xml");
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			UtilXml.writeXmlFile(doc, pathname);
+		}catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 
