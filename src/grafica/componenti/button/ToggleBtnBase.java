@@ -144,8 +144,15 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	public int getLarghezza() {
 		int margineSinitro = this.getMargin().left;
 		int margineDestro = this.getMargin().right;
-		int larghezzaTesto = this.componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
-		return getMaxDimensionX() + margineSinitro + margineDestro + larghezzaTesto;
+		int larghezzaTesto = 0;
+		if(getTesto() != null){
+			larghezzaTesto = this.componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
+		}
+		int larghezzaImmagine = 0;
+		if(getIcon() !=null){
+			larghezzaImmagine = getIcon().getIconWidth();
+		}
+		return getMaxDimensionX() + margineSinitro + margineDestro + larghezzaTesto + larghezzaImmagine;
 	}
 
 	@Override

@@ -12,6 +12,8 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import disegno.immagini.UtilImage;
+
 /**
  * La classe estende JToggleButton per modificarne il funzionamento di default.
  * L'utilità sta nella flessibilità con cui si possono gestire rollover,
@@ -33,7 +35,7 @@ public class ToggleBtn extends JToggleButton {
 	 * 
 	 * @return int
 	 */
-	private int distanzaBordoImageX = 10;
+	private int distanzaBordoImageX = getMargin().left;
 
 	/**
 	 * la coordinata x di partenza del testo
@@ -66,7 +68,12 @@ public class ToggleBtn extends JToggleButton {
 	public MyIcon getMyIcon() {
 		return icona != null ? icona : new MyIcon();
 	}
-
+	
+	@Override
+	public void setText(String text) {
+		testo = text;
+	}
+	
 	public ToggleBtn(final String text, final ImageIcon icon, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
 		this(text, icon);
 		this.distanzaBordoImageX = xDistanzaBordoImmagine != -1 ? xDistanzaBordoImmagine : distanzaBordoImageX;
@@ -74,7 +81,7 @@ public class ToggleBtn extends JToggleButton {
 	}
 
 	public ToggleBtn(final String text) {
-		super("");
+		super(text);
 		setxPartenzaTesto(10);
 		testo = text;
 	}
@@ -99,19 +106,24 @@ public class ToggleBtn extends JToggleButton {
 	public void paintComponent(final Graphics g) {
 		// setto l'icona a null per non farla disegnare dal super.paintcomponent
 		this.setIcon(new ImageIcon());
+		String old = getText();
 
+		//devo settarlo a vuoto perché altrimenti il super.paint me lo scrive una volta in più
+		setText("");
+		
 		// sono costretto a fare il super del paintComponent per via del
 		// rollover che altrimenti dovrei gestire io
 		super.paintComponent(g);
 
-		// invece di far disegnare il testo al paintcomponent ho settato il text
-		// a "" nel costruttore e il testo lo disegno qui così ho un
+		setText(old);
+		
+		// invece di far disegnare il testo lo disegno qui così ho un
 		// maggiore controllo
-		g.drawString(testo != null ? testo : "", getLarghezzaImmagine(imageIcon) + distanzaBordoImageX
-				+ calcolaTextGap(imageIcon), (getHeight() + g.getFontMetrics().getAscent()) / 2 - 1);
+		int coordinataXTesto = getLarghezzaImmagine(imageIcon) + distanzaBordoImageX + calcolaTextGap(imageIcon);
+		int coordinataYTesto = (getHeight() + g.getFontMetrics().getAscent()) / 2 - 1;
+		g.drawString(testo != null ? testo : "", coordinataXTesto, coordinataYTesto);
 
-		// reimposto l'icona a quella passata e la disegno per il funzionamento
-		// default
+		// reimposto l'icona a quella passata e la disegno per il funzionamento default
 		this.setIcon(imageIcon);
 		if(imageIcon != null){
 			getIcon().paintIcon(this, g, distanzaBordoImageX, getHeight() / 2 - imageIcon.getIconHeight() / 2);
@@ -156,7 +168,12 @@ public class ToggleBtn extends JToggleButton {
 		}
 
 	}
-
+	
+	@Override
+	public String getText() {
+		return testo;
+	}
+	
 	// TODO metodo da verificare
 	/**
 	 * Setta la proprietà "xPartenzaTesto" sulla base delle impostazioni iniziali della proprietà, 
@@ -173,7 +190,7 @@ public class ToggleBtn extends JToggleButton {
 				return 0;
 			}
 		} else {
-			return xPartenzaTesto;
+			return 4; //why?
 		}
 	}
 
@@ -363,12 +380,11 @@ public class ToggleBtn extends JToggleButton {
 
 			@Override
 			public void run() {
-
-				ToggleBtn tb = new ToggleBtn("Ciao", new ImageIcon(
-						"C:\\Documents and Settings\\marco.molinari\\Documenti\\Download\\Mio\\Immaginiplay.jpg"));
+				ImageIcon icona = new ImageIcon("/home/kiwi2/Scaricati/icona.png");
+				icona = UtilImage.resizeImage(30, 30, icona);
+				ToggleBtn tb = new ToggleBtn("Ciao", icona);
 				tb.setBounds(10, 10, 200, 100);
-				ToggleBtn tb2 = new ToggleBtn("Ciao2", new ImageIcon(
-						"C:\\Documents and Settings\\marco.molinari\\Documenti\\Download\\Mio\\Immaginiplay.jpg"));
+				ToggleBtn tb2 = new ToggleBtn("Ciao2", icona);
 				tb2.setBounds(10, 140, 200, 100);
 				JFrame frame = new JFrame();
 				frame.getContentPane().add(tb);
