@@ -166,6 +166,10 @@ public abstract class ControlloreBase {
 	 */
 	public abstract boolean verificaPresenzaDb();
 	
+	public static void creaFileXmlStyle(){
+		
+	}
+	
 	public static void creaFileXmlConfigurazione() throws Exception{
 		String pathFile = CoreXMLManager.XMLCOREPATH;
 		File fileConf = new File(pathFile);
@@ -180,41 +184,28 @@ public abstract class ControlloreBase {
 			doc.appendChild(rootElement);
 
 			//Style
-			Element style = doc.createElement("style");
-			rootElement.appendChild(style);
-			Element file = doc.createElement("file");
-			style.appendChild(file);
-			Attr attrUrl = doc.createAttribute("url");
-			attrUrl.setValue("./config-style.xml");
-			file.setAttributeNode(attrUrl);
+			Element style = UtilXml.addElement(doc, rootElement, "style");
+			Element file =  UtilXml.addElement(doc,style,"file"); 
+			UtilXml.addAttribute(doc, file, "url", "./config-style.xml");
 			
 			//lang
-			Element lang = doc.createElement("lang");
-			rootElement.appendChild(lang);
-			Attr attrLocale = doc.createAttribute("locale");
-			attrLocale.setValue("it");
-			lang.setAttributeNode(attrLocale);
+			Element lang = UtilXml.addElement(doc, rootElement, "lang");
+			UtilXml.addAttribute(doc, lang, "locale", "it");
 			
 			//messaggi
-			Element messaggi = doc.createElement("messaggi");
-			rootElement.appendChild(messaggi);
-			Element fileM = doc.createElement("file");
-			messaggi.appendChild(fileM);
-			Attr attrNome = doc.createAttribute("nome");
-			attrNome.setValue("messaggi");
-			fileM.setAttributeNode(attrNome);
+			Element messaggi = UtilXml.addElement(doc, rootElement, "messaggi");
+			Element fileM = UtilXml.addElement(doc, messaggi, "file");
+			UtilXml.addAttribute(doc, fileM, "nome", "messaggi");
 			
 			//auto-config
-			Element auto_config = doc.createElement("auto-config");
-			rootElement.appendChild(auto_config);
-			Attr attrValue = doc.createAttribute("value");
-			attrValue.setValue("true");
-			auto_config.setAttributeNode(attrValue);
+			Element auto_config = UtilXml.addElement(doc, rootElement, "auto-config");
+			UtilXml.addAttribute(doc, auto_config, "value", "true");
 			
 			UtilXml.writeXmlFile(doc, pathFile);
 		}
 		
 	}
+	
 	public static void main(String[] args) throws Exception {
 		ControlloreBase.creaFileXmlConfigurazione();
 	}
