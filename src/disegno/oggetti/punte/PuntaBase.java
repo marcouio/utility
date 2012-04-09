@@ -11,10 +11,10 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import disegno.oggetti.FormaGeometricaComplessa;
+import disegno.oggetti.FormaGeometrica2D;
 import disegno.oggetti.Segmento;
 
-public class PuntaBase extends FormaGeometricaComplessa {
+public class PuntaBase extends FormaGeometrica2D {
 
 	private Segmento linea;
 	private Point estremoCentrale;
@@ -28,8 +28,8 @@ public class PuntaBase extends FormaGeometricaComplessa {
 		this.lunghezzaLati = lunghezzaLati;
 		calcolaAngoloLati();
 
-		add(latoSinistro);
-		add(latoDestro);
+//		add(latoSinistro);
+//		add(latoDestro);
 	}
 
 	private void calcolaAngoloLati() {

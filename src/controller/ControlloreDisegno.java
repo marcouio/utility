@@ -48,13 +48,13 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 		final int x = e.getX(), y = e.getY();
 		
 		if(p.getOggettoSelezionato() instanceof FormaGeometrica2D){
-			FormaGeometrica2D ret = (FormaGeometrica2D) p.getOggettoSelezionato();
+			FormaGeometrica2D figuraGeom = (FormaGeometrica2D) p.getOggettoSelezionato();
 			final Point puntatore = new Point(x, y);
 			//		System.out.println("n lati vicini mouse: " + ret.isMouseSuiLati(puntatore).size());
-			if (ret.getLatiVicinoMouse().size() > 0) {
-				ret.ridimensiona(puntatore);
-			} else if (ret.isInRegion(puntatore)) {
-				ret.moveTo(x, y);
+			if (figuraGeom.getLatiVicinoMouse(puntatore).size() > 0) {
+				figuraGeom.ridimensiona(puntatore);
+			} else if (figuraGeom.isInRegion(puntatore)) {
+				figuraGeom.moveTo(x, y);
 			}
 		}
 		Image offscreen = null;
@@ -89,7 +89,7 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 		final int x = e.getX(), y = e.getY();
 		final Point mouse = new Point(x, y);
 		ArrayList<FormaGeometrica> oggetti = p.getOggetti();
-		for (Iterator iterator = oggetti.iterator(); iterator.hasNext();) {
+		for (Iterator<FormaGeometrica> iterator = oggetti.iterator(); iterator.hasNext();) {
 			FormaGeometrica formaGeometrica = (FormaGeometrica) iterator.next();
 			if(formaGeometrica.isInRegion(mouse)){
 				p.setOggettoSelezionato(formaGeometrica);

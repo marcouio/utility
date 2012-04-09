@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import disegno.oggetti.painter.IPainter;
 
-public abstract class FormaGeometrica2D extends FormaGeometricaComplessa implements IFormaGeometrica2D, IFormaGeometrica{
+public abstract class FormaGeometrica2D extends FormaGeometrica implements IFormaGeometrica2D, IFormaGeometrica{
 
 	private int width;
 	private int height;
@@ -135,7 +135,10 @@ public abstract class FormaGeometrica2D extends FormaGeometricaComplessa impleme
 		return latiVicinoMouse;
 	}
 
-	public ArrayList<Lato> getLatiVicinoMouse() {
+	public ArrayList<Lato> getLatiVicinoMouse(final Point puntatore) {
+		if(latiVicinoMouse == null){
+			setMouseSuiLati(puntatore);
+		}
 		return latiVicinoMouse;
 	}
 }
