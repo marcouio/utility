@@ -73,7 +73,7 @@ public class AlertSwing implements IContainerBuilderDialog {
 
 			@Override
 			public void run() {
-				BuilderSwing builder = new AlertSwing().new BuilderSwing();
+				BuilderSwing builder = (BuilderSwing) new AlertSwing().getBuilder();
 				builder.setTitolo("Ciao a tutti!");
 				builder.setMessaggio("QUesto è il messaggio");
 				//				builder.setMessageType(BuilderSwing.TYPE_CONFIRM);
