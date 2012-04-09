@@ -2,11 +2,15 @@ package controller;
 
 import grafica.componenti.UtilComponenti;
 import grafica.componenti.contenitori.FrameBase;
+import grafica.componenti.contenitori.PannelloBase;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.util.logging.Logger;
 
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import log.LoggerOggetto;
@@ -78,6 +82,15 @@ public abstract class ControlloreBase {
 					controllore.mainOverridato(frame);
 					if (dimensiona) {
 						frame.setSize(frame.getLarghezza(), frame.getAltezza());
+						Container content = frame.getContentPane();
+						Component[] components = content.getComponents();
+						for (int i = 0; i < components.length; i++) {
+							Component component = components[i];
+							if(component instanceof PannelloBase){
+								PannelloBase pannello = (PannelloBase) component;
+								pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
+							}
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
