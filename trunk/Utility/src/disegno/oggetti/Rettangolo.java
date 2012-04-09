@@ -3,7 +3,6 @@ package disegno.oggetti;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 
 import disegno.UtilDisegno;
 import disegno.oggetti.painter.IPainter;
@@ -15,7 +14,6 @@ public class Rettangolo extends FormaGeometrica2D implements IFormaGeometrica2D 
 	private Lato latoBasso = new Lato("Basso");
 	private Lato latoSinistra = new Lato("Sinistra");
 	private Lato latoDestra = new Lato("Destra");
-	private ArrayList<Lato> latiSuMouse;
 	private boolean mouseIsInRegion;
 	private Color background = Color.WHITE;
 
@@ -27,20 +25,13 @@ public class Rettangolo extends FormaGeometrica2D implements IFormaGeometrica2D 
 		return mouseIsInRegion;
 	}
 
-	public ArrayList<Lato> getLatiSuMouse() {
-		return latiSuMouse;
-	}
-
 	public Rettangolo(final String nome, final IPainter painter) {
 		super(nome, painter);
 		init();
 	}
 
 	private void init() {
-		add(latoAlto);
-		add(latoBasso);
-		add(latoDestra);
-		add(latoSinistra);
+
 		getListaLati().add(latoAlto);
 		getListaLati().add(latoBasso);
 		getListaLati().add(latoDestra);
@@ -121,16 +112,16 @@ public class Rettangolo extends FormaGeometrica2D implements IFormaGeometrica2D 
 	@Override
 	public void ridimensiona(final Point mouse) {
 
-		if(latiSuMouse.contains(latoSinistra)){
+		if(getLatiVicinoMouse(mouse).contains(latoSinistra)){
 			ridimensionaClickSuLatoSinistro(mouse);
 		}
-		if(latiSuMouse.contains(latoDestra)){
+		if(getLatiVicinoMouse(mouse).contains(latoDestra)){
 			ridimensionaClickSuLatoDestro(mouse);
 		}
-		if(latiSuMouse.contains(latoAlto)){
+		if(getLatiVicinoMouse(mouse).contains(latoAlto)){
 			ridimensionaClickSuLatoAlto(mouse);
 		}
-		if(latiSuMouse.contains(latoBasso)){
+		if(getLatiVicinoMouse(mouse).contains(latoBasso)){
 			ridimensionaClickSuLatoBasso(mouse);
 		}
 		
@@ -157,10 +148,6 @@ public class Rettangolo extends FormaGeometrica2D implements IFormaGeometrica2D 
 		double newX = mouse.getX() - distanzaMouseDaXY.getX();
 		setWidth((int) (getX() - newX) + getWidth());
 		setX((int) (newX));
-	}
-
-	public void settaLatiSuMouse(final Point mouse) {
-		latiSuMouse = this.setMouseSuiLati(mouse);
 	}
 
 	private boolean checkIfmouseIsInRegion(final Point mouse) {

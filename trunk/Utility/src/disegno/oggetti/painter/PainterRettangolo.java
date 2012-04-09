@@ -17,15 +17,17 @@ public class PainterRettangolo extends PainterBase {
 	public void paint(Graphics g) {
 		super.paint(g);
 		Rettangolo rettangolo = (Rettangolo) oggettoGrafico;
+		Color background = rettangolo.getBackground();
 		GeneralPath path = new GeneralPath();
 		path.moveTo(rettangolo.getLatoAlto().getOrigine().getX(), rettangolo.getLatoAlto().getOrigine().getY());
 		path.lineTo(rettangolo.getLatoAlto().getDestinazione().getX(), rettangolo.getLatoAlto().getDestinazione().getY());
 		path.lineTo(rettangolo.getLatoBasso().getDestinazione().getX(), rettangolo.getLatoBasso().getDestinazione().getY());
-		path.moveTo(rettangolo.getLatoBasso().getOrigine().getX(), rettangolo.getLatoBasso().getOrigine().getY());
+		path.lineTo(rettangolo.getLatoBasso().getOrigine().getX(), rettangolo.getLatoBasso().getOrigine().getY());
 		path.closePath();
-		((Graphics2D)g).draw(path);
-		((Graphics2D)g).setColor(Color.WHITE);
+		((Graphics2D)g).setColor(background);
 		((Graphics2D)g).fill(path);
+		((Graphics2D)g).setColor(Color.BLACK);
+		((Graphics2D)g).draw(path);
 	}
 
 }

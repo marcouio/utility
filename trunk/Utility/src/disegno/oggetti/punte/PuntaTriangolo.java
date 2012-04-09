@@ -23,7 +23,7 @@ public class PuntaTriangolo extends PuntaBase {
 
 	private void aggiungiParteSpecificaPunta() {
 		latoBasso = new Segmento(getLatoSinistro().getDestinazione(), getLatoDestro().getDestinazione());
-		add(latoBasso);
+//		add(latoBasso);
 	}
 
 	public Color getBackground() {
