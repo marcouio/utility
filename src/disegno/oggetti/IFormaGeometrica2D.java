@@ -1,5 +1,6 @@
 package disegno.oggetti;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -33,5 +34,9 @@ public interface IFormaGeometrica2D extends IFormaGeometrica {
 	public ArrayList<Lato> getListaLati();
 
 	public ArrayList<Lato> setMouseSuiLati(Point mouse);
+	
+	public Color getBackground();
+
+	public void setBackground(Color background);
 
 }

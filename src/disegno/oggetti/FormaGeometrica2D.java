@@ -1,5 +1,6 @@
 package disegno.oggetti;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Line2D;
@@ -16,6 +17,7 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	public Point distanzaMouseDaXY;
 	private ArrayList<Lato> listaLati = new ArrayList<Lato>();
 	private ArrayList<Lato> latiVicinoMouse;
+	private Color background = Color.WHITE;
 
 	public FormaGeometrica2D(final String nome, final IPainter painter) {
 		super(nome, painter);
@@ -90,6 +92,14 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	@Override
 	public ArrayList<Lato> getListaLati() {
 		return listaLati;
+	}
+	
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setBackground(Color background) {
+		this.background = background;
 	}
 
 	/**
