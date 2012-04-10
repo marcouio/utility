@@ -128,24 +128,31 @@ public class Rettangolo extends FormaGeometrica2D implements IFormaGeometrica2D 
 	}
 
 	private void ridimensionaClickSuLatoBasso(final Point mouse) {
-		setHeight((int) (Math.abs(mouse.getY() - getY())));
+		int altezza = (int) (mouse.getY() - getY() > 3 ? mouse.getY() - getY() : 3);
+		setHeight(altezza);
 	}
 
 	private void ridimensionaClickSuLatoAlto(final Point mouse) {
 		double newY = mouse.getY() - distanzaMouseDaXY.getY();
-		setHeight((int) (getY() - newY) + getHeight());
-		setY((int) (newY));
-
+		int height = (int) (getY() - newY) + getHeight();
+		if(height > 3 ){
+			setHeight(height);
+			setY((int) (newY));
+		}
 	}
 
 	private void ridimensionaClickSuLatoDestro(final Point mouse) {
-		setWidth((int) (Math.abs(mouse.getX() - getX())));
+		int larghezza = (int) (mouse.getX() - getX() > 3 ? mouse.getX() - getX() : 3);
+		setWidth(larghezza);
 	}
 
 	private void ridimensionaClickSuLatoSinistro(final Point mouse) {
 		double newX = mouse.getX() - distanzaMouseDaXY.getX();
-		setWidth((int) (getX() - newX) + getWidth());
-		setX((int) (newX));
+		int width = (int) (getX() - newX) + getWidth();
+		if(width > 3){
+			setWidth(width);
+			setX((int) (newX));
+		}
 	}
 
 	private boolean checkIfmouseIsInRegion(final Point mouse) {
