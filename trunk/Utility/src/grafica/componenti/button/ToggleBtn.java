@@ -316,7 +316,7 @@ public class ToggleBtn extends JToggleButton {
 	public Color getColorForegroundIcon() {
 		return colorForegroundIconRollover;
 	}
-
+	
 	/**
 	 * Non serve ad un cazzo! il testo non cambia perché il rollover è gestito
 	 * dal super e questo lascia il testo iniziale, per controllarlo dovrei

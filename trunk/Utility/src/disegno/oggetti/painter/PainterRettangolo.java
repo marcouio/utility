@@ -1,33 +1,42 @@
 package disegno.oggetti.painter;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
 import disegno.oggetti.Rettangolo;
 
-public class PainterRettangolo extends PainterBase {
+public class PainterRettangolo extends Painter2D {
 
 	public PainterRettangolo(Rettangolo oggettoGrafico) {
 		super(oggettoGrafico);
 	}
 	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		Rettangolo rettangolo = (Rettangolo) oggettoGrafico;
-		Color background = rettangolo.getBackground();
+
+	private GeneralPath getPath(Rettangolo rettangolo) {
 		GeneralPath path = new GeneralPath();
 		path.moveTo(rettangolo.getLatoAlto().getOrigine().getX(), rettangolo.getLatoAlto().getOrigine().getY());
 		path.lineTo(rettangolo.getLatoAlto().getDestinazione().getX(), rettangolo.getLatoAlto().getDestinazione().getY());
 		path.lineTo(rettangolo.getLatoBasso().getDestinazione().getX(), rettangolo.getLatoBasso().getDestinazione().getY());
 		path.lineTo(rettangolo.getLatoBasso().getOrigine().getX(), rettangolo.getLatoBasso().getOrigine().getY());
 		path.closePath();
-		((Graphics2D)g).setColor(background);
-		((Graphics2D)g).fill(path);
-		((Graphics2D)g).setColor(Color.BLACK);
+		return path;
+	}
+	
+	
+
+	@Override
+	protected void disegnaTracciato(Graphics g) {
+		Rettangolo rettangolo = (Rettangolo) oggettoGrafico;
+		GeneralPath path = getPath(rettangolo);
 		((Graphics2D)g).draw(path);
+	}
+
+	@Override
+	protected void disegnaBackground(Graphics g) {
+		Rettangolo rettangolo = (Rettangolo) oggettoGrafico;
+		GeneralPath path = getPath(rettangolo);
+		((Graphics2D)g).fill(path);
 	}
 
 }
