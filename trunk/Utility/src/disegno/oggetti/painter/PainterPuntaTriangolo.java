@@ -14,19 +14,6 @@ public class PainterPuntaTriangolo extends Painter2D{
 		super(oggettoGrafico);
 	}
 
-	@Override
-	public void paint(final Graphics g) {
-		super.paint(g);
-		PuntaTriangolo puntaTriangolo = (PuntaTriangolo) getOggettoGrafico();
-		GeneralPath path = getPath(puntaTriangolo);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.WHITE);
-		g2.fill(path);
-
-		g2.setColor(Color.BLACK);
-		g2.draw(path);
-	}
-
 	private GeneralPath getPath(PuntaTriangolo puntaTriangolo) {
 		GeneralPath path = new GeneralPath();
 		path.moveTo(puntaTriangolo.getLatoDestro().getDestinazione().getX(), puntaTriangolo.getLatoDestro().getDestinazione().getY());

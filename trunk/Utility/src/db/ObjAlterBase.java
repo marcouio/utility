@@ -3,9 +3,9 @@ package db;
 import java.sql.Connection;
 import java.util.HashMap;
 
-public class OggettoAlterBase extends OggettoSQL {
+public class ObjAlterBase extends OggettoSQL {
 
-	public OggettoAlterBase(final Connection cn) {
+	public ObjAlterBase(final Connection cn) {
 		super(cn);
 	}
 

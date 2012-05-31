@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class OggettoInsertBase extends OggettoSQL{
+public class ObjInsertBase extends OggettoSQL{
 
 
-	public OggettoInsertBase(final Connection cn) {
+	public ObjInsertBase(final Connection cn) {
 		super(cn);
 	}
 
-	public boolean insert(final String tabella, final HashMap<String, Object> campi) throws Exception{
+	public boolean insert(final String tabella, final HashMap<String, String> campi) throws Exception{
 		this.tabella = tabella;
 		this.campi = campi;
 
@@ -21,7 +21,14 @@ public class OggettoInsertBase extends OggettoSQL{
 		sbSQL.append(")");
 		middleCommand();
 		sbSQL.append("(");
-		inserisciValori();
+		final Iterator<String> iterInsert2 = campi.keySet().iterator();
+		while (iterInsert2.hasNext()) {
+			final String prossimo = iterInsert2.next();
+			inserisciValore(prossimo, campi);
+			if(iterInsert2.hasNext()){
+				sbSQL.append(", ");
+			}
+		}
 		sbSQL.append(")");
 
 		if(aggiornaSqlFromString(sbSQL.toString())){
@@ -35,21 +42,7 @@ public class OggettoInsertBase extends OggettoSQL{
 	}
 
 	private StringBuffer introComando() {
-		return sbSQL.append(INSERTINTO).append(tabella);
-	}
-
-	protected void inserisciValori() {
-		final Iterator<String> iterInsert2 = campi.keySet().iterator();
-		while (iterInsert2.hasNext()) {
-			final String prossimo = iterInsert2.next();
-			try {
-				sbSQL.append(Integer.parseInt((String) campi.get(prossimo)));
-			} catch (final NumberFormatException e) {
-				sbSQL.append("'" + campi.get(prossimo) + "'");
-			}
-			if (iterInsert2.hasNext())
-				sbSQL.append(", ");
-		}
+		return sbSQL.append(INSERTINTO).append(tabella).append(" ");
 	}
 
 	protected void inserisciNomiColonne() {
@@ -68,7 +61,15 @@ public class OggettoInsertBase extends OggettoSQL{
 		return aggiornaSqlFromString(comandoInsert);			
 	}
 
-	public void putCampoValore(final String campo, final Object valore){
+	public void putCampoValore(final String campo, final String valore){
 		campi.put(campo, valore);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		ObjInsertBase oggetto = new ObjInsertBase(cn);
+		HashMap<String, String> campi = new HashMap<String, String>();
+		campi.put("id", "1");
+		campi.put("nome", "Marco");
+		oggetto.insert("nomeTab", campi);
 	}
 }
