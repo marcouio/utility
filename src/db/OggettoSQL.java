@@ -27,7 +27,7 @@ public class OggettoSQL {
 	public static final String SET = "set";
 
 	protected String tabella;
-	protected HashMap<String, Object> campi = new HashMap<String, Object>();
+	protected HashMap<String, String> campi = new HashMap<String, String>();
 	protected StringBuffer sbSQL = new StringBuffer();
 	public static Connection cn;
 
@@ -38,10 +38,10 @@ public class OggettoSQL {
 	public boolean aggiornaSqlFromString(final String comandoSql) throws SQLException {
 		final Statement st = cn.createStatement();
 		if (st.executeUpdate(comandoSql) != 0) {
-			cn.close();
+			close();
 			return true;
 		}
-		cn.close();
+		close();
 		return false;
 
 	}
@@ -49,7 +49,7 @@ public class OggettoSQL {
 	public ResultSet resultSetfromIstruzione(final String comandoSql) throws Exception {
 		final Statement st = cn.createStatement();
 		final ResultSet rs = st.executeQuery(comandoSql);
-		cn.close();
+		close();
 		return rs;
 	}
 
@@ -139,7 +139,10 @@ public class OggettoSQL {
 							final String prossimo = where.next();
 							sql.append(prossimo).append(" = ");
 							try {
-								sql.append(Integer.parseInt(clausole.get(prossimo)));
+								if (campi.get(prossimo).contains(".")) {
+									sql.append(Double.parseDouble(clausole.get(prossimo)));
+								} else
+									sql.append(Integer.parseInt(clausole.get(prossimo)));
 							} catch (final NumberFormatException e) {
 								sql.append("'" + clausole.get(prossimo) + "'");
 							}
@@ -163,7 +166,10 @@ public class OggettoSQL {
 							sql.append(prossimo).append(" = ");
 
 							try {
-								sql.append(Integer.parseInt(clausole.get(prossimo)));
+								if (campi.get(prossimo).contains(".")) {
+									sql.append(Double.parseDouble(clausole.get(prossimo)));
+								} else
+									sql.append(Integer.parseInt(clausole.get(prossimo)));
 							} catch (final NumberFormatException e) {
 								sql.append("'" + clausole.get(prossimo) + "'");
 							}
@@ -219,12 +225,26 @@ public class OggettoSQL {
 		}
 		return ok;
 	}
+	
+	protected void inserisciValore(final String prossimo, final HashMap<String, String> mappa) {
+		try {
+			final String valueClausola = (String) mappa.get(prossimo);
+			if(valueClausola.contains(".")){
+				Double.parseDouble(valueClausola);
+			}else{
+				Integer.parseInt(valueClausola);
+			}
+			sbSQL.append(mappa.get(prossimo));
+		} catch (final NumberFormatException e) {
+			sbSQL.append("'" + mappa.get(prossimo) + "'");
+		}
+	}	
 
-	public HashMap<String, Object> getCampi() {
+	public HashMap<String, String> getCampi() {
 		return campi;
 	}
 
-	public void setCampi(final HashMap<String, Object> campi) {
+	public void setCampi(final HashMap<String, String> campi) {
 		this.campi = campi;
 	}
 
@@ -242,6 +262,11 @@ public class OggettoSQL {
 
 	public void setSbSQL(final StringBuffer sbSQL) {
 		this.sbSQL = sbSQL;
+	}
+	
+	public boolean close() throws SQLException{
+		cn.close();
+		return true;
 	}
 
 }

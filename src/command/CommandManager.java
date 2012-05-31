@@ -12,7 +12,7 @@ import java.util.List;
 public class CommandManager {
 
 	private ArrayList<AbstractCommand> history = new ArrayList<AbstractCommand>();
-	private int indiceCorrente;
+	private int indiceCorrente = -1;
 	private static CommandManager instance = new CommandManager();
 
 	private CommandManager() {
@@ -30,10 +30,8 @@ public class CommandManager {
 	public boolean undo() {
 		//per tornare indietro devono esserci almeno 1 comando eseguito 
 		//e undo ripetuti non devono spostare l'indice più indietro di -1
-		if (history.size() > 0 && indiceCorrente > -1) {
-			if (indiceCorrente > (history.size() - 1)) {
-				indiceCorrente = history.size() - 1;
-			}
+		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente <= history.size()-1) {
+			
 			//richiama il comando all'indice e sposta l'indice indietro di 1
 			final AbstractCommand comando = history.get(indiceCorrente);
 			if (comando.undoCommand()) {
@@ -43,6 +41,21 @@ public class CommandManager {
 		}
 		return false;
 	}
+	
+	public static int undoForTest(ArrayList<String> history,int indiceCorrente, boolean trueTest) {
+		//per tornare indietro devono esserci almeno 1 comando eseguito 
+		//e undo ripetuti non devono spostare l'indice più indietro di -1
+		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente <= history.size()-1) {
+			
+			//richiama il comando all'indice e sposta l'indice indietro di 1
+			final String comando = history.get(indiceCorrente);
+			if (trueTest) {
+				System.out.println("undo per il comando: " +comando);
+				indiceCorrente--;
+			}
+		}
+		return indiceCorrente;
+	}
 
 	/**
 	 * Metodo che implementa l'azione "avanti".
@@ -51,24 +64,40 @@ public class CommandManager {
 	public boolean redo() {
 		//per andare avanti devono esserci almeno 1 comando eseguito
 		//l'indice deve essere compreso tra -1 e (history.size-1)
-		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size()) {
+		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size() -1) {
 			
 			//sposto l'indice in avanti
 			indiceCorrente++;
 			
-			//controllo che spostando l'indice in avanti non sia andato oltre la grandezza della lista dei comandi
-			if (indiceCorrente < history.size()) {
-				final AbstractCommand comando = history.get(indiceCorrente);
-				if (comando.doCommand()) {
-					return true;
-				}
-			} else {
+			final AbstractCommand comando = history.get(indiceCorrente);
+			if (comando.doCommand()) {
+				return true;
+			}else {
 				//altrimenti torno l'indice indietro di -1 
 				indiceCorrente--;
 			}
 
 		}
 		return false;
+	}
+	public static int redoForTest(ArrayList<String> history,int indiceCorrente, boolean trueTest) {
+		// per andare avanti devono esserci almeno 1 comando eseguito
+		// l'indice deve essere compreso tra -1 e (history.size-1)
+		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size()-1) {
+
+			// sposto l'indice in avanti
+			indiceCorrente++;
+
+			final String comando = history.get(indiceCorrente);
+			
+			if (trueTest) {
+				System.out.println("redo per il comando: "+comando);
+			} else {
+				// altrimenti torno l'indice indietro di -1
+				indiceCorrente--;
+			}
+		}
+		return indiceCorrente;
 	}
 
 	/**
@@ -140,4 +169,38 @@ public class CommandManager {
 		}
 		return dati;
 	}
+	
+	public static void main(String[] args) {
+		int indiceCorrente = 0;
+		ArrayList<String> history = new ArrayList<String>();
+		history.add("1° comando");
+		history.add("2° comando");
+		history.add("3° comando");
+		history.add("4° comando");
+		
+		for (int i = 0; i < 6; i++) {
+			boolean trueTest = true;
+			indiceCorrente = CommandManager.undoForTest(history, indiceCorrente, trueTest);
+		}
+		
+		for (int i = 0; i < 5; i++) {
+			boolean trueTest = true;
+			indiceCorrente = CommandManager.redoForTest(history, indiceCorrente, trueTest);
+		}
+		
+		for (int i = 0; i < 6; i++) {
+			boolean trueTest = true;
+			indiceCorrente = CommandManager.undoForTest(history, indiceCorrente, trueTest);
+		}
+		for (int i = 0; i < 6; i++) {
+			boolean trueTest = true;
+			indiceCorrente = CommandManager.redoForTest(history, indiceCorrente, trueTest);
+		}
+		
+		for (int i = 0; i < 6; i++) {
+			boolean trueTest = true;
+			indiceCorrente = CommandManager.undoForTest(history, indiceCorrente, trueTest);
+		}
+	}
+
 }
