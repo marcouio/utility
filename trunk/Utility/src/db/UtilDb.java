@@ -119,7 +119,7 @@ public class UtilDb {
 		return formatter.format(date);
 	}
 
-	public static Connection getConnection2(final String url) {
+	public static Connection getConnection(final String url) {
 		Connection connection2 = null;
 		try {
 			connection2 = DriverManager.getConnection(url);

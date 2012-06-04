@@ -56,7 +56,7 @@ public class ObjUpdateBase extends ObjConClausole {
 
 
 	public static void main(final String[] args) {
-		UtilDb.getConnection2("../gestioneSpese.sqlite");
+		UtilDb.getConnection("../gestioneSpese.sqlite");
 	}
 
 }

@@ -10,7 +10,6 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.util.logging.Logger;
 
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import log.LoggerOggetto;
@@ -38,6 +37,8 @@ import command.CommandManager;
  *
  */
 public abstract class ControlloreBase {
+	
+	public static String connectionClassName = "";
 
 	private static String nomeApplicazione = "default";
 	/**
@@ -75,6 +76,7 @@ public abstract class ControlloreBase {
 				try {
 					creaFileXmlConfigurazione();
 					creaFileXmlStyle();
+					initConnectionClassName();
 					FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
 					ControlloreBase.setApplicationframe(frame);
 					controllore.setStartUtenteLogin();
@@ -266,5 +268,11 @@ public abstract class ControlloreBase {
 	public static void main(String[] args) throws Exception {
 		ControlloreBase.creaFileXmlConfigurazione();
 	}
+	
+	public void initConnectionClassName(){
+		connectionClassName = getConnectionClassName(); 
+	}
+
+	protected abstract String getConnectionClassName();
 
 }
