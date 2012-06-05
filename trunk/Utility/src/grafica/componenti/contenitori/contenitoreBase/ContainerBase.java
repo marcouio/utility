@@ -9,22 +9,6 @@ public class ContainerBase extends Container {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Chiamare questo metodo al posto dell'add permette di ridimensionare il Container ogni
-	 * volta che viene chiamato. Al momento non funziona perché il settaggio delle dimensioni dei campi
-	 * che sta aggiungendo avvengono dopo
-	 * @param comp
-	 * @return
-	 */
-	//	public Component addCustom(final Component comp, final Container container) {
-	//		Component component = container.add(comp);
-	//		int width = getMaxDimensionX(container);
-	//		int height = getMaxDimensionY(container);
-	//		container.setSize(width, height);
-	//		container.setPreferredSize(container.getSize());
-	//		return component;
-	//	}
-
 	public int getMaxDimensionX(final Container container) {
 		int maxX = 0;
 		Component[] componenti = container.getComponents();
@@ -43,7 +27,7 @@ public class ContainerBase extends Container {
 				}
 			}
 		}
-		return maxX + 3;
+		return maxX + 1;
 	}
 
 	public int getMaxDimensionY(final Container container) {
@@ -66,6 +50,6 @@ public class ContainerBase extends Container {
 				}
 			}
 		}
-		return maxY + 3;
+		return maxY + 2;
 	}
 }
