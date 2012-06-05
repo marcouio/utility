@@ -1,6 +1,5 @@
 package grafica.componenti.combo;
 
-import grafica.componenti.alert.Alert;
 import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.style.StyleBase;
@@ -8,16 +7,19 @@ import grafica.componenti.style.StyleBase;
 import java.awt.Component;
 import java.awt.Container;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-public class ComboBoxBase extends JComboBox implements IComponenteBase{
+public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase{
 	
 	private static final long serialVersionUID = 1L;
 	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
 
-	public ComboBoxBase(final Container contenitorePadre) {
+	public ComboBoxBase(final Container contenitorePadre, Object[] lista) {
+		DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<Object>(lista);
+		this.setModel(modelGiorni);
 		init(contenitorePadre, this);
 	}
 	
@@ -69,14 +71,27 @@ public class ComboBoxBase extends JComboBox implements IComponenteBase{
 
 	@Override
 	public int getLarghezza() {
-		Alert.segnalazioneErroreGrave("Non implementato");
-		return 0;
+		int larghezzaMax = getLarghezzaMax();
+		return 25 + larghezzaMax;
+	}
+
+	private int getLarghezzaMax() {
+		int nMember = this.getModel().getSize();
+		int largMax = 0;
+		for (int i = 0; i < nMember; i++) {
+			Object elementAt = this.getModel().getElementAt(i);
+			int larghezzaComp = componenteBase.getLarghezzaSingleStringa(getGraphics(), elementAt.toString(), this);
+			
+			if(larghezzaComp > largMax){
+				largMax = larghezzaComp;
+			}
+		}
+		return largMax;
 	}
 
 	@Override
 	public int getAltezza() {
-		Alert.segnalazioneErroreGrave("Non implementato");
-		return 0;
+		return componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 	}
 	
 	public StyleBase getStyle() {
