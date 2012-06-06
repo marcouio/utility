@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 public class LabelBase extends JLabel implements IComponenteBase, IContainerBase {
 
 	private static final long serialVersionUID = 1L;
-	private static final double COSTANTE_ALLARGA = 3.20;
 	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ContainerBase containerBase = new ContainerBase();
@@ -165,7 +164,7 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	@Override
 	public int getLarghezza() {
 		int larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
-		return (int) (getMaxDimensionX() + (larghezzaTesto * COSTANTE_ALLARGA));
+		return getMaxDimensionX() + larghezzaTesto;
 	}
 
 	@Override
