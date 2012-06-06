@@ -1,4 +1,6 @@
-package grafica.componenti.alert;
+package grafica.componenti.alert.builder;
+
+import grafica.componenti.alert.DialogoBase;
 
 import java.awt.Dimension;
 
@@ -17,5 +19,11 @@ public interface IBuilderDialogo {
 	public void setDimensioni(final Dimension dimensioni);
 
 	public DialogoBase creaDialogo();
+	
+	public void addNegativeButton();
+
+	public void addPositiveButton();
+	
+	public void addCancelButton();
 
 }

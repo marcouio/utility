@@ -1,6 +1,7 @@
 package grafica.componenti.button;
 
 import grafica.componenti.UtilComponenti;
+import grafica.componenti.componenteBase.ComponenteBase;
 import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
@@ -18,6 +19,8 @@ import javax.swing.JPanel;
 
 public class ButtonBase extends JButton implements IComponenteBase, IContainerBase {
 
+	public static final double COSTANTE_ALLARGA = 1.05;
+	
 	public static void main(final String[] args) {
 		JPanel p = UtilComponenti.initContenitoreFrame(null);
 		ButtonBase b = new ButtonBase("button", p);
@@ -154,7 +157,7 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 		int margineSinitro = this.getMargin().left;
 		int margineDestro = this.getMargin().right;
 		int larghezzaTesto = this.componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
-		return getMaxDimensionX() + margineSinitro + margineDestro + larghezzaTesto;
+		return (int) (getMaxDimensionX() + margineSinitro + margineDestro + (larghezzaTesto * COSTANTE_ALLARGA));
 	}
 
 	@Override
