@@ -1,6 +1,8 @@
 package grafica.componenti.alert;
 
 import grafica.componenti.UtilComponenti;
+import grafica.componenti.alert.builder.AbstractBuilderDialogoBase;
+import grafica.componenti.alert.builder.IBuilderDialogo;
 import grafica.componenti.button.ButtonBase;
 import grafica.componenti.componenteBase.ComponenteBaseDialogo;
 import grafica.componenti.componenteBase.IComponenteBase;
@@ -30,7 +32,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	private final ComponenteBaseDialogo componenteBase = new ComponenteBaseDialogo();
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
-	private Container padre;
+	Container padre;
 	private int opzioneScelta = -1;
 
 	public DialogoBase(final JFrame frame) {
@@ -53,112 +55,21 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 		this.style = style;
 	}
 
-	public class Builder extends AbstractBuilderDialogoBase {
-
-		public Builder(final Container padre) {
-			if (padre instanceof JFrame) {
-				dialogo = new DialogoBase((JFrame) padre);
-			} else if (padre instanceof Dialog) {
-				dialogo = new DialogoBase((Dialog) padre);
-			}
-			pannelloButtonBar = new PannelloBase(dialogo);
-			dialogo.padre = padre;
-		}
-
-		@Override
-		public DialogoBase creaDialogo() {
-			super.creaDialogo();
-
-			dialogo.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialogo.setVisible(true);
-
-			return dialogo;
-		}
-
-		@Override
-		protected Object creaDialogButtonBar(final int[] listaBottoni2, final Object labelIcona, final Object labelMessaggio) {
-
-			if (labelIcona != null) {
-				pannelloButtonBar.posizionaSottoA((Label) labelIcona, 0, 0);
-			} else if (labelMessaggio != null) {
-				pannelloButtonBar.posizionaSottoA((Label) labelMessaggio, 0, 0);
-			}
-			ButtonBase buttonOld = null;
-			for (int buttonPresente : listaBottoni2) {
-				if (buttonPresente != -1) {
-					ButtonBase button = chiamaMetodoPerCreazioneButton(buttonPresente);
-					if (buttonOld != null) {
-						button.posizionaADestraDi(buttonOld, 10, 0);
-					}
-					buttonOld = button;
-				}
-			}
-			pannelloButtonBar.setSize(pannelloButtonBar.getLarghezza(), pannelloButtonBar.getAltezza());
-			return null;
-		}
-
-		private void accentra(final PannelloBase pannelloButtonBar, final DialogoBase dialogo) {
-			int x = ((dialogo.getX() + dialogo.getWidth()) / 2) - (pannelloButtonBar.getWidth() / 2);
-			pannelloButtonBar.setLocation(x, pannelloButtonBar.getY());
-
-		}
-
-		@Override
-		protected Object creaDialogLocation(final Dimension dimensioni2) {
-			int y = ((padre.getY() + padre.getHeight()) / 2) - (dialogo.getHeight() / 2);
-			int x = ((padre.getX() + padre.getWidth()) / 2) - (dialogo.getWidth() / 2);
-			Point puntoLocation = new Point(x, y);
-			dialogo.setLocation(puntoLocation);
-			return puntoLocation;
-		}
-
-		@Override
-		protected Object creaDialogoDimensioni(final Dimension dimensioni2) {
-			if (dimensioni2 != null) {
-				dialogo.setSize(dimensioni2);
-			} else {
-				dialogo.setSize(dialogo.getLarghezza(), dialogo.getAltezza());
-			}
-			accentra(pannelloButtonBar, dialogo);
-			return dimensioni2;
-		}
-
-		@Override
-		protected Object creaDialogoIcona(final Icon icon2) {
-			return new Label(icon2, dialogo);
-		}
-
-		@Override
-		protected Object creaDialogoMessaggio(final String message2, final Object iconaLabel) {
-			Label labelMessaggio = new Label(message2, dialogo);
-			if (iconaLabel != null) {
-				labelMessaggio.posizionaSottoA((Component) iconaLabel, 10, 0);
-			}
-			return labelMessaggio;
-		}
-
-		@Override
-		protected Object creaDialogoTitolo(final String titolo2) {
-			dialogo.setTitle(titolo2);
-			return titolo2;
-		}
-	}
-
 	@Override
-	public Builder getBuilder() {
-		return new Builder(padre);
+	public IBuilderDialogo getBuilder() {
+		return new BuilderDialogo(padre);
 	}
 
 	public static void main(final String[] args) {
 		final FrameBase panello = UtilComponenti.initContenitoreFrameApplicazione(null, null);
-		ButtonBase bottone = new ButtonBase("premi qui!", panello);
+		ButtonBase bottone = new ButtonBase("premi qui di nuovo e ancora!", panello);
 		bottone.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 
-				Builder builder = new DialogoBase(panello).getBuilder();
-				builder.setMessaggio("Questo è un messaggio veramente lungo");
+				IBuilderDialogo builder = new DialogoBase(panello).getBuilder();
+				builder.setMessaggio("Questo è un messaggio veramente troppo troppo lungo");
 				builder.setTitolo("Titolo");
 				builder.addPositiveButton();
 				builder.addNegativeButton();

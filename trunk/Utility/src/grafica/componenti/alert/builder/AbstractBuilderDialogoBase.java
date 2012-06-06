@@ -1,5 +1,6 @@
-package grafica.componenti.alert;
+package grafica.componenti.alert.builder;
 
+import grafica.componenti.alert.DialogoBase;
 import grafica.componenti.button.ButtonBase;
 import grafica.componenti.contenitori.PannelloBase;
 
@@ -19,7 +20,7 @@ public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 	private Dimension dimensioni;
 	private int[] listaBottoni = new int[] { -1, -1, -1 };
 	protected DialogoBase dialogo;
-	PannelloBase pannelloButtonBar;
+	protected PannelloBase pannelloButtonBar;
 
 	private static final int INDEX_BTN_POSITIVE = 0;
 	private static final int INDEX_BTN_NEGATIVE = 1;
