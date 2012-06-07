@@ -26,6 +26,8 @@ import xml.UtilXml;
 import command.AbstractCommand;
 import command.CommandManager;
 
+import db.ConnectionPool;
+
 /**
  * La classe è di estrema importanza nel framework. Essa funge da classe abstract per il controller, per cui tutte le operazioni di business devono passare di qui.
  * Inoltre, contiene al proprio interno l'istanza singleton di: il frame generale dell'applicazione, il gestore dei comandi, l'utente login
@@ -37,6 +39,8 @@ import command.CommandManager;
  *
  */
 public abstract class ControlloreBase {
+	
+	protected static ConnectionPool connectionPool;
 	
 	public static String connectionClassName = "";
 
@@ -86,8 +90,7 @@ public abstract class ControlloreBase {
 						frame.setSize(frame.getLarghezza(), frame.getAltezza());
 						Container content = frame.getContentPane();
 						Component[] components = content.getComponents();
-						for (int i = 0; i < components.length; i++) {
-							Component component = components[i];
+						for (Component component : components) {
 							if(component instanceof PannelloBase){
 								PannelloBase pannello = (PannelloBase) component;
 								pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
@@ -137,6 +140,13 @@ public abstract class ControlloreBase {
 
 	public void setUtenteLogin(final IUtente utenteLogin) {
 		ControlloreBase.utenteLogin = utenteLogin;
+	}
+	
+	public ConnectionPool getConnectionPool() throws Exception{
+		if (connectionPool == null) {
+			connectionPool = ConnectionPool.getSingleton();
+		}
+		return connectionPool;
 	}
 
 	public CommandManager getCommandManager() {
@@ -265,7 +275,7 @@ public abstract class ControlloreBase {
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(final String[] args) throws Exception {
 		ControlloreBase.creaFileXmlConfigurazione();
 	}
 	
