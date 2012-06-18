@@ -40,11 +40,11 @@ import db.ConnectionPool;
  */
 public abstract class ControlloreBase {
 	
-	protected static ConnectionPool connectionPool;
-	
 	public static String connectionClassName = "";
+	public static String utilityDaoClass = "";
 
 	private static String nomeApplicazione = "default";
+
 	/**
 	 * Frame generale che conterra tutti gli altri contenuti
 	 */
@@ -80,7 +80,7 @@ public abstract class ControlloreBase {
 				try {
 					creaFileXmlConfigurazione();
 					creaFileXmlStyle();
-					initConnectionClassName();
+					init();
 					FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
 					ControlloreBase.setApplicationframe(frame);
 					controllore.setStartUtenteLogin();
@@ -142,13 +142,6 @@ public abstract class ControlloreBase {
 		ControlloreBase.utenteLogin = utenteLogin;
 	}
 	
-	public ConnectionPool getConnectionPool() throws Exception{
-		if (connectionPool == null) {
-			connectionPool = ConnectionPool.getSingleton();
-		}
-		return connectionPool;
-	}
-
 	public CommandManager getCommandManager() {
 		if (commandManager == null) {
 			commandManager = CommandManager.getIstance();
@@ -279,9 +272,12 @@ public abstract class ControlloreBase {
 		ControlloreBase.creaFileXmlConfigurazione();
 	}
 	
-	public void initConnectionClassName(){
+	public void init(){
 		connectionClassName = getConnectionClassName(); 
+		utilityDaoClass = getUtilityDAOClassName();
 	}
+
+	protected abstract String getUtilityDAOClassName();
 
 	protected abstract String getConnectionClassName();
 

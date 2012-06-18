@@ -3,7 +3,6 @@ package db;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,37 +18,30 @@ public class OggettoSQL {
 	public static final String INSERTINTO = "insert into ";
 	public static final String FROM = " from ";
 	public static final String INTO = " into ";
-	public static final String WHERE = "where";
-	public static final String WHERE1_1 = "where 1=1";
-	public static final String AND = "and";
+	public static final String WHERE = " where ";
+	public static final String WHERE1_1 = " where 1=1";
+	public static final String AND = " and ";
 	public static final String SF = "select * from ";
 	public static final String VALUES = " values ";
 	public static final String SET = "set";
 
-	protected String tabella;
-	protected HashMap<String, String> campi = new HashMap<String, String>();
+	
 	protected StringBuffer sbSQL = new StringBuffer();
-	public static Connection cn;
 
-	public OggettoSQL(final Connection cn) {
-		OggettoSQL.cn = cn;
+	public OggettoSQL() {
 	}
+	
 
-	public boolean aggiornaSqlFromString(final String comandoSql) throws SQLException {
-		final Statement st = cn.createStatement();
-		if (st.executeUpdate(comandoSql) != 0) {
-			close();
+	public boolean aggiornaSqlFromString(final String comandoSql) throws Exception {
+		if (ConnectionPool.getSingleton().executeUpdate(comandoSql) != 0) {
 			return true;
 		}
-		close();
 		return false;
 
 	}
 
 	public ResultSet resultSetfromIstruzione(final String comandoSql) throws Exception {
-		final Statement st = cn.createStatement();
-		final ResultSet rs = st.executeQuery(comandoSql);
-		close();
+		final ResultSet rs = ConnectionPool.getSingleton().getResulSet(comandoSql);
 		return rs;
 	}
 
@@ -70,10 +62,13 @@ public class OggettoSQL {
 	 * @param clausole
 	 * @return boolean
 	 */
-	public boolean eseguiIstruzioneSql(final Connection cn, final String comando, final String tabella,
+	public boolean eseguiIstruzioneSql(final String comando, final String tabella,
 			final HashMap<String, String> campi, final HashMap<String, String> clausole) {
+		
+		Connection cn = null;
 		boolean ok = false;
 		try {
+			cn = ConnectionPool.getSingleton().getConnection();
 			ok = false;
 			// connection = DBUtil.getConnection();
 			final StringBuffer sql = new StringBuffer();
@@ -217,10 +212,12 @@ public class OggettoSQL {
 		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				cn.close();
-			} catch (final SQLException e) {
-				e.printStackTrace();
+			if(cn != null){
+				try {
+					ConnectionPool.getSingleton().chiudiOggettiDb(cn);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
 			}
 		}
 		return ok;
@@ -240,22 +237,6 @@ public class OggettoSQL {
 		}
 	}	
 
-	public HashMap<String, String> getCampi() {
-		return campi;
-	}
-
-	public void setCampi(final HashMap<String, String> campi) {
-		this.campi = campi;
-	}
-
-	public String getTabella() {
-		return tabella;
-	}
-
-	public void setTabella(final String tabella) {
-		this.tabella = tabella;
-	}
-
 	public StringBuffer getSbSQL() {
 		return sbSQL;
 	}
@@ -263,10 +244,4 @@ public class OggettoSQL {
 	public void setSbSQL(final StringBuffer sbSQL) {
 		this.sbSQL = sbSQL;
 	}
-	
-	public boolean close() throws SQLException{
-		cn.close();
-		return true;
-	}
-
 }

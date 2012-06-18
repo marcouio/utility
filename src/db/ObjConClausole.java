@@ -1,6 +1,5 @@
 package db;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -8,8 +7,8 @@ public class ObjConClausole extends OggettoSQL{
 
 	HashMap<String, String> clausole = new HashMap<String, String>();
 	
-	public ObjConClausole(Connection cn) {
-		super(cn);
+	public ObjConClausole() {
+		super();
 	}
 	
 	protected void settaClausole() {

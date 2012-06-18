@@ -1,5 +1,7 @@
 package db;
 
+import grafica.componenti.alert.Alert;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,12 +18,14 @@ import controller.ControlloreBase;
  */
 public abstract class ConnectionPool {
 
-	private ArrayList<Connection> freeConnections; // La coda di connessioni libere
-	private String dbUrl;           // Il nome del database
+	private static ArrayList<Connection> freeConnections; // La coda di connessioni libere
+	private static Connection lastConnection;
+	private static String dbUrl;           // Il nome del database
 	private static String dbDriver;        // Il driver del database
-	private String dbUser;         // Il login per il database
-	private String dbPassword;      // La password di accesso al database
-	private HashMap<Connection, ResultSet> mappaRS = new HashMap<Connection, ResultSet>();  
+	private static String dbUser;         // Il login per il database
+	private static String dbPassword;      // La password di accesso al database
+	private static HashMap<Connection, ResultSet> mappaRS = new HashMap<Connection, ResultSet>(); 
+	private static HashMap<Connection, Statement> mappaStatement = new HashMap<Connection, Statement>(); 
 	
 	private static ConnectionPool singleton;
 	
@@ -33,12 +37,12 @@ public abstract class ConnectionPool {
 	}
 	
 	protected ConnectionPool() {
-		this.freeConnections = new ArrayList<Connection>();
+		ConnectionPool.freeConnections = new ArrayList<Connection>();
 		
-		this.dbUrl = getDbUrl();
+		ConnectionPool.dbUrl = getDbUrl();
 		ConnectionPool.dbDriver = getDriver();
-		this.dbUser = getUser();
-		this.dbPassword = getPassword();
+		ConnectionPool.dbUser = getUser();
+		ConnectionPool.dbPassword = getPassword();
 		
 		loadDriver();
 		
@@ -64,7 +68,7 @@ public abstract class ConnectionPool {
 	 * @return {@link Connection} 
 	 */
 	public synchronized Connection getConnection(){
-		Connection cn;
+		Connection cn = null;
 		if (freeConnections.size() > 0) {
 			cn = freeConnections.get(0);
 			freeConnections.remove(0);
@@ -79,9 +83,9 @@ public abstract class ConnectionPool {
 			
 		}else{
 			releaseNewConnection();
-			cn = newConnection();
+			cn = getConnection();
 		}
-		
+		lastConnection = cn;
 		return cn;
 	}
 	
@@ -90,7 +94,7 @@ public abstract class ConnectionPool {
 	 * Il metodo newConnection restituisce una nuova connessione
 	 * @return {@link Connection} 
 	 */
-	private Connection newConnection(){
+	private static Connection newConnection(){
 
 		Connection con = null;
 
@@ -115,7 +119,7 @@ public abstract class ConnectionPool {
 	 * 	Il metodo releaseConnection rilascia una connessione inserendola
 	 *  nella coda delle connessioni libere
 	 */
-	public synchronized void releaseNewConnection() {
+	public synchronized static void releaseNewConnection() {
 		final Connection cn = newConnection();
 		releaseConnection(cn);
 	}
@@ -124,9 +128,25 @@ public abstract class ConnectionPool {
 	 * 	Il metodo releaseConnection rilascia una connessione inserendola
 	 *  nella coda delle connessioni libere
 	 */
-	public synchronized void releaseConnection(final Connection con) {
+	public synchronized static void releaseConnection(final Connection con) {
 	        // Inserisce la connessione nella coda
 	        freeConnections.add(con);
+	}
+	
+	public int executeUpdate(final String sql) throws SQLException{
+		int ritorno = 0;
+		final Connection cn = getConnection();
+		if(cn != null && sql != null){
+			final Statement st = cn.createStatement();
+			final Statement statementDaMap = mappaStatement.get(cn);
+			if(statementDaMap != null){
+				statementDaMap.close();
+			}
+			mappaStatement.put(cn, st);
+			ritorno = st.executeUpdate(sql);
+		}
+		chiudiOggettiDb(cn);
+		return ritorno;
 	}
 	
 	public ResultSet getResulSet(final String sql) throws SQLException{
@@ -145,20 +165,27 @@ public abstract class ConnectionPool {
 	}
 	
 	/**
-	 * Chiude la connessione e se c'è il relativo resultSet
+	 * Chiude la connessione e se c'è il relativo resultSet o la statement
 	 * @param cn
 	 * @throws SQLException
 	 */
-	public void chiudiOggettiDb(final Connection cn) throws SQLException{
+	public static void chiudiOggettiDb(Connection cn) throws SQLException{
+		if(cn == null){
+			cn = lastConnection;
+		}
 		if(cn != null){
-			ResultSet resultSet = mappaRS.get(cn);
+			final ResultSet resultSet = mappaRS.get(cn);
+			final Statement statement = mappaStatement.get(cn);
 			if(resultSet != null){
 				resultSet.close();
+			}
+			if(statement != null){
+				statement.close();
 			}
 			cn.close();
 		}
 	}
-
+	
 	/**
 	 * @return password di accesso al db. se non necessario lasciare a null
 	 */

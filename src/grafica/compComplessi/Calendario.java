@@ -14,19 +14,24 @@ import javax.swing.JPanel;
 public class Calendario extends PannelloBase {
 
 	private static final long serialVersionUID = 1L;
+	private ComboBoxBase comboGiorni;
+	private ComboBoxBase comboMesi;
+	private ComboBoxBase comboAnni;
+	private ComboBoxBase comboOre;
+	private ComboBoxBase comboMinuti;
 
 	public Calendario(Container contenitore, boolean time) {
 		super(contenitore);
 
 		final String[] giorni = creaListaNumerica(31, 1);
-		final ComboBoxBase comboGiorni = new ComboBoxBase(this, giorni);
+		comboGiorni = new ComboBoxBase(this, giorni);
 		
 		final String[] mesi = new String[]{"01","02","03","04","05","06","07","08","09","10","11","12"};
-		final ComboBoxBase comboMesi = new ComboBoxBase(this, mesi);
+		comboMesi = new ComboBoxBase(this, mesi);
 		comboMesi.posizionaADestraDi(comboGiorni, 0, 0, comboMesi);
 		
 		final String[] anni = creaListaAnni(new GregorianCalendar(),10);
-		final ComboBoxBase comboAnni = new ComboBoxBase(this, anni);
+		comboAnni = new ComboBoxBase(this, anni);
 		comboAnni.posizionaADestraDi(comboMesi, 0, 0, comboAnni);
 		
 		if(time){
@@ -35,11 +40,11 @@ public class Calendario extends PannelloBase {
 			labelTrattino.posizionaADestraDi(comboAnni, 0, 0, labelTrattino);
 			
 			final String[] ore = creaListaNumerica(24, 1);
-			final ComboBoxBase comboOre = new ComboBoxBase(this, ore);
+			comboOre = new ComboBoxBase(this, ore);
 			comboOre.posizionaADestraDi(labelTrattino, 0, 0, comboOre);
 			
 			final String[] minuti = creaListaNumerica(60, 0);
-			final ComboBoxBase comboMinuti = new ComboBoxBase(this, minuti);
+			comboMinuti = new ComboBoxBase(this, minuti);
 			comboMinuti.posizionaADestraDi(comboOre, 0, 0, comboMinuti);
 		}
 		
@@ -67,6 +72,27 @@ public class Calendario extends PannelloBase {
 		
 		return giorni;
 	}
+	
+	public ComboBoxBase getComboGiorni() {
+		return comboGiorni;
+	}
+
+	public ComboBoxBase getComboMesi() {
+		return comboMesi;
+	}
+
+	public ComboBoxBase getComboAnni() {
+		return comboAnni;
+	}
+
+	public ComboBoxBase getComboOre() {
+		return comboOre;
+	}
+
+	public ComboBoxBase getComboMinuti() {
+		return comboMinuti;
+	}
+
 	
 	public static void main(String[] args) {
 		JPanel p = UtilComponenti.initContenitoreFrame(null);

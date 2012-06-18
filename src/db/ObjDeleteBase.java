@@ -1,13 +1,13 @@
 package db;
 
-import java.sql.Connection;
 import java.util.HashMap;
 
 public class ObjDeleteBase extends ObjConClausole{
 
+	private String tabella;
 
-	public ObjDeleteBase(final Connection cn) {
-		super(cn);
+	public ObjDeleteBase() {
+		super();
 	}
 
 	public boolean delete(final String comandoSql){
@@ -15,42 +15,39 @@ public class ObjDeleteBase extends ObjConClausole{
 	}
 
 	public boolean delete() throws Exception{
-		introComando(tabella);
+		introComando();
 		settaClausole();
 		if(aggiornaSqlFromString(sbSQL.toString())){
-			close();
 			return true;
 		}
-		close();
 		return false;
 	}
+	
 	
 	public boolean delete(final String tabella, final HashMap<String, String> clausole) throws Exception{
-		introComando(tabella);
+		this.tabella = tabella;
+		introComando();
 		settaClausole(clausole);
 		if(aggiornaSqlFromString(sbSQL.toString())){
-			close();
 			return true;
 		}
-		close();
 		return false;
 	}
 	
-	private void introComando(final String tabella) {
-		this.tabella = tabella;
+	private void introComando() {
 		sbSQL.append(DELETE).append(FROM).append(tabella);
 	}
 
-	public HashMap<String, String> getClausole() {
-		return clausole;
+	public String getTabella() {
+		return tabella;
 	}
 
-	public void setClausole(final HashMap<String, String> clausole) {
-		this.clausole = clausole;
+	public void setTabella(String tabella) {
+		this.tabella = tabella;
 	}
-	
+
 	public static void main(String[] args) throws Exception {
-		ObjDeleteBase oggettoDeleteBase = new ObjDeleteBase(cn);
+		ObjDeleteBase oggettoDeleteBase = new ObjDeleteBase();
 		HashMap<String, String> clausole = new HashMap<String, String>();
 		clausole.put("id", "1");
 		clausole.put("nome", "Marco");
