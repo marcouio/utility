@@ -1,19 +1,25 @@
 package db;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class ObjInsertBase extends OggettoSQL{
 
 
-	public ObjInsertBase(final Connection cn) {
-		super(cn);
+	private String tabella;
+	protected HashMap<String, String> campiInsert = new HashMap<String, String>();
+
+	public ObjInsertBase() {
+		super();
+	}
+	
+	public boolean insert() throws Exception{
+		return insert(tabella, campiInsert);
 	}
 
 	public boolean insert(final String tabella, final HashMap<String, String> campi) throws Exception{
 		this.tabella = tabella;
-		this.campi = campi;
+		this.campiInsert = campi;
 
 		introComando();
 		sbSQL.append("(");
@@ -46,7 +52,7 @@ public class ObjInsertBase extends OggettoSQL{
 	}
 
 	protected void inserisciNomiColonne() {
-		final Iterator<String> iterInsert = campi.keySet().iterator();
+		final Iterator<String> iterInsert = campiInsert.keySet().iterator();
 
 		while (iterInsert.hasNext()) {
 			final String prossimo = iterInsert.next();
@@ -62,11 +68,27 @@ public class ObjInsertBase extends OggettoSQL{
 	}
 
 	public void putCampoValore(final String campo, final String valore){
-		campi.put(campo, valore);
+		campiInsert.put(campo, valore);
 	}
 	
+	public HashMap<String, String> getCampiInsert() {
+		return campiInsert;
+	}
+
+	public void setCampiInsert(HashMap<String, String> campiInsert) {
+		this.campiInsert = campiInsert;
+	}
+
+	public String getTabella() {
+		return tabella;
+	}
+
+	public void setTabella(String tabella) {
+		this.tabella = tabella;
+	}
+
 	public static void main(String[] args) throws Exception {
-		ObjInsertBase oggetto = new ObjInsertBase(cn);
+		ObjInsertBase oggetto = new ObjInsertBase();
 		HashMap<String, String> campi = new HashMap<String, String>();
 		campi.put("id", "1");
 		campi.put("nome", "Marco");
