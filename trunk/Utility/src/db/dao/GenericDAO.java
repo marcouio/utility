@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +17,7 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 import db.ConnectionPool;
 import db.ObjDeleteBase;
+import db.ObjInsertBase;
 import db.ObjSelectBase;
 import db.ObjUpdateBase;
 
@@ -221,7 +221,35 @@ public class GenericDAO implements IDAO {
 
 	@Override
 	public boolean insert(Object oggettoEntita) throws Exception {
+		if(oggettoEntita != null){
+			ObjInsertBase insertBase = new ObjInsertBase();
+			insertBase.setTabella(nomeTabella);
+			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
+			while (iterColumn.hasNext()) {
+				final String colonna = (String) iterColumn.next();
+				final Field field = mappaColumnCampi.get(colonna);
+				final Class<?> parameterTypes = field.getType();
+				final String getMethodName = costruisciNomeGet(field.getName());
+				final Method method = entita.getClass().getMethod(getMethodName);
+				final Object getterCampo = method.invoke(oggettoEntita);
+				inserisciCampiValue(colonna, getterCampo, parameterTypes, insertBase);
+				
+			}
+			insertBase.insert();
+		}
 		return false;
+	}
+
+	private void inserisciCampiValue(String colonna, Object getterCampo,Class<?> parameterTypes, ObjInsertBase insertBase) {
+		String valore = null;
+		//TODO gestire i campi date
+		if(getterCampo instanceof AbstractOggettoEntita){
+			final String id = ((AbstractOggettoEntita)getterCampo).getIdEntita();
+			valore = id;
+		}else if(getterCampo != null){
+			valore = getterCampo.toString();
+		}
+		insertBase.putCampoValore(colonna, valore);
 	}
 
 	@Override
@@ -236,24 +264,39 @@ public class GenericDAO implements IDAO {
 
 	@Override
 	public boolean update(Object oggettoEntita) throws Exception {
-		final ObjUpdateBase updateBase = new ObjUpdateBase();
-		final String campoId = getNomeCampoId();
-		updateBase.putClausole(campoId, ((AbstractOggettoEntita)oggettoEntita).getIdEntita());
-		
-		final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
-		final AbstractOggettoEntita ent = entita.getClass().newInstance();
-		while (iterColumn.hasNext()) {
-			final String colonna = (String) iterColumn.next();
-			final Field field = mappaColumnCampi.get(colonna);
-			final Class<?> parameterTypes = field.getType();
-			final String setMethodName = costruisciNomeSet(field.getName());
-			final String getMethodName = costruisciNomeGet(field.getName());
-			final Method method = entita.getClass().getMethod(setMethodName,parameterTypes);
+		if(oggettoEntita != null){
+			final ObjUpdateBase updateBase = new ObjUpdateBase();
+			updateBase.setTabella(nomeTabella);
+			final String campoId = getNomeCampoId();
+			updateBase.putClausole(campoId, ((AbstractOggettoEntita)oggettoEntita).getIdEntita());
 			
-		
-		
+			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
+			while (iterColumn.hasNext()) {
+				final String colonna = (String) iterColumn.next();
+				final Field field = mappaColumnCampi.get(colonna);
+				final Class<?> parameterTypes = field.getType();
+				final String getMethodName = costruisciNomeGet(field.getName());
+				final Method method = entita.getClass().getMethod(getMethodName);
+				final Object getterCampo = method.invoke(oggettoEntita);
+				inserisciCampiUpdate(colonna, getterCampo, parameterTypes, updateBase);
+				
+			}
+			updateBase.update();
 		}
 		return false;
+	}
+	
+	private void inserisciCampiUpdate(String colonna, Object getterCampo, Class<?> parameterTypes, ObjUpdateBase updateBase) {
+		String valore = null;
+		//TODO gestire i campi date
+		if(getterCampo instanceof AbstractOggettoEntita){
+			final String id = ((AbstractOggettoEntita)getterCampo).getIdEntita();
+			valore = id;
+		}else if(getterCampo != null){
+			valore = getterCampo.toString();
+		}
+		
+		updateBase.putCampiUpdate(colonna, valore);
 	}
 
 	@Override

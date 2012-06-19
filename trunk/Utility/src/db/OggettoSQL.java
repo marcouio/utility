@@ -225,13 +225,17 @@ public class OggettoSQL {
 	
 	protected void inserisciValore(final String prossimo, final HashMap<String, String> mappa) {
 		try {
-			final String valueClausola = (String) mappa.get(prossimo);
-			if(valueClausola.contains(".")){
-				Double.parseDouble(valueClausola);
+			String valueClausola = (String) mappa.get(prossimo);
+			if (valueClausola == null) {
+				valueClausola = "null";
 			}else{
-				Integer.parseInt(valueClausola);
+				if(valueClausola.contains(".")){
+					Double.parseDouble(valueClausola);
+				}else{
+					Integer.parseInt(valueClausola);
+				}
 			}
-			sbSQL.append(mappa.get(prossimo));
+			sbSQL.append(valueClausola);
 		} catch (final NumberFormatException e) {
 			sbSQL.append("'" + mappa.get(prossimo) + "'");
 		}
