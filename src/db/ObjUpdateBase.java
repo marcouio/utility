@@ -10,6 +10,10 @@ public class ObjUpdateBase extends ObjConClausole {
 	public ObjUpdateBase() {
 		super();
 	}
+	
+	public boolean update() throws Exception{
+		return update(tabella, campiUpdate, clausole);
+	}
 
 	public boolean update(final String tabella, final HashMap<String, String> campi, final HashMap<String, String> clausole) throws Exception{
 		this.tabella = tabella;
@@ -32,7 +36,9 @@ public class ObjUpdateBase extends ObjConClausole {
 			final String prossimo = iterUpdate.next();
 			sbSQL.append(prossimo).append(" = ");
 			try {
-				if (((String) campiUpdate.get(prossimo)).contains(".")) {
+				if(campiUpdate.get(prossimo) == null){
+					sbSQL.append("null");
+				}else if (((String) campiUpdate.get(prossimo)).contains(".")) {
 					sbSQL.append(Double.parseDouble((String) campiUpdate.get(prossimo)));
 				} else {
 					sbSQL.append(Integer.parseInt((String) campiUpdate.get(prossimo)));
@@ -64,6 +70,14 @@ public class ObjUpdateBase extends ObjConClausole {
 	
 	public void putCampiUpdate(String alias, String campo){
 		campiUpdate.put(alias, campo);
+	}
+
+	public String getTabella() {
+		return tabella;
+	}
+
+	public void setTabella(String tabella) {
+		this.tabella = tabella;
 	}
 
 	public static void main(final String[] args) {
