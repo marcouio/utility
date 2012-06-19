@@ -5,11 +5,16 @@ import grafica.componenti.combo.ComboBoxBase;
 import grafica.componenti.contenitori.PannelloBase;
 import grafica.componenti.label.Label;
 
-import java.awt.Color;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JPanel;
+
+import listener.AscoltatoreBase;
+import aggiornatori.IAggiornatore;
+import db.UtilDb;
 
 public class Calendario extends PannelloBase {
 
@@ -19,9 +24,12 @@ public class Calendario extends PannelloBase {
 	private ComboBoxBase comboAnni;
 	private ComboBoxBase comboOre;
 	private ComboBoxBase comboMinuti;
+	private boolean time;
+	private Date thisDate = new Date();
 
 	public Calendario(Container contenitore, boolean time) {
 		super(contenitore);
+		this.time = time;
 
 		final String[] giorni = creaListaNumerica(31, 1);
 		comboGiorni = new ComboBoxBase(this, giorni);
@@ -47,8 +55,19 @@ public class Calendario extends PannelloBase {
 			comboMinuti = new ComboBoxBase(this, minuti);
 			comboMinuti.posizionaADestraDi(comboOre, 0, 0, comboMinuti);
 		}
-		
+		addAscoltatore();
 		this.setSize(this.getLarghezza(), this.getAltezza());
+	}
+
+	private void addAscoltatore() {
+		AscoltatoreBase ascoltatore = new AscoltatoreCalendario(null, null);
+		comboGiorni.addActionListener(ascoltatore);
+		comboMesi.addActionListener(ascoltatore); 
+		comboAnni.addActionListener(ascoltatore); 
+		if(time){
+			comboOre.addActionListener(ascoltatore);  
+			comboMinuti.addActionListener(ascoltatore);
+		}
 	}
 
 	private String[] creaListaAnni(GregorianCalendar gC, int lunghezza) {
@@ -92,6 +111,13 @@ public class Calendario extends PannelloBase {
 	public ComboBoxBase getComboMinuti() {
 		return comboMinuti;
 	}
+	
+//	public String getAnni(){
+//		if(getComboAnni().getSelectedItem() != null){
+//			return (String)getComboAnni().getSelectedItem();
+//		}
+//		return null;
+//	}
 
 	
 	public static void main(String[] args) {
@@ -99,5 +125,57 @@ public class Calendario extends PannelloBase {
 		Calendario cal = new Calendario(p, false);
 		
 	}
+	
+	public class AscoltatoreCalendario extends AscoltatoreBase{
 
+		public AscoltatoreCalendario(IAggiornatore aggiornatore,Object[] parametri) {
+			super(aggiornatore, parametri);
+		}
+
+		@Override
+		protected void actionPerformedOverride(ActionEvent e) {
+			final String anniSel = ((String)getComboAnni().getSelectedItem());
+			final String mesiSel = ((String)getComboMesi().getSelectedItem());
+			final String giorniSel = ((String)getComboGiorni().getSelectedItem());
+			String oreSel = "00";
+			String minutiSel = "00";
+			
+			if(time){
+				oreSel = ((String)getComboOre().getSelectedItem());
+				minutiSel = ((String)getComboMinuti().getSelectedItem());
+			}
+			
+			String dataString = null;
+			if(checkData(time)){
+				dataString = anniSel + "/" + mesiSel + "/" + giorniSel +", " + oreSel + ":"+ minutiSel;
+			}
+			
+			if(dataString != null){ 
+				thisDate = UtilDb.stringToDate(dataString, "yyyy/MM/dd, HH:mm");
+			}
+			System.out.println(dataString);
+		}
+		
+	}
+	
+	public String getStringDate(final String format){
+		return UtilDb.dataToString(thisDate, format);
+	}
+	
+	public Date getDate(){
+		return thisDate;
+	}
+	
+	private boolean checkData(boolean timestamp){
+		boolean timeStampok = true;
+		if (timestamp) {
+			timeStampok = getComboOre().getSelectedItem() != null && 
+					   getComboMinuti().getSelectedItem() != null;
+		}
+		return getComboAnni().getSelectedItem() != null && 
+			   getComboMesi().getSelectedItem() != null &&
+			   getComboGiorni().getSelectedItem() != null && 
+			   timeStampok;
+				
+	}
 }

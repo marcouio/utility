@@ -23,8 +23,8 @@ public abstract class AscoltatoreBase implements ActionListener {
 				IComponenteBase componente = (IComponenteBase) parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
 				this.aggiornatore.setComp(componente);
 			}
+			this.aggiornatore.setParametri(parametri);
 		}
-		this.aggiornatore.setParametri(parametri);
 	}
 
 	public AscoltatoreBase(final IAggiornatore aggiornatore, final Object[] parametri) {
@@ -35,9 +35,8 @@ public abstract class AscoltatoreBase implements ActionListener {
 				IComponenteBase componente = (IComponenteBase) parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
 				this.aggiornatore.setComp(componente);
 			}
+			this.aggiornatore.setParametri(parametri);
 		}
-		
-		this.aggiornatore.setParametri(parametri);
 	}
 
 	@Override
@@ -47,7 +46,9 @@ public abstract class AscoltatoreBase implements ActionListener {
 			@Override
 			public void run() {
 				actionPerformedOverride(e);
-				aggiornatore.aggiorna();
+				if(aggiornatore != null){
+					aggiornatore.aggiorna();
+				}
 			}
 		});
 	}
