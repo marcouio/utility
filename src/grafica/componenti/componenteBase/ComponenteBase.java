@@ -139,7 +139,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 			nuovaX = (int) (location.getX() - compDaPosizionare.getWidth() - distanzaOrizzontale);
 			nuovaY = (int) (location.getY() + distanzaVerticale);
 		}else{
-			nuovaX = distanzaOrizzontale;
+			nuovaX = - distanzaOrizzontale;
 			nuovaY = distanzaVerticale;
 		}
 		compDaPosizionare.setLocation(nuovaX, nuovaY);
@@ -154,11 +154,11 @@ public class ComponenteBase extends Component implements IComponenteBase {
 			Point location = componenteParagone.getLocation();
 			nuovaX = (int) (location.getX() + distanzaOrizzantale);
 			nuovaY = (int) (location.getY() + componenteParagone.getHeight() + distanzaVerticale);
-			compDaPosizionare.setLocation(nuovaX, nuovaY);
 		}else{
 			nuovaX = distanzaOrizzantale;
 			nuovaY = distanzaVerticale;
 		}
+		compDaPosizionare.setLocation(nuovaX, nuovaY);
 		return true;
 	}
 
@@ -170,12 +170,12 @@ public class ComponenteBase extends Component implements IComponenteBase {
 			Point location = componenteParagone.getLocation();
 			nuovaX = (int) (location.getX() + distanzaOrizzantale);
 			nuovaY = (int) (location.getY() - compDaPosizionare.getHeight() - distanzaVerticale);
-			compDaPosizionare.setLocation(nuovaX, nuovaY);
 		}else{
 			nuovaX = distanzaOrizzantale;
-			nuovaY = distanzaVerticale;
+			nuovaY = - distanzaVerticale;
 		}
 		
+		compDaPosizionare.setLocation(nuovaX, nuovaY);
 		return true;
 	}
 
