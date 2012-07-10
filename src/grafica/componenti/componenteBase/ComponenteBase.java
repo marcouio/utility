@@ -116,37 +116,66 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	@Override
 	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
-		Point location = componenteParagone.getLocation();
-		int nuovaX = (int) (location.getX() + componenteParagone.getWidth() + distanzaOrizzantale);
-		int nuovaY = (int) (location.getY() + distanzaVerticale);
+		int nuovaX = 0;
+		int nuovaY = 0;
+		if(componenteParagone != null){
+			Point location = componenteParagone.getLocation();
+			nuovaX = (int) (location.getX() + componenteParagone.getWidth() + distanzaOrizzantale);
+			nuovaY = (int) (location.getY() + distanzaVerticale);
+		}else{
+			nuovaX = distanzaOrizzantale;
+			nuovaY = distanzaVerticale;
+		}
 		compDaPosizionare.setLocation(nuovaX, nuovaY);
 		return true;
 	}
 
 	@Override
 	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component compDaPosizionare) {
-		Point location = componenteParagone.getLocation();
-		int nuovaX = (int) (location.getX() - compDaPosizionare.getWidth() - distanzaOrizzontale);
-		int nuovaY = (int) (location.getY() + distanzaVerticale);
+		int nuovaX = 0;
+		int nuovaY = 0;
+		if(componenteParagone != null){
+			Point location = componenteParagone.getLocation();
+			nuovaX = (int) (location.getX() - compDaPosizionare.getWidth() - distanzaOrizzontale);
+			nuovaY = (int) (location.getY() + distanzaVerticale);
+		}else{
+			nuovaX = distanzaOrizzontale;
+			nuovaY = distanzaVerticale;
+		}
 		compDaPosizionare.setLocation(nuovaX, nuovaY);
 		return true;
 	}
 
 	@Override
 	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
-		Point location = componenteParagone.getLocation();
-		int nuovaX = (int) (location.getX() + distanzaOrizzantale);
-		int nuovaY = (int) (location.getY() + componenteParagone.getHeight() + distanzaVerticale);
-		compDaPosizionare.setLocation(nuovaX, nuovaY);
+		int nuovaX = 0;
+		int nuovaY = 0;
+		if(componenteParagone != null){
+			Point location = componenteParagone.getLocation();
+			nuovaX = (int) (location.getX() + distanzaOrizzantale);
+			nuovaY = (int) (location.getY() + componenteParagone.getHeight() + distanzaVerticale);
+			compDaPosizionare.setLocation(nuovaX, nuovaY);
+		}else{
+			nuovaX = distanzaOrizzantale;
+			nuovaY = distanzaVerticale;
+		}
 		return true;
 	}
 
 	@Override
 	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
-		Point location = componenteParagone.getLocation();
-		int nuovaX = (int) (location.getX() + distanzaOrizzantale);
-		int nuovaY = (int) (location.getY() - compDaPosizionare.getHeight() - distanzaVerticale);
-		compDaPosizionare.setLocation(nuovaX, nuovaY);
+		int nuovaX = 0;
+		int nuovaY = 0;
+		if(componenteParagone != null){
+			Point location = componenteParagone.getLocation();
+			nuovaX = (int) (location.getX() + distanzaOrizzantale);
+			nuovaY = (int) (location.getY() - compDaPosizionare.getHeight() - distanzaVerticale);
+			compDaPosizionare.setLocation(nuovaX, nuovaY);
+		}else{
+			nuovaX = distanzaOrizzantale;
+			nuovaY = distanzaVerticale;
+		}
+		
 		return true;
 	}
 
