@@ -1,7 +1,6 @@
 package grafica.componenti.button;
 
 import grafica.componenti.UtilComponenti;
-import grafica.componenti.componenteBase.ComponenteBase;
 import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
@@ -156,8 +155,12 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	public int getLarghezza() {
 		int margineSinitro = this.getMargin().left;
 		int margineDestro = this.getMargin().right;
-		int larghezzaTesto = this.componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
-		return (int) (getMaxDimensionX() + margineSinitro + margineDestro + (larghezzaTesto * COSTANTE_ALLARGA));
+		int larghezzaTesto = this.componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this, false);
+		int larghImage = 0;
+		if(this.getIcon() != null){
+			larghImage = getIcon().getIconWidth();
+		}
+		return (int) (getMaxDimensionX() + margineSinitro + margineDestro + (larghezzaTesto * COSTANTE_ALLARGA) + larghImage);
 	}
 
 	@Override
@@ -165,7 +168,15 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 		int margineAlto = this.getMargin().top;
 		int margineBasso = this.getMargin().bottom;
 		int altezzaTesto = this.componenteBase.getAltezzaSingleStringa(getGraphics(), this);
-		return getMaxDimensionY() + margineAlto + margineBasso + altezzaTesto;
+		int altezzaImage = 0;
+		if(this.getIcon() != null){
+			altezzaImage = getIcon().getIconHeight();
+		}
+		if(altezzaTesto > altezzaImage){
+			return getMaxDimensionY() + margineAlto + margineBasso + altezzaTesto;
+		}else{
+			return getMaxDimensionY() + margineAlto + margineBasso + altezzaImage;
+		}
 	}
 
 	@Override

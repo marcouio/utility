@@ -3,9 +3,9 @@ package grafica.compComplessi;
 import grafica.componenti.UtilComponenti;
 import grafica.componenti.combo.ComboBoxBase;
 import grafica.componenti.contenitori.PannelloBase;
-import grafica.componenti.label.Label;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -26,33 +26,52 @@ public class Calendario extends PannelloBase {
 	private ComboBoxBase comboMinuti;
 	private boolean time;
 	private Date thisDate = new Date();
+	private Dimension dimension = null;
 
-	public Calendario(Container contenitore, boolean time) {
+	public Calendario(Container contenitore, boolean time){
+		this(contenitore, time, null);
+	}
+			
+	public Calendario(Container contenitore, boolean time, Dimension dimension) {
 		super(contenitore);
 		this.time = time;
-
+		this.dimension = dimension;
+		
+		
 		final String[] giorni = creaListaNumerica(31, 1);
 		comboGiorni = new ComboBoxBase(this, giorni);
+		if(dimension != null){
+			comboGiorni.setSize(dimension);
+		}
 		
 		final String[] mesi = new String[]{"01","02","03","04","05","06","07","08","09","10","11","12"};
 		comboMesi = new ComboBoxBase(this, mesi);
+		if(dimension != null){
+			comboMesi.setSize(dimension);
+		}
 		comboMesi.posizionaADestraDi(comboGiorni, 0, 0, comboMesi);
 		
 		final String[] anni = creaListaAnni(new GregorianCalendar(),10);
 		comboAnni = new ComboBoxBase(this, anni);
+		if(dimension != null){
+			comboAnni.setSize((int)(dimension.getWidth()*1.5), (int)dimension.getHeight());
+		}
 		comboAnni.posizionaADestraDi(comboMesi, 0, 0, comboAnni);
 		
 		if(time){
 			
-			Label labelTrattino = new Label(" - ", this);
-			labelTrattino.posizionaADestraDi(comboAnni, 0, 0, labelTrattino);
-			
 			final String[] ore = creaListaNumerica(24, 1);
 			comboOre = new ComboBoxBase(this, ore);
-			comboOre.posizionaADestraDi(labelTrattino, 0, 0, comboOre);
+			if(dimension != null){
+				comboOre.setSize(dimension);
+			}
+			comboOre.posizionaADestraDi(comboAnni, 20, 0, comboOre);
 			
 			final String[] minuti = creaListaNumerica(60, 0);
 			comboMinuti = new ComboBoxBase(this, minuti);
+			if(dimension != null){
+				comboMinuti.setSize(dimension);
+			}
 			comboMinuti.posizionaADestraDi(comboOre, 0, 0, comboMinuti);
 		}
 		addAscoltatore();
