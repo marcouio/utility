@@ -174,14 +174,28 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
-	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare) {
+	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare, final boolean setDefault) {
 		int larghezza = 0;
 		g = trovaUnGraphicsValido(g, compDaPosizionare);
 		if (g != null && compDaPosizionare.getFont() != null) {
 			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
 			larghezza = fm.stringWidth(label);
 		}
-		return larghezza > ComponenteBase.WIDTH_STRING_MIN ? larghezza + 3 : ComponenteBase.WIDTH_STRING_DEFAULT;
+		if(setDefault){
+			return larghezza > ComponenteBase.WIDTH_STRING_MIN ? larghezza + 3 : ComponenteBase.WIDTH_STRING_DEFAULT;
+		}
+		return larghezza;
+	}
+	
+	/**
+	 * Se la larghezza è maggiore del minimo, restituisce la larghezza + 3 altrimenti setta il default
+	 * @param g
+	 * @param label
+	 * @param compDaPosizionare
+	 * @return
+	 */
+	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare) {
+		return getLarghezzaSingleStringa(g, label, compDaPosizionare, true);
 	}
 
 	public int getAltezzaSingleStringa(Graphics g, final Component compDaPosizionare) {
