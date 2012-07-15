@@ -4,6 +4,7 @@ import grafica.componenti.UtilComponenti;
 import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.PannelloBase;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics2D;
@@ -87,7 +88,6 @@ public abstract class ControlloreBase {
 					verificaPresenzaDb();
 					controllore.mainOverridato(frame);
 					if (dimensiona) {
-						frame.setSize(frame.getLarghezza(), frame.getAltezza());
 						Container content = frame.getContentPane();
 						Component[] components = content.getComponents();
 						for (Component component : components) {
@@ -96,6 +96,7 @@ public abstract class ControlloreBase {
 								pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
 							}
 						}
+						frame.setSize(frame.getLarghezza(), frame.getAltezza());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
