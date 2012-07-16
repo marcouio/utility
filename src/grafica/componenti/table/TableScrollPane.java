@@ -4,7 +4,6 @@ import grafica.componenti.UtilComponenti;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JPanel;
@@ -93,10 +92,12 @@ public class TableScrollPane extends JScrollPane {
 
 			@Override
 			public void run() {
+				JPanel panel = UtilComponenti.initContenitoreFrame(null);
 				TableScrollPane pane = new TableScrollPane();
 				pane = pane.createTableScrollPane2(new String[][] { { "ciao" }, { "ciao" } }, new String[] { "ciao" });
-				JPanel panel = UtilComponenti.initContenitoreFrame(new FlowLayout());
 				panel.add(pane);
+				pane.setLocation(10, 10);
+				pane.setSize(200, 300);
 			}
 		});
 	}
