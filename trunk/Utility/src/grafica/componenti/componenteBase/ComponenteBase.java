@@ -35,6 +35,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	private static final long serialVersionUID = 1L;
 	public static final int HEIGHT_STRING_DEFAULT = 30;
 	public static final int WIDTH_STRING_DEFAULT = 100;
+	public static final int HEIGHT_DEFAULT = 100;
+	public static final int WIDTH_DEFAULT = 100;
 	public static final int WIDTH_STRING_MIN = 5;
 	public static final int HEIGHT_STRING_MIN = 5;
 	
@@ -260,13 +262,14 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	@Override
 	public int getLarghezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		System.out.println("getLarghezza() implementata solo a livello di componenteBase. Ritornata una larghezza default");
+		return WIDTH_DEFAULT;
 	}
 
 	@Override
 	public int getAltezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		System.out.println("getAltezza() implementata solo a livello di componenteBase. Ritornata una larghezza default");
+		return HEIGHT_DEFAULT;
 	}
 }
