@@ -85,8 +85,7 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 	public void generaDimensioniMinime() {
 		final int altezza = this.getRowCount() * this.getRowHeight();
 		final int larghezza = this.getColumnCount() * this.getLarghezzaMinimaColonna();
-		this.setBounds(10, 10, larghezza, altezza);
-
+		this.setSize(larghezza, altezza);
 	}
 
 	private int getLarghezzaMinimaColonna() {
@@ -264,14 +263,12 @@ public class TableBase2d extends JTable implements FocusListener, IComponenteBas
 
 	@Override
 	public int getLarghezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		return componenteBase.getLarghezza();
 	}
 
 	@Override
 	public int getAltezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		return componenteBase.getAltezza();
 	}
 
 }
