@@ -6,7 +6,6 @@ import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
@@ -92,6 +91,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 		this.addTreeSelectionListener(this);
 		this.setCellRenderer(treeCellRenderer);
 		this.settaStile();
+		setSize(getLarghezza(), getAltezza());
 	}
 
 	public void espandiTutto() {
@@ -226,7 +226,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 				JFrame frame = new JFrame();
 				JPanel pane = new JPanel();
 				JScrollPane panel = new JScrollPane();
-				panel.setSize(400, 400);
+				panel.setSize(200, 200);
 				final TreeBase tree = new TreeBase(panel) {
 
 					private static final long serialVersionUID = 1L;
@@ -237,10 +237,10 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 					}
 				};
 
-				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
-				ImageIcon icona = new ImageIcon(path + "play.jpg");
-				ImageIcon icona2 = new ImageIcon(path + "playrosso.jpg");
-				ImageIcon icona3 = new ImageIcon(path + "stop.jpg");
+				String path = "/home/marcouio/Immagini/";
+				ImageIcon icona = new ImageIcon(path + "icon.png");
+				ImageIcon icona2 = new ImageIcon(path + "icon.png");
+				ImageIcon icona3 = new ImageIcon(path + "icon.png");
 
 				icona = UtilImage.resizeImage(10, 10, icona);
 				icona2 = UtilImage.resizeImage(10, 10, icona2);
@@ -253,7 +253,6 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 				TreeObjectFoglia foglia3 = new TreeObjectFoglia("foglia3", icona2);
 				ramo1.addFoglia(foglia3);
 				ramo1.addChildrenToTree();
-
 				DefaultMutableTreeNode root = initTree(tree).getTreeNode();
 
 				root.add(foglia1.getTreeNode());
@@ -264,12 +263,11 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 				tree.setIconForAll(null, null, icona3);
 				frame.getContentPane().add(panel);
 				frame.getContentPane().add(pane);
-				frame.getContentPane().setLayout(new GridLayout(0, 1));
 				frame.setVisible(true);
 				frame.setSize(400, 400);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				tree.expandRow(0);
-
+				
 				JButton button = new JButton("aggiorna tree");
 				pane.add(button);
 				button.addActionListener(new ActionListener() {
@@ -390,14 +388,12 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	@Override
 	public int getLarghezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		return componenteBase.getLarghezza();
 	}
 
 	@Override
 	public int getAltezza() {
-		// TODO Auto-generated method stub
-		return 0;
+		return componenteBase.getAltezza();
 	}
 
 }
