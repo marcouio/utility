@@ -268,14 +268,14 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	@Override
 	public int getLarghezza() {
-		System.out.println("getLarghezza() implementata solo a livello di componenteBase. Ritornata una larghezza default");
+		System.out.println("getLarghezza() in " + this.padre.getClass().getSimpleName()+ " non implementato. Ritornata una larghezza default");
 		return WIDTH_DEFAULT;
 	}
 
 	@Override
 	public int getAltezza() {
 		
-		System.out.println("getAltezza() implementata solo a livello di componenteBase. Ritornata una larghezza default");
+		System.out.println("getAltezza() in " + this.padre.getClass().getSimpleName() + " non implementato. Ritornata una larghezza default");
 		return HEIGHT_DEFAULT;
 	}
 }

@@ -47,6 +47,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		this.addFocusListener(this);
 		this.settaStile();
 		this.generaDimensioniMinime();
+		System.out.println("altezza: "+this.getHeight()+". larghezza: "+this.getWidth());
 	}
 
 	public void generaDimensioniMinime() {
