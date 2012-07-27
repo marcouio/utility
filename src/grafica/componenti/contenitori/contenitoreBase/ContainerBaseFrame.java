@@ -19,7 +19,7 @@ public class ContainerBaseFrame extends ContainerBase {
 	public int getMaxDimensionY(final Container container) {
 		JFrame frame = (JFrame) container;
 		Container cont = frame.getContentPane();
-		return super.getMaxDimensionY(cont) + 25;
+		return super.getMaxDimensionY(cont);
 	}
 
 }
