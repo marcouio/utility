@@ -40,7 +40,7 @@ import disegno.immagini.UtilImage;
 public class TreeBase extends JTree implements TreeSelectionListener, IComponenteBase {
 
 	private Container contenitorePadre;
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBase componenteBase = new ComponenteBase(this);
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	private DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();

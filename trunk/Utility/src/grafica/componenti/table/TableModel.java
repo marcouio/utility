@@ -9,9 +9,9 @@ public abstract class TableModel extends AbstractTableModel{
 
 	private static final long serialVersionUID = 1L;
 	private Object[][] matrice;
-	private Riga nomiColonne;
+	protected Riga nomiColonne;
 
-	public ArrayList<Riga> righe = new ArrayList<Riga>();
+	protected ArrayList<Riga> righe = new ArrayList<Riga>();
 
 	public Riga getNomiColonne() {
 		return nomiColonne;
@@ -34,15 +34,15 @@ public abstract class TableModel extends AbstractTableModel{
 		build(parametro);
 	}
 	
-	protected abstract void preBuild(Object parametro);
+	protected abstract void preBuild(Object parametro) throws Exception;
 
 	protected void build(Object parametro) throws Exception{
 		
 		checkMetodi();
 		int lunghezza = getNomiColonne().getLunghezza();
-		matrice = new String[getRighe().size()][lunghezza];
+		matrice = new String[getRighe().size() + 1][lunghezza];
 
-		for (int i = 0; i < getRighe().size(); i++) {
+		for (int i = 0; i < getRighe().size() + 1 ; i++) {
 			for (int x = 0; x < lunghezza; x++) {
 				try {
 					if(i == 0){
@@ -92,7 +92,7 @@ public abstract class TableModel extends AbstractTableModel{
 		ArrayList<String> celle = new ArrayList<String>();
 		
 		public Riga(String[] celle) {
-			this.celle = (ArrayList<String>) Arrays.asList(celle);
+			this.celle = new ArrayList<String>(Arrays.asList(celle));
 		}
 		public Riga(final ArrayList<String> celle){
 			this.celle = celle;

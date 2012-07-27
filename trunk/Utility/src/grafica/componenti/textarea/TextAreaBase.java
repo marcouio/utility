@@ -16,7 +16,7 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	private static final long serialVersionUID = 1L;
 	protected StyleBase style = new StyleTextArea();
 	private Container contenitorePadre;
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBase componenteBase = new ComponenteBase(this);
 
 	public TextAreaBase(final Container contenitore) {
 		super();

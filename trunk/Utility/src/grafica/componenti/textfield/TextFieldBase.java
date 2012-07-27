@@ -19,7 +19,7 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	protected IFormatterTF formatter;
 	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
-	private final ComponenteBase componenteBase = new ComponenteBase();
+	private final ComponenteBase componenteBase = new ComponenteBase(this);
 
 	public static void main(final String[] args) {
 		JPanel p = UtilComponenti.initContenitoreFrame(null);

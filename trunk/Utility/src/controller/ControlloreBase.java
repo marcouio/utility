@@ -108,8 +108,9 @@ public abstract class ControlloreBase {
 	/**
 	 * La parte di codice necessaria a far partire l'applicazione va inserita qui.
 	 * @param frame
+	 * @throws Exception 
 	 */
-	public abstract void mainOverridato(FrameBase frame);
+	public abstract void mainOverridato(FrameBase frame) throws Exception;
 
 	public static FrameBase getApplicationframe() {
 		return applicationframe;

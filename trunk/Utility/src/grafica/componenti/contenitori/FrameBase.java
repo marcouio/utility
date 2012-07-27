@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 public class FrameBase extends JFrame implements IFrame, IComponenteBase, IContainerBase {
 
 	private final ContainerBaseFrame containerBase = new ContainerBaseFrame();
-	private final ComponenteBaseFrame componenteBase = new ComponenteBaseFrame();
+	private final ComponenteBaseFrame componenteBase = new ComponenteBaseFrame(this);
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 

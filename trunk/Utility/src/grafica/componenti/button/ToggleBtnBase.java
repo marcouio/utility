@@ -42,7 +42,7 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 
 	private static final long serialVersionUID = 1L;
 	protected StyleBase style = new StyleBase();
-	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 	private final ContainerBaseBottone containerBase = new ContainerBaseBottone();
 	private Container contenitorePadre;
 

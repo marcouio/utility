@@ -18,7 +18,7 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ContainerBase containerBase = new ContainerBase();
-	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
 	public LabelBase(final Icon image, final int horizontalAlignment, final Container contenitorePadre) {
 		super(image, horizontalAlignment);

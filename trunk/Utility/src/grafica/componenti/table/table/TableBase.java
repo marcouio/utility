@@ -21,13 +21,14 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
-	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 	private static final long serialVersionUID = 1L;
 
 	public TableBase(final Container contenitorePadre) {
 		super();
 		init(contenitorePadre, this);
 	}
+	
 	
 	public TableBase(final TableModel dm, final Container contenitorePadre) {
 		super(dm);
@@ -84,7 +85,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 					//					setForeground(Color.BLUE);
 				}
 				if (column == 0) {
-					setBackground(Color.LIGHT_GRAY);
+					setBackground(Color.green);
 					setForeground(Color.WHITE);
 				}
 

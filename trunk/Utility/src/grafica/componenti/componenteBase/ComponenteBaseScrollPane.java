@@ -7,6 +7,10 @@ import java.awt.Container;
 
 public class ComponenteBaseScrollPane extends ComponenteBase {
 
+	public ComponenteBaseScrollPane(IComponenteBase padre) {
+		super(padre);
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
