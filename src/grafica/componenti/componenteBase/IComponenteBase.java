@@ -4,7 +4,6 @@ import grafica.componenti.ExceptionGraphics;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
 
 public interface IComponenteBase {
 

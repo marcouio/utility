@@ -10,6 +10,10 @@ import comuni.LineStackTracePrinter;
 
 public class ComponenteBaseConPadreContenitore extends ComponenteBase {
 
+	public ComponenteBaseConPadreContenitore(IComponenteBase padre) {
+		super(padre);
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Override

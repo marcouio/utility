@@ -1,35 +1,29 @@
 package grafica.componenti.alert;
 
 import grafica.componenti.UtilComponenti;
-import grafica.componenti.alert.builder.AbstractBuilderDialogoBase;
 import grafica.componenti.alert.builder.IBuilderDialogo;
 import grafica.componenti.button.ButtonBase;
 import grafica.componenti.componenteBase.ComponenteBaseDialogo;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.FrameBase;
-import grafica.componenti.contenitori.PannelloBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBaseDialogo;
 import grafica.componenti.contenitori.contenitoreBase.IContainerBase;
-import grafica.componenti.label.Label;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 public class DialogoBase extends JDialog implements IComponenteBase, IContainerBase, IContainerBuilderDialog {
 
 	private final ContainerBaseDialogo containerBase = new ContainerBaseDialogo();
-	private final ComponenteBaseDialogo componenteBase = new ComponenteBaseDialogo();
+	private final ComponenteBaseDialogo componenteBase = new ComponenteBaseDialogo(this);
 	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	Container padre;

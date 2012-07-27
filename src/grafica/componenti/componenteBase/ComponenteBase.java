@@ -39,6 +39,12 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public static final int WIDTH_DEFAULT = 100;
 	public static final int WIDTH_STRING_MIN = 5;
 	public static final int HEIGHT_STRING_MIN = 5;
+	public IComponenteBase padre;
+	
+	public ComponenteBase(IComponenteBase padre) {
+		this.padre = padre;
+	}
+	
 	
 	/**
 	 * Se parametri non sono null aggiunge il component nel container

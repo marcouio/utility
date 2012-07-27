@@ -10,6 +10,7 @@ import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Insets;
 
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -53,7 +54,7 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 
 	private static final long serialVersionUID = 1L;
 	protected StyleBase style = new StyleBase();
-	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 	private final ContainerBaseBottone containerBase = new ContainerBaseBottone();
 	private Container contenitorePadre;
 
@@ -62,6 +63,8 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 		this.setContenitorePadre(contenitorePadre2);
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.settaStile();
+		this.setBorderPainted(false);
+		this.setMargin(new Insets(0, 0, 0, 0));
 		setSize(getLarghezza(), getAltezza());
 	}
 

@@ -5,6 +5,10 @@ import java.awt.Container;
 
 public class ComponenteBaseDialogo extends ComponenteBase {
 
+	public ComponenteBaseDialogo(IComponenteBase padre) {
+		super(padre);
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -38,7 +38,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	private final ContainerBaseScrollPane containerBase = new ContainerBaseScrollPane();
 
 	protected StyleBase style = new StyleBase("StyleBaseScrollPane");
-	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane();
+	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -15,7 +15,7 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase{
 	private static final long serialVersionUID = 1L;
 	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
-	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
 	public ComboBoxBase(final Container contenitorePadre, Object[] lista) {
 		DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<Object>(lista);
