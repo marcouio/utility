@@ -7,6 +7,7 @@ import grafica.componenti.style.StyleBase;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -46,14 +47,14 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
 		this.settaStile();
-		this.generaDimensioniMinime();
+		setSize(this.generaDimensioniMinime());
 		System.out.println("altezza: "+this.getHeight()+". larghezza: "+this.getWidth());
 	}
 
-	public void generaDimensioniMinime() {
+	public Dimension generaDimensioniMinime() {
 		final int altezza = this.getRowCount() * this.getRowHeight();
 		final int larghezza = this.getColumnCount() * this.getLarghezzaMinimaColonna();
-		this.setSize(larghezza, altezza);
+		return new Dimension(larghezza, altezza);
 	}
 
 	private int getLarghezzaMinimaColonna() {
@@ -208,11 +209,11 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	@Override
 	public int getLarghezza() {
-		return componenteBase.getLarghezza();
+		return (int) generaDimensioniMinime().getWidth();
 	}
 
 	@Override
 	public int getAltezza() {
-		return componenteBase.getAltezza();
+		return (int) generaDimensioniMinime().getHeight();
 	}
 }
