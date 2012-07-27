@@ -9,17 +9,18 @@ public abstract class TableModel extends AbstractTableModel{
 
 	private static final long serialVersionUID = 1L;
 	private Object[][] matrice;
+	private Riga nomiColonne;
 
 	public ArrayList<Riga> righe = new ArrayList<Riga>();
+
+	public Riga getNomiColonne() {
+		return nomiColonne;
+	}
 	
 	public ArrayList<Riga> getRighe() {
 		return righe;
 	}
 
-	public void setRighe(final ArrayList<Riga> righe) {
-		this.righe = righe;
-	}
-	
 	public void addRiga(final String[] riga){
 		righe.add(new Riga(riga));
 	}
@@ -28,28 +29,39 @@ public abstract class TableModel extends AbstractTableModel{
 		righe.add(new Riga(riga));
 	}
 
-	public TableModel(Object parametro) {
+	public TableModel(Object parametro) throws Exception {
 		preBuild(parametro);
 		build(parametro);
 	}
 	
 	protected abstract void preBuild(Object parametro);
 
-	protected void build(Object parametro){
+	protected void build(Object parametro) throws Exception{
 		
-		int lunghezza = getRighe().get(0).getLunghezza();
+		checkMetodi();
+		int lunghezza = getNomiColonne().getLunghezza();
 		matrice = new String[getRighe().size()][lunghezza];
 
-		for (int i = 1; i <= getRighe().size(); i++) {
-			for (int x = 1; x <= lunghezza; x++) {
+		for (int i = 0; i < getRighe().size(); i++) {
+			for (int x = 0; x < lunghezza; x++) {
 				try {
-					final Riga riga = getRighe().get(i);
-					matrice[i][x] = riga.getValore(x);
+					if(i == 0){
+						matrice[i][x] = getNomiColonne().getValore(x);
+					}else{
+						final Riga riga = getRighe().get(i-1);
+						matrice[i][x] = riga.getValore(x);
+					}
+					
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
+	}
+
+	private void checkMetodi() throws Exception {
+		if(getNomiColonne() == null) throw new Exception("getNomiColonne() torna null, riempire la proprietà nomiColonne all'interno del metodo preBuild()");
+		if(getRighe() == null) throw new Exception("getRighe() torna null, riempire la proprietà righe all'interno del metodo preBuild()");
 	}
 		
 
@@ -75,7 +87,7 @@ public abstract class TableModel extends AbstractTableModel{
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return matrice[rowIndex][columnIndex];
 	}
-	
+
 	public class Riga {
 		ArrayList<String> celle = new ArrayList<String>();
 		

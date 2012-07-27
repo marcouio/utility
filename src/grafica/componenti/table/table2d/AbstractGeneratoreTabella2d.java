@@ -1,5 +1,13 @@
-package grafica.componenti.table;
+package grafica.componenti.table.table2d;
 
+import java.lang.reflect.InvocationTargetException;
+
+import grafica.componenti.UtilComponenti;
+import grafica.componenti.table.TableScrollPane;
+import grafica.componenti.table.table.TableBase;
+
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -96,6 +104,38 @@ public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel {
 	@Override
 	public Object getValueAt(final int rowIndex, final int columnIndex) {
 		return matrice[rowIndex][columnIndex];
+	}
+	
+	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
+		SwingUtilities.invokeAndWait(new Runnable() {
+
+			@Override
+			public void run() {
+				JPanel panel = UtilComponenti.initContenitoreFrame(null);
+				TableBase table = new TableBase(panel);
+				panel.add(table);
+				table.setLocation(10, 10);
+				table.setSize(200, 300);
+				table.setModel(new AbstractGeneratoreTabella2d() {
+					
+					@Override
+					public Object setCellaMatricePerRicorsione(int i, int x) {
+						return "ciao" + i + x;
+					}
+					
+					@Override
+					protected String[] costruisciArrayNomiColonna() {
+						return new String[]{"colonna 1", "colonna 2", "colonna 3"};
+					}
+					
+					@Override
+					protected String[] costruisciArrayNomeRighe() {
+						return new String[]{"riga 1","riga 2","riga 3", "riga 4"};
+					}
+				});
+			}
+		});
+		
 	}
 
 }
