@@ -4,7 +4,6 @@ import grafica.componenti.UtilComponenti;
 import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.PannelloBase;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics2D;
@@ -26,8 +25,6 @@ import xml.UtilXml;
 
 import command.AbstractCommand;
 import command.CommandManager;
-
-import db.ConnectionPool;
 
 /**
  * La classe è di estrema importanza nel framework. Essa funge da classe abstract per il controller, per cui tutte le operazioni di business devono passare di qui.
@@ -60,7 +57,7 @@ public abstract class ControlloreBase {
 	/**
 	 * Utente loggato. Non necessariamente implementato. 
 	 */
-	protected static IUtente utenteLogin;
+	protected static Object utenteLogin;
 
 	/**
 	 * Viene creata e mantenuta l'istanza di un "Graphics2D", in modo che non ci casi in cui serva e sia null 
@@ -84,8 +81,6 @@ public abstract class ControlloreBase {
 					init();
 					FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
 					ControlloreBase.setApplicationframe(frame);
-					controllore.setStartUtenteLogin();
-					verificaPresenzaDb();
 					controllore.mainOverridato(frame);
 					if (dimensiona) {
 						Container content = frame.getContentPane();
@@ -136,11 +131,11 @@ public abstract class ControlloreBase {
 		return I18NManager.getSingleton().getMessaggio(chiave);
 	}
 
-	public IUtente getUtenteLogin() {
+	public Object getUtenteLogin() {
 		return utenteLogin;
 	}
 
-	public void setUtenteLogin(final IUtente utenteLogin) {
+	public void setUtenteLogin(final Object utenteLogin) {
 		ControlloreBase.utenteLogin = utenteLogin;
 	}
 	
@@ -151,7 +146,7 @@ public abstract class ControlloreBase {
 		return commandManager;
 	}
 
-	public static boolean invocaComando(final AbstractCommand comando) {
+	public static boolean invocaComando(final AbstractCommand comando) throws Exception {
 		return CommandManager.getIstance().invocaComando(comando);
 	}
 
@@ -174,17 +169,6 @@ public abstract class ControlloreBase {
 		return log;
 	}
 
-	/**
-	 * Controlla se esiste sul db l'utente guest, altrimenti lo crea.
-	 * Se non serve, lascialo vuoto
-	 */
-	public abstract boolean setStartUtenteLogin();
-
-	/**
-	 * Verifica presenza del db. Se non necessario lasciarlo vuoto
-	 */
-	public abstract boolean verificaPresenzaDb();
-	
 	public static void creaFileXmlStyle() throws Exception{
 		
 		String pathFile = CoreXMLManager.getSingleton().getXMLStyleFilePath();

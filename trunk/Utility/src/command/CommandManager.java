@@ -25,9 +25,10 @@ public class CommandManager {
 
 	/**
 	 * Metodo che implementa l'azione "indietro".
+	 * @throws Exception 
 	 * 
 	 */
-	public boolean undo() {
+	public boolean undo() throws Exception {
 		//per tornare indietro devono esserci almeno 1 comando eseguito 
 		//e undo ripetuti non devono spostare l'indice più indietro di -1
 		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente <= history.size()-1) {
@@ -59,9 +60,10 @@ public class CommandManager {
 
 	/**
 	 * Metodo che implementa l'azione "avanti".
+	 * @throws Exception 
 	 * 
 	 */
-	public boolean redo() {
+	public boolean redo() throws Exception {
 		//per andare avanti devono esserci almeno 1 comando eseguito
 		//l'indice deve essere compreso tra -1 e (history.size-1)
 		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size() -1) {
@@ -109,8 +111,9 @@ public class CommandManager {
 	 * @param comando
 	 * @param tipo
 	 * @return
+	 * @throws Exception 
 	 */
-	public boolean invocaComando(final AbstractCommand comando) {
+	public boolean invocaComando(final AbstractCommand comando) throws Exception {
 		if (comando instanceof UndoCommand) {
 			if (undo()) {
 				return true;

@@ -29,18 +29,6 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 
 	protected abstract PannelloDisegno getPannello(FrameBase frame);
 
-	@Override
-	public boolean setStartUtenteLogin() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean verificaPresenzaDb() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public static void mouseClicked(final MouseEvent e) {
 	}
 
