@@ -10,8 +10,7 @@ public abstract class TableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	private Object[][] matrice;
 	protected Riga nomiColonne;
-
-	protected ArrayList<Riga> righe = new ArrayList<Riga>();
+	protected ArrayList<Riga> righe;
 
 	public Riga getNomiColonne() {
 		return nomiColonne;
@@ -20,13 +19,36 @@ public abstract class TableModel extends AbstractTableModel{
 	public ArrayList<Riga> getRighe() {
 		return righe;
 	}
+	
+	public void addColumn(String column){
+		checkColonne();
+		nomiColonne.add(column);
+	}
+	
+	private void checkColonne(){
+		if(nomiColonne == null){
+			nomiColonne = new Riga();
+		}	
+	}
+	private void checkRighe(){
+		if(righe == null){
+			righe = new ArrayList<Riga>();
+		}	
+	}
 
 	public void addRiga(final String[] riga){
+		checkRighe();
 		righe.add(new Riga(riga));
 	}
 	
 	public void addRiga(final ArrayList<String> riga){
+		checkRighe();
 		righe.add(new Riga(riga));
+	}
+	
+	public void addRiga(final Riga riga){
+		checkRighe();
+		righe.add(riga);
 	}
 
 	public TableModel(Object parametro) throws Exception {
@@ -42,15 +64,11 @@ public abstract class TableModel extends AbstractTableModel{
 		int lunghezza = getNomiColonne().getLunghezza();
 		matrice = new String[getRighe().size() + 1][lunghezza];
 
-		for (int i = 0; i < getRighe().size() + 1 ; i++) {
-			for (int x = 0; x < lunghezza; x++) {
+		for (int x = 0; x < lunghezza; x++) {
+			for (int i = 0; i < getRighe().size() ; i++) {
 				try {
-					if(i == 0){
-						matrice[i][x] = getNomiColonne().getValore(x);
-					}else{
-						final Riga riga = getRighe().get(i-1);
-						matrice[i][x] = riga.getValore(x);
-					}
+					final Riga riga = getRighe().get(i);
+					matrice[i][x] = riga.getValore(x);
 					
 				} catch (final Exception e) {
 					e.printStackTrace();
@@ -91,6 +109,10 @@ public abstract class TableModel extends AbstractTableModel{
 	public class Riga {
 		ArrayList<String> celle = new ArrayList<String>();
 		
+		public Riga() {
+			
+		}
+		
 		public Riga(String[] celle) {
 			this.celle = new ArrayList<String>(Arrays.asList(celle));
 		}
@@ -129,6 +151,10 @@ public abstract class TableModel extends AbstractTableModel{
 			}else{
 				this.celle.set(index, cella);
 			}
+		}
+
+		public ArrayList<String> getListaCelle() {
+			return celle;
 		}
 	}
 }
