@@ -26,7 +26,7 @@ public class MacroCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public boolean execute() {
+	public boolean execute() throws Exception {
 		boolean ok = true;
 		for (Iterator<AbstractCommand> iterator = listaComandiInterna.iterator(); iterator.hasNext();) {
 			AbstractCommand comando = (AbstractCommand) iterator.next();
@@ -41,7 +41,7 @@ public class MacroCommand extends AbstractCommand {
 	}
 
 	@Override
-	public boolean unExecute() {
+	public boolean unExecute() throws Exception {
 		boolean ok = true;
 		for (Iterator<AbstractCommand> iterator = listaComandiInterna.iterator(); iterator.hasNext();) {
 			AbstractCommand comando = (AbstractCommand) iterator.next();

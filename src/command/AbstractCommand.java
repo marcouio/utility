@@ -4,7 +4,7 @@ package command;
 public abstract class AbstractCommand implements ICommand {
 
 	@Override
-	public boolean doCommand() {
+	public boolean doCommand() throws Exception {
 		if (execute()) {
 			scriviLogExecute(true);
 			return true;
@@ -15,7 +15,7 @@ public abstract class AbstractCommand implements ICommand {
 	}
 
 	@Override
-	public boolean undoCommand() {
+	public boolean undoCommand() throws Exception {
 		if (unExecute()) {
 			scriviLogUnExecute(true);
 			return true;
@@ -26,10 +26,10 @@ public abstract class AbstractCommand implements ICommand {
 	}
 
 	@Override
-	public abstract boolean execute();
+	public abstract boolean execute() throws Exception;
 
 	@Override
-	public abstract boolean unExecute();
+	public abstract boolean unExecute() throws Exception;
 
 	@Override
 	public abstract void scriviLogExecute(boolean isComandoEseguito);
