@@ -3,6 +3,8 @@ package grafica.componenti.alert;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import controller.ControlloreBase;
+
 /**
  * Alert fornisce una facade per accedere in maniera più veloce alle
  * "message dialog" di swing. Potrebbe implementare in futuro la gestione dei
@@ -24,17 +26,17 @@ public class Alert {
 
 	public static void segnalazioneErroreGrave(final String messaggio) {
 		Alert.errore(messaggio, Alert.TITLE_ERROR);
-		// TODO LOG
+		ControlloreBase.getLog().severe(messaggio);
 	}
 
 	public static void segnalazioneErroreWarning(final String messaggio) {
 		Alert.errore(messaggio, Alert.TITLE_ERROR);
-		// TODO LOG
+		ControlloreBase.getLog().warning(messaggio);
 	}
 
 	public static void segnalazioneInfo(final String messaggio) {
 		Alert.info(messaggio, Alert.TITLE_OK);
-		// TODO LOG
+		ControlloreBase.getLog().info(messaggio);
 	}
 
 	public static String getMessaggioErrore(final String messaggio) {
