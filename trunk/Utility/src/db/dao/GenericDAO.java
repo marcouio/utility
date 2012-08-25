@@ -26,11 +26,10 @@ public class GenericDAO implements IDAO {
 	private String nomeTabella;
 	private String nomeCampoId;
 	private AbstractOggettoEntita entita;
-	private HashMap<String, Field> mappaColumnCampi = new HashMap<String, Field>();
-	private HashMap<String, Field> mappaColumnJoin = new HashMap<String, Field>();
+	private HashMap<String, Field> mappaColumnCampi = null;
+	private HashMap<String, Field> mappaColumnJoin = null;
 
-	public GenericDAO(String nomeTabella, final AbstractOggettoEntita entita) {
-		this.nomeTabella = nomeTabella;
+	public GenericDAO(final AbstractOggettoEntita entita) {
 		this.entita = entita;
 	}
 
@@ -53,7 +52,7 @@ public class GenericDAO implements IDAO {
 		return null;
 	}
 
-	private ArrayList<Object> costruisciEntitaFromRs(ResultSet select) throws Exception {
+	protected ArrayList<Object> costruisciEntitaFromRs(ResultSet select) throws Exception {
 		ArrayList<Object> listaReturn = new ArrayList<Object>();
 		while (select.next()) {
 			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
@@ -86,9 +85,8 @@ public class GenericDAO implements IDAO {
 	}
 
 	private void setValue(Method method, Object colonnaValue,Class<?> parameterTypes, AbstractOggettoEntita ent) throws Exception {
-		GenericDAO dao = UtilityDAO.getSingleton().getDaoByTipo(parameterTypes);
-		final Object selectById = dao.selectById(Integer.parseInt(colonnaValue
-				.toString()));
+		GenericDAO dao = UtilityDAO.getDaoByTipo(parameterTypes);
+		final Object selectById = dao.selectById(Integer.parseInt(colonnaValue.toString()));
 		method.invoke(ent, selectById);
 	}
 
@@ -114,39 +112,63 @@ public class GenericDAO implements IDAO {
 		String nome = "get" + upper + restante;
 		return nome;
 	}
+	
+	
 
 	private void caricaMaps() {
+		mappaColumnCampi = new HashMap<String, Field>();
+		mappaColumnJoin = new HashMap<String, Field>();
 		Field[] fields = getEntita().getClass().getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];
 			Annotation[] annotations = field.getAnnotations();
-			for (int j = 0; j < annotations.length; j++) {
-
-				String nameColonna = null;
-				Annotation annotation = (Annotation) annotations[j];
-				Class<? extends Annotation> annotationType = annotation.annotationType();
-				String name = annotationType.getName();
-				if ("javax.persistence.Column".equals(name)) {
-					nameColonna = getNomeColonnaByAnnotation(nameColonna,annotation);
-					getMappaColumnCampi().put(nameColonna.substring(1, nameColonna.length() - 1),field);
-
-				} else if ("javax.persistence.JoinColumn".equals(name)) {
-					nameColonna = getNomeColonnaByAnnotation(nameColonna,annotation);
-					getMappaColumnJoin().put(nameColonna.substring(1, nameColonna.length() - 1),field);
+			if(annotations != null && annotations.length > 0){
+				for (int j = 0; j < annotations.length; j++) {
+	
+					String nameColonna = null;
+					Annotation annotation = (Annotation) annotations[j];
+					Class<? extends Annotation> annotationType = annotation.annotationType();
+					String name = annotationType.getName();
+					
+					if ("javax.persistence.Column".equals(name)) {
+						nameColonna = getNomeColonnaByAnnotation(annotation);
+						if(nameColonna != null && !nameColonna.equals("")){
+							getMappaColumnCampi().put(nameColonna,field);
+						}else{
+							getMappaColumnCampi().put(field.getName(), field);
+						}
+	
+					} else if ("javax.persistence.JoinColumn".equals(name)) {
+						nameColonna = getNomeColonnaByAnnotation(annotation);
+						if(nameColonna != null && !nameColonna.equals("")){
+							getMappaColumnJoin().put(nameColonna,field);
+						}else{
+							getMappaColumnCampi().put(field.getName(), field);
+						}
+					}
 				}
+			}else{
+				getMappaColumnCampi().put(field.getName(), field);
 			}
 		}
 	}
+	
+	public String getNomeTabella() {
+		if(nomeTabella == null){
+			cercaNomeTabella();
+		}
+		return nomeTabella;
+	}
 
 	public HashMap<String, Field> getMappaColumnJoin() {
-		if (mappaColumnJoin.isEmpty()) {
+		if (mappaColumnJoin == null) {
 			caricaMaps();
 		}
 		return mappaColumnJoin;
 	}
 
 	public HashMap<String, Field> getMappaColumnCampi() {
-		if (mappaColumnCampi.isEmpty()) {
+		if (mappaColumnCampi == null) {
 			caricaMaps();
 		}
 		return mappaColumnCampi;
@@ -175,10 +197,10 @@ public class GenericDAO implements IDAO {
 						idTrovato = true;
 					}
 					if ("javax.persistence.Column".equals(name)) {
-						nameColonna = getNomeColonnaByAnnotation(nameColonna,annotation);
+						nameColonna = getNomeColonnaByAnnotation(annotation);
 					}
 					if (idTrovato && nameColonna != null) {
-						nomeCampoId = nameColonna.substring(1,nameColonna.length() - 1);
+						nomeCampoId = nameColonna;
 						break primo;
 					}
 				}
@@ -186,8 +208,41 @@ public class GenericDAO implements IDAO {
 		}
 		return nomeCampoId;
 	}
+	
+	private void cercaNomeTabella() {
+		
+		Annotation[] annotations = getEntita().getClass().getAnnotations();
+		
+		for (int j = 0; j < annotations.length; j++) {
 
-	private String getNomeColonnaByAnnotation(String nameColonna,Annotation annotation) {
+			Annotation annotation = (Annotation) annotations[j];
+			Class<? extends Annotation> annotationType = annotation.annotationType();
+			String name = annotationType.getName();
+			if("javax.persistence.Entity".equals(name) || "javax.persistence.Table".equals(name)){
+				nomeTabella = getNomeTabella(annotation);
+				return;
+			}
+		
+		}
+	}
+	
+	private String getNomeTabella(Annotation annotation) {
+		String nameColonna = null;
+		final Class<? extends Annotation> annotationType = annotation.annotationType();
+		final AnnotationType instance = AnnotationType.getInstance(annotationType);
+		final Map<String, Method> members = instance.members();
+		final Method methodName = members.get("name");
+		final InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
+		try {
+			nameColonna = (String) invocationHandler.invoke(annotation, methodName, null);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return nameColonna;
+	}
+
+	private String getNomeColonnaByAnnotation(Annotation annotation) {
+		String nameColonna = null;
 		final Class<? extends Annotation> annotationType = annotation.annotationType();
 		final AnnotationType instance = AnnotationType.getInstance(annotationType);
 		final Map<String, Method> members = instance.members();
@@ -204,9 +259,10 @@ public class GenericDAO implements IDAO {
 	@Override
 	public Object selectAll() throws Exception {
 		ObjSelectBase selectObj = new ObjSelectBase();
-		selectObj.putTabelle(ObjSelectBase.NO_ALIAS, nomeTabella);
-
-		return selectObj.select();
+		selectObj.putTabelle(ObjSelectBase.NO_ALIAS, getNomeTabella());
+		
+		ResultSet rs = selectObj.select();
+		return costruisciEntitaFromRs(rs);
 	}
 
 	@Override
@@ -308,10 +364,6 @@ public class GenericDAO implements IDAO {
 		final ArrayList<Object> entities = costruisciEntitaFromRs(selectObj.select());
 		ConnectionPool.chiudiOggettiDb(null);
 		return entities.iterator();
-	}
-
-	public String getNomeTabella() {
-		return nomeTabella;
 	}
 
 	public AbstractOggettoEntita getEntita() {

@@ -39,7 +39,6 @@ import command.CommandManager;
 public abstract class ControlloreBase {
 	
 	public static String connectionClassName = "";
-	public static String utilityDaoClass = "";
 
 	private static String nomeApplicazione = "default";
 
@@ -260,10 +259,7 @@ public abstract class ControlloreBase {
 	
 	public void init(){
 		connectionClassName = getConnectionClassName(); 
-		utilityDaoClass = getUtilityDAOClassName();
 	}
-
-	protected abstract String getUtilityDAOClassName();
 
 	protected abstract String getConnectionClassName();
 
