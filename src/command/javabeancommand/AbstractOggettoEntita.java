@@ -7,6 +7,6 @@ public interface AbstractOggettoEntita {
 
 	public void setIdEntita(String idEntita);
 
-	public abstract String getnome();
+	public abstract String getNome();
 	
 }
