@@ -167,7 +167,7 @@ public abstract class ConnectionPool {
 	 * @param cn
 	 * @throws SQLException
 	 */
-	public static void chiudiOggettiDb(Connection cn) throws SQLException{
+	public void chiudiOggettiDb(Connection cn) throws SQLException{
 		if(cn == null){
 			cn = lastConnection;
 		}
@@ -205,6 +205,10 @@ public abstract class ConnectionPool {
 	 */
 	protected abstract String getDbUrl();
 	
+	public static void setDbUrl(String dbUrl) {
+		ConnectionPool.dbUrl = dbUrl;
+	}
+
 	/**
 	 * @return numero massimo di connessioni disponibili
 	 */

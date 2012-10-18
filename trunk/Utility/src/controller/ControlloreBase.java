@@ -8,12 +8,12 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics2D;
 import java.io.File;
+import java.sql.Connection;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
 import log.LoggerOggetto;
-import messaggi.I18NManager;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,6 +25,8 @@ import xml.UtilXml;
 
 import command.AbstractCommand;
 import command.CommandManager;
+
+import db.ConnectionPool;
 
 /**
  * La classe è di estrema importanza nel framework. Essa funge da classe abstract per il controller, per cui tutte le operazioni di business devono passare di qui.
@@ -109,6 +111,10 @@ public abstract class ControlloreBase {
 	public static FrameBase getApplicationframe() {
 		return applicationframe;
 	}
+	
+	public static Connection getConnection() throws Exception{
+		return ConnectionPool.getSingleton().getConnection();
+	}
 
 	public static void setApplicationframe(final FrameBase applicationframe) {
 		ControlloreBase.applicationframe = applicationframe;
@@ -124,10 +130,6 @@ public abstract class ControlloreBase {
 
 	public void setCommandManager(final CommandManager commandManager) {
 		this.commandManager = commandManager;
-	}
-
-	public String getMessaggio(final String chiave) {
-		return I18NManager.getSingleton().getMessaggio(chiave);
 	}
 
 	public Object getUtenteLogin() {
@@ -261,6 +263,6 @@ public abstract class ControlloreBase {
 		connectionClassName = getConnectionClassName(); 
 	}
 
-	protected abstract String getConnectionClassName();
+	public abstract String getConnectionClassName();
 
 }

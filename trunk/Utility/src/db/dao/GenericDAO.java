@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.persistence.JoinColumn;
+
 import sun.reflect.annotation.AnnotationType;
 
 import command.javabeancommand.AbstractOggettoEntita;
@@ -41,7 +43,7 @@ public class GenericDAO implements IDAO {
 			String nomeCampoId = getNomeCampoId();
 			selectObj.putClausole(nomeCampoId, Integer.toString(id));
 			final ArrayList<Object> entities = costruisciEntitaFromRs(selectObj.select());
-			ConnectionPool.chiudiOggettiDb(null);
+			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 			if (entities != null && entities.size() > 0) {
 				return entities.get(0);
 			}
@@ -138,12 +140,12 @@ public class GenericDAO implements IDAO {
 							getMappaColumnCampi().put(field.getName(), field);
 						}
 	
-					} else if ("javax.persistence.JoinColumn".equals(name)) {
-						nameColonna = getNomeColonnaByAnnotation(annotation);
+					} else if ("javax.persistence.JoinColumns".equals(name)) {
+						nameColonna = getNomeColonnaByJoinColumnsAnnotation(annotation);
 						if(nameColonna != null && !nameColonna.equals("")){
 							getMappaColumnJoin().put(nameColonna,field);
 						}else{
-							getMappaColumnCampi().put(field.getName(), field);
+							getMappaColumnJoin().put(field.getName(), field);
 						}
 					}
 				}
@@ -220,9 +222,12 @@ public class GenericDAO implements IDAO {
 			String name = annotationType.getName();
 			if("javax.persistence.Entity".equals(name) || "javax.persistence.Table".equals(name)){
 				nomeTabella = getNomeTabella(annotation);
-				return;
+				if(nomeTabella != null && !nomeTabella.equals(""))return;
 			}
 		
+		}
+		if(nomeTabella == null && !"".equals(nomeTabella)){
+			nomeTabella = getEntita().getClass().getSimpleName();
 		}
 	}
 	
@@ -241,6 +246,27 @@ public class GenericDAO implements IDAO {
 		return nameColonna;
 	}
 
+	private String getNomeColonnaByJoinColumnsAnnotation(Annotation annotation) {
+		String nameColonna = null;
+		final Class<? extends Annotation> annotationType = annotation.annotationType();
+		final AnnotationType instance = AnnotationType.getInstance(annotationType);
+		final Map<String, Method> members = instance.members();
+		final Method methodName = members.get("value");
+		final InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
+		try {
+			final JoinColumn[] joinColumn = (JoinColumn[]) invocationHandler.invoke(annotation, methodName, null);
+			
+			if(joinColumn != null){
+				JoinColumn column = joinColumn[0];
+				nameColonna = column.name();
+			}
+			
+		} catch (Throwable e) {
+			
+		}
+		return nameColonna;
+	}
+	
 	private String getNomeColonnaByAnnotation(Annotation annotation) {
 		String nameColonna = null;
 		final Class<? extends Annotation> annotationType = annotation.annotationType();
@@ -251,7 +277,7 @@ public class GenericDAO implements IDAO {
 		try {
 			nameColonna = (String) invocationHandler.invoke(annotation, methodName, null);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			
 		}
 		return nameColonna;
 	}
@@ -276,21 +302,46 @@ public class GenericDAO implements IDAO {
 				final Field field = getMappaColumnCampi().get(colonna);
 				final String getMethodName = costruisciNomeGet(field.getName());
 				final Method method = getEntita().getClass().getMethod(getMethodName);
-				final Object getterCampo = method.invoke(oggettoEntita);
-				inserisciCampiValue(colonna, getterCampo, field.getType(), insertBase);
+				Object getterCampo = method.invoke(oggettoEntita);
+				if(!colonna.equals(getNomeCampoId()) || isIdValido(getterCampo)){
+					inserisciCampiValue(colonna, getterCampo, field.getType(), insertBase);
+				}
 				
+			}
+			Iterator<String> iterJoinColumn = getMappaColumnJoin().keySet().iterator();
+			while(iterJoinColumn.hasNext()){
+				final String colonna = (String) iterJoinColumn.next();
+				final Field field = getMappaColumnJoin().get(colonna);
+				final String getMethodName = costruisciNomeGet(field.getName());
+				final Method method = getEntita().getClass().getMethod(getMethodName);
+				Object getterCampo = method.invoke(oggettoEntita);
+				inserisciCampiValue(colonna, getterCampo, field.getType(), insertBase);
 			}
 			return insertBase.insert();
 		}
 		return false;
 	}
 
+	private boolean isIdValido(Object getterCampo) {
+		boolean valido = false;
+		if(getterCampo != null){
+			if(getterCampo instanceof Number){
+				Long id = new Long(getterCampo.toString());
+				if(id.longValue() > 0){
+					valido = true;
+				}
+			}else{
+				valido = true;
+			}
+		}
+		return valido;
+	}
+
 	private void inserisciCampiValue(String colonna, Object getterCampo,Class<?> parameterTypes, ObjInsertBase insertBase) {
 		String valore = null;
 		//TODO gestire i campi date
 		if(getterCampo instanceof AbstractOggettoEntita){
-			final String id = ((AbstractOggettoEntita)getterCampo).getIdEntita();
-			valore = id;
+			valore = ((AbstractOggettoEntita) getterCampo).getIdEntita();
 		}else if(getterCampo != null){
 			valore = getterCampo.toString();
 		}
@@ -362,7 +413,7 @@ public class GenericDAO implements IDAO {
 		selectObj.putTabelle(ObjSelectBase.NO_ALIAS, getNomeTabella());
 		selectObj.setClausole(clausole);
 		final ArrayList<Object> entities = costruisciEntitaFromRs(selectObj.select());
-		ConnectionPool.chiudiOggettiDb(null);
+		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return entities.iterator();
 	}
 
