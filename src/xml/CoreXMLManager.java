@@ -97,4 +97,8 @@ public class CoreXMLManager {
 		}
 		return null;
 	}
+
+	public Document getDoc() {
+		return doc;
+	}
 }
