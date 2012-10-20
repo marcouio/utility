@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.persistence.JoinColumn;
-
 import sun.reflect.annotation.AnnotationType;
 
 import command.javabeancommand.AbstractOggettoEntita;
@@ -254,11 +252,12 @@ public class GenericDAO implements IDAO {
 		final Method methodName = members.get("value");
 		final InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
 		try {
-			final JoinColumn[] joinColumn = (JoinColumn[]) invocationHandler.invoke(annotation, methodName, null);
-			
+			Annotation[] joinColumn = (Annotation[]) invocationHandler.invoke(annotation, methodName, null);
 			if(joinColumn != null){
-				JoinColumn column = joinColumn[0];
-				nameColonna = column.name();
+				Annotation column = joinColumn[0];
+				final Class<? extends Annotation> annotationType2 = column.annotationType();
+				final Method method = annotationType2.getMethod("name", null);
+				nameColonna = (String) method.invoke(column, new Object[0]);
 			}
 			
 		} catch (Throwable e) {
