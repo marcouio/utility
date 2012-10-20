@@ -2,6 +2,5 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-7-oracle"/>
-	<classpathentry kind="lib" path="/GestioneSpese/lib/javax.persistence_2.0.0.v201002051058.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
