@@ -12,6 +12,7 @@ public class ObjSelectBase extends ObjConClausole{
 	private HashMap<String, String> tabelle = new HashMap<String, String>();
 	private ArrayList<OggettoJoin> joins = new ArrayList<ObjSelectBase.OggettoJoin>();
 	private HashMap<String, String> campiSelect = new HashMap<String, String>();
+	private String appendToQuery = null;
 	
 	public ObjSelectBase() {
 		super();
@@ -66,6 +67,7 @@ public class ObjSelectBase extends ObjConClausole{
 		settaTabelle();
 		settaClausole(clausole);
 		settaJoins();
+		appendToQuery();
 		return resultSetfromIstruzione(sbSQL.toString());
 	}
 	
@@ -77,6 +79,12 @@ public class ObjSelectBase extends ObjConClausole{
 				sbSQL.append(AND);
 				sbSQL.append(oggettoJoin.toString());
 			}
+		}
+	}
+	
+	protected void appendToQuery(){
+		if(appendToQuery != null){
+			sbSQL.append(appendToQuery);
 		}
 	}
 
@@ -185,6 +193,14 @@ public class ObjSelectBase extends ObjConClausole{
 
 	public void setTabelle(HashMap<String, String> tabelle) {
 		this.tabelle = tabelle;
+	}
+
+	public String getAppendToQuery() {
+		return appendToQuery;
+	}
+
+	public void setAppendToQuery(String appendToQuery) {
+		this.appendToQuery = appendToQuery;
 	}
 
 	public static void main(String[] args) throws Exception {
