@@ -1,5 +1,6 @@
 package db;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -65,6 +66,10 @@ public class ObjInsertBase extends OggettoSQL{
 
 	public boolean insert(final String comandoInsert) throws Exception{
 		return aggiornaSqlFromString(comandoInsert);			
+	}
+	
+	public static String getDateForDatabase(Date data){
+		return UtilDb.dataToString(data, "yyyy-mm-dd");
 	}
 
 	public void putCampoValore(final String campo, final String valore){

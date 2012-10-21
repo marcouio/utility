@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -229,56 +230,48 @@ public class GenericDAO implements IDAO {
 		}
 	}
 	
-	private String getNomeTabella(Annotation annotation) {
-		String nameColonna = null;
+	private Object getOggettoByAnnotation(Annotation annotation, String tipo){
+		Object oggetto = null;
 		final Class<? extends Annotation> annotationType = annotation.annotationType();
 		final AnnotationType instance = AnnotationType.getInstance(annotationType);
 		final Map<String, Method> members = instance.members();
-		final Method methodName = members.get("name");
+		final Method methodName = members.get(tipo);
 		final InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
 		try {
-			nameColonna = (String) invocationHandler.invoke(annotation, methodName, null);
+			oggetto = invocationHandler.invoke(annotation, methodName, null);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		return nameColonna;
+		return oggetto;
+	}
+	
+	private String getNomeTabella(Annotation annotation) {
+		return (String) getOggettoByAnnotation(annotation, "name");
 	}
 
 	private String getNomeColonnaByJoinColumnsAnnotation(Annotation annotation) {
 		String nameColonna = null;
-		final Class<? extends Annotation> annotationType = annotation.annotationType();
-		final AnnotationType instance = AnnotationType.getInstance(annotationType);
-		final Map<String, Method> members = instance.members();
-		final Method methodName = members.get("value");
-		final InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
-		try {
-			Annotation[] joinColumn = (Annotation[]) invocationHandler.invoke(annotation, methodName, null);
-			if(joinColumn != null){
-				Annotation column = joinColumn[0];
-				final Class<? extends Annotation> annotationType2 = column.annotationType();
-				final Method method = annotationType2.getMethod("name", null);
-				nameColonna = (String) method.invoke(column, new Object[0]);
-			}
-			
-		} catch (Throwable e) {
+		try{
+		Annotation[] joinColumn = (Annotation[]) getOggettoByAnnotation(annotation, "value");
+		
+		if(joinColumn != null){
+			Annotation column = joinColumn[0];
+			final Class<? extends Annotation> annotationType2 = column.annotationType();
+			final Method method = annotationType2.getMethod("name");
+			nameColonna = (String) method.invoke(column, new Object[0]);
+		}
+		}catch (Exception e) {
 			
 		}
 		return nameColonna;
 	}
 	
+	private String getColumnDefinitionByAnnotation(Annotation annotation) {
+		return (String) getOggettoByAnnotation(annotation, "columnDefinition");
+	}
+	
 	private String getNomeColonnaByAnnotation(Annotation annotation) {
-		String nameColonna = null;
-		final Class<? extends Annotation> annotationType = annotation.annotationType();
-		final AnnotationType instance = AnnotationType.getInstance(annotationType);
-		final Map<String, Method> members = instance.members();
-		final Method methodName = members.get("name");
-		final InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
-		try {
-			nameColonna = (String) invocationHandler.invoke(annotation, methodName, null);
-		} catch (Throwable e) {
-			
-		}
-		return nameColonna;
+		return (String) getOggettoByAnnotation(annotation, "name");
 	}
 
 	@Override
@@ -341,6 +334,8 @@ public class GenericDAO implements IDAO {
 		//TODO gestire i campi date
 		if(getterCampo instanceof AbstractOggettoEntita){
 			valore = ((AbstractOggettoEntita) getterCampo).getIdEntita();
+		}else if(getterCampo instanceof Date){
+			
 		}else if(getterCampo != null){
 			valore = getterCampo.toString();
 		}
