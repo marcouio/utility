@@ -252,14 +252,14 @@ public class GenericDAO implements IDAO {
 	private String getNomeColonnaByJoinColumnsAnnotation(Annotation annotation) {
 		String nameColonna = null;
 		try{
-		Annotation[] joinColumn = (Annotation[]) getOggettoByAnnotation(annotation, "value");
-		
-		if(joinColumn != null){
-			Annotation column = joinColumn[0];
-			final Class<? extends Annotation> annotationType2 = column.annotationType();
-			final Method method = annotationType2.getMethod("name");
-			nameColonna = (String) method.invoke(column, new Object[0]);
-		}
+			Annotation[] joinColumn = (Annotation[]) getOggettoByAnnotation(annotation, "value");
+			
+			if(joinColumn != null){
+				Annotation column = joinColumn[0];
+				final Class<? extends Annotation> annotationType2 = column.annotationType();
+				final Method method = annotationType2.getMethod("name");
+				nameColonna = (String) method.invoke(column, new Object[0]);
+			}
 		}catch (Exception e) {
 			
 		}
@@ -402,10 +402,11 @@ public class GenericDAO implements IDAO {
 	}
 
 	@Override
-	public Iterator<Object> selectWhere(HashMap<String, String> clausole) throws Exception {
+	public Iterator<Object> selectWhere(HashMap<String, String> clausole, String appendToQuery) throws Exception {
 		ObjSelectBase selectObj = new ObjSelectBase();
 		selectObj.putTabelle(ObjSelectBase.NO_ALIAS, getNomeTabella());
 		selectObj.setClausole(clausole);
+		selectObj.setAppendToQuery(appendToQuery);
 		final ArrayList<Object> entities = costruisciEntitaFromRs(selectObj.select());
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return entities.iterator();
