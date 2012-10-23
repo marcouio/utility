@@ -10,7 +10,7 @@ public interface IDAO {
 
 	public Object selectById(int id) throws Exception;
 
-	public Object selectWhere(final HashMap<String, String> clausole) throws Exception;
+	public Object selectWhere(final HashMap<String, String> clausole, final String appentoToQuery) throws Exception;
 
 	public Object selectAll() throws Exception;
 
