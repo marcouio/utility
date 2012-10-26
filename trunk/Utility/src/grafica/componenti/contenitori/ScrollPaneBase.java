@@ -1,6 +1,6 @@
 package grafica.componenti.contenitori;
 
-import grafica.componenti.componenteBase.ComponenteBaseScrollPane;
+import grafica.componenti.componenteBase.ComponenteBase;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBaseScrollPane;
@@ -38,7 +38,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	private final ContainerBaseScrollPane containerBase = new ContainerBaseScrollPane();
 
 	protected StyleBase style = new StyleBase("StyleBaseScrollPane");
-	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
+	private final ComponenteBase componenteBase = new ComponenteBase(this);
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -136,7 +136,7 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 	@Override
 	public int getLarghezza() {
 		// TODO
-		System.out.println("getLarghezza non implementato");
+		System.out.println("getLarghezza non implementato: " + this.getClass().getSimpleName());
 		return getMaxDimensionX() + 300;
 	}
 

@@ -1,6 +1,6 @@
 package grafica.componenti.table.table;
 
-import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
+import grafica.componenti.componenteBase.ComponenteBaseScrollPane;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.style.StyleBase;
 
@@ -22,15 +22,14 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
-	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
+	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
 	private static final long serialVersionUID = 1L;
 
 	public TableBase(final Container contenitorePadre) {
 		super();
 		init(contenitorePadre, this);
 	}
-	
-	
+
 	public TableBase(final TableModel dm, final Container contenitorePadre) {
 		super(dm);
 		init(contenitorePadre, this);
@@ -40,7 +39,12 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		super(numRows, numColumns);
 		init(contenitorePadre, this);
 	}
-	
+
+	public TableBase(final String[][] movimenti, final String[] nomiColonne, final Container contenitorePadre) {
+		super(movimenti, nomiColonne);
+		init(contenitorePadre, this);
+	}
+
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		this.contenitorePadre = contenitorePadre2;
@@ -68,7 +72,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		}
 		return larghezzaMinima;
 	}
-	
+
 	@Override
 	public TableCellRenderer getCellRenderer(final int row, final int column) {
 		return setStyleColumn();
@@ -113,17 +117,17 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	}
 
 	@Override
-	public void focusGained(FocusEvent e) {
+	public void focusGained(final FocusEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void focusLost(FocusEvent e) {
+	public void focusLost(final FocusEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 
 	public Container getContenitorePadre() {
 		return contenitorePadre;
