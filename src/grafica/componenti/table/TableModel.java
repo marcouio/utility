@@ -15,16 +15,21 @@ public abstract class TableModel extends AbstractTableModel{
 	public Riga getNomiColonne() {
 		return nomiColonne;
 	}
-	
+
 	public ArrayList<Riga> getRighe() {
 		return righe;
 	}
-	
-	public void addColumn(String column){
+
+	@Override
+	public String getColumnName(final int column) {
+		return nomiColonne.getValore(column);
+	}
+
+	public void addColumn(final String column){
 		checkColonne();
 		nomiColonne.add(column);
 	}
-	
+
 	private void checkColonne(){
 		if(nomiColonne == null){
 			nomiColonne = new Riga();
@@ -40,26 +45,26 @@ public abstract class TableModel extends AbstractTableModel{
 		checkRighe();
 		righe.add(new Riga(riga));
 	}
-	
+
 	public void addRiga(final ArrayList<String> riga){
 		checkRighe();
 		righe.add(new Riga(riga));
 	}
-	
+
 	public void addRiga(final Riga riga){
 		checkRighe();
 		righe.add(riga);
 	}
 
-	public TableModel(Object parametro) throws Exception {
+	public TableModel(final Object parametro) throws Exception {
 		preBuild(parametro);
 		build(parametro);
 	}
-	
+
 	protected abstract void preBuild(Object parametro) throws Exception;
 
-	protected void build(Object parametro) throws Exception{
-		
+	protected void build(final Object parametro) throws Exception{
+
 		checkMetodi();
 		int lunghezza = getNomiColonne().getLunghezza();
 		matrice = new String[getRighe().size() + 1][lunghezza];
@@ -69,7 +74,7 @@ public abstract class TableModel extends AbstractTableModel{
 				try {
 					final Riga riga = getRighe().get(i);
 					matrice[i][x] = riga.getValore(x);
-					
+
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
@@ -81,7 +86,7 @@ public abstract class TableModel extends AbstractTableModel{
 		if(getNomiColonne() == null) throw new Exception("getNomiColonne() torna null, riempire la proprietà nomiColonne all'interno del metodo preBuild()");
 		if(getRighe() == null) throw new Exception("getRighe() torna null, riempire la proprietà righe all'interno del metodo preBuild()");
 	}
-		
+
 
 	public Object[][] getMatrice() {
 		return matrice;
@@ -90,7 +95,7 @@ public abstract class TableModel extends AbstractTableModel{
 	public void setCellaMatrice(final int i, final int x, final Object valore) {
 		matrice[i][x] = valore;
 	}
-	
+
 	@Override
 	public int getRowCount() {
 		return matrice.length;
@@ -102,33 +107,33 @@ public abstract class TableModel extends AbstractTableModel{
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
+	public Object getValueAt(final int rowIndex, final int columnIndex) {
 		return matrice[rowIndex][columnIndex];
 	}
 
 	public class Riga {
 		ArrayList<String> celle = new ArrayList<String>();
-		
+
 		public Riga() {
-			
+
 		}
-		
-		public Riga(String[] celle) {
+
+		public Riga(final String[] celle) {
 			this.celle = new ArrayList<String>(Arrays.asList(celle));
 		}
 		public Riga(final ArrayList<String> celle){
 			this.celle = celle;
 		}
-		
+
 		public int getLunghezza(){
 			return celle.size();
 		}
-		
-		public void add(String cella){
+
+		public void add(final String cella){
 			this.celle.add(cella);
 		}
-		
-		public String getValore(int index){
+
+		public String getValore(final int index){
 			if(index >= celle.size()){
 				System.err.println("Stai provando ad accedere alla riga con un indice più grande della lunghezza della riga");
 			}else{
@@ -136,16 +141,16 @@ public abstract class TableModel extends AbstractTableModel{
 			}
 			return null;
 		}
-		
-		public void add(String cella, int index){
+
+		public void add(final String cella, final int index){
 			if(index >= celle.size()){
 				System.err.println("Stai provando ad inserire la stringa in un indice più grande della lunghezza della riga");
 			}else{
 				this.celle.add(index, cella);
 			}
 		}
-		
-		public void set(String cella, int index){
+
+		public void set(final String cella, final int index){
 			if(index >= celle.size()){
 				System.err.println("Stai provando a settare la stringa in un indice più grande della lunghezza della riga");
 			}else{

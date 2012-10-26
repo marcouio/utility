@@ -5,9 +5,9 @@ import grafica.componenti.contenitori.ScrollPaneBase;
 import java.awt.Component;
 import java.awt.Container;
 
-public class ComponenteBaseScrollPane extends ComponenteBase {
+public class ComponenteBaseScrollPane extends ComponenteBaseConPadreContenitore{
 
-	public ComponenteBaseScrollPane(IComponenteBase padre) {
+	public ComponenteBaseScrollPane(final IComponenteBase padre) {
 		super(padre);
 	}
 
@@ -16,8 +16,10 @@ public class ComponenteBaseScrollPane extends ComponenteBase {
 	@Override
 	public void aggiungiAlContenitore(final Container contenitorePadre2, final Component componenteFiglio) {
 		if (contenitorePadre2 != null) {
-			ScrollPaneBase scrollpane = (ScrollPaneBase) contenitorePadre2;
-			scrollpane.setViewportView(componenteFiglio);
+			if(contenitorePadre2 instanceof ScrollPaneBase){
+				ScrollPaneBase scrollpane = (ScrollPaneBase) contenitorePadre2;
+				scrollpane.setViewportView(componenteFiglio);
+			}
 		}
 	}
 
