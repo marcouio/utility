@@ -52,7 +52,7 @@ public class ToggleBtn extends JToggleButton {
 	/**
 	 * Colore background con il pulsante selezionato
 	 */
-	private Color colorBackgroundSelected = new Color(167, 243, 239);
+	private Color colorBackgroundSelected = new Color(167, 200, 200);
 
 	/**
 	 * dovrebbe settare il colore del testo nel rollover ma non viene preso! E'
