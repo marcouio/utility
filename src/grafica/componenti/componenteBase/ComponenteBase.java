@@ -40,12 +40,12 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public static final int WIDTH_STRING_MIN = 5;
 	public static final int HEIGHT_STRING_MIN = 5;
 	public IComponenteBase padre;
-	
-	public ComponenteBase(IComponenteBase padre) {
+
+	public ComponenteBase(final IComponenteBase padre) {
 		this.padre = padre;
 	}
-	
-	
+
+
 	/**
 	 * Se parametri non sono null aggiunge il component nel container
 	 * @param contenitorePadre2
@@ -126,20 +126,20 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		int nuovaX = distanzaOrizzantale;
 		int nuovaY = distanzaVerticale;
-		
+
 		if(componenteParagone != null){
 			Point location = componenteParagone.getLocation();
 			nuovaX = (int) (location.getX() + componenteParagone.getWidth() + distanzaOrizzantale);
 			nuovaY = (int) (location.getY() + distanzaVerticale);
 		}
-		
+
 		compDaPosizionare.setLocation(nuovaX, nuovaY);
 		return true;
 	}
 
 	@Override
 	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component compDaPosizionare) {
-		
+
 		int nuovaX = - distanzaOrizzontale;
 		int nuovaY = distanzaVerticale;
 
@@ -156,13 +156,13 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		int nuovaX = distanzaOrizzantale;
 		int nuovaY = distanzaVerticale;
-		
+
 		if(componenteParagone != null){
 			Point location = componenteParagone.getLocation();
 			nuovaX = (int) (location.getX() + distanzaOrizzantale);
 			nuovaY = (int) (location.getY() + componenteParagone.getHeight() + distanzaVerticale);
 		}
-		
+
 		compDaPosizionare.setLocation(nuovaX, nuovaY);
 		return true;
 	}
@@ -177,7 +177,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 			nuovaX = (int) (location.getX() + distanzaOrizzantale);
 			nuovaY = (int) (location.getY() - compDaPosizionare.getHeight() - distanzaVerticale);
 		}
-		
+
 		compDaPosizionare.setLocation(nuovaX, nuovaY);
 		return true;
 	}
@@ -194,7 +194,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		}
 		return larghezza;
 	}
-	
+
 	/**
 	 * Se la larghezza è maggiore del minimo, restituisce la larghezza + 3 altrimenti setta il default
 	 * @param g
@@ -202,7 +202,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	 * @param compDaPosizionare
 	 * @return
 	 */
-	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare) {
+	public int getLarghezzaSingleStringa(final Graphics g, final String label, final Component compDaPosizionare) {
 		return getLarghezzaSingleStringa(g, label, compDaPosizionare, true);
 	}
 
@@ -274,8 +274,18 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	@Override
 	public int getAltezza() {
-		
+
 		System.out.println("getAltezza() in " + this.padre.getClass().getSimpleName() + " non implementato. Ritornata una altezza default: " + HEIGHT_DEFAULT);
 		return HEIGHT_DEFAULT;
+	}
+
+
+	@Override
+	public Container getContenitorePadre() {
+		if(padre instanceof Container){
+			return (Container) padre;
+		}
+		return null;
+
 	}
 }

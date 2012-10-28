@@ -23,6 +23,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
 	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
+	protected Color	coloreBackground;
 	private static final long serialVersionUID = 1L;
 
 	public TableBase(final Container contenitorePadre) {
@@ -91,8 +92,10 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 					//					setForeground(Color.BLUE);
 				}
 				if (column == 0) {
-					setBackground(Color.green);
-					setForeground(Color.WHITE);
+					if(coloreBackground != null){
+						setBackground(coloreBackground);
+						setForeground(Color.WHITE);
+					}
 				}
 
 				return value instanceof JLabel ? (JLabel) value : super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -102,6 +105,10 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	}
 
+	@Override
+	public boolean isCellEditable(final int row, final int column) {
+		return isCellEditable;
+	}
 
 	@Override
 	public void settaStile() {
@@ -129,6 +136,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	}
 
 
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
@@ -219,5 +227,13 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	@Override
 	public int getAltezza() {
 		return (int) generaDimensioniMinime().getHeight();
+	}
+
+	public Color getColoreBackground() {
+		return coloreBackground;
+	}
+
+	public void setColoreBackground(final Color coloreBackground) {
+		this.coloreBackground = coloreBackground;
 	}
 }

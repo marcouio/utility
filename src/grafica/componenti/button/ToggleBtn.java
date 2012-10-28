@@ -68,12 +68,12 @@ public class ToggleBtn extends JToggleButton {
 	public MyIcon getMyIcon() {
 		return icona != null ? icona : new MyIcon();
 	}
-	
+
 	@Override
-	public void setText(String text) {
+	public void setText(final String text) {
 		testo = text;
 	}
-	
+
 	public ToggleBtn(final String text, final ImageIcon icon, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
 		this(text, icon);
 		this.distanzaBordoImageX = xDistanzaBordoImmagine != -1 ? xDistanzaBordoImmagine : distanzaBordoImageX;
@@ -84,6 +84,13 @@ public class ToggleBtn extends JToggleButton {
 		super(text);
 		setxPartenzaTesto(10);
 		testo = text;
+	}
+
+	public ToggleBtn(final String text, final ImageIcon icon, final JPanel padre, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
+		this(text, icon);
+		this.setPadre(padre);
+		this.distanzaBordoImageX = xDistanzaBordoImmagine != -1 ? xDistanzaBordoImmagine : distanzaBordoImageX;
+		this.xPartenzaTesto = xPartenzaTesto != -1 ? xPartenzaTesto : this.xPartenzaTesto;
 	}
 
 	public ToggleBtn(final String text, final ImageIcon icon, final JPanel padre) {
@@ -110,13 +117,13 @@ public class ToggleBtn extends JToggleButton {
 
 		//devo settarlo a vuoto perché altrimenti il super.paint me lo scrive una volta in più
 		setText("");
-		
+
 		// sono costretto a fare il super del paintComponent per via del
 		// rollover che altrimenti dovrei gestire io
 		super.paintComponent(g);
 
 		setText(old);
-		
+
 		// invece di far disegnare il testo lo disegno qui così ho un
 		// maggiore controllo
 		int coordinataXTesto = getLarghezzaImmagine(imageIcon) + distanzaBordoImageX + calcolaTextGap(imageIcon);
@@ -168,12 +175,12 @@ public class ToggleBtn extends JToggleButton {
 		}
 
 	}
-	
+
 	@Override
 	public String getText() {
 		return testo;
 	}
-	
+
 	// TODO metodo da verificare
 	/**
 	 * Setta la proprietà "xPartenzaTesto" sulla base delle impostazioni iniziali della proprietà, 
@@ -208,8 +215,8 @@ public class ToggleBtn extends JToggleButton {
 		this.setRolloverEnabled(true);
 		this.setBackground(Color.WHITE);
 		this.setHorizontalAlignment(SwingConstants.LEFT); // allinea il
-															// contenuto a
-															// sinitra
+		// contenuto a
+		// sinitra
 		if (this instanceof ToggleBtn) {
 			final Icon icona1 = (this).getMyIcon();
 			this.setRolloverIcon(icona1);
@@ -222,7 +229,8 @@ public class ToggleBtn extends JToggleButton {
 	}
 
 	public JPanel getPadre() {
-		return padre;
+		return 
+				padre;
 	}
 
 	public String getTesto() {
@@ -316,7 +324,7 @@ public class ToggleBtn extends JToggleButton {
 	public Color getColorForegroundIcon() {
 		return colorForegroundIconRollover;
 	}
-	
+
 	/**
 	 * Non serve ad un cazzo! il testo non cambia perché il rollover è gestito
 	 * dal super e questo lascia il testo iniziale, per controllarlo dovrei
@@ -374,7 +382,7 @@ public class ToggleBtn extends JToggleButton {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 
 		SwingUtilities.invokeLater(new Runnable() {
 

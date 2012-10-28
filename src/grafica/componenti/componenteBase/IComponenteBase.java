@@ -93,5 +93,7 @@ public interface IComponenteBase {
 	public int getLarghezza();
 
 	public int getAltezza();
-	
+
+	public Container getContenitorePadre();
+
 }

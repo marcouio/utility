@@ -1,88 +1,60 @@
 package grafica.componenti.pannelloBottoni;
 
-import grafica.componenti.button.ToggleBtn;
+import grafica.componenti.ExceptionGraphics;
+import grafica.componenti.button.ToggleBtnBase;
+import grafica.componenti.contenitori.PannelloBase;
 
-import java.awt.GridLayout;
+import java.awt.Container;
 
 import javax.swing.AbstractButton;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
-/**
- * Bottone è un pannello che contiene all'interno un AbstractButton o un bottone
- * che lo estende. La classe non è completamente affidabile e nemmeno abbastanza
- * generale, va ripensata
- * 
- */
-public class Bottone extends JPanel {
+public class Bottone extends PannelloBase {
 
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
+	ToggleBtnBase				button				= null;
+	PannelloBottoni panelInterno = null;
 
-	private final JButton bottone;
-	private final ToggleBtn toggleBottone;
-	private GridLayout grid;
-	private JPanel contentPane = new JPanel();
-
-	private GridLayout grid2;
-
-	public Bottone(final JButton bottone) {
-		initLayout();
-		this.setBorder(null);
-		this.bottone = bottone;
-		toggleBottone = null;
-		// bottone.settaggioBottoneStandard();
-		this.add(bottone);
-		contentPane.setLayout(grid);
-
-		this.setLayout(grid2);
+	public Bottone(final ToggleBtnBase button, final Container contenitore) throws ExceptionGraphics {
+		super(contenitore);
+		this.button = button;
+		this.button.posizionaSottoA(null, 0, 0);
 	}
 
-	public Bottone(final ToggleBtn bottone) {
-		this.bottone = null;
-		this.setBorder(null);
-		this.toggleBottone = bottone;
-		bottone.settaggioBottoneStandard();
-		this.add(bottone);
-		initLayout();
-		contentPane.setLayout(grid);
-		this.setLayout(grid2);
-	}
-
-	private void initLayout() {
-		grid2 = new GridLayout(2, 1);
-		grid2.setVgap(0);
-		grid2.setHgap(0);
-		grid = new GridLayout(1, 0);
-		grid.setVgap(0);
-		grid.setHgap(0);
-
-	}
-
-	public ToggleBtn getTBottone() {
-		return toggleBottone;
-	}
-
-	public JPanel getContent() {
-		return contentPane;
-	}
-
-	public void setContent(final JPanel content) {
-		this.contentPane = content;
-		this.add(contentPane);
-		contentPane.setVisible(false);
-	}
-
-	public JButton getJBottone() {
-		return this.bottone;
+	public Bottone(final Container contenitore) throws ExceptionGraphics {
+		super(contenitore);
 	}
 
 	public AbstractButton getBottone() {
-		if (bottone != null) {
-			return bottone;
-		} else if (toggleBottone != null) {
-			return toggleBottone;
-		} else {
-			return new ToggleBtn("");
+		return button;
+	}
+
+	public void setBottone(final ToggleBtnBase button) {
+		this.button = button;
+		this.button.posizionaSottoA(null, 0, 0);
+	}
+
+	public PannelloBottoni getPanelInterno() {
+		return panelInterno;
+	}
+
+	@Override
+	public void setVisible(final boolean aFlag) {
+		super.setVisible(aFlag);
+		this.button.setVisible(aFlag);
+	}
+
+	public void setPanelInterno(final PannelloBottoni panelInterno) {
+		this.panelInterno = panelInterno;
+	}
+
+	@Override
+	public void setSize(final int width, final int height) {
+		super.setSize(width, height);
+		if(panelInterno != null){
+			panelInterno.setSize(width, height);
+		}
+		if(button != null){
+			button.setSize(width, height);
 		}
 	}
 

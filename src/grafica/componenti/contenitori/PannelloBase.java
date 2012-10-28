@@ -49,6 +49,7 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.settaStile();
 		this.setLayout(null);
+		this.contenitorePadre = contenitorePadre2;
 	}
 
 	@Override
@@ -137,18 +138,19 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	protected StyleBase settaStileOverride() {
 		return new StyleBase("StyleBasePannello");
 	}
-	
+
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 	}
-	
+
 	@Override
-	public void paint(Graphics g) {
+	public void paint(final Graphics g) {
 		// TODO Auto-generated method stub
 		super.paint(g);
 	}
 
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}

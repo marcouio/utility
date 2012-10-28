@@ -150,4 +150,10 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 	public int getAltezza() {
 		return getMaxDimensionY();
 	}
+
+	@Override
+	public Container getContenitorePadre() {
+		//il frame base non ha padre
+		return null;
+	}
 }

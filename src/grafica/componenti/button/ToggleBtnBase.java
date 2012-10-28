@@ -20,13 +20,18 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 		init(contenitore, this);
 	}
 
-	public ToggleBtnBase(final String text, final ImageIcon icon, final int xDistanzaBordoImmagine, final int xPartenzaTesto, final Container contenitore) {
+	public ToggleBtnBase(final String text, final ImageIcon icon, final Container contenitore, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
 		super(text, icon, xDistanzaBordoImmagine, xPartenzaTesto);
 		init(contenitore, this);
 	}
 
 	public ToggleBtnBase(final String text, final ImageIcon icon, final JPanel padre, final Container contenitore) {
 		super(text, icon, padre);
+		init(contenitore, this);
+	}
+
+	public ToggleBtnBase(final String text, final ImageIcon icon, final JPanel padre, final Container contenitore,final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
+		super(text, icon, padre, xDistanzaBordoImmagine, xPartenzaTesto);
 		init(contenitore, this);
 	}
 
@@ -162,7 +167,7 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 		int altezzaTesto = this.componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 		return getMaxDimensionY() + margineAlto + margineBasso + altezzaTesto;
 	}
-	
+
 	@Override
 	public ContainerBase getContainerBase() {
 		return containerBase;
@@ -178,6 +183,7 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 		return containerBase.getMaxDimensionY(this);
 	}
 
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
