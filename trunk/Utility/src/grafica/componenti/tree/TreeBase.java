@@ -210,7 +210,8 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 		}
 	}
 
-	public Component getContenitorePadre() {
+	@Override
+	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
 
@@ -267,7 +268,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 				frame.setSize(400, 400);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				tree.expandRow(0);
-				
+
 				JButton button = new JButton("aggiorna tree");
 				pane.add(button);
 				button.addActionListener(new ActionListener() {

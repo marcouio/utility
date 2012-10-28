@@ -200,4 +200,10 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 		return getMaxDimensionY();
 	}
 
+	@Override
+	public Container getContenitorePadre() {
+		//uk dialog non richiede un contenitore
+		return null;
+	}
+
 }
