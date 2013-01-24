@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 import log.LoggerOggetto;
+import messaggi.I18NManager;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,7 +40,7 @@ import db.ConnectionPool;
  *
  */
 public abstract class ControlloreBase {
-	
+
 	public static String connectionClassName = "";
 
 	private static String nomeApplicazione = "default";
@@ -92,13 +93,21 @@ public abstract class ControlloreBase {
 								pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
 							}
 						}
-						frame.setSize(frame.getLarghezza(), frame.getAltezza());
+						frame.setSize(frame.getLarghezza(), frame.getAltezza()+frame.getY());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+	}
+
+	public String getMessaggio(final String chiave, final String[] params) {
+		return I18NManager.getSingleton().getMessaggio(chiave, params);
+	}
+
+	public String getMessaggio(final String chiave) {
+		return I18NManager.getSingleton().getMessaggio(chiave);
 	}
 
 	/**
@@ -111,7 +120,7 @@ public abstract class ControlloreBase {
 	public static FrameBase getApplicationframe() {
 		return applicationframe;
 	}
-	
+
 	public static Connection getConnection() throws Exception{
 		return ConnectionPool.getSingleton().getConnection();
 	}
@@ -139,7 +148,7 @@ public abstract class ControlloreBase {
 	public void setUtenteLogin(final Object utenteLogin) {
 		ControlloreBase.utenteLogin = utenteLogin;
 	}
-	
+
 	public CommandManager getCommandManager() {
 		if (commandManager == null) {
 			commandManager = CommandManager.getIstance();
@@ -171,94 +180,94 @@ public abstract class ControlloreBase {
 	}
 
 	public static void creaFileXmlStyle() throws Exception{
-		
+
 		String pathFile = CoreXMLManager.getSingleton().getXMLStyleFilePath();
-		
+
 		File fileConf = new File(pathFile);
 		Document doc = UtilXml.createDocument(fileConf);
 		Node nodo = UtilXml.getNodo("styles", doc);
 		NodeList nodeList = UtilXml.getNodeList(doc);
 		if(nodo == null && nodeList == null){
 			Element rootElement = UtilXml.addRootElement(doc, "styles");
-			
+
 			//style
 			Element styleElement = UtilXml.addElement(doc, rootElement, "style");
 			UtilXml.addAttribute(doc, styleElement, "nome", "stylebase");
-			
+
 			//font
 			Element fontElement = UtilXml.addElement(doc, styleElement, "font");
 			UtilXml.addAttribute(doc, fontElement, "font-family", "Arial");
 			UtilXml.addAttribute(doc, fontElement, "type", "0");
 			UtilXml.addAttribute(doc, fontElement, "size", "15");
-			
+
 			//foreground
 			Element foregroundElement = UtilXml.addElement(doc, styleElement, "foreground");
 			Element colorForeElement = UtilXml.addElement(doc, foregroundElement, "color");
 			UtilXml.addAttribute(doc, colorForeElement, "r", "100");
 			UtilXml.addAttribute(doc, colorForeElement, "g", "100");
 			UtilXml.addAttribute(doc, colorForeElement, "b", "100");
-			
+
 			//background
 			Element backgroundElement = UtilXml.addElement(doc, styleElement, "background");
 			Element colorBackElement = UtilXml.addElement(doc, backgroundElement, "color");
 			UtilXml.addAttribute(doc, colorBackElement, "r", "255");
 			UtilXml.addAttribute(doc, colorBackElement, "g", "255");
 			UtilXml.addAttribute(doc, colorBackElement, "b", "255");
-			
+
 			//dimensionarea
 			Element dimensionAreaElement = UtilXml.addElement(doc, styleElement, "dimensionarea");
 			UtilXml.addAttribute(doc, dimensionAreaElement, "rows", "60");
 			UtilXml.addAttribute(doc, dimensionAreaElement, "columns", "60");
-			
+
 			//dimension
 			Element dimensionElement = UtilXml.addElement(doc, styleElement, "dimension");
 			UtilXml.addAttribute(doc, dimensionElement, "width", "101");
 			UtilXml.addAttribute(doc, dimensionElement, "height", "131");
-			
+
 			UtilXml.writeXmlFile(doc, pathFile);
 		}
 	}
-	
+
 	public static void creaFileXmlConfigurazione() throws Exception{
 		String pathFile = CoreXMLManager.XMLCOREPATH;
 		File fileConf = new File(pathFile);
 		Document doc = UtilXml.createDocument(fileConf);
-		
+
 		Node nodo = UtilXml.getNodo("configs", doc);
 		NodeList nodeList = UtilXml.getNodeList(doc);
 		if(nodo == null && nodeList == null){
-			
+
 			Element rootElement = doc.createElement("configs");
-			
+
 			doc.appendChild(rootElement);
 
 			//Style
 			Element style = UtilXml.addElement(doc, rootElement, "style");
 			Element file =  UtilXml.addElement(doc,style,"file"); 
 			UtilXml.addAttribute(doc, file, "url", "./config-style.xml");
-			
+
 			//lang
 			Element lang = UtilXml.addElement(doc, rootElement, "lang");
 			UtilXml.addAttribute(doc, lang, "locale", "it");
-			
+
 			//messaggi
 			Element messaggi = UtilXml.addElement(doc, rootElement, "messaggi");
 			Element fileM = UtilXml.addElement(doc, messaggi, "file");
 			UtilXml.addAttribute(doc, fileM, "nome", "messaggi");
-			
+
 			//auto-config
 			Element auto_config = UtilXml.addElement(doc, rootElement, "auto-config");
 			UtilXml.addAttribute(doc, auto_config, "value", "true");
-			
+
 			UtilXml.writeXmlFile(doc, pathFile);
 		}
-		
+
 	}
-	
+
 	public static void main(final String[] args) throws Exception {
 		ControlloreBase.creaFileXmlConfigurazione();
 	}
-	
+
 	public void init(){
 		connectionClassName = getConnectionClassName(); 
 	}
