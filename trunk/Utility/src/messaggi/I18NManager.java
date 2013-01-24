@@ -8,9 +8,9 @@ import xml.CoreXMLManager;
 public class I18NManager {
 
 	public static void main(final String[] args) {
-//		final String prova = Controllore.getSingleton().getMessaggio("titolo",
-//				new String[] { "primoP", "secondoP", "terzoP" });
-//		System.out.println(prova);
+		final String prova = I18NManager.getSingleton().getMessaggio("titolo",
+				new String[] { "ante", "primoP", "secondoP", "terzoP" });
+		System.out.println(prova);
 	}
 
 	private static I18NManager singleton;
