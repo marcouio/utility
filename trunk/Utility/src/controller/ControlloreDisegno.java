@@ -9,7 +9,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import disegno.UtilDisegno;
 import disegno.oggetti.FormaGeometrica;
@@ -22,6 +21,7 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 
 	@Override
 	public void mainOverridato(final FrameBase frame) {
+		frame.setSize(400, 600);
 		p = getPannello(frame);
 		p.setSize(400, 600);
 		p.setBackground(Color.white);
@@ -34,11 +34,12 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 
 	public static void mouseDragged(final MouseEvent e) {
 		final int x = e.getX(), y = e.getY();
-		
-		if(p.getOggettoSelezionato() instanceof FormaGeometrica2D){
-			FormaGeometrica2D figuraGeom = (FormaGeometrica2D) p.getOggettoSelezionato();
+
+		if (p.getOggettoSelezionato() instanceof FormaGeometrica2D) {
+			final FormaGeometrica2D figuraGeom = (FormaGeometrica2D) p.getOggettoSelezionato();
 			final Point puntatore = new Point(x, y);
-			//		System.out.println("n lati vicini mouse: " + ret.isMouseSuiLati(puntatore).size());
+			// System.out.println("n lati vicini mouse: " +
+			// ret.isMouseSuiLati(puntatore).size());
 			if (figuraGeom.getLatiVicinoMouse(puntatore).size() > 0) {
 				figuraGeom.ridimensiona(puntatore);
 			} else if (figuraGeom.isInRegion(puntatore)) {
@@ -47,26 +48,28 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 		}
 		Image offscreen = null;
 		Graphics bufferGraphics = null;
-		Object[] returns = UtilDisegno.getImmagineBufferizzata(new Dimension(p.getWidth(), p.getHeight()), offscreen, bufferGraphics);
+		final Object[] returns = UtilDisegno.getImmagineBufferizzata(new Dimension(p.getWidth(), p.getHeight()), offscreen, bufferGraphics);
 		bufferGraphics = (Graphics) returns[0];
 		offscreen = (Image) returns[1];
 		bufferGraphics.setColor(Color.WHITE);
 		bufferGraphics.fillRect(0, 0, p.getWidth(), p.getHeight());
 		bufferGraphics.setColor(Color.BLACK);
-		if(p.getOggettoSelezionato()!=null){
+		if (p.getOggettoSelezionato() != null) {
 			p.paint(bufferGraphics);
 			p.getGraphics().drawImage(offscreen, 0, 0, null);
 		}
 
-		//		System.out.println("*********************************");
-		//		System.out.println("X Rettangolo: " + ret.getX());
-		//		System.out.println("Y Rettangolo: " + ret.getY());
-		//		System.out.println("Larghezza rettangolo: " + ret.getWidth());
-		//		System.out.println("Altezza Rettangolo: " + ret.getHeight());
-		//		System.out.println("Mouse X: " + puntatore.getX());
-		//		System.out.println("Mouse Y: " + puntatore.getY());
-		//		System.out.println("PuntoCentrale X,Y: " + ret.getPuntoCentrale().getX() + ", " + ret.getPuntoCentrale().getY());
-		//		System.out.println("*********************************");
+		// System.out.println("*********************************");
+		// System.out.println("X Rettangolo: " + ret.getX());
+		// System.out.println("Y Rettangolo: " + ret.getY());
+		// System.out.println("Larghezza rettangolo: " + ret.getWidth());
+		// System.out.println("Altezza Rettangolo: " + ret.getHeight());
+		// System.out.println("Mouse X: " + puntatore.getX());
+		// System.out.println("Mouse Y: " + puntatore.getY());
+		// System.out.println("PuntoCentrale X,Y: " +
+		// ret.getPuntoCentrale().getX() + ", " +
+		// ret.getPuntoCentrale().getY());
+		// System.out.println("*********************************");
 	}
 
 	public static void mouseMoved(final MouseEvent e) {
@@ -76,18 +79,18 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 
 		final int x = e.getX(), y = e.getY();
 		final Point mouse = new Point(x, y);
-		ArrayList<FormaGeometrica> oggetti = p.getOggetti();
-		for (Iterator<FormaGeometrica> iterator = oggetti.iterator(); iterator.hasNext();) {
-			FormaGeometrica formaGeometrica = (FormaGeometrica) iterator.next();
-			if(formaGeometrica.isInRegion(mouse)){
+		final ArrayList<FormaGeometrica> oggetti = p.getOggetti();
+		for (final FormaGeometrica formaGeometrica2 : oggetti) {
+			final FormaGeometrica formaGeometrica = formaGeometrica2;
+			if (formaGeometrica.isInRegion(mouse)) {
 				p.setOggettoSelezionato(formaGeometrica);
 				break;
 			}
-			
+
 		}
-		if(p.getOggettoSelezionato()!=null){
-			FormaGeometrica forma = p.getOggettoSelezionato();
-			if(forma instanceof FormaGeometrica2D){
+		if (p.getOggettoSelezionato() != null) {
+			final FormaGeometrica forma = p.getOggettoSelezionato();
+			if (forma instanceof FormaGeometrica2D) {
 				((FormaGeometrica2D) forma).setMouseSuiLati(mouse);
 			}
 			forma.settaDistanzaDaMouse(mouse);
