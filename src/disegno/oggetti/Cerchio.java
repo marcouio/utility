@@ -27,24 +27,41 @@ public class Cerchio extends FormaGeometrica2D {
 
 	@Override
 	public void ridimensiona(final Point mouse) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean isInRegion(final Point mouse) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	@Override
-	public void settaDistanzaDaMouse(final Point puntatoreMouse) {
-		// TODO Auto-generated method stub
+		final Point centro = getPuntoCentrale();
+		final int distanzaY = (int) Math.abs(centro.getY() - mouse.getY());
+		final int distanzaX = (int) Math.abs(centro.getX() - mouse.getX());
 
+		final int diametro = raggio / 2;
+		// questo è l'angolo del segmento associato alla freccia
+		final double angolo = Math.atan2(centro.getY() - mouse.getY(), centro.getX() - mouse.getX());
+
+		// distanza coordinata X dal centro alla circonferenza considerando
+		// l'angolo generato dall'incrocio fra puntatore mouse e centro
+		final double distX = Math.abs(diametro * Math.cos(angolo));
+
+		// distanza coordinata Y dal centro alla circonferenza considerando
+		// l'angolo generato dall'incrocio fra puntatore mouse e centro
+		final double distY = Math.abs(diametro * Math.sin(angolo));
+
+		if (distanzaX > distX || distanzaY > distY) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public int getRaggio() {
 		return raggio;
+	}
+
+	public void setRaggio(final int raggio) {
+		this.raggio = raggio;
 	}
 
 	public Point2D getEstremi() {
@@ -53,6 +70,11 @@ public class Cerchio extends FormaGeometrica2D {
 
 	public void setEstremi(final Point2D estremi) {
 		this.estremi = estremi;
+	}
+
+	public boolean isOnCirconferenza() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
