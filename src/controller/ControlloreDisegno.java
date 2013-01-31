@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import disegno.UtilDisegno;
 import disegno.oggetti.FormaGeometrica;
-import disegno.oggetti.FormaGeometrica2D;
+import disegno.oggetti.poligoni.Poligono;
 import disegno.utilFramework.PannelloDisegno;
 
 public abstract class ControlloreDisegno extends ControlloreBase {
@@ -35,8 +35,8 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 	public static void mouseDragged(final MouseEvent e) {
 		final int x = e.getX(), y = e.getY();
 
-		if (p.getOggettoSelezionato() instanceof FormaGeometrica2D) {
-			final FormaGeometrica2D figuraGeom = (FormaGeometrica2D) p.getOggettoSelezionato();
+		if (p.getOggettoSelezionato() instanceof Poligono) {
+			final Poligono figuraGeom = (Poligono) p.getOggettoSelezionato();
 			final Point puntatore = new Point(x, y);
 			// System.out.println("n lati vicini mouse: " +
 			// ret.isMouseSuiLati(puntatore).size());
@@ -90,8 +90,8 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 		}
 		if (p.getOggettoSelezionato() != null) {
 			final FormaGeometrica forma = p.getOggettoSelezionato();
-			if (forma instanceof FormaGeometrica2D) {
-				((FormaGeometrica2D) forma).setMouseSuiLati(mouse);
+			if (forma instanceof Poligono) {
+				((Poligono) forma).setMouseSuiLati(mouse);
 			}
 			forma.settaDistanzaDaMouse(mouse);
 		}

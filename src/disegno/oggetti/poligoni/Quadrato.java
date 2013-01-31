@@ -1,4 +1,4 @@
-package disegno.oggetti;
+package disegno.oggetti.poligoni;
 
 import grafica.componenti.contenitori.PannelloBase;
 
