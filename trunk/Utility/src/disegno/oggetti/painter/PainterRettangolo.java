@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import disegno.oggetti.Rettangolo;
+import disegno.oggetti.poligoni.Rettangolo;
 
 public class PainterRettangolo extends Painter2D {
 

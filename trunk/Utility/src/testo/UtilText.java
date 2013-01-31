@@ -5,8 +5,8 @@ import java.awt.GraphicsEnvironment;
 public class UtilText {
 
 	public String[] listSystemFontsName() {
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		String[] fontsName = ge.getAvailableFontFamilyNames();
+		final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		final String[] fontsName = ge.getAvailableFontFamilyNames();
 		return fontsName;
 	}
 
@@ -19,8 +19,7 @@ public class UtilText {
 	 * @param dimensione
 	 * @return String
 	 */
-	public static String creaStringStessaDimensione(String campo,
-			final int dimensione) {
+	public static String creaStringStessaDimensione(String campo, final int dimensione) {
 		if (campo.length() < dimensione) {
 			for (int i = campo.length(); i < dimensione + 1; i++) {
 				campo = campo + " ";
@@ -44,8 +43,7 @@ public class UtilText {
 	}
 
 	public static boolean noNull(final String[] lista) {
-		for (int i = 0; i < lista.length; i++) {
-			final String string = lista[i];
+		for (final String string : lista) {
 			if (string == null || string.equals("")) {
 				return false;
 			}

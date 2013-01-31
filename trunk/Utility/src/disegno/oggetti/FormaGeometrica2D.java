@@ -3,19 +3,18 @@ package disegno.oggetti;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import disegno.oggetti.painter.IPainter;
+import disegno.oggetti.poligoni.Lato;
 
-public abstract class FormaGeometrica2D extends FormaGeometrica implements IFormaGeometrica2D, IFormaGeometrica{
+public abstract class FormaGeometrica2D extends FormaGeometrica implements IFormaGeometrica2D, IFormaGeometrica {
 
 	private int width;
 	private int height;
 	private int x;
 	private int y;
 	public Point distanzaMouseDaXY;
-	private ArrayList<Lato> listaLati = new ArrayList<Lato>();
 	private ArrayList<Lato> latiVicinoMouse;
 	private Color background = Color.WHITE;
 
@@ -90,24 +89,21 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	}
 
 	@Override
-	public ArrayList<Lato> getListaLati() {
-		return listaLati;
-	}
-	
 	public Color getBackground() {
 		return background;
 	}
 
-	public void setBackground(Color background) {
+	@Override
+	public void setBackground(final Color background) {
 		this.background = background;
 	}
 
 	/**
-	* Sposta l'oggetto grafico in relazione alla posizione x, y
-	* 
-	* @param x
-	* @param y
-	*/
+	 * Sposta l'oggetto grafico in relazione alla posizione x, y
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public void moveTo(final int x, final int y) {
 		if (distanzaMouseDaXY != null) {
 			setX((x - (int) distanzaMouseDaXY.getX()));
@@ -125,30 +121,12 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	 * 
 	 * @param puntatoreMouse
 	 */
+	@Override
 	public void settaDistanzaDaMouse(final Point puntatoreMouse) {
 		if (puntatoreMouse != null) {
 			final Point distanza = new Point((int) puntatoreMouse.getX() - getX(), (int) puntatoreMouse.getY() - getY());
-			this.distanzaMouseDaXY = distanza;
+			distanzaMouseDaXY = distanza;
 		}
 	}
 
-	@Override
-	public ArrayList<Lato> setMouseSuiLati(final Point mouse) {
-		latiVicinoMouse = new ArrayList<Lato>();
-		for (Object element : listaLati) {
-			Lato lato = (Lato) element;
-			double distanza = Line2D.ptLineDist(lato.getOrigine().getX(), lato.getOrigine().getY(), lato.getDestinazione().getX(), lato.getDestinazione().getY(), mouse.getX(), mouse.getY());
-			if (distanza < 3) {
-				latiVicinoMouse.add(lato);
-			}
-		}
-		return latiVicinoMouse;
-	}
-
-	public ArrayList<Lato> getLatiVicinoMouse(final Point puntatore) {
-		if(latiVicinoMouse == null){
-			setMouseSuiLati(puntatore);
-		}
-		return latiVicinoMouse;
-	}
 }
