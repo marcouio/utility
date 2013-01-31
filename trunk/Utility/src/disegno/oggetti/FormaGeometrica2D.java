@@ -3,10 +3,8 @@ package disegno.oggetti;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.util.ArrayList;
 
 import disegno.oggetti.painter.IPainter;
-import disegno.oggetti.poligoni.Lato;
 
 public abstract class FormaGeometrica2D extends FormaGeometrica implements IFormaGeometrica2D, IFormaGeometrica {
 
@@ -15,7 +13,6 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	private int x;
 	private int y;
 	public Point distanzaMouseDaXY;
-	private ArrayList<Lato> latiVicinoMouse;
 	private Color background = Color.WHITE;
 
 	public FormaGeometrica2D(final String nome, final IPainter painter) {

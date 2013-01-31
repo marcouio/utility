@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import disegno.UtilDisegno;
+import disegno.oggetti.Cerchio;
 import disegno.oggetti.FormaGeometrica;
 import disegno.oggetti.poligoni.Poligono;
 import disegno.utilFramework.PannelloDisegno;
@@ -34,18 +35,26 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 
 	public static void mouseDragged(final MouseEvent e) {
 		final int x = e.getX(), y = e.getY();
+		final Point puntatore = new Point(x, y);
 
 		if (p.getOggettoSelezionato() instanceof Poligono) {
-			final Poligono figuraGeom = (Poligono) p.getOggettoSelezionato();
-			final Point puntatore = new Point(x, y);
+			final Poligono pol = (Poligono) p.getOggettoSelezionato();
 			// System.out.println("n lati vicini mouse: " +
 			// ret.isMouseSuiLati(puntatore).size());
-			if (figuraGeom.getLatiVicinoMouse(puntatore).size() > 0) {
-				figuraGeom.ridimensiona(puntatore);
-			} else if (figuraGeom.isInRegion(puntatore)) {
-				figuraGeom.moveTo(x, y);
+			if (pol.getLatiVicinoMouse(puntatore).size() > 0) {
+				pol.ridimensiona(puntatore);
+			} else if (pol.isInRegion(puntatore)) {
+				pol.moveTo(x, y);
+			}
+		} else if (p.getOggettoSelezionato() instanceof Cerchio) {
+			final Cerchio cerchio = (Cerchio) p.getOggettoSelezionato();
+			if (cerchio.isOnCirconferenza()) {
+				cerchio.ridimensiona(puntatore);
+			} else if (cerchio.isInRegion(puntatore)) {
+				cerchio.moveTo(x, y);
 			}
 		}
+		System.out.println(p.getOggettoSelezionato().isInRegion(puntatore));
 		Image offscreen = null;
 		Graphics bufferGraphics = null;
 		final Object[] returns = UtilDisegno.getImmagineBufferizzata(new Dimension(p.getWidth(), p.getHeight()), offscreen, bufferGraphics);
