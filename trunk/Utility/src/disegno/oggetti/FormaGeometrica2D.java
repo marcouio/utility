@@ -126,4 +126,24 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 		}
 	}
 
+	public boolean isMouseASinistra(final Point mouse) {
+		final Point centro = getPuntoCentrale();
+		return centro.getX() > mouse.getX();
+	}
+
+	public boolean isMouseADestra(final Point mouse) {
+		final Point centro = getPuntoCentrale();
+		return centro.getX() < mouse.getX();
+	}
+
+	public boolean isMouseInBasso(final Point mouse) {
+		final Point centro = getPuntoCentrale();
+		return centro.getY() < mouse.getY();
+	}
+
+	public boolean isMouseInAlto(final Point mouse) {
+		final Point centro = getPuntoCentrale();
+		return centro.getY() > mouse.getY();
+	}
+
 }
