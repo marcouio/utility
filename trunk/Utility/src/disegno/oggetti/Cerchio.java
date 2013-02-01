@@ -7,19 +7,19 @@ import disegno.oggetti.painter.PainterCerchio;
 
 public class Cerchio extends FormaGeometrica2D {
 
-	private Point2D estremi;
 	private int raggio;
 
 	public Cerchio(final Point2D estremi, final int raggio) {
-		this.estremi = estremi;
+		this.setX((int) estremi.getX());
+		this.setY((int) estremi.getY());
 		this.raggio = raggio;
 		setPainter(new PainterCerchio(this));
 	}
 
 	@Override
 	public Point getPuntoCentrale() {
-		final double x = estremi.getX();
-		final double y = estremi.getY();
+		final double x = getX();
+		final double y = getY();
 		final int centroY = new Double(y + (raggio / 2)).intValue();
 		final int centroX = new Double(x + (raggio / 2)).intValue();
 		return new Point(centroX, centroY);
@@ -34,8 +34,8 @@ public class Cerchio extends FormaGeometrica2D {
 	public boolean isInRegion(final Point mouse) {
 
 		final Point centro = getPuntoCentrale();
-		final int distanzaY = (int) Math.abs(centro.getY() - mouse.getY());
-		final int distanzaX = (int) Math.abs(centro.getX() - mouse.getX());
+		final int distMouseY = (int) Math.abs(centro.getY() - mouse.getY());
+		final int distMouseX = (int) Math.abs(centro.getX() - mouse.getX());
 
 		final int diametro = raggio / 2;
 		// questo è l'angolo del segmento associato alla freccia
@@ -43,13 +43,13 @@ public class Cerchio extends FormaGeometrica2D {
 
 		// distanza coordinata X dal centro alla circonferenza considerando
 		// l'angolo generato dall'incrocio fra puntatore mouse e centro
-		final double distX = Math.abs(diametro * Math.cos(angolo));
+		final double distCirconfX = Math.abs(diametro * Math.cos(angolo));
 
 		// distanza coordinata Y dal centro alla circonferenza considerando
 		// l'angolo generato dall'incrocio fra puntatore mouse e centro
-		final double distY = Math.abs(diametro * Math.sin(angolo));
+		final double distCirconfY = Math.abs(diametro * Math.sin(angolo));
 
-		if (distanzaX > distX || distanzaY > distY) {
+		if (distMouseX > distCirconfX || distMouseY > distCirconfY) {
 			return false;
 		}
 
@@ -62,14 +62,6 @@ public class Cerchio extends FormaGeometrica2D {
 
 	public void setRaggio(final int raggio) {
 		this.raggio = raggio;
-	}
-
-	public Point2D getEstremi() {
-		return estremi;
-	}
-
-	public void setEstremi(final Point2D estremi) {
-		this.estremi = estremi;
 	}
 
 	public boolean isOnCirconferenza() {

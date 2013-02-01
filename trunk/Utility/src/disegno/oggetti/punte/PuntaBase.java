@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 
 import disegno.oggetti.FormaGeometrica2D;
 import disegno.oggetti.Segmento;
+import disegno.oggetti.painter.PainterPuntaBase;
 
 public class PuntaBase extends FormaGeometrica2D {
 
@@ -24,44 +25,46 @@ public class PuntaBase extends FormaGeometrica2D {
 	final double ARROW_ANGLE = 45;
 
 	public PuntaBase(final Segmento segmento, final int lunghezzaLati) {
-		this.linea = segmento;
+		linea = segmento;
 		this.lunghezzaLati = lunghezzaLati;
 		calcolaAngoloLati();
-
-//		add(latoSinistro);
-//		add(latoDestro);
+		setPainter(new PainterPuntaBase(this));
+		// add(latoSinistro);
+		// add(latoDestro);
 	}
 
 	private void calcolaAngoloLati() {
 
-		Point origine = linea.getOrigine();
-		Point destinazione = linea.getDestinazione();
+		final Point origine = linea.getOrigine();
+		final Point destinazione = linea.getDestinazione();
 
 		estremoCentrale = destinazione;
 
-		//questo è l'angolo del segmento associato alla freccia
-		double angolo = Math.atan2(origine.getY() - destinazione.getY(), origine.getX() - destinazione.getX());
+		// questo è l'angolo del segmento associato alla freccia
+		final double angolo = Math.atan2(origine.getY() - destinazione.getY(), origine.getX() - destinazione.getX());
 
-		//l'angolo della parte sinistra della punta
-		double angoloUno = angolo + Math.toRadians(ARROW_ANGLE);
+		// l'angolo della parte sinistra della punta
+		final double angoloUno = angolo + Math.toRadians(ARROW_ANGLE);
 
-		//il punto di destinazione del lato sinistro della freccia
-		Point pointSinistro = new Point((int) estremoCentrale.getX() + (int) (Math.cos(angoloUno) * lunghezzaLati), (int) (estremoCentrale.getY() + (int) (Math.sin(angoloUno) * lunghezzaLati)));
+		// il punto di destinazione del lato sinistro della freccia
+		final Point pointSinistro = new Point((int) estremoCentrale.getX() + (int) (Math.cos(angoloUno) * lunghezzaLati),
+				(int) (estremoCentrale.getY() + (int) (Math.sin(angoloUno) * lunghezzaLati)));
 
 		latoSinistro = new Segmento(estremoCentrale, pointSinistro);
 
-		//l'angolo della parte destra della punta
-		double angoloDue = angolo - Math.toRadians(ARROW_ANGLE);
+		// l'angolo della parte destra della punta
+		final double angoloDue = angolo - Math.toRadians(ARROW_ANGLE);
 
-		//il punto di destinazione del lato destro della freccia
-		Point pointDestro = new Point((int) estremoCentrale.getX() + (int) (Math.cos(angoloDue) * lunghezzaLati), (int) estremoCentrale.getY() + (int) (Math.sin(angoloDue) * lunghezzaLati));
+		// il punto di destinazione del lato destro della freccia
+		final Point pointDestro = new Point((int) estremoCentrale.getX() + (int) (Math.cos(angoloDue) * lunghezzaLati), (int) estremoCentrale.getY()
+				+ (int) (Math.sin(angoloDue) * lunghezzaLati));
 
 		latoDestro = new Segmento(estremoCentrale, pointDestro);
 
 	}
 
 	public PuntaBase(final Segmento segmento) {
-		this.linea = segmento;
+		linea = segmento;
 	}
 
 	@Override
@@ -124,25 +127,25 @@ public class PuntaBase extends FormaGeometrica2D {
 
 			@Override
 			public void run() {
-				JFrame f = new JFrame();
+				final JFrame f = new JFrame();
 				f.setVisible(true);
 				f.getContentPane().add(new PannelloBase(f) {
-					
+
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					protected void paintComponent(final Graphics g) {
 						super.paintComponent(g);
-						Point uno = new Point(120, 120);
-						Point due = new Point(240, 120);
-						Segmento l = new Segmento(uno, due);
+						final Point uno = new Point(120, 120);
+						final Point due = new Point(240, 120);
+						final Segmento l = new Segmento(uno, due);
 						l.draw(g);
-						//	    					ArrowHead ah = new ArrowHead();
-						//	    					ArrowHead.NONE.draw((Graphics2D) g, uno, due);
-						//	    					ah.draw((Graphics2D) g, uno, due);
-						PuntaTriangolo punta = new PuntaTriangolo(l, 20);
+						// ArrowHead ah = new ArrowHead();
+						// ArrowHead.NONE.draw((Graphics2D) g, uno, due);
+						// ah.draw((Graphics2D) g, uno, due);
+						final PuntaTriangolo punta = new PuntaTriangolo(l, 20);
 						punta.setBackground(Color.RED);
-						//						PuntaBase punta = new PuntaBase(l, 20);
+						// PuntaBase punta = new PuntaBase(l, 20);
 						punta.draw(g);
 					}
 				});
@@ -158,15 +161,8 @@ public class PuntaBase extends FormaGeometrica2D {
 	}
 
 	@Override
-	public boolean isInRegion(Point mouse) {
+	public boolean isInRegion(final Point mouse) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public void settaDistanzaDaMouse(Point puntatoreMouse) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
