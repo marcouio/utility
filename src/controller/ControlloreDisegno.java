@@ -54,7 +54,6 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 				cerchio.moveTo(x, y);
 			}
 		}
-		System.out.println(p.getOggettoSelezionato().isInRegion(puntatore));
 		Image offscreen = null;
 		Graphics bufferGraphics = null;
 		final Object[] returns = UtilDisegno.getImmagineBufferizzata(new Dimension(p.getWidth(), p.getHeight()), offscreen, bufferGraphics);
