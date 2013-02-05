@@ -30,11 +30,11 @@ public class PannelloTextLabel extends PannelloBase {
 				PannelloTextLabel ptl = null;
 				try {
 					ptl = new PannelloTextLabel("LABEL", "TESTO", pannello);
+					ptl.setBackground(Color.CYAN);
 				} catch (ExceptionGraphics e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				ptl.setBackground(Color.CYAN);
 			}
 		});
 	}

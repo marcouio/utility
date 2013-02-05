@@ -24,12 +24,10 @@ public class CoreXMLManager {
 	private static CoreXMLManager singleton;
 
 	public static CoreXMLManager getSingleton() {
-		if (singleton == null) {
-			synchronized (CoreXMLManager.class) {
-				if (singleton == null) {
-					singleton = new CoreXMLManager();
-				}
-			} // if
+		synchronized (CoreXMLManager.class) {
+			if (singleton == null) {
+				singleton = new CoreXMLManager();
+			}
 		} // if
 		return singleton;
 	}
