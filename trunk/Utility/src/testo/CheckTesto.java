@@ -11,7 +11,7 @@ public class CheckTesto {
 
 	private void checkApici() {
 		if (testo.contains("'")) {
-			testo.replace("'", "\'");
+			testo = testo.replace("'", "\'");
 		}
 	}
 

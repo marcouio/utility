@@ -72,9 +72,9 @@ public class OggettoSQL {
 			ok = false;
 			// connection = DBUtil.getConnection();
 			final StringBuffer sql = new StringBuffer();
-			final String command = comando.toUpperCase();
 
 			if (tabella != null && comando != null) {
+				final String command = comando.toUpperCase();
 				// comando
 				if (command.equals("INSERT")) {
 					sql.append(command).append(" INTO ").append(tabella);
