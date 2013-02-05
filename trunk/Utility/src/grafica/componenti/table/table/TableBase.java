@@ -11,7 +11,6 @@ import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
@@ -23,7 +22,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
 	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
-	protected Color	coloreBackground;
+	protected Color coloreBackground;
 	private static final long serialVersionUID = 1L;
 
 	public TableBase(final Container contenitorePadre) {
@@ -48,12 +47,12 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
 		this.settaStile();
 		setSize(this.generaDimensioniMinime());
-		System.out.println("altezza: "+this.getHeight()+". larghezza: "+this.getWidth());
+		System.out.println("altezza: " + this.getHeight() + ". larghezza: " + this.getWidth());
 	}
 
 	public Dimension generaDimensioniMinime() {
@@ -78,7 +77,8 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	public TableCellRenderer getCellRenderer(final int row, final int column) {
 		return setStyleColumn();
 	}
-	//TODO
+
+	// TODO
 	public TableCellRenderer setStyleColumn() {
 
 		final DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer() {
@@ -86,19 +86,24 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 			@Override
 			public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
-				if (isSelected) {
-					//					setOpaque(true);
-					//					setBackground(table.getSelectionBackground());
-					//					setForeground(Color.BLUE);
+				final Component rendered = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				if (isSelected && hasFocus) {
+					rendered.setBackground(Color.WHITE);
+					rendered.setForeground(Color.RED);
+				} else {
+					rendered.setBackground(Color.RED);
+					rendered.setForeground(Color.WHITE);
 				}
-				if (column == 0) {
-					if(coloreBackground != null){
-						setBackground(coloreBackground);
-						setForeground(Color.WHITE);
+				if (column == 1) {
+					if (coloreBackground != null) {
+						rendered.setBackground(coloreBackground);
+						rendered.setForeground(Color.WHITE);
 					}
+				} else if (column == 0 && row == 10) {
+					rendered.setBackground(coloreBackground);
+					rendered.setForeground(Color.GREEN);
 				}
-
-				return value instanceof JLabel ? (JLabel) value : super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				return rendered;
 			}
 		};
 		return dtcr;
@@ -135,7 +140,6 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	}
 
-
 	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
@@ -151,7 +155,8 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -163,7 +168,8 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -175,7 +181,8 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -187,7 +194,8 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
