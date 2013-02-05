@@ -138,7 +138,7 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 
 	@Override
 	public ContainerBase getContainerBase() {
-		return getContainerBase();
+		return containerBase;
 	}
 
 	@Override
