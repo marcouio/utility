@@ -1,6 +1,5 @@
 package grafica.componenti.textfield.testo;
 
-import grafica.componenti.style.StyleBase;
 import grafica.componenti.textfield.IFormatterTF;
 import grafica.componenti.textfield.TextFieldBase;
 
@@ -17,17 +16,11 @@ public class TextFieldTesto extends TextFieldBase {
 
 	public TextFieldTesto(final String testo, final Container contenitorePadre) {
 		super(testo, contenitorePadre);
-		this.formatter = new FormatterTesto();
+		formatter = new FormatterTesto();
 	}
 
 	public TextFieldTesto(final Container contenitorePadre) {
 		super(contenitorePadre);
-		this.formatter = new FormatterTesto();
+		formatter = new FormatterTesto();
 	}
-
-	@Override
-	protected StyleBase settaStileOverride() {
-		return null;
-	}
-
 }

@@ -10,79 +10,70 @@ import java.awt.Container;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase{
-	
+public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
+
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
-	public ComboBoxBase(final Container contenitorePadre, Object[] lista) {
-		DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<Object>(lista);
+	public ComboBoxBase(final Container contenitorePadre, final Object[] lista) {
+		final DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<Object>(lista);
 		this.setModel(modelGiorni);
 		init(contenitorePadre, this);
 	}
-	
-	@Override
-	public void init(Container contenitorePadre2, Component componenteFiglio) {
-			this.contenitorePadre = contenitorePadre2;
-			componenteBase.init(contenitorePadre2, componenteFiglio);
-			this.settaStile();
-			setSize(getLarghezza(), getAltezza());
-	}
-	
-	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
 
-	protected StyleBase settaStileOverride() {
-		return null;
+	@Override
+	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
+		contenitorePadre = contenitorePadre2;
+		componenteBase.init(contenitorePadre2, componenteFiglio);
+		this.setStile(null);
+		setSize(getLarghezza(), getAltezza());
 	}
 
 	@Override
-	public boolean repaintCustomizzato(Object[] parametri) {
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
+	}
+
+	@Override
+	public boolean repaintCustomizzato(final Object[] parametri) {
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
 	@Override
-	public boolean posizionaADestraDi(Component componenteParagone, int distanzaOrizzantale, int distanzaVerticale,Component compDaPosizionare) {
+	public boolean posizionaADestraDi(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		return componenteBase.posizionaADestraDi(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaASinistraDi(Component componenteParagone,int distanzaOrizzontale, int distanzaVerticale,Component compDaPosizionare) {
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component compDaPosizionare) {
 		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaSottoA(Component componenteParagone,int distanzaOrizzantale, int distanzaVerticale, Component compDaPosizionare) {
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
-	public boolean posizionaSopraA(Component componenteParagone,int distanzaOrizzantale, int distanzaVerticale,Component compDaPosizionare) {
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		return componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
 
 	@Override
 	public int getLarghezza() {
-		int larghezzaMax = getLarghezzaMax();
+		final int larghezzaMax = getLarghezzaMax();
 		return 25 + larghezzaMax;
 	}
 
 	private int getLarghezzaMax() {
-		int nMember = this.getModel().getSize();
+		final int nMember = this.getModel().getSize();
 		int largMax = 0;
 		for (int i = 0; i < nMember; i++) {
-			Object elementAt = this.getModel().getElementAt(i);
-			int larghezzaComp = componenteBase.getLarghezzaSingleStringa(getGraphics(), elementAt.toString(), this);
-			
-			if(larghezzaComp > largMax){
+			final Object elementAt = this.getModel().getElementAt(i);
+			final int larghezzaComp = componenteBase.getLarghezzaSingleStringa(getGraphics(), elementAt.toString(), this);
+
+			if (larghezzaComp > largMax) {
 				largMax = larghezzaComp;
 			}
 		}
@@ -93,15 +84,8 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase{
 	public int getAltezza() {
 		return componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 	}
-	
-	public StyleBase getStyle() {
-		return style;
-	}
 
-	public void setStyle(final StyleBase style) {
-		this.style = style;
-	}
-
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}

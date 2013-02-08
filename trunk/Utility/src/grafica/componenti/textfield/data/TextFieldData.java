@@ -22,7 +22,7 @@ public class TextFieldData extends TextFieldBase {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, null);
+				final FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, null);
 				final TextFieldData textFieldData = new TextFieldData("dd-MM-yyyy", frame.getContentPane());
 				final TextFieldTesto textFieldTesto = new TextFieldTesto("testo", frame.getContentPane());
 				textFieldTesto.posizionaSottoA(textFieldData, 0, 0);
@@ -34,12 +34,14 @@ public class TextFieldData extends TextFieldBase {
 
 	public TextFieldData(final String format, final Container componentePadre) {
 		super(format, componentePadre);
-		this.formatter = new FormatterData(format);
+		formatter = new FormatterData(format);
 	}
 
 	@Override
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleTFData");
+	public void setStile(StyleBase styleBase) {
+		if (styleBase == null) {
+			styleBase = new StyleBase("StyleTFData");
+		}
+		super.setStile(styleBase);
 	}
-
 }

@@ -47,9 +47,9 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBasePannello"));
 		this.setLayout(null);
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 	}
 
 	@Override
@@ -58,7 +58,8 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -70,7 +71,8 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -82,7 +84,8 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -94,7 +97,8 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -127,16 +131,8 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBasePannello");
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	@Override

@@ -31,9 +31,9 @@ import javax.swing.tree.TreeSelectionModel;
 import disegno.immagini.UtilImage;
 
 /**
- * La classe è un oggetto grafico base che estende il JTree di Swing. Oltre alle funzionalita'
- * degli oggetti grafici base del framework, fornisce una serie di metodi di utilità e 
- * implementazioni per facilitare l'utilizzo dei 'tree'.
+ * La classe è un oggetto grafico base che estende il JTree di Swing. Oltre alle
+ * funzionalita' degli oggetti grafici base del framework, fornisce una serie di
+ * metodi di utilità e implementazioni per facilitare l'utilizzo dei 'tree'.
  * 
  * @author marco.molinari
  */
@@ -41,7 +41,6 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase(this);
-	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	private DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
 
@@ -82,7 +81,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.setContenitorePadre(contenitorePadre2);
 		this.setEditable(true);
@@ -90,12 +89,12 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.addTreeSelectionListener(this);
 		this.setCellRenderer(treeCellRenderer);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseTree"));
 		setSize(getLarghezza(), getAltezza());
 	}
 
 	public void espandiTutto() {
-		int row = this.getRowCount();
+		final int row = this.getRowCount();
 		for (int i = 0; i < row; i++) {
 			this.expandRow(i);
 		}
@@ -114,7 +113,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 			public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
 
 				final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+				final DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 				if (iconFoglia != null && node.isLeaf()) {
 					label.setIcon(iconFoglia);
 				} else if (node.isRoot()) {
@@ -122,7 +121,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 				} else if (iconRamo != null && node.getChildCount() > 0) {
 					label.setIcon(iconRamo);
 				} else if (node.getUserObject() instanceof ITreeObject) {
-					ITreeObject treeObject = (ITreeObject) node.getUserObject();
+					final ITreeObject treeObject = (ITreeObject) node.getUserObject();
 					if (treeObject.getIcona() != null) {
 						label.setIcon(treeObject.getIcona());
 					}
@@ -142,9 +141,9 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 			public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
 
 				final JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+				final DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 				if (node.getUserObject() instanceof ITreeObject) {
-					ITreeObject treeObject = (ITreeObject) node.getUserObject();
+					final ITreeObject treeObject = (ITreeObject) node.getUserObject();
 					if (treeObject.getIcona() != null) {
 						label.setIcon(treeObject.getIcona());
 					}
@@ -156,7 +155,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	}
 
 	public void setIconOnlyForRoot(final ITreeObject ramoRoot) {
-		// 	l'immagine dell'oggetto che avranno tutti
+		// l'immagine dell'oggetto che avranno tutti
 		final ImageIcon icon = ramoRoot.getIcona();
 
 		if (icon != null) {
@@ -190,19 +189,20 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	@Override
 	public void valueChanged(final TreeSelectionEvent e) {
-		//Returns the last path element of the selection.
-		//This method is useful only when the selection model allows a single selection.
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) this.getLastSelectedPathComponent();
+		// Returns the last path element of the selection.
+		// This method is useful only when the selection model allows a single
+		// selection.
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode) this.getLastSelectedPathComponent();
 
 		((DefaultTreeModel) treeModel).nodeChanged(node);
 		this.getParent().getParent().repaint();
 
 		if (node == null) {
-			//Nothing is selected.	
+			// Nothing is selected.
 			return;
 		}
 
-		Object nodeInfo = node.getUserObject();
+		final Object nodeInfo = node.getUserObject();
 		if (node.isLeaf() && nodeInfo instanceof TreeObjectFoglia) {
 			((TreeObjectFoglia) nodeInfo).eseguiAzioneListener();
 		} else if (nodeInfo instanceof TreeObjectFoglia) {
@@ -224,21 +224,17 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 			@Override
 			public void run() {
-				JFrame frame = new JFrame();
-				JPanel pane = new JPanel();
-				JScrollPane panel = new JScrollPane();
+				final JFrame frame = new JFrame();
+				final JPanel pane = new JPanel();
+				final JScrollPane panel = new JScrollPane();
 				panel.setSize(200, 200);
 				final TreeBase tree = new TreeBase(panel) {
 
 					private static final long serialVersionUID = 1L;
 
-					@Override
-					protected StyleBase settaStileOverride() {
-						return null;
-					}
 				};
 
-				String path = "/home/marcouio/Immagini/";
+				final String path = "/home/marcouio/Immagini/";
 				ImageIcon icona = new ImageIcon(path + "icon.png");
 				ImageIcon icona2 = new ImageIcon(path + "icon.png");
 				ImageIcon icona3 = new ImageIcon(path + "icon.png");
@@ -247,14 +243,14 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 				icona2 = UtilImage.resizeImage(10, 10, icona2);
 				icona3 = UtilImage.resizeImage(10, 10, icona3);
 
-				TreeObjectFoglia foglia1 = new TreeObjectFoglia("foglia1", icona);
+				final TreeObjectFoglia foglia1 = new TreeObjectFoglia("foglia1", icona);
 
-				TreeObjectFoglia foglia2 = new TreeObjectFoglia("foglia2", icona2);
-				TreeObjectRamo ramo1 = new TreeObjectRamo(foglia2, "ramo1", foglia2.getIcona());
-				TreeObjectFoglia foglia3 = new TreeObjectFoglia("foglia3", icona2);
+				final TreeObjectFoglia foglia2 = new TreeObjectFoglia("foglia2", icona2);
+				final TreeObjectRamo ramo1 = new TreeObjectRamo(foglia2, "ramo1", foglia2.getIcona());
+				final TreeObjectFoglia foglia3 = new TreeObjectFoglia("foglia3", icona2);
 				ramo1.addFoglia(foglia3);
 				ramo1.addChildrenToTree();
-				DefaultMutableTreeNode root = initTree(tree).getTreeNode();
+				final DefaultMutableTreeNode root = initTree(tree).getTreeNode();
 
 				root.add(foglia1.getTreeNode());
 				root.add(ramo1.getTreeNode());
@@ -269,7 +265,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				tree.expandRow(0);
 
-				JButton button = new JButton("aggiorna tree");
+				final JButton button = new JButton("aggiorna tree");
 				pane.add(button);
 				button.addActionListener(new ActionListener() {
 
@@ -281,15 +277,15 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 			}
 
 			private TreeObjectRamo initTree(final TreeBase tree) {
-				String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
+				final String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
 				ImageIcon icona = new ImageIcon(path + "stop.jpg");
 				icona = UtilImage.resizeImage(10, 10, icona);
-				TreeObjectFoglia fogliaroot = new TreeObjectFoglia("root", icona);
-				TreeObjectRamo ramoRoot = new TreeObjectRamo(fogliaroot, "ramo", fogliaroot.getIcona());
-				//				tree.setImmagineTreeObject(ramoRoot);
-				//				tree.setIconOnlyFoglie(icona);
-				//				tree.setIconForAll();
-				DefaultTreeModel treeModel = new DefaultTreeModel(ramoRoot.getTreeNode());
+				final TreeObjectFoglia fogliaroot = new TreeObjectFoglia("root", icona);
+				final TreeObjectRamo ramoRoot = new TreeObjectRamo(fogliaroot, "ramo", fogliaroot.getIcona());
+				// tree.setImmagineTreeObject(ramoRoot);
+				// tree.setIconOnlyFoglie(icona);
+				// tree.setIconForAll();
+				final DefaultTreeModel treeModel = new DefaultTreeModel(ramoRoot.getTreeNode());
 				tree.setModel(treeModel);
 				tree.setEditable(false);
 				tree.setRootVisible(true);
@@ -306,7 +302,8 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -318,7 +315,8 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -330,7 +328,8 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -342,7 +341,8 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -375,16 +375,8 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseTree");
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	@Override

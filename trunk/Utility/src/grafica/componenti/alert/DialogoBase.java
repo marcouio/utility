@@ -24,29 +24,20 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 
 	private final ContainerBaseDialogo containerBase = new ContainerBaseDialogo();
 	private final ComponenteBaseDialogo componenteBase = new ComponenteBaseDialogo(this);
-	protected StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	Container padre;
 	private int opzioneScelta = -1;
 
 	public DialogoBase(final JFrame frame) {
 		super(frame);
-		this.padre = frame;
+		padre = frame;
 		init(null, this);
 	}
 
 	public DialogoBase(final Dialog owner) {
 		super(owner);
-		this.padre = owner;
+		padre = owner;
 		init(null, this);
-	}
-
-	public StyleBase getStyle() {
-		return style;
-	}
-
-	public void setStyle(final StyleBase style) {
-		this.style = style;
 	}
 
 	@Override
@@ -56,19 +47,19 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 
 	public static void main(final String[] args) {
 		final FrameBase panello = UtilComponenti.initContenitoreFrameApplicazione(null, null);
-		ButtonBase bottone = new ButtonBase("premi qui di nuovo e ancora!", panello);
+		final ButtonBase bottone = new ButtonBase("premi qui di nuovo e ancora!", panello);
 		bottone.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 
-				IBuilderDialogo builder = new DialogoBase(panello).getBuilder();
+				final IBuilderDialogo builder = new DialogoBase(panello).getBuilder();
 				builder.setMessaggio("Questo è un messaggio veramente troppo troppo lungo");
 				builder.setTitolo("Titolo");
 				builder.addPositiveButton();
 				builder.addNegativeButton();
 				builder.addCancelButton();
-				DialogoBase dialogo = builder.creaDialogo();
+				final DialogoBase dialogo = builder.creaDialogo();
 			}
 		});
 	}
@@ -87,7 +78,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		this.setLayout(null);
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseDialogo"));
 
 	}
 
@@ -97,7 +88,8 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -109,7 +101,8 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -121,7 +114,8 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -133,7 +127,8 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -165,16 +160,8 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseDialogo");
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	@Override
@@ -202,7 +189,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 
 	@Override
 	public Container getContenitorePadre() {
-		//uk dialog non richiede un contenitore
+		// uk dialog non richiede un contenitore
 		return null;
 	}
 

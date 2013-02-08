@@ -20,10 +20,10 @@ import javax.swing.JPanel;
 public class ButtonBase extends JButton implements IComponenteBase, IContainerBase {
 
 	public static final double COSTANTE_ALLARGA = 1.05;
-	
+
 	public static void main(final String[] args) {
-		JPanel p = UtilComponenti.initContenitoreFrame(null);
-		ButtonBase b = new ButtonBase("button", p);
+		final JPanel p = UtilComponenti.initContenitoreFrame(null);
+		final ButtonBase b = new ButtonBase("button", p);
 		System.out.println(b.getFont().getSize());
 	}
 
@@ -53,7 +53,6 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	}
 
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBase();
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 	private final ContainerBaseBottone containerBase = new ContainerBaseBottone();
 	private Container contenitorePadre;
@@ -62,7 +61,7 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		this.setContenitorePadre(contenitorePadre2);
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseB"));
 		this.setBorderPainted(false);
 		this.setMargin(new Insets(0, 0, 0, 0));
 		setSize(getLarghezza(), getAltezza());
@@ -94,7 +93,8 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -106,7 +106,8 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -118,7 +119,8 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -130,7 +132,8 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -142,25 +145,17 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	}
 
 	@Override
-	public void settaStile() {
+	public void setStile(final StyleBase style) {
 		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseB");
 	}
 
 	@Override
 	public int getLarghezza() {
-		int margineSinitro = this.getMargin().left;
-		int margineDestro = this.getMargin().right;
-		int larghezzaTesto = this.componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this, false);
+		final int margineSinitro = this.getMargin().left;
+		final int margineDestro = this.getMargin().right;
+		final int larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this, false);
 		int larghImage = 0;
-		if(this.getIcon() != null){
+		if (this.getIcon() != null) {
 			larghImage = getIcon().getIconWidth();
 		}
 		return (int) (getMaxDimensionX() + margineSinitro + margineDestro + (larghezzaTesto * COSTANTE_ALLARGA) + larghImage);
@@ -168,16 +163,16 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 
 	@Override
 	public int getAltezza() {
-		int margineAlto = this.getMargin().top;
-		int margineBasso = this.getMargin().bottom;
-		int altezzaTesto = this.componenteBase.getAltezzaSingleStringa(getGraphics(), this);
+		final int margineAlto = this.getMargin().top;
+		final int margineBasso = this.getMargin().bottom;
+		final int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 		int altezzaImage = 0;
-		if(this.getIcon() != null){
+		if (this.getIcon() != null) {
 			altezzaImage = getIcon().getIconHeight();
 		}
-		if(altezzaTesto > altezzaImage){
+		if (altezzaTesto > altezzaImage) {
 			return getMaxDimensionY() + margineAlto + margineBasso + altezzaTesto;
-		}else{
+		} else {
 			return getMaxDimensionY() + margineAlto + margineBasso + altezzaImage;
 		}
 	}
@@ -197,6 +192,7 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 		return containerBase.getMaxDimensionY(this);
 	}
 
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}

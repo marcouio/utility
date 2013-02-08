@@ -34,8 +34,7 @@ public class LabelTestoPiccolo extends Label {
 	}
 
 	@Override
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseLTP");
+	public void setStile(final StyleBase styleBase) {
+		super.setStile(new StyleBase("StyleBaseLTP"));
 	}
-
 }

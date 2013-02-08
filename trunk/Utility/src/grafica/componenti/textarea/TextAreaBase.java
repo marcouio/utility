@@ -14,7 +14,6 @@ import javax.swing.text.Document;
 public class TextAreaBase extends JTextArea implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleTextArea();
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase(this);
 
@@ -50,9 +49,9 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		settaStile();
+		setStile(new StyleTextArea());
 	}
 
 	@Override
@@ -61,7 +60,8 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -73,7 +73,8 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -85,7 +86,8 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -97,7 +99,8 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -130,33 +133,22 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	}
 
 	@Override
-	public void settaStile() {
-		StyleTextArea styleTextArea = (StyleTextArea) style;
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(styleTextArea, this);
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
+
+		if (styleBase != null && styleBase instanceof StyleTextArea) {
+
+			final StyleTextArea styleTextArea = (StyleTextArea) styleBase;
+			this.setLineWrap(styleTextArea.isLineWrap());
+			this.setWrapStyleWord(styleTextArea.isWrapStyleWord());
+			this.setAutoscrolls(styleTextArea.isAutoscroll());
+			this.setRows(styleTextArea.getRows());
+			this.setColumns(styleTextArea.getColumns());
 		}
-		this.setLineWrap(styleTextArea.isLineWrap());
-		this.setWrapStyleWord(styleTextArea.isWrapStyleWord());
-		this.setAutoscrolls(styleTextArea.isAutoscroll());
-		this.setRows(styleTextArea.getRows());
-		this.setColumns(styleTextArea.getColumns());
+
 	}
 
-	protected StyleBase settaStileOverride() {
-		return null;
-		//		return new StyleTextArea("StyleBaseTA");
-	}
-
-	public StyleBase getStyle() {
-		return style;
-	}
-
-	public void setStyle(final StyleBase style) {
-		this.style = style;
-	}
-
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}

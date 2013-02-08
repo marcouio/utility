@@ -13,11 +13,10 @@ import javax.swing.JMenu;
 
 public class MenuBase extends JMenu implements IContainerBase, IComponenteBase {
 
-	private static final long						serialVersionUID	= 1L;
-	protected StyleBase								style				= new StyleBase();
-	private Container								contenitorePadre;
-	private final ContainerBase						containerBase		= new ContainerBase();
-	private final ComponenteBaseConPadreContenitore	componenteBase		= new ComponenteBaseConPadreContenitore(this);
+	private static final long serialVersionUID = 1L;
+	private Container contenitorePadre;
+	private final ContainerBase containerBase = new ContainerBase();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
 	public MenuBase(final String label, final Container contenitorePadre) {
 		super(label);
@@ -25,23 +24,15 @@ public class MenuBase extends JMenu implements IContainerBase, IComponenteBase {
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseL");
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseL"));
 		setSize(getLarghezza(), getAltezza());
 	}
 
@@ -50,14 +41,7 @@ public class MenuBase extends JMenu implements IContainerBase, IComponenteBase {
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
-	public StyleBase getStyle() {
-		return style;
-	}
-
-	public void setStyle(final StyleBase style) {
-		this.style = style;
-	}
-
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
@@ -141,13 +125,13 @@ public class MenuBase extends JMenu implements IContainerBase, IComponenteBase {
 
 	@Override
 	public int getLarghezza() {
-		int larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
+		final int larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
 		return getMaxDimensionX() + larghezzaTesto;
 	}
 
 	@Override
 	public int getAltezza() {
-		int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
+		final int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 		return getMaxDimensionY() + altezzaTesto;
 	}
 
