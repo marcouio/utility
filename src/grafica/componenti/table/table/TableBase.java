@@ -18,7 +18,6 @@ import javax.swing.table.TableModel;
 
 public class TableBase extends JTable implements FocusListener, IComponenteBase {
 
-	protected StyleBase style = new StyleBase();
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
 	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
@@ -50,7 +49,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseTable2d"));
 		setSize(this.generaDimensioniMinime());
 		System.out.println("altezza: " + this.getHeight() + ". larghezza: " + this.getWidth());
 	}
@@ -116,16 +115,8 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	public StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseTable2d");
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	@Override

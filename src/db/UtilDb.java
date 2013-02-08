@@ -67,18 +67,10 @@ public class UtilDb {
 		String mese = null;
 		if (corrente == 1) {
 			final int MESE = new GregorianCalendar().get(Calendar.MONTH) + 1;
-			if (new GregorianCalendar().get(Calendar.MONTH) + 1 < 10) {
-				mese = "0" + MESE;
-			} else {
-				mese = Integer.toString(MESE);
-			}
+			mese = convertiMese(MESE);
 		} else if (corrente == 0) {
 			final int MESE = new GregorianCalendar().get(Calendar.MONTH);
-			if (new GregorianCalendar().get(Calendar.MONTH) < 10) {
-				mese = "0" + MESE;
-			} else {
-				mese = Integer.toString(MESE);
-			}
+			mese = convertiMese(MESE);
 		}
 		return mese;
 

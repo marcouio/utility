@@ -1,6 +1,5 @@
 package grafica.componenti.componenteBase;
 
-import grafica.componenti.ExceptionGraphics;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
@@ -24,11 +23,11 @@ import xml.CoreXMLManager;
 import controller.ControlloreBase;
 
 /**
- * La classe è per uso privato all'interno degli oggetti grafici base. Non va chiamata direttamente ne la classe,
- * ne nessun suo metodo
+ * La classe è per uso privato all'interno degli oggetti grafici base. Non va
+ * chiamata direttamente ne la classe, ne nessun suo metodo
  * 
  * @author marco.molinari
- *
+ * 
  */
 public class ComponenteBase extends Component implements IComponenteBase {
 
@@ -40,14 +39,15 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public static final int WIDTH_STRING_MIN = 5;
 	public static final int HEIGHT_STRING_MIN = 5;
 	public IComponenteBase padre;
+	protected StyleBase style = new StyleBase();
 
 	public ComponenteBase(final IComponenteBase padre) {
 		this.padre = padre;
 	}
 
-
 	/**
 	 * Se parametri non sono null aggiunge il component nel container
+	 * 
 	 * @param contenitorePadre2
 	 * @param componenteFiglio
 	 */
@@ -72,25 +72,25 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		if (!checkPreliminariForRepaint(parametri)) {
 			return false;
 		}
-		Object objForRepaint = parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
-		//JTREE
+		final Object objForRepaint = parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
+		// JTREE
 		if (objForRepaint instanceof JTree) {
-			TreeModel treeModel = (DefaultTreeModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
+			final TreeModel treeModel = (DefaultTreeModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
 			((JTree) objForRepaint).setModel(treeModel);
-			//JSCROLLPANE
+			// JSCROLLPANE
 		} else if (objForRepaint instanceof JScrollPane) {
 			if (parametri[IComponenteBase.PARAM_REPAINT_OBJ_CONTENT] == null) {
 				return false;
 			}
-			Component comp = (Component) parametri[IComponenteBase.PARAM_REPAINT_OBJ_CONTENT];
+			final Component comp = (Component) parametri[IComponenteBase.PARAM_REPAINT_OBJ_CONTENT];
 			((JScrollPane) objForRepaint).setViewportView(comp);
-			//JCOMBOBOX
+			// JCOMBOBOX
 		} else if (objForRepaint instanceof JComboBox) {
-			DefaultComboBoxModel comboModel = (DefaultComboBoxModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
+			final DefaultComboBoxModel comboModel = (DefaultComboBoxModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
 			((JComboBox) objForRepaint).setModel(comboModel);
-			//JTABLE
+			// JTABLE
 		} else if (objForRepaint instanceof JTable) {
-			AbstractTableModel tableModel = (DefaultTableModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
+			final AbstractTableModel tableModel = (DefaultTableModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
 			((JTable) objForRepaint).setModel(tableModel);
 		}
 		((Component) objForRepaint).invalidate();
@@ -127,8 +127,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		int nuovaX = distanzaOrizzantale;
 		int nuovaY = distanzaVerticale;
 
-		if(componenteParagone != null){
-			Point location = componenteParagone.getLocation();
+		if (componenteParagone != null) {
+			final Point location = componenteParagone.getLocation();
 			nuovaX = (int) (location.getX() + componenteParagone.getWidth() + distanzaOrizzantale);
 			nuovaY = (int) (location.getY() + distanzaVerticale);
 		}
@@ -140,11 +140,11 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale, final Component compDaPosizionare) {
 
-		int nuovaX = - distanzaOrizzontale;
+		int nuovaX = -distanzaOrizzontale;
 		int nuovaY = distanzaVerticale;
 
-		if(componenteParagone != null){
-			Point location = componenteParagone.getLocation();
+		if (componenteParagone != null) {
+			final Point location = componenteParagone.getLocation();
 			nuovaX = (int) (location.getX() - compDaPosizionare.getWidth() - distanzaOrizzontale);
 			nuovaY = (int) (location.getY() + distanzaVerticale);
 		}
@@ -157,8 +157,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		int nuovaX = distanzaOrizzantale;
 		int nuovaY = distanzaVerticale;
 
-		if(componenteParagone != null){
-			Point location = componenteParagone.getLocation();
+		if (componenteParagone != null) {
+			final Point location = componenteParagone.getLocation();
 			nuovaX = (int) (location.getX() + distanzaOrizzantale);
 			nuovaY = (int) (location.getY() + componenteParagone.getHeight() + distanzaVerticale);
 		}
@@ -170,10 +170,10 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		int nuovaX = distanzaOrizzantale;
-		int nuovaY = - distanzaVerticale;
+		int nuovaY = -distanzaVerticale;
 
-		if(componenteParagone != null){
-			Point location = componenteParagone.getLocation();
+		if (componenteParagone != null) {
+			final Point location = componenteParagone.getLocation();
 			nuovaX = (int) (location.getX() + distanzaOrizzantale);
 			nuovaY = (int) (location.getY() - compDaPosizionare.getHeight() - distanzaVerticale);
 		}
@@ -189,14 +189,16 @@ public class ComponenteBase extends Component implements IComponenteBase {
 			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
 			larghezza = fm.stringWidth(label);
 		}
-		if(setDefault){
+		if (setDefault) {
 			return larghezza > ComponenteBase.WIDTH_STRING_MIN ? larghezza + 3 : ComponenteBase.WIDTH_STRING_DEFAULT;
 		}
 		return larghezza;
 	}
 
 	/**
-	 * Se la larghezza è maggiore del minimo, restituisce la larghezza + 3 altrimenti setta il default
+	 * Se la larghezza è maggiore del minimo, restituisce la larghezza + 3
+	 * altrimenti setta il default
+	 * 
 	 * @param g
 	 * @param label
 	 * @param compDaPosizionare
@@ -229,25 +231,24 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	@Override
-	public void settaStile() {
-		try {
-			throw new ExceptionGraphics("Metodo esistente solo perché estende l'interfaccia IComponente", "Richiamare stesso metodo ma del componente corretto");
-		} catch (ExceptionGraphics e) {
-			e.printStackTrace();
-		}
+	public void setStile(final StyleBase style) {
+
 	}
 
 	public void settaStile(final StyleBase style, final IComponenteBase padre) {
+		if (style != null) {
+			this.style = style;
+		}
 		style.setPadre(padre);
-		Component padreComponent = ((Component) padre);
+		final Component padreComponent = ((Component) padre);
 		padreComponent.setFont(style.getFont());
 		padreComponent.setForeground(style.getForeground());
 		padreComponent.setBackground(style.getBackground());
 		padreComponent.setSize(style.getWidth(), style.getHeight());
 		if (CoreXMLManager.getSingleton().isAutoConfig()) {
 			if (ihaveToSetDimension(style, padreComponent)) {
-				int width = ((IComponenteBase) padreComponent).getLarghezza();
-				int height = ((IComponenteBase) padreComponent).getAltezza();
+				final int width = ((IComponenteBase) padreComponent).getLarghezza();
+				final int height = ((IComponenteBase) padreComponent).getAltezza();
 				padreComponent.setSize(width, height);
 			}
 		}
@@ -268,21 +269,20 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	@Override
 	public int getLarghezza() {
-		System.out.println("getLarghezza() in " + this.padre.getClass().getSimpleName()+ " non implementato. Ritornata una larghezza default: " + WIDTH_DEFAULT);
+		System.out.println("getLarghezza() in " + padre.getClass().getSimpleName() + " non implementato. Ritornata una larghezza default: " + WIDTH_DEFAULT);
 		return WIDTH_DEFAULT;
 	}
 
 	@Override
 	public int getAltezza() {
 
-		System.out.println("getAltezza() in " + this.padre.getClass().getSimpleName() + " non implementato. Ritornata una altezza default: " + HEIGHT_DEFAULT);
+		System.out.println("getAltezza() in " + padre.getClass().getSimpleName() + " non implementato. Ritornata una altezza default: " + HEIGHT_DEFAULT);
 		return HEIGHT_DEFAULT;
 	}
 
-
 	@Override
 	public Container getContenitorePadre() {
-		if(padre instanceof Container){
+		if (padre instanceof Container) {
 			return (Container) padre;
 		}
 		return null;

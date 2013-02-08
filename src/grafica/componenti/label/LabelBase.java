@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 public class LabelBase extends JLabel implements IComponenteBase, IContainerBase {
 
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ContainerBase containerBase = new ContainerBase();
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
@@ -51,23 +50,15 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseL");
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseL"));
 		setSize(getLarghezza(), getAltezza());
 	}
 
@@ -76,14 +67,7 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
-	public StyleBase getStyle() {
-		return style;
-	}
-
-	public void setStyle(final StyleBase style) {
-		this.style = style;
-	}
-
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
@@ -93,7 +77,8 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -105,7 +90,8 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -117,7 +103,8 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -129,7 +116,8 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -163,13 +151,13 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 
 	@Override
 	public int getLarghezza() {
-		int larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
+		final int larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
 		return getMaxDimensionX() + larghezzaTesto;
 	}
 
 	@Override
 	public int getAltezza() {
-		int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
+		final int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 		return getMaxDimensionY() + altezzaTesto;
 	}
 

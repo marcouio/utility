@@ -13,11 +13,11 @@ import javax.swing.JMenuBar;
 
 public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainerBase {
 
-	private static final long						serialVersionUID	= 1L;
-	protected StyleBase								style				= new StyleBase();
-	private Container								contenitorePadre;
-	private final ContainerBase						containerBase		= new ContainerBase();
-	private final ComponenteBaseConPadreContenitore	componenteBase		= new ComponenteBaseConPadreContenitore(this);
+	private static final long serialVersionUID = 1L;
+	protected StyleBase style = new StyleBase();
+	private Container contenitorePadre;
+	private final ContainerBase containerBase = new ContainerBase();
+	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
 	public MenuBarBase(final Container contenitorePadre) {
 		init(contenitorePadre, this);
@@ -25,23 +25,15 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseL"));
 		setSize(getLarghezza(), getAltezza());
 	}
 
 	@Override
-	public void settaStile() {
+	public void setStile(final StyleBase styleBase) {
 		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseL");
 	}
 
 	public StyleBase getStyle() {
@@ -52,6 +44,7 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 		this.style = style;
 	}
 
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
@@ -142,7 +135,7 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 
 	@Override
 	public int getAltezza() {
-		int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
+		final int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 		return getMaxDimensionY() + altezzaTesto;
 	}
 

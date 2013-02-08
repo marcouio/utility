@@ -17,12 +17,11 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 
 	private static final long serialVersionUID = 1L;
 	protected IFormatterTF formatter;
-	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase(this);
 
 	public static void main(final String[] args) {
-		JPanel p = UtilComponenti.initContenitoreFrame(null);
+		final JPanel p = UtilComponenti.initContenitoreFrame(null);
 		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy", p);
 		System.out.println(tfb.getBackground());
 		System.out.println(tfb.getWidth());
@@ -47,23 +46,15 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseTF"));
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseTF");
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	public Object getTestoConvertitoInTipo() {
@@ -93,6 +84,7 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 		}
 	}
 
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
@@ -102,7 +94,8 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -114,7 +107,8 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -126,7 +120,8 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -138,7 +133,8 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale

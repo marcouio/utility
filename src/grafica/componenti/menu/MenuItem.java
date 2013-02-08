@@ -12,7 +12,6 @@ import javax.swing.JMenuItem;
 public class MenuItem extends JMenuItem implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
@@ -22,23 +21,15 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
-
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseL");
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseL"));
 		setSize(getLarghezza(), getAltezza());
 	}
 
@@ -47,14 +38,7 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 		return componenteBase.repaintCustomizzato(parametri);
 	}
 
-	public StyleBase getStyle() {
-		return style;
-	}
-
-	public void setStyle(final StyleBase style) {
-		this.style = style;
-	}
-
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
@@ -64,7 +48,8 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -76,7 +61,8 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -88,7 +74,8 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -100,7 +87,8 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -134,13 +122,13 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 
 	@Override
 	public int getLarghezza() {
-		int larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
+		final int larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
 		return larghezzaTesto;
 	}
 
 	@Override
 	public int getAltezza() {
-		int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
+		final int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 		return altezzaTesto;
 	}
 }

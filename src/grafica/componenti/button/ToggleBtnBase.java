@@ -30,7 +30,7 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 		init(contenitore, this);
 	}
 
-	public ToggleBtnBase(final String text, final ImageIcon icon, final JPanel padre, final Container contenitore,final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
+	public ToggleBtnBase(final String text, final ImageIcon icon, final JPanel padre, final Container contenitore, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
 		super(text, icon, padre, xDistanzaBordoImmagine, xPartenzaTesto);
 		init(contenitore, this);
 	}
@@ -55,7 +55,7 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		this.setContenitorePadre(contenitorePadre2);
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.settaStile();
+		this.setStile(new StyleBase("StyleBaseToggle"));
 		setSize(getLarghezza(), getAltezza());
 	}
 
@@ -85,7 +85,8 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -97,7 +98,8 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -109,7 +111,8 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -121,7 +124,8 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -133,28 +137,21 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	}
 
 	@Override
-	public void settaStile() {
+	public void setStile(final StyleBase styleBase) {
 		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
-	}
 
-	protected StyleBase settaStileOverride() {
-		return new StyleBase("StyleBaseToggle");
 	}
 
 	@Override
 	public int getLarghezza() {
-		int margineSinitro = this.getMargin().left;
-		int margineDestro = this.getMargin().right;
+		final int margineSinitro = this.getMargin().left;
+		final int margineDestro = this.getMargin().right;
 		int larghezzaTesto = 0;
-		if(getTesto() != null){
-			larghezzaTesto = this.componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
+		if (getTesto() != null) {
+			larghezzaTesto = componenteBase.getLarghezzaSingleStringa(getGraphics(), getText(), this);
 		}
 		int larghezzaImmagine = 0;
-		if(getIcon() !=null){
+		if (getIcon() != null) {
 			larghezzaImmagine = getIcon().getIconWidth();
 		}
 		return getMaxDimensionX() + margineSinitro + margineDestro + larghezzaTesto + larghezzaImmagine;
@@ -162,9 +159,9 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 
 	@Override
 	public int getAltezza() {
-		int margineAlto = this.getMargin().top;
-		int margineBasso = this.getMargin().bottom;
-		int altezzaTesto = this.componenteBase.getAltezzaSingleStringa(getGraphics(), this);
+		final int margineAlto = this.getMargin().top;
+		final int margineBasso = this.getMargin().bottom;
+		final int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 		return getMaxDimensionY() + margineAlto + margineBasso + altezzaTesto;
 	}
 

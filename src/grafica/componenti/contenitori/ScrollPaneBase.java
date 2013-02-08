@@ -37,7 +37,6 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	private Container contenitorePadre;
 	private final ContainerBaseScrollPane containerBase = new ContainerBaseScrollPane();
 
-	protected StyleBase style = new StyleBase("StyleBaseScrollPane");
 	private final ComponenteBase componenteBase = new ComponenteBase(this);
 	private static final long serialVersionUID = 1L;
 
@@ -53,9 +52,9 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
-		this.contenitorePadre = contenitorePadre2;
+		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		settaStile();
+		setStile(new StyleBase("StyleBaseScrollPane"));
 	}
 
 	@Override
@@ -84,12 +83,8 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	}
 
 	@Override
-	public void settaStile() {
-		componenteBase.settaStile(style, this);
-		if (settaStileOverride() != null) {
-			style = settaStileOverride();
-			componenteBase.settaStile(style, this);
-		}
+	public void setStile(final StyleBase styleBase) {
+		componenteBase.settaStile(styleBase, this);
 	}
 
 	protected StyleBase settaStileOverride() {
@@ -97,7 +92,8 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -109,7 +105,8 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -121,7 +118,8 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -133,7 +131,8 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	}
 
 	/**
-	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la leggibilita'
+	 * Metodo facade di metodo omonimo per facilitarne l'accesso e la
+	 * leggibilita'
 	 * 
 	 * @param componenteParagone
 	 * @param distanzaOrizzantale
@@ -144,6 +143,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
 
+	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
