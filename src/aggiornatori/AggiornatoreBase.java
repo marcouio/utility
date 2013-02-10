@@ -13,6 +13,7 @@ public class AggiornatoreBase implements IAggiornatore {
 	@Override
 	public boolean aggiorna() {
 		if (comp != null) {
+			comp.getContenitorePadre().invalidate();
 			if (comp.repaintCustomizzato(parametri)) {
 				return true;
 			}

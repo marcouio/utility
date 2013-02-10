@@ -8,9 +8,8 @@ import java.awt.Container;
 
 public interface IComponenteBase {
 
-	public static int PARAM_REPAINT_OBJ_REPAINT = 0;
-	public static int PARAM_REPAINT_MODEL = 1;
-	public static int PARAM_REPAINT_OBJ_CONTENT = 2;
+	public static int PARAM_REPAINT_MODEL = 0;
+	public static int PARAM_REPAINT_OBJ_CONTENT = 1;
 
 	/**
 	 * Esegue alcune operazioni preliminari sugli oggetti grafici come l'add sui
@@ -29,11 +28,9 @@ public interface IComponenteBase {
 	 * Metodo implementato all'interno della classe ComponenteBase o di una sua
 	 * estensione, ridisegna l'oggetto che lo richiama in base al suo tipo.
 	 * 
-	 * @param <b>parametri[0]</b>,l'oggetto da ridisegnare;
+	 * @param <b>parametri[0]</b>, il suo model;
 	 *        <p>
-	 *        <b>parametri[1]</b>, il suo model;
-	 *        <p>
-	 *        <b>parametri[2]</b>,l'oggetto contenuto da sostituire. I parametri
+	 *        <b>parametri[1]</b>,l'oggetto contenuto da sostituire. I parametri
 	 *        non sono sempre nullabili
 	 * @return <b>true</b> se l'aggiornamento è andato a buon fine
 	 */

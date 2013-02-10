@@ -156,6 +156,6 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 }

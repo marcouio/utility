@@ -8,16 +8,10 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 
 import xml.CoreXMLManager;
 import controller.ControlloreBase;
@@ -66,48 +60,33 @@ public class ComponenteBase extends Component implements IComponenteBase {
 			componenteFiglio.setSize(WIDTH_STRING_DEFAULT, HEIGHT_STRING_DEFAULT);
 		}
 	}
-
-	@Override
+	
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		if (!checkPreliminariForRepaint(parametri)) {
+		return false;
+	}
+	
+	public void ridisegna(IComponenteBase componente){
+		 ((Component) componente).invalidate();
+		 ((Component) componente).validate();
+		 ((Component) componente).repaint();
+		 componente.getContenitorePadre().invalidate();
+		 componente.getContenitorePadre().revalidate();
+		 componente.getContenitorePadre().repaint();
+
+	}
+
+	public boolean repaintCustomizzato(final Object[] parametri, IComponenteBase componente) {
+		if (!checkPreliminariForRepaint(parametri, componente)) {
 			return false;
 		}
-		final Object objForRepaint = parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
-		// JTREE
-		if (objForRepaint instanceof JTree) {
-			final TreeModel treeModel = (DefaultTreeModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
-			((JTree) objForRepaint).setModel(treeModel);
-			// JSCROLLPANE
-		} else if (objForRepaint instanceof JScrollPane) {
-			if (parametri[IComponenteBase.PARAM_REPAINT_OBJ_CONTENT] == null) {
-				return false;
-			}
-			final Component comp = (Component) parametri[IComponenteBase.PARAM_REPAINT_OBJ_CONTENT];
-			((JScrollPane) objForRepaint).setViewportView(comp);
-			// JCOMBOBOX
-		} else if (objForRepaint instanceof JComboBox) {
-			final DefaultComboBoxModel comboModel = (DefaultComboBoxModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
-			((JComboBox) objForRepaint).setModel(comboModel);
-			// JTABLE
-		} else if (objForRepaint instanceof JTable) {
-			final AbstractTableModel tableModel = (DefaultTableModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
-			((JTable) objForRepaint).setModel(tableModel);
-		}
-		((Component) objForRepaint).invalidate();
-		((Component) objForRepaint).validate();
-		((Component) objForRepaint).repaint();
-
 		return true;
 	}
 
-	private boolean checkPreliminariForRepaint(final Object[] parametri) {
+	private boolean checkPreliminariForRepaint(final Object[] parametri, IComponenteBase componente) {
 		if (parametri == null || parametri.length == 0) {
 			return false;
 		}
-		if (parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] == null) {
-			return false;
-		}
-		if (parametri.length > 1 && modelIsNull(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT], parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
+		if (parametri.length > 1 && modelIsNull(componente, parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
 			return false;
 		}
 		return true;

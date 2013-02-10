@@ -12,7 +12,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
@@ -142,7 +144,14 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		if(componenteBase.repaintCustomizzato(parametri,this)){
+			
+			final AbstractTableModel tableModel = (DefaultTableModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
+			setModel(tableModel);
+			componenteBase.ridisegna(this);
+			return true;
+		}
+		return false;
 	}
 
 	/**

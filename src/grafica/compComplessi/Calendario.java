@@ -79,7 +79,7 @@ public class Calendario extends PannelloBase {
 	}
 
 	private void addAscoltatore() {
-		AscoltatoreBase ascoltatore = new AscoltatoreCalendario(null, null);
+		AscoltatoreBase ascoltatore = new AscoltatoreCalendario(null, null, this);
 		comboGiorni.addActionListener(ascoltatore);
 		comboMesi.addActionListener(ascoltatore); 
 		comboAnni.addActionListener(ascoltatore); 
@@ -148,8 +148,8 @@ public class Calendario extends PannelloBase {
 
 	public class AscoltatoreCalendario extends AscoltatoreBase{
 
-		public AscoltatoreCalendario(final IAggiornatore aggiornatore,final Object[] parametri) {
-			super(aggiornatore, parametri);
+		public AscoltatoreCalendario(final IAggiornatore aggiornatore,final Object[] parametri, Calendario calendario) {
+			super(aggiornatore, parametri, calendario);
 		}
 
 		@Override

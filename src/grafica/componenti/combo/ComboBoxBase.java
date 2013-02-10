@@ -37,7 +37,14 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		 if(componenteBase.repaintCustomizzato(parametri, this)){
+			 @SuppressWarnings("unchecked")
+			final DefaultComboBoxModel<Object> comboModel = ((DefaultComboBoxModel<Object>) parametri[IComponenteBase.PARAM_REPAINT_MODEL]);
+			 setModel(comboModel);
+			 componenteBase.ridisegna(this);
+			 return true;
+		 }
+		return false;
 	}
 
 	@Override

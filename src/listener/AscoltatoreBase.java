@@ -15,26 +15,21 @@ public abstract class AscoltatoreBase implements ActionListener {
 
 	protected AggiornatoreBase aggiornatore;
 
-	public AscoltatoreBase(final String classe, final Object[] parametri) {
+	public AscoltatoreBase(final String classe, final Object[] parametri, IComponenteBase componenteBase) {
 		this.aggiornatore = (AggiornatoreBase) AggiornatoreManager.getSingleton().creaAggiornatoreByClasse(classe);
 		
-		if(parametri!=null && parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT]!=null){
-			if(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] instanceof IComponenteBase){
-				IComponenteBase componente = (IComponenteBase) parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
-				this.aggiornatore.setComp(componente);
-			}
+		if(parametri != null && componenteBase != null){
+			
+			this.aggiornatore.setComp(componenteBase);
 			this.aggiornatore.setParametri(parametri);
 		}
 	}
 
-	public AscoltatoreBase(final IAggiornatore aggiornatore, final Object[] parametri) {
+	public AscoltatoreBase(final IAggiornatore aggiornatore, final Object[] parametri, IComponenteBase componenteBase) {
 		this.aggiornatore = (AggiornatoreBase) aggiornatore;
 		
-		if(parametri!=null && parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT]!=null){
-			if(parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT] instanceof IComponenteBase){
-				IComponenteBase componente = (IComponenteBase) parametri[IComponenteBase.PARAM_REPAINT_OBJ_REPAINT];
-				this.aggiornatore.setComp(componente);
-			}
+		if(parametri != null && componenteBase != null){
+			this.aggiornatore.setComp(componenteBase);
 			this.aggiornatore.setParametri(parametri);
 		}
 	}

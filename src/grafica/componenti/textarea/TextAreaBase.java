@@ -56,7 +56,7 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 
 	/**

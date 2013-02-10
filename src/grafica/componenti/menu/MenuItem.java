@@ -35,7 +35,7 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 
 	@Override

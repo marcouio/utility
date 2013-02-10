@@ -61,7 +61,7 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 
 	@Override
