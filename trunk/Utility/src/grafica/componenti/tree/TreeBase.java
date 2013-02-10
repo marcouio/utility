@@ -298,7 +298,14 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		 boolean repaintCustomizzato = componenteBase.repaintCustomizzato(parametri, this);
+		 if (repaintCustomizzato) {
+			 final TreeModel treeModel = (TreeModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
+			 setModel(treeModel);
+			 componenteBase.ridisegna(this);
+			 return true;
+		}
+		return false;
 	}
 
 	/**

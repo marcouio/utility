@@ -59,7 +59,16 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		if(componenteBase.repaintCustomizzato(parametri,this)){
+			if (parametri[IComponenteBase.PARAM_REPAINT_OBJ_CONTENT] == null) {
+				return false;
+			}
+			final Component comp = (Component) parametri[IComponenteBase.PARAM_REPAINT_OBJ_CONTENT];
+			setViewportView(comp);
+			componenteBase.ridisegna(this);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

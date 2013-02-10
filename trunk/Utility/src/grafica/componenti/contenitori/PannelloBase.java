@@ -54,7 +54,7 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 
 	/**

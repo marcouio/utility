@@ -38,7 +38,7 @@ public class MenuBase extends JMenu implements IContainerBase, IComponenteBase {
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 
 	@Override

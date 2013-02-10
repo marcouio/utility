@@ -84,7 +84,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 
 	/**

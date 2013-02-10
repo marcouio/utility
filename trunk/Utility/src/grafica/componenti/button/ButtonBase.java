@@ -69,7 +69,7 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri,this);
 	}
 
 	@Override

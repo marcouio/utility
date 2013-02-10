@@ -7,7 +7,7 @@ public class AggiornatoreAll extends AggiornatoreBase {
 
 	public AggiornatoreAll() {
 		FrameBase frameGenerale = ControlloreBase.getApplicationframe();
-		setParametri(new Object[] { frameGenerale });
+		setParametri(null);
 		setComp(frameGenerale);
 	}
 

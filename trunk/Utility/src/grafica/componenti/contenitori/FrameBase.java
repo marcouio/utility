@@ -32,7 +32,7 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 
 	/**

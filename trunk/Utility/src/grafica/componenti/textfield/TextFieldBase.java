@@ -71,7 +71,7 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		return componenteBase.repaintCustomizzato(parametri);
+		return componenteBase.repaintCustomizzato(parametri, this);
 	}
 
 	@Override
