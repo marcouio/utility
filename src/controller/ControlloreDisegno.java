@@ -48,7 +48,8 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 			}
 		} else if (p.getOggettoSelezionato() instanceof Cerchio) {
 			final Cerchio cerchio = (Cerchio) p.getOggettoSelezionato();
-			if (cerchio.isOnCirconferenza()) {
+			
+			if(cerchio.getIsOnCirconferenza()){
 				cerchio.ridimensiona(puntatore);
 			} else if (cerchio.isInRegion(puntatore)) {
 				cerchio.moveTo(x, y);
@@ -100,6 +101,8 @@ public abstract class ControlloreDisegno extends ControlloreBase {
 			final FormaGeometrica forma = p.getOggettoSelezionato();
 			if (forma instanceof Poligono) {
 				((Poligono) forma).setMouseSuiLati(mouse);
+			}if(forma instanceof Cerchio){
+				((Cerchio) forma).setIsOnCirconferenza(mouse);
 			}
 			forma.settaDistanzaDaMouse(mouse);
 		}
