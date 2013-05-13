@@ -23,7 +23,16 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	boolean isCellEditable = false;
 	private Container contenitorePadre;
 	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
-	protected Color coloreBackground;
+	protected Color backgroundNotSel = Color.LIGHT_GRAY;
+	protected Color backgroundSel = Color.ORANGE;
+	protected Color foregroundNotSel = Color.WHITE;
+	protected Color foregroundSel = Color.RED;
+	
+	protected Color backgroundPrimaRiga = null;
+	protected Color backgroundPrimaColonna = null;
+	protected Color foregroundPrimaRiga = null;
+	protected Color foregroundPrimaColonna = null;
+	
 	private static final long serialVersionUID = 1L;
 
 	public TableBase(final Container contenitorePadre) {
@@ -89,21 +98,28 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 			public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
 				final Component rendered = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 				if (isSelected && hasFocus) {
-					rendered.setBackground(Color.WHITE);
-					rendered.setForeground(Color.RED);
+					rendered.setBackground(getBackgroundSel());
+					rendered.setForeground(getForegroundSel());
 				} else {
-					rendered.setBackground(Color.RED);
-					rendered.setForeground(Color.WHITE);
+					rendered.setBackground(getBackgroundNotSel());
+					rendered.setForeground(getForegroundNotSel());
 				}
-				if (column == 1) {
-					if (coloreBackground != null) {
-						rendered.setBackground(coloreBackground);
-						rendered.setForeground(Color.WHITE);
+				if (column == 0) {
+					if(getBackgroundPrimaColonna() != null){
+						rendered.setBackground(getBackgroundPrimaColonna());
 					}
-				} else if (column == 0 && row == 10) {
-					rendered.setBackground(coloreBackground);
-					rendered.setForeground(Color.GREEN);
+					if(getForegroundPrimaColonna() != null){
+						rendered.setForeground(getForegroundPrimaColonna());
+					}
 				}
+				if (row == 0) {
+					if(getBackgroundPrimaRiga() != null){
+						rendered.setBackground(getBackgroundPrimaRiga());
+					}
+					if(getForegroundPrimaRiga() != null){
+						rendered.setForeground(getForegroundPrimaRiga());
+					}
+				} 
 				return rendered;
 			}
 		};
@@ -236,12 +252,69 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	public int getAltezza() {
 		return (int) generaDimensioniMinime().getHeight();
 	}
-
-	public Color getColoreBackground() {
-		return coloreBackground;
+	
+	public Color getBackgroundNotSel() {
+		return backgroundNotSel;
 	}
 
-	public void setColoreBackground(final Color coloreBackground) {
-		this.coloreBackground = coloreBackground;
+	public void setBackgroundNotSel(Color backgroundNotSel) {
+		this.backgroundNotSel = backgroundNotSel;
 	}
+
+	public Color getBackgroundSel() {
+		return backgroundSel;
+	}
+
+	public void setBackgroundSel(Color backgroundSel) {
+		this.backgroundSel = backgroundSel;
+	}
+
+	public Color getForegroundNotSel() {
+		return foregroundNotSel;
+	}
+
+	public void setForegroundNotSel(Color foregroundNotSel) {
+		this.foregroundNotSel = foregroundNotSel;
+	}
+
+	public Color getForegroundSel() {
+		return foregroundSel;
+	}
+
+	public void setForegroundSel(Color foregroundSel) {
+		this.foregroundSel = foregroundSel;
+	}
+
+	public Color getBackgroundPrimaRiga() {
+		return backgroundPrimaRiga;
+	}
+
+	public void setBackgroundPrimaRiga(Color backgroundPrimaRiga) {
+		this.backgroundPrimaRiga = backgroundPrimaRiga;
+	}
+
+	public Color getBackgroundPrimaColonna() {
+		return backgroundPrimaColonna;
+	}
+
+	public void setBackgroundPrimaColonna(Color backgroundPrimaColonna) {
+		this.backgroundPrimaColonna = backgroundPrimaColonna;
+	}
+
+	public Color getForegroundPrimaRiga() {
+		return foregroundPrimaRiga;
+	}
+
+	public void setForegroundPrimaRiga(Color foregroundPrimaRiga) {
+		this.foregroundPrimaRiga = foregroundPrimaRiga;
+	}
+
+	public Color getForegroundPrimaColonna() {
+		return foregroundPrimaColonna;
+	}
+
+	public void setForegroundPrimaColonna(Color foregroundPrimaColonna) {
+		this.foregroundPrimaColonna = foregroundPrimaColonna;
+	}
+
 }
