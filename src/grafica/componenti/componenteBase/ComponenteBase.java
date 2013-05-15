@@ -218,14 +218,14 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		if (style != null) {
 			this.style = style;
 		}
-		style.setPadre(padre);
+		this.style.setPadre(padre);
 		final Component padreComponent = ((Component) padre);
-		padreComponent.setFont(style.getFont());
-		padreComponent.setForeground(style.getForeground());
-		padreComponent.setBackground(style.getBackground());
-		padreComponent.setSize(style.getWidth(), style.getHeight());
+		padreComponent.setFont(this.style.getFont());
+		padreComponent.setForeground(this.style.getForeground());
+		padreComponent.setBackground(this.style.getBackground());
+		padreComponent.setSize(this.style.getWidth(), this.style.getHeight());
 		if (CoreXMLManager.getSingleton().isAutoConfig()) {
-			if (ihaveToSetDimension(style, padreComponent)) {
+			if (ihaveToSetDimension(this.style, padreComponent)) {
 				final int width = ((IComponenteBase) padreComponent).getLarghezza();
 				final int height = ((IComponenteBase) padreComponent).getAltezza();
 				padreComponent.setSize(width, height);
