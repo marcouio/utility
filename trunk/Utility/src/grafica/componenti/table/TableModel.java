@@ -9,8 +9,8 @@ public abstract class TableModel extends AbstractTableModel{
 
 	private static final long serialVersionUID = 1L;
 	private Object[][] matrice;
-	protected Riga nomiColonne;
-	protected ArrayList<Riga> righe;
+	private Riga nomiColonne;
+	private ArrayList<Riga> righe;
 
 	public Riga getNomiColonne() {
 		return nomiColonne;
@@ -25,6 +25,11 @@ public abstract class TableModel extends AbstractTableModel{
 		return nomiColonne.getValore(column);
 	}
 
+	public void setNomiColonne(Riga riga){
+		checkColonne();
+		nomiColonne = riga;
+	}
+	
 	public void addColumn(final String column){
 		checkColonne();
 		nomiColonne.add(column);
