@@ -16,21 +16,25 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 
 	public ScrollPaneBase(final Container contenitore) {
 		super();
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ScrollPaneBase(final Component view, final int vsbPolicy, final int hsbPolicy, final Container contenitore) {
 		super(view, vsbPolicy, hsbPolicy);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ScrollPaneBase(final Component view, final Container contenitore) {
 		super(view);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ScrollPaneBase(final int vsbPolicy, final int hsbPolicy, final Container contenitore) {
 		super(vsbPolicy, hsbPolicy);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
@@ -174,6 +178,12 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	@Override
 	public int getAltezza() {
 		return getMaxDimensionY();
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -108,5 +108,7 @@ public interface IComponenteBase {
 	public int getAltezza();
 
 	public Container getContenitorePadre();
+	
+	public void makeGUI(final Container contenitorePadre);
 
 }

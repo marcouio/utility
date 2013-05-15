@@ -20,6 +20,7 @@ public class MenuBase extends JMenu implements IContainerBase, IComponenteBase {
 
 	public MenuBase(final String label, final Container contenitorePadre) {
 		super(label);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
@@ -148,5 +149,11 @@ public class MenuBase extends JMenu implements IContainerBase, IComponenteBase {
 	@Override
 	public int getMaxDimensionY() {
 		return containerBase.getMaxDimensionY(this);
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 }

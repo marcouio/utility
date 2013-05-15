@@ -17,6 +17,7 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 
 	public MenuItem(final String label, final Container contenitorePadre) {
 		super(label);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
@@ -130,5 +131,11 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 	public int getAltezza() {
 		final int altezzaTesto = componenteBase.getAltezzaSingleStringa(getGraphics(), this);
 		return altezzaTesto;
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 }

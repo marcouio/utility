@@ -21,31 +21,37 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 
 	public LabelBase(final Icon image, final int horizontalAlignment, final Container contenitorePadre) {
 		super(image, horizontalAlignment);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public LabelBase(final Icon image, final Container contenitorePadre) {
 		super(image);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public LabelBase(final String text, final Icon icon, final int horizontalAlignment, final Container contenitorePadre) {
 		super(text, icon, horizontalAlignment);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public LabelBase(final String text, final int horizontalAlignment, final Container contenitorePadre) {
 		super(text, horizontalAlignment);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public LabelBase(final Container contenitorePadre) {
 		super();
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public LabelBase(final String string, final Container contenitorePadre) {
 		super(string);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
@@ -175,4 +181,11 @@ public class LabelBase extends JLabel implements IComponenteBase, IContainerBase
 	public int getMaxDimensionY() {
 		return containerBase.getMaxDimensionY(this);
 	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

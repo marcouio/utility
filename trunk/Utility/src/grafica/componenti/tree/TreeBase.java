@@ -46,36 +46,43 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	public TreeBase(final Container contenitorePadre) {
 		super();
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final Object[] userObjects, final Container contenitorePadre) {
 		super(userObjects);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final TreeModel model, final Container contenitorePadre) {
 		super(model);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final TreeNode treeNode, final Container contenitorePadre) {
 		super(treeNode);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final Hashtable<String, ITreeObject> mappaObjects, final Container contenitorePadre) {
 		super(mappaObjects);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final Vector<ITreeObject> userObjects, final Container contenitorePadre) {
 		super(userObjects);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TreeBase(final TreeNode treeNode, final boolean arg, final Container contenitorePadre) {
 		super(treeNode, arg);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
@@ -394,6 +401,12 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	@Override
 	public int getAltezza() {
 		return componenteBase.getAltezza();
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -20,6 +20,7 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
 	public MenuBarBase(final Container contenitorePadre) {
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
@@ -157,5 +158,11 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
 		return componenteBase.repaintCustomizzato(parametri, this);
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 }

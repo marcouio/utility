@@ -21,6 +21,7 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 
 	public FrameBase() {
 		this.getContentPane().setLayout(null);
+		makeGUI(null);
 		init(null, FrameBase.this);
 	}
 
@@ -142,5 +143,11 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 	public Container getContenitorePadre() {
 		// il frame base non ha padre
 		return null;
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 }

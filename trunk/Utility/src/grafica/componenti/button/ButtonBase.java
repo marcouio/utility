@@ -29,26 +29,31 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 
 	public ButtonBase(final Container contenitore) {
 		super();
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ButtonBase(final Action a, final Container contenitore) {
 		super(a);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ButtonBase(final Icon icon, final Container contenitore) {
 		super(icon);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ButtonBase(final String text, final Icon icon, final Container contenitore) {
 		super(text, icon);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ButtonBase(final String text, final Container contenitore) {
 		super(text);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
@@ -199,6 +204,12 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 
 	public void setContenitorePadre(final Container contenitorePadre) {
 		this.contenitorePadre = contenitorePadre;
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
