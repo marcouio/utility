@@ -31,16 +31,19 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	public TextFieldBase(final String testo, final IFormatterTF formatter, final Container contenitore) {
 		super(testo);
 		this.formatter = formatter;
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public TextFieldBase(final String testo, final Container contenitore) {
 		super(testo);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public TextFieldBase(final Container contenitore) {
 		super();
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
@@ -174,5 +177,11 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	@Override
 	public int getAltezza() {
 		return componenteBase.getAltezzaSingleStringa(getGraphics(), this);
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 }

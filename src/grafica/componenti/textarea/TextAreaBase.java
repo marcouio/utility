@@ -19,26 +19,31 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 
 	public TextAreaBase(final Container contenitore) {
 		super();
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public TextAreaBase(final Document doc, final String text, final int rows, final int columns, final Container contenitore) {
 		super(doc, text, rows, columns);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public TextAreaBase(final Document doc, final Container contenitore) {
 		super(doc);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public TextAreaBase(final int rows, final int columns, final Container contenitore) {
 		super(rows, columns);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public TextAreaBase(final String text, final int rows, final int columns, final Container contenitore) {
 		super(text, rows, columns);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
@@ -167,6 +172,12 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	public int getAltezza() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -19,6 +19,7 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 	public ComboBoxBase(final Container contenitorePadre, final Object[] lista) {
 		final DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<Object>(lista);
 		this.setModel(modelGiorni);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
@@ -27,6 +28,7 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.setStile(null);
+		makeGUI(contenitorePadre2);
 		setSize(getLarghezza(), getAltezza());
 	}
 
@@ -99,6 +101,12 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 
 	public void setContenitorePadre(final Container contenitorePadre) {
 		this.contenitorePadre = contenitorePadre;
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -17,31 +17,37 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 
 	public ToggleBtnBase(final ImageIcon icon, final Container contenitore) {
 		super(icon);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ToggleBtnBase(final String text, final ImageIcon icon, final Container contenitore, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
 		super(text, icon, xDistanzaBordoImmagine, xPartenzaTesto);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ToggleBtnBase(final String text, final ImageIcon icon, final JPanel padre, final Container contenitore) {
 		super(text, icon, padre);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ToggleBtnBase(final String text, final ImageIcon icon, final JPanel padre, final Container contenitore, final int xDistanzaBordoImmagine, final int xPartenzaTesto) {
 		super(text, icon, padre, xDistanzaBordoImmagine, xPartenzaTesto);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ToggleBtnBase(final String text, final ImageIcon icon, final Container contenitore) {
 		super(text, icon);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public ToggleBtnBase(final String text, final Container contenitore) {
 		super(text);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
@@ -187,6 +193,12 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 
 	public void setContenitorePadre(final Container contenitorePadre) {
 		this.contenitorePadre = contenitorePadre;
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

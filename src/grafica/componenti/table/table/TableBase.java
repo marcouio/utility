@@ -37,21 +37,25 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	public TableBase(final Container contenitorePadre) {
 		super();
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TableBase(final TableModel dm, final Container contenitorePadre) {
 		super(dm);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TableBase(final int numRows, final int numColumns, final Container contenitorePadre) {
 		super(numRows, numColumns);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
 	public TableBase(final String[][] movimenti, final String[] nomiColonne, final Container contenitorePadre) {
 		super(movimenti, nomiColonne);
+		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 
@@ -315,6 +319,12 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	public void setForegroundPrimaColonna(Color foregroundPrimaColonna) {
 		this.foregroundPrimaColonna = foregroundPrimaColonna;
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

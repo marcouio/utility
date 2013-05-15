@@ -26,21 +26,25 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 
 	public PannelloBase(final Container contenitore) {
 		super();
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public PannelloBase(final boolean isDoubleBuffered, final Container contenitore) throws ExceptionGraphics {
 		super(isDoubleBuffered);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public PannelloBase(final LayoutManager layout, final boolean isDoubleBuffered, final Container contenitore) throws ExceptionGraphics {
 		super(layout, isDoubleBuffered);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
 	public PannelloBase(final LayoutManager layout, final Container contenitore) throws ExceptionGraphics {
 		super(layout);
+		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
@@ -190,5 +194,11 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	@Override
 	public int getAltezza() {
 		return getMaxDimensionY();
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 }

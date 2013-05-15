@@ -267,4 +267,10 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return null;
 
 	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -31,12 +31,14 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	public DialogoBase(final JFrame frame) {
 		super(frame);
 		padre = frame;
+		makeGUI(frame);
 		init(null, this);
 	}
 
 	public DialogoBase(final Dialog owner) {
 		super(owner);
 		padre = owner;
+		makeGUI(owner);
 		init(null, this);
 	}
 
@@ -191,6 +193,12 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	public Container getContenitorePadre() {
 		// uk dialog non richiede un contenitore
 		return null;
+	}
+
+	@Override
+	public void makeGUI(Container contenitorePadre) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
