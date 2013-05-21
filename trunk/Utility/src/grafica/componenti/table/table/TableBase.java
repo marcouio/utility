@@ -66,7 +66,6 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		this.addFocusListener(this);
 		this.setStile(new StyleBase("StyleBaseTable2d"));
 		setSize(this.generaDimensioniMinime());
-		System.out.println("altezza: " + this.getHeight() + ". larghezza: " + this.getWidth());
 	}
 
 	public Dimension generaDimensioniMinime() {
