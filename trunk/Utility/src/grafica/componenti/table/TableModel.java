@@ -75,10 +75,19 @@ public abstract class TableModel extends AbstractTableModel{
 		matrice = new String[getRighe().size() + 1][lunghezza];
 
 		for (int x = 0; x < lunghezza; x++) {
+			try {
+				matrice[0][x] = getNomiColonne().getValore(x);
+
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		for (int x = 0; x < lunghezza; x++) {
 			for (int i = 0; i < getRighe().size() ; i++) {
 				try {
 					final Riga riga = getRighe().get(i);
-					matrice[i][x] = riga.getValore(x);
+					matrice[i+1][x] = riga.getValore(x);
 
 				} catch (final Exception e) {
 					e.printStackTrace();
