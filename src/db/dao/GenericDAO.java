@@ -18,10 +18,10 @@ import command.javabeancommand.AbstractOggettoEntita;
 
 import db.Clausola;
 import db.ConnectionPool;
-import db.ObjDeleteBase;
-import db.ObjInsertBase;
-import db.ObjSelectBase;
-import db.ObjUpdateBase;
+import db.DeleteBase;
+import db.InsertBase;
+import db.SelectBase;
+import db.UpdateBase;
 import db.Query;
 
 public class GenericDAO implements IDAO {
@@ -39,7 +39,7 @@ public class GenericDAO implements IDAO {
 	@Override
 	public Object selectById(final int id) throws Exception {
 		try {
-			ObjSelectBase selectObj = new ObjSelectBase();
+			SelectBase selectObj = new SelectBase();
 			selectObj.putTabelle(null, getNomeTabella());
 			String nomeCampoId = getNomeCampoId();
 			Clausola clausolaId = new Clausola(null, nomeCampoId, "=", Integer.toString(id));
@@ -281,7 +281,7 @@ public class GenericDAO implements IDAO {
 
 	@Override
 	public Object selectAll() throws Exception {
-		ObjSelectBase selectObj = new ObjSelectBase();
+		SelectBase selectObj = new SelectBase();
 		selectObj.putTabelle(getNomeTabella(), getNomeTabella());
 		Query query = new Query();
 		ResultSet rs = query.select(selectObj);
@@ -291,7 +291,7 @@ public class GenericDAO implements IDAO {
 	@Override
 	public boolean insert(Object oggettoEntita) throws Exception {
 		if(oggettoEntita != null){
-			ObjInsertBase insertBase = new ObjInsertBase();
+			InsertBase insertBase = new InsertBase();
 			insertBase.setTabella(getNomeTabella());
 			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
 			while (iterColumn.hasNext()) {
@@ -335,7 +335,7 @@ public class GenericDAO implements IDAO {
 		return valido;
 	}
 
-	protected void inserisciCampiValue(String colonna, Object getterCampo,Class<?> parameterTypes, ObjInsertBase insertBase) {
+	protected void inserisciCampiValue(String colonna, Object getterCampo,Class<?> parameterTypes, InsertBase insertBase) {
 		String valore = null;
 		//TODO gestire i campi date
 		if(getterCampo instanceof AbstractOggettoEntita){
@@ -350,7 +350,7 @@ public class GenericDAO implements IDAO {
 
 	@Override
 	public boolean delete(int id) throws Exception {
-		final ObjDeleteBase deleteBase = new ObjDeleteBase();
+		final DeleteBase deleteBase = new DeleteBase();
 		final String nomeCampoId = getNomeCampoId();
 		deleteBase.setTabella(getNomeTabella());
 		deleteBase.putClausole(null, nomeCampoId, "=", Integer.toString(id));
@@ -361,7 +361,7 @@ public class GenericDAO implements IDAO {
 	@Override
 	public boolean update(Object oggettoEntita) throws Exception {
 		if(oggettoEntita != null){
-			final ObjUpdateBase updateBase = new ObjUpdateBase();
+			final UpdateBase updateBase = new UpdateBase();
 			updateBase.setTabella(getNomeTabella());
 			final String campoId = getNomeCampoId();
 			String idEntita = ((AbstractOggettoEntita)oggettoEntita).getIdEntita();
@@ -382,7 +382,7 @@ public class GenericDAO implements IDAO {
 		return false;
 	}
 	
-	protected void inserisciCampiUpdate(String colonna, Object getterCampo, Class<?> parameterTypes, ObjUpdateBase updateBase) {
+	protected void inserisciCampiUpdate(String colonna, Object getterCampo, Class<?> parameterTypes, UpdateBase updateBase) {
 		String valore = null;
 		//TODO gestire i campi date
 		if(getterCampo instanceof AbstractOggettoEntita){
@@ -397,7 +397,7 @@ public class GenericDAO implements IDAO {
 
 	@Override
 	public boolean deleteAll() throws Exception {
-		final ObjDeleteBase deleteBase = new ObjDeleteBase();
+		final DeleteBase deleteBase = new DeleteBase();
 		deleteBase.setTabella(getNomeTabella());
 		return new Query().delete(deleteBase);
 	}
@@ -409,7 +409,7 @@ public class GenericDAO implements IDAO {
 
 	@Override
 	public Iterator<Object> selectWhere(ArrayList<Clausola> clausole, String appendToQuery) throws Exception {
-		ObjSelectBase selectObj = new ObjSelectBase();
+		SelectBase selectObj = new SelectBase();
 		selectObj.putTabelle(getNomeTabella(), getNomeTabella());
 		selectObj.setClausole(clausole);
 		selectObj.setAppendToQuery(appendToQuery);

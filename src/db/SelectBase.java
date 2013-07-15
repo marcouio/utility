@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 
-public class ObjSelectBase extends ObjConClausole{
+public class SelectBase extends ObjConClausole{
 
 	private HashMap<String, String> tabelle = new HashMap<String, String>();
 	private ArrayList<Join> joins = new ArrayList<Join>();
 	private HashMap<String, String> campiSelect = new HashMap<String, String>();
 	private String appendToQuery = null;
 	
-	public ObjSelectBase() {
+	public SelectBase() {
 		super();
 	}
 	
@@ -178,7 +178,7 @@ public class ObjSelectBase extends ObjConClausole{
 
 	public static void main(String[] args) throws Exception {
 		
-		ObjSelectBase objSelectBase = new ObjSelectBase();
+		SelectBase objSelectBase = new SelectBase();
 		objSelectBase.putTabelle("en", "ENTRATE");
 		objSelectBase.putTabelle("us", "USCITE");
 		

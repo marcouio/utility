@@ -2,11 +2,11 @@ package db;
 
 import java.util.ArrayList;
 
-public class ObjDeleteBase extends ObjConClausole{
+public class DeleteBase extends ObjConClausole{
 
 	private String tabella;
 
-	public ObjDeleteBase() {
+	public DeleteBase() {
 		super();
 	}
 

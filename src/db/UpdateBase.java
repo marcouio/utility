@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class ObjUpdateBase extends ObjConClausole {
+public class UpdateBase extends ObjConClausole {
 
 	private String tabella;
 	private HashMap<String, String> campiUpdate = new HashMap<String, String>();
-	public ObjUpdateBase() {
+	public UpdateBase() {
 		super();
 	}
 	
