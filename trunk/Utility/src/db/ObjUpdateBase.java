@@ -1,5 +1,6 @@
 package db;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -11,11 +12,11 @@ public class ObjUpdateBase extends ObjConClausole {
 		super();
 	}
 	
-	public boolean update() throws Exception{
-		return update(tabella, campiUpdate, clausole);
+	public String getUpdateQuery() throws Exception{
+		return getUpdateQuery(tabella, campiUpdate, clausole);
 	}
 
-	public boolean update(final String tabella, final HashMap<String, String> campi, final HashMap<String, String> clausole) throws Exception{
+	public String getUpdateQuery(final String tabella, final HashMap<String, String> campi, ArrayList<Clausola> clausole) throws Exception{
 		this.tabella = tabella;
 		this.campiUpdate = campi;
 		this.clausole = clausole;
@@ -24,10 +25,7 @@ public class ObjUpdateBase extends ObjConClausole {
 		settaCampi();
 		settaClausole();
 
-		if (aggiornaSqlFromString(sbSQL.toString())) {
-			return true;
-		}
-		return false;
+		return sbSQL.toString();
 	}
 
 	protected void settaCampi() {
@@ -38,10 +36,10 @@ public class ObjUpdateBase extends ObjConClausole {
 			try {
 				if(campiUpdate.get(prossimo) == null){
 					sbSQL.append("null");
-				}else if (((String) campiUpdate.get(prossimo)).contains(".")) {
-					sbSQL.append(Double.parseDouble((String) campiUpdate.get(prossimo)));
+				}else if (campiUpdate.get(prossimo).contains(".")) {
+					sbSQL.append(Double.parseDouble(campiUpdate.get(prossimo)));
 				} else {
-					sbSQL.append(Integer.parseInt((String) campiUpdate.get(prossimo)));
+					sbSQL.append(Integer.parseInt(campiUpdate.get(prossimo)));
 				}
 			} catch (final NumberFormatException e) {
 				sbSQL.append("'" + campiUpdate.get(prossimo) + "'");
@@ -56,10 +54,6 @@ public class ObjUpdateBase extends ObjConClausole {
 		sbSQL.append(UPDATE).append(" " + tabella).append(" SET ");
 	}
 
-	public boolean update(final String comandoSql) throws Exception{
-		return aggiornaSqlFromString(comandoSql);
-	}
-	
 	public HashMap<String, String> getCampiUpdate() {
 		return campiUpdate;
 	}

@@ -1,11 +1,11 @@
 package db;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ObjConClausole extends OggettoSQL{
 
-	HashMap<String, String> clausole = new HashMap<String, String>();
+	ArrayList<Clausola> clausole = new ArrayList<Clausola>();
 	
 	public ObjConClausole() {
 		super();
@@ -14,16 +14,16 @@ public class ObjConClausole extends OggettoSQL{
 	protected void settaClausole() {
 		if (!clausole.isEmpty()) {
 			sbSQL.append(" WHERE 1=1");
-			final Iterator<String> where = clausole.keySet().iterator();
+			final Iterator<Clausola> where = clausole.iterator();
 			while (where.hasNext()) {
 				
 				sbSQL.append(" AND ");
 
-				final String prossimo = where.next();
+				final Clausola prossimo = (Clausola) where.next();
 				
-				sbSQL.append(prossimo).append(" = ");
+				sbSQL.append(prossimo);
 
-				inserisciValore(prossimo, clausole);
+//				inserisciValore(prossimo);
 			}
 			
 			if (where.hasNext()) {
@@ -32,20 +32,24 @@ public class ObjConClausole extends OggettoSQL{
 		}
 	}
 	
-	protected void settaClausole(final HashMap<String, String> clausole) {
+	protected void settaClausole(final ArrayList<Clausola> clausole) {
 		this.clausole = clausole;
 		settaClausole();
 	}
+	public void putClausole(Clausola clausola){
+		clausole.add(clausola);
+	}
 	
-	public void putClausole(final String where, final String valore){
-		clausole.put(where, valore);
+	public void putClausole(final String alias, String campo, String operatore, final String valore){
+		Clausola clausola = new Clausola(alias, campo, operatore, valore);
+		clausole.add(clausola);
 	}
 
-	public HashMap<String, String> getClausole() {
+	public ArrayList<Clausola> getClausole() {
 		return clausole;
 	}
 
-	public void setClausole(final HashMap<String, String> clausole) {
+	public void setClausole(final ArrayList<Clausola> clausole) {
 		this.clausole = clausole;
 	}
 	

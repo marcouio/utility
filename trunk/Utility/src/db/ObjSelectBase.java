@@ -1,6 +1,5 @@
 package db;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,9 +7,8 @@ import java.util.Iterator;
 
 public class ObjSelectBase extends ObjConClausole{
 
-	public static final String NO_ALIAS = "NO_ALIAS";
 	private HashMap<String, String> tabelle = new HashMap<String, String>();
-	private ArrayList<OggettoJoin> joins = new ArrayList<ObjSelectBase.OggettoJoin>();
+	private ArrayList<Join> joins = new ArrayList<Join>();
 	private HashMap<String, String> campiSelect = new HashMap<String, String>();
 	private String appendToQuery = null;
 	
@@ -27,10 +25,10 @@ public class ObjSelectBase extends ObjConClausole{
 	 * @return
 	 * @throws Exception
 	 */
-	public ResultSet select(final String tabella, final HashMap<String, String> clausole) throws Exception{
+	public String getQuery(final String tabella, final ArrayList<Clausola> clausole) throws Exception{
 		HashMap<String, String> mapTable = new HashMap<String, String>();
-		mapTable.put(NO_ALIAS, tabella);
-		return select(mapTable, null, clausole, null);
+		mapTable.put(tabella, tabella);
+		return getQuery(mapTable, null, clausole, null);
 	}
 	
 	/**
@@ -39,8 +37,8 @@ public class ObjSelectBase extends ObjConClausole{
 	 * @return
 	 * @throws Exception
 	 */
-	public ResultSet select() throws Exception{
-		return select(tabelle, campiSelect, clausole, joins);
+	public String getQuery() {
+		return getQuery(tabelle, campiSelect, clausole, joins);
 	}
 	
 	/**
@@ -52,12 +50,12 @@ public class ObjSelectBase extends ObjConClausole{
 	 * @return
 	 * @throws Exception
 	 */
-	public ResultSet select(final HashMap<String, String> tabelle, 
+	public String getQuery(final HashMap<String, String> tabelle, 
 							final HashMap<String, String> campi, 
-							final HashMap<String, String> clausole, 
-							final ArrayList<OggettoJoin> joins) throws Exception{
+							final ArrayList<Clausola> clausole, 
+							final ArrayList<Join> joins) {
 		
-		setTabelle(tabelle);
+		settaTable(tabelle);
 		setCampiSelect(campi);
 		setJoins(joins);
 		
@@ -68,14 +66,14 @@ public class ObjSelectBase extends ObjConClausole{
 		settaClausole(clausole);
 		settaJoins();
 		appendToQuery();
-		return resultSetfromIstruzione(sbSQL.toString());
+		return sbSQL.toString();
 	}
 	
 	private void settaJoins() {
 		if(joins != null){
-			final Iterator<OggettoJoin> iterJoins = joins.iterator();
+			final Iterator<Join> iterJoins = joins.iterator();
 			while (iterJoins.hasNext()) {
-				ObjSelectBase.OggettoJoin oggettoJoin = (ObjSelectBase.OggettoJoin) iterJoins.next();
+				Join oggettoJoin = (Join) iterJoins.next();
 				sbSQL.append(AND);
 				sbSQL.append(oggettoJoin.toString());
 			}
@@ -92,7 +90,7 @@ public class ObjSelectBase extends ObjConClausole{
 		final Iterator<String> iterAliasTabelle = tabelle.keySet().iterator();
 		while (iterAliasTabelle.hasNext()) {
 			final String aliasTabelle = (String) iterAliasTabelle.next();
-			if(aliasTabelle.startsWith(NO_ALIAS)){
+			if(aliasTabelle.equals(tabelle.get(aliasTabelle))){
 				sbSQL.append(tabelle.get(aliasTabelle));
 			}else{
 				sbSQL.append(tabelle.get(aliasTabelle) + " " + aliasTabelle);
@@ -111,10 +109,10 @@ public class ObjSelectBase extends ObjConClausole{
 			
 			while (iterCampi.hasNext()) {
 				String alias = (String) iterCampi.next();
-				if(alias.startsWith(NO_ALIAS)){
+				if(alias.equals(campiSelect.get(alias))){
 					sbSQL.append(campiSelect.get(alias));
 				}else{
-					String campoConAlias = getCampoAlias(campiSelect.get(alias), alias);	
+					String campoConAlias = getCampoAlias((String) campiSelect.get(alias), alias);	
 					sbSQL.append(campoConAlias);
 				}
 				if(iterCampi.hasNext()){
@@ -133,27 +131,6 @@ public class ObjSelectBase extends ObjConClausole{
 		sbSQL.append(SELECT).append(" ");
 	}
 
-	public class OggettoJoin {
-		private String alias1;
-		private String campo1;
-		private String alias2;
-		private String campo2;
-		
-		public OggettoJoin(final String alias1, final String campo1, final String alias2, final String campo2) {
-			this.alias1 = alias1;
-			this.alias2 = alias2;
-			this.campo1 = campo1;
-			this.campo2 = campo2;
-		}
-		
-		@Override
-		public String toString() {
-			final String campoAlias1 = getCampoAlias(campo1, alias1);
-			final String campoAlias2 = getCampoAlias(campo2, alias2);
-			return campoAlias1 + " = " + campoAlias2;
-		}
-	}
-	
 	protected void settaTable(final HashMap<String, String> table) {
 		this.tabelle = table;
 		settaTabelle();
@@ -167,15 +144,15 @@ public class ObjSelectBase extends ObjConClausole{
 		return tabelle;
 	}
 	
-	public void putJoin(OggettoJoin join){
+	public void putJoin(Join join){
 		joins.add(join);
 	}
 	
-	public ArrayList<OggettoJoin> getJoins() {
+	public ArrayList<Join> getJoins() {
 		return joins;
 	}
 
-	public void setJoins(ArrayList<OggettoJoin> joins) {
+	public void setJoins(ArrayList<Join> joins) {
 		this.joins = joins;
 	}
 
@@ -189,10 +166,6 @@ public class ObjSelectBase extends ObjConClausole{
 	
 	public void putCampiSelect(String alias, String campo){
 		campiSelect.put(alias, campo);
-	}
-
-	public void setTabelle(HashMap<String, String> tabelle) {
-		this.tabelle = tabelle;
 	}
 
 	public String getAppendToQuery() {
@@ -210,10 +183,11 @@ public class ObjSelectBase extends ObjConClausole{
 		objSelectBase.putTabelle("us", "USCITE");
 		
 		objSelectBase.putCampiSelect("en", "nome");
-		objSelectBase.putClausole("en.nome", "marco");
-		OggettoJoin join = objSelectBase.new OggettoJoin("en", "id", "us", "id");
+		//objSelectBase.putClausole("en.nome", "marco");
+		Join join = new Join("en", "id", "us", "id");
 		objSelectBase.putJoin(join);
-		objSelectBase.select();
+		
+		System.out.println(objSelectBase.getQuery());
 	}
 	
 }

@@ -9,7 +9,8 @@ public class ObjAlterBase extends OggettoSQL {
 	}
 
 	public boolean alterTable(final String comandoSql) throws Exception {
-		return aggiornaSqlFromString(comandoSql);
+		return false;
+//		return aggiornaSqlFromString(comandoSql);
 	}
 
 	public boolean alterTable(final String tabella, final HashMap<String, Object> bo) throws Exception {
