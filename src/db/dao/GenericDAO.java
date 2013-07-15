@@ -16,11 +16,13 @@ import sun.reflect.annotation.AnnotationType;
 
 import command.javabeancommand.AbstractOggettoEntita;
 
+import db.Clausola;
 import db.ConnectionPool;
 import db.ObjDeleteBase;
 import db.ObjInsertBase;
 import db.ObjSelectBase;
 import db.ObjUpdateBase;
+import db.Query;
 
 public class GenericDAO implements IDAO {
 
@@ -38,10 +40,12 @@ public class GenericDAO implements IDAO {
 	public Object selectById(final int id) throws Exception {
 		try {
 			ObjSelectBase selectObj = new ObjSelectBase();
-			selectObj.putTabelle(ObjSelectBase.NO_ALIAS, getNomeTabella());
+			selectObj.putTabelle(null, getNomeTabella());
 			String nomeCampoId = getNomeCampoId();
-			selectObj.putClausole(nomeCampoId, Integer.toString(id));
-			final ArrayList<Object> entities = costruisciEntitaFromRs(selectObj.select());
+			Clausola clausolaId = new Clausola(null, nomeCampoId, "=", Integer.toString(id));
+			selectObj.putClausole(clausolaId);
+			Query query = new Query();
+			final ArrayList<Object> entities = costruisciEntitaFromRs(query.select(selectObj));
 			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 			if (entities != null && entities.size() > 0) {
 				return entities.get(0);
@@ -85,13 +89,13 @@ public class GenericDAO implements IDAO {
 		return listaReturn;
 	}
 
-	private void setValue(Method method, Object colonnaValue,Class<?> parameterTypes, AbstractOggettoEntita ent) throws Exception {
+	protected void setValue(Method method, Object colonnaValue,Class<?> parameterTypes, AbstractOggettoEntita ent) throws Exception {
 		GenericDAO dao = UtilityDAO.getDaoByTipo(parameterTypes);
 		final Object selectById = dao.selectById(Integer.parseInt(colonnaValue.toString()));
 		method.invoke(ent, selectById);
 	}
 
-	private void setValue(Method method, String colonnaValue, Class<?> parameterTypes, AbstractOggettoEntita ent) throws Exception {
+	protected void setValue(Method method, String colonnaValue, Class<?> parameterTypes, AbstractOggettoEntita ent) throws Exception {
 		if (int.class.equals(parameterTypes)) {
 			method.invoke(ent, Integer.parseInt(colonnaValue));
 		} else if (double.class.equals(parameterTypes)) {
@@ -101,13 +105,14 @@ public class GenericDAO implements IDAO {
 		}
 	}
 
-	private String costruisciNomeSet(String name) {
+	protected String costruisciNomeSet(String name) {
 		final String upper = name.substring(0, 1).toUpperCase();
 		final String restante = name.substring(1);
 		String nome = "set" + upper + restante;
 		return nome;
 	}
-	private String costruisciNomeGet(String name) {
+	
+	protected String costruisciNomeGet(String name) {
 		final String upper = name.substring(0, 1).toUpperCase();
 		final String restante = name.substring(1);
 		String nome = "get" + upper + restante;
@@ -116,7 +121,7 @@ public class GenericDAO implements IDAO {
 	
 	
 
-	private void caricaMaps() {
+	protected void caricaMaps() {
 		mappaColumnCampi = new HashMap<String, Field>();
 		mappaColumnJoin = new HashMap<String, Field>();
 		Field[] fields = getEntita().getClass().getDeclaredFields();
@@ -154,21 +159,21 @@ public class GenericDAO implements IDAO {
 		}
 	}
 	
-	public String getNomeTabella() {
+	protected String getNomeTabella() {
 		if(nomeTabella == null){
 			cercaNomeTabella();
 		}
 		return nomeTabella;
 	}
 
-	public HashMap<String, Field> getMappaColumnJoin() {
+	protected HashMap<String, Field> getMappaColumnJoin() {
 		if (mappaColumnJoin == null) {
 			caricaMaps();
 		}
 		return mappaColumnJoin;
 	}
 
-	public HashMap<String, Field> getMappaColumnCampi() {
+	protected HashMap<String, Field> getMappaColumnCampi() {
 		if (mappaColumnCampi == null) {
 			caricaMaps();
 		}
@@ -210,7 +215,7 @@ public class GenericDAO implements IDAO {
 		return nomeCampoId;
 	}
 	
-	private void cercaNomeTabella() {
+	protected void cercaNomeTabella() {
 		
 		Annotation[] annotations = getEntita().getClass().getAnnotations();
 		
@@ -230,7 +235,7 @@ public class GenericDAO implements IDAO {
 		}
 	}
 	
-	private Object getOggettoByAnnotation(Annotation annotation, String tipo){
+	protected Object getOggettoByAnnotation(Annotation annotation, String tipo){
 		Object oggetto = null;
 		final Class<? extends Annotation> annotationType = annotation.annotationType();
 		final AnnotationType instance = AnnotationType.getInstance(annotationType);
@@ -245,11 +250,11 @@ public class GenericDAO implements IDAO {
 		return oggetto;
 	}
 	
-	private String getNomeTabella(Annotation annotation) {
+	protected String getNomeTabella(Annotation annotation) {
 		return (String) getOggettoByAnnotation(annotation, "name");
 	}
 
-	private String getNomeColonnaByJoinColumnsAnnotation(Annotation annotation) {
+	protected String getNomeColonnaByJoinColumnsAnnotation(Annotation annotation) {
 		String nameColonna = null;
 		try{
 			Annotation[] joinColumn = (Annotation[]) getOggettoByAnnotation(annotation, "value");
@@ -270,16 +275,16 @@ public class GenericDAO implements IDAO {
 		return (String) getOggettoByAnnotation(annotation, "columnDefinition");
 	}
 	
-	private String getNomeColonnaByAnnotation(Annotation annotation) {
+	protected String getNomeColonnaByAnnotation(Annotation annotation) {
 		return (String) getOggettoByAnnotation(annotation, "name");
 	}
 
 	@Override
 	public Object selectAll() throws Exception {
 		ObjSelectBase selectObj = new ObjSelectBase();
-		selectObj.putTabelle(ObjSelectBase.NO_ALIAS, getNomeTabella());
-		
-		ResultSet rs = selectObj.select();
+		selectObj.putTabelle(getNomeTabella(), getNomeTabella());
+		Query query = new Query();
+		ResultSet rs = query.select(selectObj);
 		return costruisciEntitaFromRs(rs);
 	}
 
@@ -309,12 +314,13 @@ public class GenericDAO implements IDAO {
 				Object getterCampo = method.invoke(oggettoEntita);
 				inserisciCampiValue(colonna, getterCampo, field.getType(), insertBase);
 			}
-			return insertBase.insert();
+			Query query = new Query();
+			return query.insert(insertBase);
 		}
 		return false;
 	}
 
-	private boolean isIdValido(Object getterCampo) {
+	protected boolean isIdValido(Object getterCampo) {
 		boolean valido = false;
 		if(getterCampo != null){
 			if(getterCampo instanceof Number){
@@ -329,7 +335,7 @@ public class GenericDAO implements IDAO {
 		return valido;
 	}
 
-	private void inserisciCampiValue(String colonna, Object getterCampo,Class<?> parameterTypes, ObjInsertBase insertBase) {
+	protected void inserisciCampiValue(String colonna, Object getterCampo,Class<?> parameterTypes, ObjInsertBase insertBase) {
 		String valore = null;
 		//TODO gestire i campi date
 		if(getterCampo instanceof AbstractOggettoEntita){
@@ -347,9 +353,9 @@ public class GenericDAO implements IDAO {
 		final ObjDeleteBase deleteBase = new ObjDeleteBase();
 		final String nomeCampoId = getNomeCampoId();
 		deleteBase.setTabella(getNomeTabella());
-		deleteBase.putClausole(nomeCampoId, Integer.toString(id));
-		deleteBase.delete();
-		return true;
+		deleteBase.putClausole(null, nomeCampoId, "=", Integer.toString(id));
+		Query query = new Query();
+		return query.delete(deleteBase);
 	}
 
 	@Override
@@ -358,8 +364,8 @@ public class GenericDAO implements IDAO {
 			final ObjUpdateBase updateBase = new ObjUpdateBase();
 			updateBase.setTabella(getNomeTabella());
 			final String campoId = getNomeCampoId();
-			updateBase.putClausole(campoId, ((AbstractOggettoEntita)oggettoEntita).getIdEntita());
-			
+			String idEntita = ((AbstractOggettoEntita)oggettoEntita).getIdEntita();
+			updateBase.putClausole(null, campoId, "=", idEntita);
 			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
 			while (iterColumn.hasNext()) {
 				final String colonna = (String) iterColumn.next();
@@ -370,12 +376,13 @@ public class GenericDAO implements IDAO {
 				inserisciCampiUpdate(colonna, getterCampo, field.getType(), updateBase);
 				
 			}
-			updateBase.update();
+			Query query = new Query();
+			return query.update(updateBase);
 		}
 		return false;
 	}
 	
-	private void inserisciCampiUpdate(String colonna, Object getterCampo, Class<?> parameterTypes, ObjUpdateBase updateBase) {
+	protected void inserisciCampiUpdate(String colonna, Object getterCampo, Class<?> parameterTypes, ObjUpdateBase updateBase) {
 		String valore = null;
 		//TODO gestire i campi date
 		if(getterCampo instanceof AbstractOggettoEntita){
@@ -392,8 +399,7 @@ public class GenericDAO implements IDAO {
 	public boolean deleteAll() throws Exception {
 		final ObjDeleteBase deleteBase = new ObjDeleteBase();
 		deleteBase.setTabella(getNomeTabella());
-		deleteBase.delete();
-		return true;
+		return new Query().delete(deleteBase);
 	}
 
 	@Override
@@ -402,12 +408,12 @@ public class GenericDAO implements IDAO {
 	}
 
 	@Override
-	public Iterator<Object> selectWhere(HashMap<String, String> clausole, String appendToQuery) throws Exception {
+	public Iterator<Object> selectWhere(ArrayList<Clausola> clausole, String appendToQuery) throws Exception {
 		ObjSelectBase selectObj = new ObjSelectBase();
-		selectObj.putTabelle(ObjSelectBase.NO_ALIAS, getNomeTabella());
+		selectObj.putTabelle(getNomeTabella(), getNomeTabella());
 		selectObj.setClausole(clausole);
 		selectObj.setAppendToQuery(appendToQuery);
-		final ArrayList<Object> entities = costruisciEntitaFromRs(selectObj.select());
+		final ArrayList<Object> entities = costruisciEntitaFromRs(new Query().select(selectObj));
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
 		return entities.iterator();
 	}

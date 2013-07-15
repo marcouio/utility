@@ -14,11 +14,11 @@ public class ObjInsertBase extends OggettoSQL{
 		super();
 	}
 	
-	public boolean insert() throws Exception{
-		return insert(tabella, campiInsert);
+	public String getInsertQuery() throws Exception{
+		return getInsertQuery(tabella, campiInsert);
 	}
 
-	public boolean insert(final String tabella, final HashMap<String, String> campi) throws Exception{
+	public String getInsertQuery(final String tabella, final HashMap<String, String> campi) throws Exception{
 		this.tabella = tabella;
 		this.campiInsert = campi;
 
@@ -38,10 +38,7 @@ public class ObjInsertBase extends OggettoSQL{
 		}
 		sbSQL.append(")");
 
-		if(aggiornaSqlFromString(sbSQL.toString())){
-			return true;
-		}
-		return false;
+		return sbSQL.toString();
 	}
 
 	private void middleCommand() {
@@ -64,10 +61,6 @@ public class ObjInsertBase extends OggettoSQL{
 		}
 	}
 
-	public boolean insert(final String comandoInsert) throws Exception{
-		return aggiornaSqlFromString(comandoInsert);			
-	}
-	
 	public static String getDateForDatabase(Date data){
 		return UtilDb.dataToString(data, "yyyy-mm-dd");
 	}
@@ -97,6 +90,6 @@ public class ObjInsertBase extends OggettoSQL{
 		HashMap<String, String> campi = new HashMap<String, String>();
 		campi.put("id", "1");
 		campi.put("nome", "Marco");
-		oggetto.insert("nomeTab", campi);
+		oggetto.getInsertQuery("nomeTab", campi);
 	}
 }
