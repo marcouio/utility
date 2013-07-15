@@ -2,9 +2,9 @@ package db;
 
 import java.util.HashMap;
 
-public class ObjAlterBase extends OggettoSQL {
+public class AlterBase extends OggettoSQL {
 
-	public ObjAlterBase() {
+	public AlterBase() {
 		super();
 	}
 

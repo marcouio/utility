@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class ObjInsertBase extends OggettoSQL{
+public class InsertBase extends OggettoSQL{
 
 
 	private String tabella;
 	protected HashMap<String, String> campiInsert = new HashMap<String, String>();
 
-	public ObjInsertBase() {
+	public InsertBase() {
 		super();
 	}
 	
@@ -86,7 +86,7 @@ public class ObjInsertBase extends OggettoSQL{
 	}
 
 	public static void main(String[] args) throws Exception {
-		ObjInsertBase oggetto = new ObjInsertBase();
+		InsertBase oggetto = new InsertBase();
 		HashMap<String, String> campi = new HashMap<String, String>();
 		campi.put("id", "1");
 		campi.put("nome", "Marco");

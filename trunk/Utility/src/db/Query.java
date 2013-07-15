@@ -10,21 +10,21 @@ import java.util.Iterator;
 
 public class Query {
 	
-	public boolean update(ObjUpdateBase updateBase) throws Exception{
+	public boolean update(UpdateBase updateBase) throws Exception{
 		return eseguiSqlFromString(updateBase.getUpdateQuery());
 	}
 
 	public boolean update(final String tabella, final HashMap<String, String> campi, ArrayList<Clausola> clausole) throws Exception{
-		ObjUpdateBase updateBase = new ObjUpdateBase();
+		UpdateBase updateBase = new UpdateBase();
 		return eseguiSqlFromString(updateBase.getUpdateQuery(tabella, campi, clausole));
 	}
 	
-	public boolean insert(ObjInsertBase insertBase) throws Exception{
+	public boolean insert(InsertBase insertBase) throws Exception{
 		return eseguiSqlFromString(insertBase.getInsertQuery());
 	}
 
 	public boolean insert(final String tabella, final HashMap<String, String> campi) throws Exception{
-		ObjInsertBase insertBase = new ObjInsertBase();
+		InsertBase insertBase = new InsertBase();
 		return eseguiSqlFromString(insertBase.getInsertQuery(tabella, campi));
 		
 	}
@@ -50,7 +50,7 @@ public class Query {
 	 * @return
 	 * @throws Exception
 	 */
-	public ResultSet select(ObjSelectBase selectBase) throws Exception{
+	public ResultSet select(SelectBase selectBase) throws Exception{
 		return resultSetfromIstruzione(selectBase.getQuery());
 	}
 	
@@ -68,17 +68,17 @@ public class Query {
 							final ArrayList<Clausola> clausole, 
 							final ArrayList<Join> joins) throws Exception{
 		
-		ObjSelectBase selectBase = new ObjSelectBase();
+		SelectBase selectBase = new SelectBase();
 		return resultSetfromIstruzione(selectBase.getQuery(tabelle, campi, clausole, joins));
 	}
 	
-	public boolean delete(final ObjDeleteBase deleteBase) throws Exception{
+	public boolean delete(final DeleteBase deleteBase) throws Exception{
 		return eseguiSqlFromString(deleteBase.getDeleteQuery());
 	}
 	
 	
 	public boolean delete(final String tabella, final ArrayList<Clausola> clausole) throws Exception{
-		ObjDeleteBase deleteBase = new ObjDeleteBase();
+		DeleteBase deleteBase = new DeleteBase();
 		return eseguiSqlFromString(deleteBase.getDeleteQuery(tabella, clausole));
 	}
 	
