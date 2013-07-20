@@ -17,7 +17,7 @@ public class Clausola {
 		
 		public String toString() {
 			String campoAlias = getCampoAlias(campo, alias);
-			if(campo.equals(alias)){
+			if(campo.equals(alias) || alias == null){
 				campoAlias = campo;
 			}
 			if (valore == null) {

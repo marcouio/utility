@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Observable;
 
 import sun.reflect.annotation.AnnotationType;
 
@@ -24,7 +25,7 @@ import db.SelectBase;
 import db.UpdateBase;
 import db.Query;
 
-public class GenericDAO implements IDAO {
+public class GenericDAO extends Observable implements IDAO {
 
 	private String nomeTabella;
 	private String nomeCampoId;
@@ -40,7 +41,7 @@ public class GenericDAO implements IDAO {
 	public Object selectById(final int id) throws Exception {
 		try {
 			SelectBase selectObj = new SelectBase();
-			selectObj.putTabelle(null, getNomeTabella());
+			selectObj.putTabelle(getNomeTabella(), getNomeTabella());
 			String nomeCampoId = getNomeCampoId();
 			Clausola clausolaId = new Clausola(null, nomeCampoId, "=", Integer.toString(id));
 			selectObj.putClausole(clausolaId);

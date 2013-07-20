@@ -145,7 +145,7 @@ public abstract class ControlloreBase {
 		return utenteLogin;
 	}
 
-	public void setUtenteLogin(final Object utenteLogin) {
+	public static void setUtenteLogin(final Object utenteLogin) {
 		ControlloreBase.utenteLogin = utenteLogin;
 	}
 
