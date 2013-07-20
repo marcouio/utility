@@ -20,7 +20,8 @@ public class OggettoSQL {
 	public static final String SF = "select * from ";
 	public static final String VALUES = " values ";
 	public static final String SET = "set";
-
+	
+	public static final String NUMSTRING = "@@@";
 	
 	protected StringBuffer sbSQL = new StringBuffer();
 

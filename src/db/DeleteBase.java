@@ -37,11 +37,12 @@ public class DeleteBase extends ObjConClausole{
 	}
 
 	public static void main(String[] args) throws Exception {
-//		ObjDeleteBase oggettoDeleteBase = new ObjDeleteBase();
-//		HashMap<String, String> clausole = new HashMap<String, String>();
-//		clausole.put("id", "1");
-//		clausole.put("nome", "Marco");
-//		oggettoDeleteBase.delete("nomeTab", clausole);
+		DeleteBase deleteBase = new DeleteBase();
+		deleteBase.setTabella("tabNomi");
+		deleteBase.putClausole("id", "id", "=", "1");
+		deleteBase.putClausole("nome", "nome", "=", "Marco");
+		String deleteQuery = deleteBase.getDeleteQuery();
+		System.out.println(deleteQuery);
 		
 	}
 }

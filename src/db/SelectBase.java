@@ -133,7 +133,6 @@ public class SelectBase extends ObjConClausole{
 
 	protected void settaTable(final HashMap<String, String> table) {
 		this.tabelle = table;
-		settaTabelle();
 	}
 	
 	public void putTabelle(final String alias, final String tabella){
