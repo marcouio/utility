@@ -68,6 +68,17 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale, final Component compDaPosizionare) {
 		return componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, compDaPosizionare);
 	}
+	public boolean posizionaASinistraDi(final Component componenteParagone, final int distanzaOrizzontale, final int distanzaVerticale) {
+		return componenteBase.posizionaASinistraDi(componenteParagone, distanzaOrizzontale, distanzaVerticale, this);
+	}
+
+	public boolean posizionaSottoA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
+		return componenteBase.posizionaSottoA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
+
+	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
+		return componenteBase.posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
+	}
 
 	@Override
 	public int getLarghezza() {

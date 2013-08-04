@@ -46,7 +46,7 @@ public class GenericDAO extends Observable implements IDAO {
 			Clausola clausolaId = new Clausola(null, nomeCampoId, "=", Integer.toString(id));
 			selectObj.putClausole(clausolaId);
 			Query query = new Query();
-			final ArrayList<Object> entities = costruisciEntitaFromRs(query.select(selectObj));
+			final ArrayList<AbstractOggettoEntita> entities = costruisciEntitaFromRs(query.select(selectObj));
 			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 			if (entities != null && entities.size() > 0) {
 				return entities.get(0);
@@ -58,9 +58,14 @@ public class GenericDAO extends Observable implements IDAO {
 		return null;
 	}
 
-	protected ArrayList<Object> costruisciEntitaFromRs(ResultSet select) throws Exception {
-		ArrayList<Object> listaReturn = new ArrayList<Object>();
+	protected ArrayList<AbstractOggettoEntita> costruisciEntitaFromRs(ResultSet select) throws Exception {
+		ArrayList<AbstractOggettoEntita> listaReturn = null;
 		while (select.next()) {
+			
+			if(listaReturn == null){
+				listaReturn = new ArrayList<AbstractOggettoEntita>();
+			}
+			
 			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
 			final AbstractOggettoEntita ent = getEntita().getClass().newInstance();
 			listaReturn.add(ent);
@@ -139,23 +144,23 @@ public class GenericDAO extends Observable implements IDAO {
 					
 					if ("javax.persistence.Column".equals(name)) {
 						nameColonna = getNomeColonnaByAnnotation(annotation);
-						if(nameColonna != null && !nameColonna.equals("")){
-							getMappaColumnCampi().put(nameColonna,field);
-						}else{
-							getMappaColumnCampi().put(field.getName(), field);
+						
+						if(nameColonna == null || nameColonna.equals("")){
+							nameColonna = field.getName();
 						}
+						getMappaColumnCampi().put(nameColonna,field);
 	
 					} else if ("javax.persistence.JoinColumns".equals(name)) {
 						nameColonna = getNomeColonnaByJoinColumnsAnnotation(annotation);
-						if(nameColonna != null && !nameColonna.equals("")){
-							getMappaColumnJoin().put(nameColonna,field);
-						}else{
-							getMappaColumnJoin().put(field.getName(), field);
+						
+						if(nameColonna == null || nameColonna.equals("")){
+							nameColonna = field.getName();
 						}
+						getMappaColumnJoin().put(nameColonna,field);
 					}
 				}
 			}else{
-				getMappaColumnCampi().put(field.getName(), field);
+//				getMappaColumnCampi().put(field.getName(), field);
 			}
 		}
 	}
@@ -377,6 +382,16 @@ public class GenericDAO extends Observable implements IDAO {
 				inserisciCampiUpdate(colonna, getterCampo, field.getType(), updateBase);
 				
 			}
+			
+			Iterator<String> iterJoinColumn = getMappaColumnJoin().keySet().iterator();
+			while(iterJoinColumn.hasNext()){
+				final String colonna = (String) iterJoinColumn.next();
+				final Field field = getMappaColumnJoin().get(colonna);
+				final String getMethodName = costruisciNomeGet(field.getName());
+				final Method method = getEntita().getClass().getMethod(getMethodName);
+				Object getterCampo = method.invoke(oggettoEntita);
+				inserisciCampiUpdate(colonna, getterCampo, field.getType(), updateBase);
+			}
 			Query query = new Query();
 			return query.update(updateBase);
 		}
@@ -409,14 +424,14 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public Iterator<Object> selectWhere(ArrayList<Clausola> clausole, String appendToQuery) throws Exception {
+	public ArrayList<AbstractOggettoEntita> selectWhere(ArrayList<Clausola> clausole, String appendToQuery) throws Exception {
 		SelectBase selectObj = new SelectBase();
 		selectObj.putTabelle(getNomeTabella(), getNomeTabella());
 		selectObj.setClausole(clausole);
 		selectObj.setAppendToQuery(appendToQuery);
-		final ArrayList<Object> entities = costruisciEntitaFromRs(new Query().select(selectObj));
+		final ArrayList<AbstractOggettoEntita> entities = costruisciEntitaFromRs(new Query().select(selectObj));
 		ConnectionPool.getSingleton().chiudiOggettiDb(null);
-		return entities.iterator();
+		return entities;
 	}
 
 	public AbstractOggettoEntita getEntita() {
