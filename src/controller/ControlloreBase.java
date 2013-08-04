@@ -59,7 +59,7 @@ public abstract class ControlloreBase {
 	/**
 	 * Utente loggato. Non necessariamente implementato. 
 	 */
-	protected static Object utenteLogin;
+	protected Object utenteLogin;
 
 	/**
 	 * Viene creata e mantenuta l'istanza di un "Graphics2D", in modo che non ci casi in cui serva e sia null 
@@ -145,8 +145,8 @@ public abstract class ControlloreBase {
 		return utenteLogin;
 	}
 
-	public static void setUtenteLogin(final Object utenteLogin) {
-		ControlloreBase.utenteLogin = utenteLogin;
+	public void setUtenteLogin(final Object utenteLogin) {
+		this.utenteLogin = utenteLogin;
 	}
 
 	public CommandManager getCommandManager() {
