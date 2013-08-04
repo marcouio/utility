@@ -14,6 +14,7 @@ import grafica.componenti.style.StyleBase;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -81,6 +82,8 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 		this.setLayout(null);
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.setStile(new StyleBase("StyleBaseDialogo"));
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 	}
 

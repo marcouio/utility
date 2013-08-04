@@ -57,6 +57,9 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		setStile(new StyleTextArea());
+		this.setLineWrap(true);
+		this.setWrapStyleWord(true);
+		this.setAutoscrolls(true);
 	}
 
 	@Override
