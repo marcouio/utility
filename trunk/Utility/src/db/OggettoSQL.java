@@ -29,8 +29,9 @@ public class OggettoSQL {
 	}
 	
 	protected void inserisciValore(final String prossimo, final HashMap<String, String> mappa) {
+		String valueClausola = (String) mappa.get(prossimo);
+		
 		try {
-			String valueClausola = (String) mappa.get(prossimo);
 			if (valueClausola == null) {
 				valueClausola = "null";
 			}else{
@@ -42,13 +43,15 @@ public class OggettoSQL {
 			}
 			sbSQL.append(valueClausola);
 		} catch (final NumberFormatException e) {
-			sbSQL.append("'" + mappa.get(prossimo) + "'");
+			String testoCorretto = FormatterSqlText.correggi(valueClausola);
+			sbSQL.append("'" + testoCorretto + "'");
 		}
 	}	
 
 	protected void inserisciValore(final Clausola prossimo) {
+		String valueClausola = prossimo.getValore();
+
 		try {
-			String valueClausola = prossimo.getValore();
 			if (valueClausola == null) {
 				valueClausola = "null";
 			}else{
@@ -60,7 +63,8 @@ public class OggettoSQL {
 			}
 			sbSQL.append(valueClausola);
 		} catch (final NumberFormatException e) {
-			sbSQL.append("'" + prossimo.getValore() + "'");
+			String testoCorretto = FormatterSqlText.correggi(valueClausola);
+			sbSQL.append("'" + testoCorretto + "'");
 		}
 	}	
 

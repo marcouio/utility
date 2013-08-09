@@ -55,21 +55,22 @@ public class SelectBase extends ObjConClausole{
 							final ArrayList<Clausola> clausole, 
 							final ArrayList<Join> joins) {
 		
-		settaTable(tabelle);
+		setTable(tabelle);
 		setCampiSelect(campi);
 		setJoins(joins);
+		setClausole(clausole);
 		
 		introComando();
-		settaCampi();
+		appendCampi();
 		sbSQL.append(FROM);
-		settaTabelle();
-		settaClausole(clausole);
-		settaJoins();
+		appendTabelle();
+		scriviClausole();
+		appendJoins();
 		appendToQuery();
 		return sbSQL.toString();
 	}
 	
-	private void settaJoins() {
+	private void appendJoins() {
 		if(joins != null){
 			final Iterator<Join> iterJoins = joins.iterator();
 			while (iterJoins.hasNext()) {
@@ -86,7 +87,7 @@ public class SelectBase extends ObjConClausole{
 		}
 	}
 
-	private void settaTabelle() {
+	protected void appendTabelle() {
 		final Iterator<String> iterAliasTabelle = tabelle.keySet().iterator();
 		while (iterAliasTabelle.hasNext()) {
 			final String aliasTabelle = (String) iterAliasTabelle.next();
@@ -101,7 +102,7 @@ public class SelectBase extends ObjConClausole{
 		}
 	}
 
-	private void settaCampi() {
+	protected void appendCampi() {
 		if(campiSelect == null || campiSelect.get("*") != null || campiSelect.isEmpty()){
 			sbSQL.append("*");
 		}else{
@@ -131,7 +132,7 @@ public class SelectBase extends ObjConClausole{
 		sbSQL.append(SELECT).append(" ");
 	}
 
-	protected void settaTable(final HashMap<String, String> table) {
+	protected void setTable(final HashMap<String, String> table) {
 		this.tabelle = table;
 	}
 	
