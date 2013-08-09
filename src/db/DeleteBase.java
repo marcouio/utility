@@ -12,7 +12,7 @@ public class DeleteBase extends ObjConClausole{
 
 	public String getDeleteQuery() throws Exception{
 		introComando();
-		settaClausole();
+		scriviClausole();
 		return sbSQL.toString();
 	}
 	
@@ -20,7 +20,7 @@ public class DeleteBase extends ObjConClausole{
 	public String getDeleteQuery(final String tabella, final ArrayList<Clausola> clausole) throws Exception{
 		this.tabella = tabella;
 		introComando();
-		settaClausole(clausole);
+		setClausole(clausole);
 		return sbSQL.toString();
 	}
 	

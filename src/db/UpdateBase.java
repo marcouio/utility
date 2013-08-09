@@ -22,27 +22,29 @@ public class UpdateBase extends ObjConClausole {
 		this.clausole = clausole;
 
 		introComando();
-		settaCampi();
-		settaClausole();
+		scriviCampi();
+		scriviClausole();
 
 		return sbSQL.toString();
 	}
 
-	protected void settaCampi() {
+	protected void scriviCampi() {
 		final Iterator<String> iterUpdate = campiUpdate.keySet().iterator();
 		while (iterUpdate.hasNext()) {
 			final String prossimo = iterUpdate.next();
 			sbSQL.append(prossimo).append(" = ");
+			String updateValue = campiUpdate.get(prossimo);
 			try {
-				if(campiUpdate.get(prossimo) == null){
+				if(updateValue == null){
 					sbSQL.append("null");
-				}else if (campiUpdate.get(prossimo).contains(".")) {
-					sbSQL.append(Double.parseDouble(campiUpdate.get(prossimo)));
+				}else if (updateValue.contains(".")) {
+					sbSQL.append(Double.parseDouble(updateValue));
 				} else {
-					sbSQL.append(Integer.parseInt(campiUpdate.get(prossimo)));
+					sbSQL.append(Integer.parseInt(updateValue));
 				}
 			} catch (final NumberFormatException e) {
-				sbSQL.append("'" + campiUpdate.get(prossimo) + "'");
+				String testoCorretto = FormatterSqlText.correggi(updateValue);
+				sbSQL.append("'" + testoCorretto + "'");
 			}
 			if (iterUpdate.hasNext()) {
 				sbSQL.append(", ");

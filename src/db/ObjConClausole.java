@@ -11,7 +11,7 @@ public class ObjConClausole extends OggettoSQL{
 		super();
 	}
 	
-	protected void settaClausole() {
+	protected void scriviClausole() {
 		if (!clausole.isEmpty()) {
 			sbSQL.append(" WHERE 1=1");
 			final Iterator<Clausola> where = clausole.iterator();
@@ -23,7 +23,6 @@ public class ObjConClausole extends OggettoSQL{
 				
 				sbSQL.append(prossimo);
 
-//				inserisciValore(prossimo);
 			}
 			
 			if (where.hasNext()) {
@@ -32,10 +31,10 @@ public class ObjConClausole extends OggettoSQL{
 		}
 	}
 	
-	protected void settaClausole(final ArrayList<Clausola> clausole) {
+	public void setClausole(final ArrayList<Clausola> clausole) {
 		this.clausole = clausole;
-		settaClausole();
 	}
+	
 	public void putClausole(Clausola clausola){
 		clausole.add(clausola);
 	}
@@ -47,10 +46,6 @@ public class ObjConClausole extends OggettoSQL{
 
 	public ArrayList<Clausola> getClausole() {
 		return clausole;
-	}
-
-	public void setClausole(final ArrayList<Clausola> clausole) {
-		this.clausole = clausole;
 	}
 	
 }
