@@ -55,15 +55,27 @@ public abstract class EsecutoreBasePiuFile {
 				}
 			}
 		}
+		
 		if (cartelleDaScorrere != null && cartelleDaScorrere.size() > 0) {
-			for (int i = 0; i < cartelleDaScorrere.size(); i++) {
-				final String path = cartelleDaScorrere.get(i);
-				cartelleDaScorrere.remove(i);
-				scorriEdEseguiSuTuttiIFile(path);
-			}
+			final String path = cartelleDaScorrere.get(0);
+			cartelleDaScorrere.remove(0);
+			scorriEdEseguiSuTuttiIFile(path);
 		}
 		operazioneFinale();
 		return ok;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		EsecutoreBasePiuFile esecutoreBasePiuFile = new EsecutoreBasePiuFile() {
+			
+			@Override
+			public void operazioneDaEseguireSulFile(String pathFile, File f) {
+				System.out.println("Ciao, sto scorrendo il file: " +f.getName());
+				
+			}
+		};
+		
+		esecutoreBasePiuFile.scorriEdEseguiSuTuttiIFile("/home/kiwi/Immagini");
 	}
 
 	/**

@@ -72,16 +72,7 @@ public abstract class TableModel extends AbstractTableModel{
 
 		checkMetodi();
 		int lunghezza = getNomiColonne().getLunghezza();
-		matrice = new String[getRighe().size() + 1][lunghezza];
-
-//		for (int x = 0; x < lunghezza; x++) {
-//			try {
-//				matrice[0][x] = getNomiColonne().getValore(x);
-//
-//			} catch (final Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
+		matrice = new String[getRighe().size()][lunghezza];
 		
 		for (int x = 0; x < lunghezza; x++) {
 			for (int i = 0; i < getRighe().size() ; i++) {
