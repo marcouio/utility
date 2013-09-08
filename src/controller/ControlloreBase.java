@@ -93,7 +93,10 @@ public abstract class ControlloreBase {
 								pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
 							}
 						}
-						frame.setSize(frame.getLarghezza(), frame.getAltezza()+frame.getY());
+						//TODO capire come sostituire il 30
+						frame.setSize(frame.getLarghezza(), frame.getAltezza() + 30);
+						getLog().info("Frame, larghezza: " + frame.getSize().getWidth());
+						getLog().info("Frame, altezza: " + frame.getSize().getHeight());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
