@@ -3,15 +3,15 @@ package thread;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ManagerThread {
 
-	ArrayList<Thread>					listaThread			= new ArrayList<Thread>();
+	ArrayList<Runnable>					listaRunnable			= new ArrayList<Runnable>();
 	public static final int				NUMBER_OF_THREAD	= 10;
 	private ArrayList<? extends Object>	listaRichieste;
 	private Class<? extends RunnerBase>	classeRunnable;
-
-	private Runnable					runnable;
 
 	public ManagerThread(ArrayList<? extends Object> listaRichieste, Class<? extends RunnerBase> classe) {
 		this.listaRichieste = listaRichieste;
@@ -22,77 +22,50 @@ public class ManagerThread {
 
 		if (listaRichieste != null && listaRichieste.size() > 0) {
 
-			while (listaThread.size() <= NUMBER_OF_THREAD) {
+			while (listaRunnable.size() <= NUMBER_OF_THREAD && listaRichieste.size() > 0) {
 				final Object parametro = (Object) listaRichieste.get(0);
 
-				final Thread thread = cercaThread(parametro);
+				final Runnable runner = cercaRunnable(parametro);
 
-				if (thread != null) {
+				if (runner != null) {
+					listaRunnable.add(runner);
 					listaRichieste.remove(0);
 				}
-				else {
-					break;
-				}
 			}
-			synchronized (listaThread) {
-				for (int i = 0; i<listaThread.size(); i++) {
-					Thread thread = listaThread.get(i);
-					thread.start();
-				}
-			}
+			
+			final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREAD);
 
+			synchronized (listaRunnable) {
+				for (int i = 0; i<listaRunnable.size(); i++) {
+					Runnable runner = listaRunnable.get(i);
+					executor.execute(runner);
+				}
+			}
+				
+			executor.shutdown();
+
+			
+			while (!executor.isTerminated()) {
+	        }
+	        System.out.println("Finished all threads");
 		}
 	}
 
-	private Thread cercaThread(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-		synchronized (listaThread) {
-			if (listaThread.size() < NUMBER_OF_THREAD) {
-				Thread thread = creaThread(parametro);
-				listaThread.add(thread);
-				return thread;
-			}
+	private Runnable cercaRunnable(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+		synchronized (listaRunnable) {
+			return creaRunnable(parametro);
 		}
-
-		return null;
 	}
 
-	private Thread creaThread(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+	private Runnable creaRunnable(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		if (classeRunnable != null) {
 
 			Constructor<? extends RunnerBase> costruttoreRunnable = classeRunnable.getConstructor(new Class[] { ManagerThread.class, Object.class });
 			RunnerBase run = costruttoreRunnable.newInstance(new Object[] { this, parametro });
-			Thread thread = new Thread(run);
-			
-			run.setThreadPadre(thread);
-			
-			return thread;
+			return run;
 		}
 
 		return null;
-	}
-
-	public void threadEnd(Thread EndedThread) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, InterruptedException {
-		listaThread.remove(EndedThread);
-
-		synchronized (listaRichieste) {
-
-			if (listaRichieste != null && listaRichieste.size() > 0) {
-				final Object parametro = (Object) listaRichieste.get(0);
-				Thread thread = cercaThread(parametro);
-				if (thread != null) {
-					if (listaRichieste.size() != 0) {
-						listaRichieste.remove(0);
-						thread.start();
-					}
-				}
-			}
-//			else{
-//				for (int i = 0; i < listaThread.size(); i++) {
-//					Thread thread = listaThread.get(i);
-//					thread.join();
-//				}
-//			}
-		}
 	}
 
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException {
@@ -138,14 +111,6 @@ public class ManagerThread {
 		//
 		// System.out.println(secondoFine.getTimeInMillis() -
 		// secondoStart.getTimeInMillis());
-	}
-
-	public Runnable getRunnable() {
-		return runnable;
-	}
-
-	public void setRunnable(Runnable runnable) {
-		this.runnable = runnable;
 	}
 
 }
