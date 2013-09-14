@@ -14,13 +14,13 @@ import xml.UtilXml;
 
 public class StyleTextArea extends StyleBase {
 
-	private static final String LINE_WRAP = "lineWrap";
-	private static final String WRAP_STYLE_WORD = "wrapStyleWord";
-	private static final String AUTOSCROLL = "autoscroll";
+	public static final String LINE_WRAP = "lineWrap";
+	public static final String WRAP_STYLE_WORD = "wrapStyleWord";
+	public static final String AUTOSCROLL = "autoscroll";
 
-	private static final String ROWS = "rows";
-	private static final String COLUMNS = "columns";
-	private static final String DIMENSION_AREA = "dimensionarea";
+	public static final String ROWS = "rows";
+	public static final String COLUMNS = "columns";
+	public static final String DIMENSION_AREA = "dimensionarea";
 
 	private int rows;
 	private int columns;
