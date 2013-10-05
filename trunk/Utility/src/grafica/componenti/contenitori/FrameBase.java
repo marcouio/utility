@@ -28,7 +28,7 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.setStile(new StyleBase("StyleBaseFrame"));
+		this.applicaStile(new StyleBase("StyleBaseFrame"), this);
 	}
 
 	@Override
@@ -110,8 +110,8 @@ public class FrameBase extends JFrame implements IFrame, IComponenteBase, IConta
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(StyleBase style, IComponenteBase padre) {
+		componenteBase.applicaStile(style, padre);
 	}
 
 	@Override

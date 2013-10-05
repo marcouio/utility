@@ -96,7 +96,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.addTreeSelectionListener(this);
 		this.setCellRenderer(treeCellRenderer);
-		this.setStile(new StyleBase("StyleBaseTree"));
+		this.applicaStile(new StyleBase("StyleBaseTree"), this);
 		setSize(getLarghezza(), getAltezza());
 	}
 
@@ -389,8 +389,8 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(final StyleBase styleBase, IComponenteBase comp) {
+		componenteBase.applicaStile(styleBase, comp);
 	}
 
 	@Override

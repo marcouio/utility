@@ -96,7 +96,7 @@ public class StyleBase {
 	 * Scorre tutti i nodi e delega al metodo 'settaStileBase' il compito di settare lo stile per ogni nodo
 	 * @param stile 
 	 */
-	private void caricaInfoStyleBase(final String stile) {
+	protected void caricaInfoStyleBase(final String stile) {
 		try {
 			final NodeList listaNodi = UtilXml.getNodeList(CoreXMLManager.getSingleton().getXMLStyleFilePath());
 			if (listaNodi != null) {
@@ -166,37 +166,11 @@ public class StyleBase {
 	 * @param nodoComponente
 	 */
 	protected static void settaForeground(final StyleBase style, final Node nodoComponente) {
-		final Element elemento = UtilXml.getElement(nodoComponente);
-		if (elemento != null) {
-			try {
-				final NodeList listaFigliForeground = nodoComponente.getChildNodes();
-				for (int z = 0; z < listaFigliForeground.getLength(); z++) {
-					final Node figlioForeground = listaFigliForeground.item(z);
-					final Element elementoForeground = UtilXml.getElement(figlioForeground);
-					if (elementoForeground != null) {
-						try {
-							final int r = Integer.parseInt(elementoForeground.getAttribute(R));
-							final int g = Integer.parseInt(elementoForeground.getAttribute(G));
-							final int b = Integer.parseInt(elementoForeground.getAttribute(B));
-							style.setForeground(new Color(r, g, b));
-						} catch (final Exception e) {
-							style.setForeground(new Color(0, 0, 0));
-						}
-					}
-				}
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
-		}
+		Color color = catchColor(nodoComponente);
+		style.setForeground(color);
 	}
-
-	/**
-	 * Metodo per settare il colore di sfondo
-	 * @param style
-	 * @param nodoComponente
-	 */
-	protected static void settaBackground(final StyleBase style, final Node nodoComponente) {
-
+	
+	protected static Color catchColor(final Node nodoComponente){
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
 			try {
@@ -205,14 +179,12 @@ public class StyleBase {
 					final Node colorBackground = listaFigliBackground.item(z);
 					final Element elementoColorBackground = UtilXml.getElement(colorBackground);
 					if (elementoColorBackground != null) {
-						try {
-							final int r = Integer.parseInt(elementoColorBackground.getAttribute(R));
-							final int g = Integer.parseInt(elementoColorBackground.getAttribute(G));
-							final int b = Integer.parseInt(elementoColorBackground.getAttribute(B));
-							style.setBackground(new Color(r, g, b));
-						} catch (final Exception e) {
-							style.setBackground(new Color(0, 0, 0));
-						}
+						
+						final int r = Integer.parseInt(elementoColorBackground.getAttribute(R));
+						final int g = Integer.parseInt(elementoColorBackground.getAttribute(G));
+						final int b = Integer.parseInt(elementoColorBackground.getAttribute(B));
+						return new Color(r, g, b);
+						
 					}
 				}
 
@@ -220,6 +192,17 @@ public class StyleBase {
 				e.printStackTrace();
 			}
 		}
+		return new Color(0, 0, 0);
+	}
+
+	/**
+	 * Metodo per settare il colore di sfondo
+	 * @param style
+	 * @param nodoComponente
+	 */
+	protected static void settaBackground(final StyleBase style, final Node nodoComponente) {
+		Color color = catchColor(nodoComponente);
+		style.setBackground(color);
 	}
 
 	/**
@@ -307,42 +290,66 @@ public class StyleBase {
 		if(nodo == null && nodeList == null){
 			Element rootElement = UtilXml.addRootElement(doc, StyleBase.STYLES);
 
-			//style
-			Element styleElement = UtilXml.addElement(doc, rootElement, StyleBase.STYLE);
-			UtilXml.addAttribute(doc, styleElement, StyleBase.NAME, "stylebase");
-
-			//font
-			Element fontElement = UtilXml.addElement(doc, styleElement, StyleBase.FONT);
-			UtilXml.addAttribute(doc, fontElement, StyleBase.FONTFAMILY, "Arial");
-			UtilXml.addAttribute(doc, fontElement, StyleBase.TYPE, "0");
-			UtilXml.addAttribute(doc, fontElement, StyleBase.SIZE, "15");
-
-			//foreground
-			Element foregroundElement = UtilXml.addElement(doc, styleElement, StyleBase.FOREGROUND);
-			Element colorForeElement = UtilXml.addElement(doc, foregroundElement, "color");
-			UtilXml.addAttribute(doc, colorForeElement, StyleBase.R, "100");
-			UtilXml.addAttribute(doc, colorForeElement, StyleBase.G, "100");
-			UtilXml.addAttribute(doc, colorForeElement, StyleBase.B, "100");
-
-			//background
-			Element backgroundElement = UtilXml.addElement(doc, styleElement, StyleBase.BACKGROUND);
-			Element colorBackElement = UtilXml.addElement(doc, backgroundElement, "color");
-			UtilXml.addAttribute(doc, colorBackElement, StyleBase.R, "255");
-			UtilXml.addAttribute(doc, colorBackElement, StyleBase.G, "255");
-			UtilXml.addAttribute(doc, colorBackElement, StyleBase.B, "255");
-
-			//dimensionarea
-			Element dimensionAreaElement = UtilXml.addElement(doc, styleElement, StyleTextArea.DIMENSION_AREA);
-			UtilXml.addAttribute(doc, dimensionAreaElement, StyleTextArea.ROWS, "60");
-			UtilXml.addAttribute(doc, dimensionAreaElement, StyleTextArea.COLUMNS, "60");
-
-			//dimension
-			Element dimensionElement = UtilXml.addElement(doc, styleElement, StyleBase.DIMENSION);
-			UtilXml.addAttribute(doc, dimensionElement, StyleBase.WIDTH, "101");
-			UtilXml.addAttribute(doc, dimensionElement, StyleBase.HEIGHT, "131");
-
+			makeStyleBase(doc, rootElement, "stylebase");
+			
+			Element styleElement = makeStyleBase(doc, rootElement, "stylebasetable");
+			
+			addColorSetting(doc, styleElement, "255", "255", "255", StyleTable.FOREGROUND_NOTSEL);
+			addColorSetting(doc, styleElement, "255", "0", "0", StyleTable.FOREGROUND_SEL);
+//			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.FOREGROUND_PRIMACOLONNA);
+//			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.FOREGROUND_PRIMARIGA);
+			addColorSetting(doc, styleElement, "192", "192", "192", StyleTable.BACKGROUND_NOTSEL);
+			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.BACKGROUND_SEL);
+//			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.BACKGROUND_PRIMACOLONNA);
+//			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.BACKGROUND_PRIMARIGA);
+			
 			UtilXml.writeXmlFile(doc, pathFile);
 		}
+	}
+	
+	protected static void addColorSetting(Document doc, Element elStyle, String r, String g, String b, String nomeElemento){
+		Element elemento = UtilXml.addElement(doc, elStyle, nomeElemento);
+		Element elementoColor = UtilXml.addElement(doc, elemento, "color");
+		UtilXml.addAttribute(doc, elementoColor, StyleBase.R, r);
+		UtilXml.addAttribute(doc, elementoColor, StyleBase.G, g);
+		UtilXml.addAttribute(doc, elementoColor, StyleBase.B, b);
+	}
+
+	private static Element makeStyleBase(Document doc, Element rootElement, String name) {
+		//style
+		Element styleElement = UtilXml.addElement(doc, rootElement, StyleBase.STYLE);
+		UtilXml.addAttribute(doc, styleElement, StyleBase.NAME, name);
+
+		//font
+		Element fontElement = UtilXml.addElement(doc, styleElement, StyleBase.FONT);
+		UtilXml.addAttribute(doc, fontElement, StyleBase.FONTFAMILY, "Arial");
+		UtilXml.addAttribute(doc, fontElement, StyleBase.TYPE, "0");
+		UtilXml.addAttribute(doc, fontElement, StyleBase.SIZE, "15");
+
+		//foreground
+		Element foregroundElement = UtilXml.addElement(doc, styleElement, StyleBase.FOREGROUND);
+		Element colorForeElement = UtilXml.addElement(doc, foregroundElement, "color");
+		UtilXml.addAttribute(doc, colorForeElement, StyleBase.R, "100");
+		UtilXml.addAttribute(doc, colorForeElement, StyleBase.G, "100");
+		UtilXml.addAttribute(doc, colorForeElement, StyleBase.B, "100");
+
+		//background
+		Element backgroundElement = UtilXml.addElement(doc, styleElement, StyleBase.BACKGROUND);
+		Element colorBackElement = UtilXml.addElement(doc, backgroundElement, "color");
+		UtilXml.addAttribute(doc, colorBackElement, StyleBase.R, "255");
+		UtilXml.addAttribute(doc, colorBackElement, StyleBase.G, "255");
+		UtilXml.addAttribute(doc, colorBackElement, StyleBase.B, "255");
+
+		//dimensionarea
+		Element dimensionAreaElement = UtilXml.addElement(doc, styleElement, StyleTextArea.DIMENSION_AREA);
+		UtilXml.addAttribute(doc, dimensionAreaElement, StyleTextArea.ROWS, "60");
+		UtilXml.addAttribute(doc, dimensionAreaElement, StyleTextArea.COLUMNS, "60");
+
+		//dimension
+		Element dimensionElement = UtilXml.addElement(doc, styleElement, StyleBase.DIMENSION);
+		UtilXml.addAttribute(doc, dimensionElement, StyleBase.WIDTH, "101");
+		UtilXml.addAttribute(doc, dimensionElement, StyleBase.HEIGHT, "131");
+		return styleElement;
 	}
 
 }

@@ -121,7 +121,7 @@ public class Query {
 		try {
 			cn = ConnectionPool.getSingleton().getConnection();
 			ok = false;
-			// connection = DBUtil.getConnection();
+			// connection = ConnectionPool.getSingleton().getConnection();
 			final StringBuffer sql = new StringBuffer();
 
 			if (tabella != null && comando != null) {

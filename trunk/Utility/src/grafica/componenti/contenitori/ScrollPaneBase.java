@@ -58,7 +58,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		setStile(new StyleBase("StyleBaseScrollPane"));
+		applicaStile(new StyleBase("StyleBaseScrollPane"), this);
 	}
 
 	@Override
@@ -96,8 +96,8 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(StyleBase style, IComponenteBase padre) {
+		componenteBase.applicaStile(style, padre);
 	}
 
 	protected StyleBase settaStileOverride() {

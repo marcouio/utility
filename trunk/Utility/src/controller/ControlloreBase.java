@@ -4,7 +4,6 @@ import grafica.componenti.UtilComponenti;
 import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.PannelloBase;
 import grafica.componenti.style.StyleBase;
-import grafica.componenti.style.StyleTextArea;
 
 import java.awt.Component;
 import java.awt.Container;

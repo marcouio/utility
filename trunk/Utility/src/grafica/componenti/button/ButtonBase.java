@@ -66,7 +66,7 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		this.setContenitorePadre(contenitorePadre2);
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.setStile(new StyleBase("StyleBaseB"));
+		this.applicaStile(new StyleBase("StyleBaseB"), this);
 		this.setBorderPainted(false);
 		this.setMargin(new Insets(0, 0, 0, 0));
 		setSize(getLarghezza(), getAltezza());
@@ -148,11 +148,11 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 	public boolean posizionaSopraA(final Component componenteParagone, final int distanzaOrizzantale, final int distanzaVerticale) {
 		return posizionaSopraA(componenteParagone, distanzaOrizzantale, distanzaVerticale, this);
 	}
-
+	
 	@Override
-	public void setStile(final StyleBase style) {
-		componenteBase.settaStile(style, this);
-	}
+	public void applicaStile(StyleBase style, IComponenteBase padre) {
+		componenteBase.applicaStile(style, padre);
+	}		
 
 	@Override
 	public int getLarghezza() {

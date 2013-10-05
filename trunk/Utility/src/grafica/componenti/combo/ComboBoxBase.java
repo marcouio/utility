@@ -6,16 +6,29 @@ import grafica.componenti.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.util.Vector;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
+public class ComboBoxBase<E> extends JComboBox<Object> implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
 	private Container contenitorePadre;
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
+	public ComboBoxBase(final Container contenitorePadre) {
+		makeGUI(contenitorePadre);
+		init(contenitorePadre, this);
+	}
+	
+	public ComboBoxBase(final Container contenitorePadre, final Vector<Object> lista) {
+		this.setModel(new DefaultComboBoxModel<Object>(lista));
+		makeGUI(contenitorePadre);
+		init(contenitorePadre, this);
+	}
+	
 	public ComboBoxBase(final Container contenitorePadre, final Object[] lista) {
 		final DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<Object>(lista);
 		this.setModel(modelGiorni);
@@ -27,14 +40,14 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.setStile(null);
+		this.applicaStile(null, this);
 		makeGUI(contenitorePadre2);
 		setSize(getLarghezza(), getAltezza());
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(StyleBase style, IComponenteBase padre) {
+		componenteBase.applicaStile(style, padre);
 	}
 
 	@Override

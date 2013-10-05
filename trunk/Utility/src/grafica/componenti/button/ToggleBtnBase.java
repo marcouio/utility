@@ -61,7 +61,7 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		this.setContenitorePadre(contenitorePadre2);
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.setStile(new StyleBase("StyleBaseToggle"));
+		this.applicaStile(new StyleBase("StyleBaseToggle"), this);
 		setSize(getLarghezza(), getAltezza());
 	}
 
@@ -143,9 +143,8 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(style, this);
-
+	public void applicaStile(StyleBase style, IComponenteBase padre) {
+		componenteBase.applicaStile(style, padre);
 	}
 
 	@Override

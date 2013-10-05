@@ -1,11 +1,5 @@
 package grafica.componenti.style;
 
-import grafica.componenti.UtilComponenti;
-import grafica.componenti.textarea.TextAreaBase;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -29,17 +23,18 @@ public class StyleTextArea extends StyleBase {
 	private boolean wrapStyleWord = false;
 	private boolean autoscroll = false;
 
-	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				JPanel p = UtilComponenti.initContenitoreFrame(null);
-				TextAreaBase tab = new TextAreaBase("Coao", p) {
-				};
-			}
-		});
-	}
+//	public static void main(final String[] args) {
+//		SwingUtilities.invokeLater(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				JPanel p = UtilComponenti.initContenitoreFrame(null);
+//				TextAreaBase tab = new TextAreaBase("Coao", p) {
+//					private static final long	serialVersionUID	= 1L;
+//				};
+//			}
+//		});
+//	}
 
 	public StyleTextArea() {
 		super();

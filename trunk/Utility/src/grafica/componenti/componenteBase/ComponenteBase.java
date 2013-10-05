@@ -209,12 +209,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return g;
 	}
 
-	@Override
-	public void setStile(final StyleBase style) {
-
-	}
-
-	public void settaStile(final StyleBase style, final IComponenteBase padre) {
+	public void applicaStile(final StyleBase style, final IComponenteBase padre) {
 		if (style != null) {
 			this.style = style;
 		}

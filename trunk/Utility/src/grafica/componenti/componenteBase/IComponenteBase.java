@@ -97,11 +97,11 @@ public interface IComponenteBase {
 	 * stile dall'xml. In più all'interno della classe deve essere creato un
 	 * metodo (settaStileOverride)astratto da richiamare all'interno di questo
 	 * metodo per prevedere l'estensione dello stile. Vedi esempio LabelBase.
-	 * ATTENZIONE!!! il metodo dovrebbe essere privato e va richimato solo alla
+	 * ATTENZIONE!!! il metodo va richimato solo alla
 	 * fine del metodo 'init', qualsiasi altro utilizzo non è sicuro.
 	 * 
 	 */
-	public void setStile(final StyleBase style);
+	public void applicaStile(final StyleBase style, final IComponenteBase padre);
 
 	public int getLarghezza();
 
