@@ -1,6 +1,7 @@
 package grafica.componenti.textfield.data;
 
 import grafica.componenti.UtilComponenti;
+import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.style.StyleBase;
 import grafica.componenti.textfield.TextFieldBase;
@@ -38,10 +39,10 @@ public class TextFieldData extends TextFieldBase {
 	}
 
 	@Override
-	public void setStile(StyleBase styleBase) {
+	public void applicaStile(StyleBase styleBase, IComponenteBase comp) {
 		if (styleBase == null) {
 			styleBase = new StyleBase("StyleTFData");
 		}
-		super.setStile(styleBase);
+		super.applicaStile(styleBase, comp);
 	}
 }

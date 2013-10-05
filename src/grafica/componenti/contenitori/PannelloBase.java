@@ -51,7 +51,7 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.setStile(new StyleBase("StyleBasePannello"));
+		this.applicaStile(new StyleBase("StyleBasePannello"), this);
 		this.setLayout(null);
 		contenitorePadre = contenitorePadre2;
 	}
@@ -135,8 +135,8 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(StyleBase style, IComponenteBase padre) {
+		componenteBase.applicaStile(style, padre);
 	}
 
 	@Override

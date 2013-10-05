@@ -1,11 +1,8 @@
 package grafica.componenti.alert;
 
-import grafica.componenti.UtilComponenti;
 import grafica.componenti.alert.builder.IBuilderDialogo;
-import grafica.componenti.button.ButtonBase;
 import grafica.componenti.componenteBase.ComponenteBaseDialogo;
 import grafica.componenti.componenteBase.IComponenteBase;
-import grafica.componenti.contenitori.FrameBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBase;
 import grafica.componenti.contenitori.contenitoreBase.ContainerBaseDialogo;
 import grafica.componenti.contenitori.contenitoreBase.IContainerBase;
@@ -14,9 +11,6 @@ import grafica.componenti.style.StyleBase;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
-import java.awt.Dialog.ModalityType;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -48,24 +42,24 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 		return new BuilderDialogo(padre);
 	}
 
-	public static void main(final String[] args) {
-		final FrameBase panello = UtilComponenti.initContenitoreFrameApplicazione(null, null);
-		final ButtonBase bottone = new ButtonBase("premi qui di nuovo e ancora!", panello);
-		bottone.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-
-				final IBuilderDialogo builder = new DialogoBase(panello).getBuilder();
-				builder.setMessaggio("Questo è un messaggio veramente troppo troppo lungo");
-				builder.setTitolo("Titolo");
-				builder.addPositiveButton();
-				builder.addNegativeButton();
-				builder.addCancelButton();
-				final DialogoBase dialogo = builder.creaDialogo();
-			}
-		});
-	}
+//	public static void main(final String[] args) {
+//		final FrameBase panello = UtilComponenti.initContenitoreFrameApplicazione(null, null);
+//		final ButtonBase bottone = new ButtonBase("premi qui di nuovo e ancora!", panello);
+//		bottone.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(final ActionEvent e) {
+//
+//				final IBuilderDialogo builder = new DialogoBase(panello).getBuilder();
+//				builder.setMessaggio("Questo è un messaggio veramente troppo troppo lungo");
+//				builder.setTitolo("Titolo");
+//				builder.addPositiveButton();
+//				builder.addNegativeButton();
+//				builder.addCancelButton();
+//				final DialogoBase dialogo = builder.creaDialogo();
+//			}
+//		});
+//	}
 
 	@Override
 	public int getMaxDimensionX() {
@@ -81,7 +75,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		this.setLayout(null);
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.setStile(new StyleBase("StyleBaseDialogo"));
+		this.applicaStile(new StyleBase("StyleBaseDialogo"), this);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
@@ -165,10 +159,11 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(StyleBase style, IComponenteBase padre) {
+		componenteBase.applicaStile(style, padre);
+		
 	}
-
+	
 	@Override
 	public ContainerBase getContainerBase() {
 		return containerBase;

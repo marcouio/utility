@@ -52,12 +52,12 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
-		this.setStile(new StyleBase("StyleBaseTF"));
+		this.applicaStile(new StyleBase("StyleBaseTF"), this);
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(final StyleBase styleBase, IComponenteBase comp) {
+		componenteBase.applicaStile(styleBase, comp);
 	}
 
 	public Object getTestoConvertitoInTipo() {

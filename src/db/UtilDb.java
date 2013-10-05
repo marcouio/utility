@@ -186,7 +186,7 @@ public class UtilDb {
 		boolean ok = false;
 		try {
 			ok = false;
-			// connection = DBUtil.getConnection();
+			// connection = ConnectionPool.getSingleton().getConnection();
 			final StringBuffer sql = new StringBuffer();
 
 			if (tabella != null && comando != null) {

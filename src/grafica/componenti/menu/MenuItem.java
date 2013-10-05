@@ -22,15 +22,15 @@ public class MenuItem extends JMenuItem implements IComponenteBase {
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(final StyleBase styleBase, IComponenteBase comp) {
+		componenteBase.applicaStile(styleBase, comp);
 	}
 
 	@Override
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.setStile(new StyleBase("StyleBaseL"));
+		this.applicaStile(new StyleBase("StyleBaseL"), this);
 		setSize(getLarghezza(), getAltezza());
 	}
 

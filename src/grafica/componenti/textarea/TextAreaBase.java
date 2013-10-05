@@ -56,7 +56,7 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		setStile(new StyleTextArea());
+		applicaStile(new StyleTextArea(), this);
 		this.setLineWrap(true);
 		this.setWrapStyleWord(true);
 		this.setAutoscrolls(true);
@@ -141,8 +141,8 @@ public class TextAreaBase extends JTextArea implements IComponenteBase {
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(final StyleBase styleBase, IComponenteBase comp) {
+		componenteBase.applicaStile(styleBase, comp);
 
 		if (styleBase != null && styleBase instanceof StyleTextArea) {
 

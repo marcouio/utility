@@ -1,6 +1,7 @@
 package grafica.componenti.label;
 
 import grafica.componenti.UtilComponenti;
+import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.style.StyleBase;
 
 import java.awt.Container;
@@ -30,10 +31,10 @@ public class LabelTestoMoltoPiccolo extends LabelTestoPiccolo {
 		final LabelTestoPiccolo piccolo = new LabelTestoPiccolo("Piccolo", panel);
 		piccolo.setBounds(10, 40, 200, 30);
 	}
-
+	
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		super.setStile(new StyleBase("StyleBaseLTMP"));
+	public void applicaStile(final StyleBase styleBase, IComponenteBase padre){
+		super.applicaStile(new StyleBase("StyleBaseLTMP"),padre);
 	}
 
 }

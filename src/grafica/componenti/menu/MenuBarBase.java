@@ -28,13 +28,13 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
-		this.setStile(new StyleBase("StyleBaseL"));
+		this.applicaStile(new StyleBase("StyleBaseL"),this);
 		setSize(getLarghezza(), getAltezza());
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(style, this);
+	public void applicaStile(final StyleBase styleBase, IComponenteBase comp) {
+		componenteBase.applicaStile(styleBase, comp);
 	}
 
 	public StyleBase getStyle() {

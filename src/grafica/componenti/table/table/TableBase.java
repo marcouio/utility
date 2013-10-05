@@ -3,6 +3,7 @@ package grafica.componenti.table.table;
 import grafica.componenti.componenteBase.ComponenteBaseScrollPane;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.style.StyleBase;
+import grafica.componenti.style.StyleTable;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -20,13 +21,15 @@ import javax.swing.table.TableModel;
 
 public class TableBase extends JTable implements FocusListener, IComponenteBase {
 
-	boolean isCellEditable = false;
+	
 	private Container contenitorePadre;
 	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
-	protected Color backgroundNotSel = Color.LIGHT_GRAY;
-	protected Color backgroundSel = Color.ORANGE;
-	protected Color foregroundNotSel = Color.WHITE;
-	protected Color foregroundSel = Color.RED;
+	
+	boolean isCellEditable = false;
+	protected Color backgroundNotSel  = null;
+	protected Color backgroundSel  = null;
+	protected Color foregroundNotSel  = null;
+	protected Color foregroundSel  = null;
 	
 	protected Color backgroundPrimaRiga = null;
 	protected Color backgroundPrimaColonna = null;
@@ -64,7 +67,8 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
-		this.setStile(new StyleBase("StyleBaseTable2d"));
+		StyleTable styleTable = new StyleTable("stylebasetable");
+		this.applicaStile(styleTable, this);
 		setSize(this.generaDimensioniMinime());
 	}
 
@@ -136,8 +140,22 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	}
 
 	@Override
-	public void setStile(final StyleBase styleBase) {
-		componenteBase.settaStile(styleBase, this);
+	public void applicaStile(final StyleBase styleBase, IComponenteBase comp) {
+		componenteBase.applicaStile(styleBase, comp);
+		
+		if(styleBase != null && styleBase instanceof StyleTable){
+			
+			StyleTable styleTable = (StyleTable) styleBase;
+			this.setBackgroundNotSel(styleTable.getBackgroundNotSel());
+			this.setBackgroundPrimaColonna(styleTable.getBackgroundPrimaColonna());
+			this.setBackgroundPrimaRiga(styleTable.getBackgroundPrimaRiga());
+			this.setBackgroundSel(styleTable.getBackgroundSel());
+			this.setForegroundNotSel(styleTable.getForegroundNotSel());
+			this.setForegroundPrimaColonna(styleTable.getForegroundPrimaColonna());
+			this.setForegroundPrimaRiga(styleTable.getForegroundPrimaRiga());
+			this.setForegroundSel(styleTable.getForegroundSel());
+			this.setCellEditable(styleTable.isCellEditable());
+		}
 	}
 
 	@Override
@@ -159,6 +177,14 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	public void setContenitorePadre(final Container contenitorePadre) {
 		this.contenitorePadre = contenitorePadre;
+	}
+
+	public boolean isCellEditable() {
+		return isCellEditable;
+	}
+
+	public void setCellEditable(boolean isCellEditable) {
+		this.isCellEditable = isCellEditable;
 	}
 
 	@Override
