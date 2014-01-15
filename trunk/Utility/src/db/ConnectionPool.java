@@ -27,9 +27,15 @@ public abstract class ConnectionPool {
 	
 	private static ConnectionPool singleton;
 	
-	public static synchronized ConnectionPool getSingleton() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public static synchronized ConnectionPool getSingleton() {
 		if(singleton == null){
-			singleton = (ConnectionPool) Class.forName(ControlloreBase.connectionClassName).newInstance();
+			try {
+				singleton = (ConnectionPool) Class.forName(ControlloreBase.connectionClassName).newInstance();
+			}
+			catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return singleton;
 	}
@@ -167,7 +173,7 @@ public abstract class ConnectionPool {
 	 * @param cn
 	 * @throws SQLException
 	 */
-	public void chiudiOggettiDb(Connection cn) throws SQLException{
+	public void chiudiOggettiDb(Connection cn) {
 		if(cn == null){
 			cn = lastConnection;
 		}
@@ -175,12 +181,30 @@ public abstract class ConnectionPool {
 			final ResultSet resultSet = mappaRS.get(cn);
 			final Statement statement = mappaStatement.get(cn);
 			if(resultSet != null){
-				resultSet.close();
+				try {
+					resultSet.close();
+				}
+				catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			if(statement != null){
-				statement.close();
+				try {
+					statement.close();
+				}
+				catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			cn.close();
+			try {
+				cn.close();
+			}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
