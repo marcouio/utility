@@ -33,9 +33,29 @@ public class PannelloDisegno extends PannelloBase {
 	}
 
 	public void add(final FormaGeometrica oggetto) {
-		mapOggetti.put(oggetto.getNome(), oggetto);
+		String nome = oggetto.getNome();
+		if(nome == null){
+			nome = creaNome();
+		}
+		mapOggetti.put(nome, oggetto);
 	}
 
+	public String creaNome() {
+		
+		String nome = null;
+		boolean nomeOk = false;
+		int size = getOggetti().size();
+		
+		while(!nomeOk){
+			
+			nome = Integer.toString(++size);
+			if(!mapOggetti.containsKey(nome)){
+				nomeOk = true;
+			}
+		}
+		return nome;
+	}
+	
 	public ArrayList<FormaGeometrica> getOggetti() {
 		return new ArrayList<FormaGeometrica>(mapOggetti.values());
 	}
