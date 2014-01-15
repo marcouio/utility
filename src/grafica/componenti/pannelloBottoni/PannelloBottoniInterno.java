@@ -54,12 +54,12 @@ public class PannelloBottoniInterno extends PannelloBottoni{
 
 		bottoniPrimo = new ToggleBtnBase(nomeUno, iconaUno, this);
 		bottoniPrimo.settaggioBottoneStandard();
-		bottoniPrimo.posizionaADestraDi(bottoniRet, 6, 1);
+		bottoniPrimo.posizionaADestraDi(bottoniRet, 5, 1);
 		bottoniPrimo.setVisible(false);
 
 		bottoniSecondo = new ToggleBtnBase(nomeDue, iconaDue, this);
 		bottoniSecondo.settaggioBottoneStandard();
-		bottoniSecondo.posizionaSottoA(bottoniPrimo, 0, 2);
+		bottoniSecondo.posizionaSottoA(bottoniPrimo, 0, 4);
 		bottoniSecondo.setVisible(false);
 	}
 
@@ -67,9 +67,9 @@ public class PannelloBottoniInterno extends PannelloBottoni{
 	public void setSize(final int width, final int height) {
 		super.setSize(width, height);
 		if(bottoniRet != null && bottoniPrimo != null && bottoniSecondo != null){
-			bottoniRet.setSize(width/8, height);
-			bottoniPrimo.setSize((int) (width - bottoniRet.getSize().getWidth()), height/2);
-			bottoniSecondo.setSize((int) (width - bottoniRet.getSize().getWidth()), height/2);
+			bottoniRet.setSize(width/9, height);
+			bottoniPrimo.setSize((int) (width - bottoniRet.getSize().getWidth()), height/2-1);
+			bottoniSecondo.setSize((int) (width - bottoniRet.getSize().getWidth()), height/2-1);
 		}
 	}
 
