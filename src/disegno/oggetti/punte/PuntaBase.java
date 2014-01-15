@@ -21,9 +21,11 @@ public class PuntaBase extends FormaGeometrica2D {
 	private Point estremoCentrale;
 	private Segmento latoSinistro;
 	private Segmento latoDestro;
-	private int lunghezzaLati = 10;
+	private int lunghezzaLati = LUNGHEZZA_LATI_DEF;
 	final double ARROW_ANGLE = 45;
 
+	public static final int LUNGHEZZA_LATI_DEF = 10;
+	
 	public PuntaBase(final Segmento segmento, final int lunghezzaLati) {
 		linea = segmento;
 		this.lunghezzaLati = lunghezzaLati;
@@ -64,7 +66,7 @@ public class PuntaBase extends FormaGeometrica2D {
 	}
 
 	public PuntaBase(final Segmento segmento) {
-		linea = segmento;
+		this(segmento, LUNGHEZZA_LATI_DEF);
 	}
 
 	@Override
