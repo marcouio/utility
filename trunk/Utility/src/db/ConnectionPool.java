@@ -85,11 +85,12 @@ public abstract class ConnectionPool {
 				cn = getConnection();
 			}
 			
-		}else{
-			releaseNewConnection();
-			cn = getConnection();
+			lastConnection = cn;
 		}
-		lastConnection = cn;
+//		else{	
+//			releaseNewConnection();
+//			cn = getConnection();
+//		}
 		return cn;
 	}
 	
@@ -205,6 +206,8 @@ public abstract class ConnectionPool {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			releaseConnection(cn);
 		}
 	}
 	
