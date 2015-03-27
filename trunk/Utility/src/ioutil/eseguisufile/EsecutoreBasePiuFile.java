@@ -33,8 +33,8 @@ public abstract class EsecutoreBasePiuFile {
 	 */
 	public boolean scorriEdEseguiSuTuttiIFile(String pathFile) throws ParserConfigurationException, SAXException {
 		final boolean ok = true;
-		if (!pathFile.substring(pathFile.length() - 1, pathFile.length()).equals(UtilIo.slash())) {
-			pathFile += UtilIo.slash();
+		if (!pathFile.substring(pathFile.length() - 1, pathFile.length()).equals(slash())) {
+			pathFile += slash();
 		}
 		final File dir = new File(pathFile);
 		final String[] files = dir.list();
@@ -63,6 +63,10 @@ public abstract class EsecutoreBasePiuFile {
 		}
 		operazioneFinale();
 		return ok;
+	}
+
+	protected String slash() {
+	    return UtilIo.slash();
 	}
 	
 	public static void main(String[] args) throws Exception {
