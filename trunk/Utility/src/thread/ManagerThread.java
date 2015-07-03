@@ -2,115 +2,151 @@ package thread;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+import org.omg.CORBA.Environment;
+
+import thread.richieste.ManagerRichieste;
+import thread.richieste.RichiestaThread;
+
+/**
+ * Il manager si occupa di ricevere le richieste da eseguire e di gestire il
+ * pool di thread che si occuperà di eseguirle. Al manager va passato anche il
+ * class del runnable che va instanziato
+ * 
+ */
 public class ManagerThread {
 
-	ArrayList<Runnable>					listaRunnable			= new ArrayList<Runnable>();
-	public static final int				NUMBER_OF_THREAD	= 10;
-	private ArrayList<? extends Object>	listaRichieste;
-	private Class<? extends RunnerBase>	classeRunnable;
+	public int							numberOfThread	= 10;
 
-	public ManagerThread(ArrayList<? extends Object> listaRichieste, Class<? extends RunnerBase> classe) {
-		this.listaRichieste = listaRichieste;
+	private CopyOnWriteArrayList<RichiestaThread>	listaRichieste;
+	private Class<?>					classeRunnable;
+	private long counterCallable = 0;
+	private Task						task;
+	private ExecutorService			esecutore;
+	
+	public ManagerThread(List<RichiestaThread> richieste, Class<?> classe) {
+		this.listaRichieste = new CopyOnWriteArrayList(richieste);
 		this.classeRunnable = classe;
 	}
 
-	public void eseguiProcesso() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException {
+	public <T> void eseguiProcesso() throws Exception {
 
+		try {
+			esecutore = Executors.newFixedThreadPool(numberOfThread);
+			
+			if (listaRichieste != null && listaRichieste.size() > 0) {
+
+				ArrayList<Callable<CallableBase>> listRunnable = creaListRunnableToSumbit();
+
+				getTask().preExecute(listaRichieste);
+
+				List<Future<CallableBase>> future = esecutore.invokeAll(listRunnable);
+				
+				ManagerRichieste managerRichieste = new ManagerRichieste(future);
+				task.postExecute(managerRichieste);
+
+				esecutore.shutdown();
+
+			}
+
+			boolean terminato = bloccaSeNonTerminato();
+
+			if (terminato) {
+				SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+				String msg = "Task terminato alle ore: " + dateFormat.format(new Date());
+				System.out.println(msg);
+			}
+
+		} catch (Exception e) {
+		        System.out.println(e.getMessage());
+		}
+	}
+
+	private ArrayList<Callable<CallableBase>> creaListRunnableToSumbit() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		if (listaRichieste != null && listaRichieste.size() > 0) {
 
-			while (listaRunnable.size() <= NUMBER_OF_THREAD && listaRichieste.size() > 0) {
-				final Object parametro = (Object) listaRichieste.get(0);
+			final ArrayList<Callable<CallableBase>> listaRunner = new ArrayList<Callable<CallableBase>>();
 
-				final Runnable runner = cercaRunnable(parametro);
+			for (int i = 0; i < listaRichieste.size(); i++) {
 
+				final RichiestaThread parametro = listaRichieste.get(i);
+
+				final Callable<CallableBase> runner = creaRunnable(parametro);
 				if (runner != null) {
-					listaRunnable.add(runner);
-					listaRichieste.remove(0);
+					listaRunner.add(runner);
 				}
 			}
-			
-			final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREAD);
-
-			synchronized (listaRunnable) {
-				for (int i = 0; i<listaRunnable.size(); i++) {
-					Runnable runner = listaRunnable.get(i);
-					executor.execute(runner);
-				}
-			}
-				
-			executor.shutdown();
-
-			
-			while (!executor.isTerminated()) {
-	        }
-	        System.out.println("Finished all threads");
+			return listaRunner;
 		}
+		return null;
+	}
+	
+	protected boolean bloccaSeNonTerminato() {
+		boolean terminato = false;
+
+		while (!isProcessiTerminati()) {
+		}
+		terminato = true;
+		System.out.println("Task terminato: " + terminato);
+		return terminato;
 	}
 
-	private Runnable cercaRunnable(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-		synchronized (listaRunnable) {
-			return creaRunnable(parametro);
-		}
+	public boolean isProcessiTerminati() {
+		return esecutore.isTerminated();
 	}
 
-	private Runnable creaRunnable(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+	protected Callable<CallableBase> creaRunnable(RichiestaThread parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		if (classeRunnable != null) {
 
-			Constructor<? extends RunnerBase> costruttoreRunnable = classeRunnable.getConstructor(new Class[] { ManagerThread.class, Object.class });
-			RunnerBase run = costruttoreRunnable.newInstance(new Object[] { this, parametro });
+			Constructor<Callable<CallableBase>> costruttoreRunnable = (Constructor<Callable<CallableBase>>) classeRunnable.getConstructor(new Class[] { ManagerThread.class, RichiestaThread.class });
+			Callable<CallableBase> run = (Callable<CallableBase>) costruttoreRunnable.newInstance(new Object[] { this, parametro });
+
 			return run;
 		}
-
 		return null;
 	}
 
-	public static void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException {
-
-		ArrayList<Object> lista = new ArrayList<Object>();
-		lista.add("thr1");
-		lista.add("thr2");
-		lista.add("thr3");
-		lista.add("thr4");
-		lista.add("thr5");
-		lista.add("thr6");
-		lista.add("thr7");
-		lista.add("thr8");
-		lista.add("thr9");
-		lista.add("thr10");
-		lista.add("thr11");
-		lista.add("thr12");
-		lista.add("thr13");
-		lista.add("thr14");
-		lista.add("thr15");
-		lista.add("thr16");
-		lista.add("thr17");
-		lista.add("thr18");
-		lista.add("thr19");
-		lista.add("thr20");
-
-		ManagerThread managerThread = new ManagerThread(lista, RunnerCiao.class);
-		managerThread.eseguiProcesso();
-
-		// GregorianCalendar secondoStart = new GregorianCalendar();
-		// System.out.println("start single: " +
-		// dateFormat.format(secondoStart.getTime()));
-		// System.out.println();
-		//
-		// RunProva target = new RunProva();
-		// target.setParametro("UNico");
-		// Thread thread = new Thread(target);
-		// thread.start();
-		//
-		// GregorianCalendar secondoFine = new GregorianCalendar();
-		// System.out.println("fine single: " +
-		// dateFormat.format(secondoFine.getTime()));
-		//
-		// System.out.println(secondoFine.getTimeInMillis() -
-		// secondoStart.getTimeInMillis());
+	/**
+	 * @return the task
+	 */
+	public Task getTask() {
+		return task;
 	}
 
+	/**
+	 * @param task
+	 *            the task to set
+	 */
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
+	public ExecutorService getEsecutore() {
+		return esecutore;
+	}
+
+	public int getNumberOfThread() {
+		return numberOfThread;
+	}
+
+	public void setNumberOfThread(int numberOfThread) {
+		this.numberOfThread = numberOfThread;
+	}
+
+	public long getCounterCallable() {
+		return counterCallable;
+	}
+	
+	public void incCounterCallable(){
+		counterCallable++;
+	}
 }
