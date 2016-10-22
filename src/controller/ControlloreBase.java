@@ -95,7 +95,7 @@ public abstract class ControlloreBase {
 							}
 						}
 						//TODO capire come sostituire il 30
-						frame.setSize(frame.getLarghezza() + 20, frame.getAltezza() + 20);
+						frame.setSize(frame.getLarghezza(), frame.getAltezza() + 30);
 						getLog().info("Frame, larghezza: " + frame.getSize().getWidth());
 						getLog().info("Frame, altezza: " + frame.getSize().getHeight());
 					}

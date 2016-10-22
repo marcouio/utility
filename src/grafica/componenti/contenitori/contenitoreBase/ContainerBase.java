@@ -27,7 +27,7 @@ public class ContainerBase extends Container {
 				}
 			}
 		}
-		return maxX + 3;
+		return maxX + 1;
 	}
 
 	public int getMaxDimensionY(final Container container) {

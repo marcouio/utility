@@ -92,7 +92,8 @@ public class Query {
 	}
 
 	public ResultSet resultSetfromIstruzione(final String comandoSql) throws Exception {
-		final ResultSet rs = ConnectionPool.getSingleton().getResulSet(comandoSql);
+		Connection connection = ConnectionPool.getSingleton().getConnection();
+		final ResultSet rs = ConnectionPool.getSingleton().getResulSet(connection, comandoSql);
 		return rs;
 	}
 	

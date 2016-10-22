@@ -56,7 +56,9 @@ public class LoggerOggetto {
 			fileLog = new FileHandler("MyLog.txt", 50000, 1, true);
 			fileLog.setFormatter(new SimpleFormatter());
 		} catch (final SecurityException e) {
+			e.printStackTrace();
 		} catch (final IOException e) {
+			e.printStackTrace();
 		}
 		log.addHandler(fileLog);
 		log.setLevel(Level.ALL);

@@ -1,10 +1,9 @@
 package grafica.componenti.table.table2d;
 
-import java.lang.reflect.InvocationTargetException;
-
 import grafica.componenti.UtilComponenti;
-import grafica.componenti.table.TableScrollPane;
 import grafica.componenti.table.table.TableBase;
+
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;

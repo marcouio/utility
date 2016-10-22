@@ -75,10 +75,14 @@ public abstract class ConnectionPool {
 		Connection cn = null;
 		if (freeConnections.size() > 0) {
 			cn = freeConnections.get(0);
+			if(freeConnections.size() == 1){
+				ControlloreBase.getLog().warning("Utilizzata ultima connessione disponibile.");
+			}
 			freeConnections.remove(0);
+			ControlloreBase.getLog().info("Connection removed. Connections available: " + freeConnections.size());
 			
 			try {
-				if(cn.isClosed()){
+				if(cn != null && cn.isClosed()){
 					cn = getConnection();
 				}
 			} catch (SQLException e) {
@@ -87,10 +91,6 @@ public abstract class ConnectionPool {
 			
 			lastConnection = cn;
 		}
-//		else{	
-//			releaseNewConnection();
-//			cn = getConnection();
-//		}
 		return cn;
 	}
 	
@@ -127,6 +127,8 @@ public abstract class ConnectionPool {
 	public synchronized static void releaseNewConnection() {
 		final Connection cn = newConnection();
 		releaseConnection(cn);
+		ControlloreBase.getLog().info("add a new connection to pool for closed previous connection.");
+		ControlloreBase.getLog().info("Now are available " + freeConnections.size() + " connections" );
 	}
 
 	/**
@@ -154,8 +156,26 @@ public abstract class ConnectionPool {
 		return ritorno;
 	}
 	
-	public ResultSet getResulSet(final String sql) throws SQLException{
-		final Connection cn = getConnection();
+	public abstract class ExecuteResultSet<T>{
+		
+		public T execute(String sql) throws SQLException{
+
+			final Connection cn = getConnection();
+			try{
+				ResultSet resulSet = getResulSet(cn, sql);
+				T ret = doWithResultSet(resulSet);
+				return ret;
+			}finally{
+				chiudiOggettiDb(cn);
+			}
+		}
+
+		protected abstract T doWithResultSet(ResultSet resulSet) throws SQLException;
+		
+	}
+	
+	public ResultSet getResulSet(Connection cn, final String sql) throws SQLException{
+		
 		ResultSet rs = null;
 		if(cn != null && sql != null){
 			final Statement st = cn.createStatement();
@@ -175,40 +195,27 @@ public abstract class ConnectionPool {
 	 * @throws SQLException
 	 */
 	public void chiudiOggettiDb(Connection cn) {
-		if(cn == null){
-			cn = lastConnection;
-		}
-		if(cn != null){
-			final ResultSet resultSet = mappaRS.get(cn);
-			final Statement statement = mappaStatement.get(cn);
-			if(resultSet != null){
-				try {
+		try {
+			if(cn == null){
+				cn = lastConnection;
+			}
+			if(cn != null){
+				final ResultSet resultSet = mappaRS.get(cn);
+				final Statement statement = mappaStatement.get(cn);
+				if(resultSet != null){
 					resultSet.close();
 				}
-				catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			if(statement != null){
-				try {
+				if(statement != null){
 					statement.close();
-				}
-				catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			try {
+				}	
 				cn.close();
 			}
-			catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			releaseConnection(cn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			releaseNewConnection();
 		}
+		
 	}
 	
 	/**
