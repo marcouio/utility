@@ -65,6 +65,10 @@ public class LoggerOggetto {
 		log.info("Start programma!");
 		return log;
 	}
+	
+	public void setLevel(Level level){
+		log.setLevel(level);
+	}
 
 	public static String getMessaggioErroreOperazione(final Exception e) {
 		return "Operazione non eseguita: " + e.getMessage();

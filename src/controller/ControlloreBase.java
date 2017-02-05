@@ -94,8 +94,9 @@ public abstract class ControlloreBase {
 								pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
 							}
 						}
-						//TODO capire come sostituire il 30
-						frame.setSize(frame.getLarghezza(), frame.getAltezza() + 30);
+						int larghezza = frame.getLarghezza();
+						int altezza = frame.getAltezza();
+						frame.setSize(larghezza, altezza);
 						getLog().info("Frame, larghezza: " + frame.getSize().getWidth());
 						getLog().info("Frame, altezza: " + frame.getSize().getHeight());
 					}

@@ -1,5 +1,6 @@
 package db;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -363,5 +364,10 @@ public class UtilDb {
 		final String sql = "SELECT * FROM ENTRATE order by nome";
 		final String parola = trovaOggettoFromStringSQL(sql, "order by", null, null, ",")[0];
 		System.out.println(parola);
+	}
+
+	public static Object toString(Serializable serializable) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

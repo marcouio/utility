@@ -1,6 +1,7 @@
 package ioutil;
 
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,8 +11,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import log.LoggerOggetto;
 
 public class UtilIo {
 
@@ -93,17 +98,30 @@ public class UtilIo {
 		return files;
 	}
 
-	public static void scriviFileSuPiuRighe(final File file,
-			final ArrayList<String> righe) {
+	public static void scriviFileSuPiuRighe(final File file, final List<String> righe) {
 		try {
-			final BufferedWriter out = new BufferedWriter(new FileWriter(file));
+			FileWriter fileWriter = createFileWriter(file);
+			final BufferedWriter out = new BufferedWriter(fileWriter);
 			for (final String type : righe) {
 				out.write(type);
 				out.newLine();
 			}
-			out.close();
+			close(out, fileWriter);
 		} catch (final IOException e) {
+			e.printStackTrace();
 		}
+	}
+
+	private static FileWriter createFileWriter(final File file)
+			throws IOException {
+		return new FileWriter(file);
+	}
+	
+	public static void close(Closeable ...closeables) throws IOException {
+		for (Closeable closeable : closeables) {
+			closeable.close();
+		}
+		
 	}
 
 	public boolean check(final String estensione, final File file) {
@@ -142,8 +160,7 @@ public class UtilIo {
 	protected static boolean rename(final File mp3, final String nome_dopo)
 			throws IOException {
 		final File file2 = new File(nome_dopo);
-		final boolean success = mp3.renameTo(file2);
-		return success;
+		return mp3.renameTo(file2);
 	}
 
 	public boolean moveFile(final File origine, final File destinazione) {
@@ -151,7 +168,7 @@ public class UtilIo {
 	}
 
 	public static String slash() {
-		String slash = "";
+		String slash;
 		final String os = System.getProperty("os.name");
 		if (os.startsWith("Win")) {
 			slash = "\\";

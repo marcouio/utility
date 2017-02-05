@@ -48,7 +48,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public void aggiungiAlContenitore(final Container contenitorePadre2, final Component componenteFiglio) {
 		contenitorePadre2.add(componenteFiglio);
 		if (contenitorePadre2.getComponentCount() == 1) {
-			componenteFiglio.setLocation(contenitorePadre2.getX() + 10, contenitorePadre2.getY() + 10);
+			componenteFiglio.setLocation(contenitorePadre2.getX(), contenitorePadre2.getY());
 		}
 	}
 

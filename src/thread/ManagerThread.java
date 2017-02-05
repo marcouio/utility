@@ -3,17 +3,25 @@ package thread;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import thread.richieste.RichiestaThread;
 
 public class ManagerThread {
 
 	ArrayList<Runnable>					listaRunnable			= new ArrayList<Runnable>();
-	public static final int				NUMBER_OF_THREAD	= 10;
-	private ArrayList<? extends Object>	listaRichieste;
-	private Class<? extends RunnerBase>	classeRunnable;
+	
+	public int							numberOfThread	= 10;
 
-	public ManagerThread(ArrayList<? extends Object> listaRichieste, Class<? extends RunnerBase> classe) {
+	private CopyOnWriteArrayList<RichiestaThread>	listaRichieste;
+	private Class<?>					classeRunnable;
+	private long counterCallable = 0;
+	private Task						task;
+	private ExecutorService			esecutore;
+
+	public ManagerThread(CopyOnWriteArrayList<RichiestaThread> listaRichieste, Class<? extends RunnerBase> classe) {
 		this.listaRichieste = listaRichieste;
 		this.classeRunnable = classe;
 	}
@@ -22,7 +30,7 @@ public class ManagerThread {
 
 		if (listaRichieste != null && listaRichieste.size() > 0) {
 
-			while (listaRunnable.size() <= NUMBER_OF_THREAD && listaRichieste.size() > 0) {
+			while (listaRunnable.size() <= numberOfThread && listaRichieste.size() > 0) {
 				final Object parametro = (Object) listaRichieste.get(0);
 
 				final Runnable runner = cercaRunnable(parametro);
@@ -33,7 +41,7 @@ public class ManagerThread {
 				}
 			}
 			
-			final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREAD);
+			final ExecutorService executor = Executors.newFixedThreadPool(numberOfThread);
 
 			synchronized (listaRunnable) {
 				for (int i = 0; i<listaRunnable.size(); i++) {
@@ -60,7 +68,7 @@ public class ManagerThread {
 	private Runnable creaRunnable(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		if (classeRunnable != null) {
 
-			Constructor<? extends RunnerBase> costruttoreRunnable = classeRunnable.getConstructor(new Class[] { ManagerThread.class, Object.class });
+			Constructor<? extends RunnerBase> costruttoreRunnable = (Constructor<? extends RunnerBase>) classeRunnable.getConstructor(new Class[] { ManagerThread.class, Object.class });
 			RunnerBase run = costruttoreRunnable.newInstance(new Object[] { this, parametro });
 			return run;
 		}
@@ -92,8 +100,8 @@ public class ManagerThread {
 		lista.add("thr19");
 		lista.add("thr20");
 
-		ManagerThread managerThread = new ManagerThread(lista, RunnerCiao.class);
-		managerThread.eseguiProcesso();
+//		ManagerThread managerThread = new ManagerThread(lista, RunnerCiao.class);
+//		managerThread.eseguiProcesso();
 
 		// GregorianCalendar secondoStart = new GregorianCalendar();
 		// System.out.println("start single: " +
@@ -112,5 +120,38 @@ public class ManagerThread {
 		// System.out.println(secondoFine.getTimeInMillis() -
 		// secondoStart.getTimeInMillis());
 	}
+	/**
+	 * @return the task
+	 */
+	public Task getTask() {
+		return task;
+	}
 
+	/**
+	 * @param task
+	 *            the task to set
+	 */
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
+	public ExecutorService getEsecutore() {
+		return esecutore;
+	}
+
+	public int getNumberOfThread() {
+		return numberOfThread;
+	}
+
+	public void setNumberOfThread(int numberOfThread) {
+		this.numberOfThread = numberOfThread;
+	}
+
+	public long getCounterCallable() {
+		return counterCallable;
+	}
+	
+	public void incCounterCallable(){
+		counterCallable++;
+	}
 }
