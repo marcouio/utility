@@ -11,16 +11,10 @@ public class AlphanumericCounter2 {
 	private String[] codes = {};
 	private String current;
 	
-	public enum Posizione{
-		PRIMO, SECONDO, TERZO, QUATTRO
-	}
-	
 	public AlphanumericCounter2(String code) {
-		List<String> list = new ArrayList<>();
-		for (int i = 0; i < stringCodes.length(); i++) {
-			list.add(stringCodes.substring(i, i+1));
-		}
-		codes = list.toArray(new String[list.size()]);
+		
+		initCode();
+		
 		if(code != null){
 			setCurrent(code);
 			
@@ -28,6 +22,14 @@ public class AlphanumericCounter2 {
 			
 			configCifre();
 		}
+	}
+
+	private void initCode() {
+		List<String> list = new ArrayList<>();
+		for (int i = 0; i < stringCodes.length(); i++) {
+			list.add(stringCodes.substring(i, i+1));
+		}
+		codes = list.toArray(new String[list.size()]);
 	}
 	
 	public String getNext(){
