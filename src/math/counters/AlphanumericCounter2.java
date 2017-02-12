@@ -7,7 +7,7 @@ public class AlphanumericCounter2 {
  
 	private List<Cifra> cifraList = new ArrayList<>();
 
-	String stringCodes = "0123456789abcdefghilmnopqrstuvzABCDEFGHILMNOPQRSTUVZ*#@§?.,'!£$&/()";
+	private static String stringCodes = "0123456789abcdefghilmnopqrstuvzABCDEFGHILMNOPQRSTUVZ*#@§?.,'!£$&/()";
 	private String[] codes = {};
 	private String current;
 	
@@ -82,10 +82,10 @@ public class AlphanumericCounter2 {
 		String next = "0000";
 		AlphanumericCounter2 alphanumericCounter = new AlphanumericCounter2(next);
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 15000000; i++) {
 			next = alphanumericCounter.getNext();
-			System.out.println(next);
 		}
+		System.out.println(next);
 	}
 
 	private void updateValue(Cifra cQuarto) {
