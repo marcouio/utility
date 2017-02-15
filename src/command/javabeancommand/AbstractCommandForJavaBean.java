@@ -1,13 +1,13 @@
 package command.javabeancommand;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import command.AbstractCommand;
 import db.dao.IDAO;
 
-public abstract class AbstractCommandForJavaBean extends AbstractCommand {
+public abstract class AbstractCommandForJavaBean<T extends AbstractOggettoEntita> extends AbstractCommand {
 
-	protected AbstractOggettoEntita entita;
+	protected T entita;
 	protected IDAO wrap;
-	protected HashMap<String, AbstractOggettoEntita> mappaCache;
+	protected Map<String, T> mappaCache;
 }
