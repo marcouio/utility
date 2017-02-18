@@ -9,6 +9,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -74,8 +75,8 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 		init(contenitorePadre, this);
 	}
 
-	public TreeBase(final Vector<ITreeObject> userObjects, final Container contenitorePadre) {
-		super(userObjects);
+	public TreeBase(final List<ITreeObject> userObjects, final Container contenitorePadre) {
+		super(new Vector<ITreeObject>(userObjects));
 		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}

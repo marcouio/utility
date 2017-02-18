@@ -1,18 +1,18 @@
 package grafica.componenti.combo;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+
 import grafica.componenti.componenteBase.ComponenteBaseConPadreContenitore;
 import grafica.componenti.componenteBase.IComponenteBase;
 import grafica.componenti.style.StyleBase;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.util.Vector;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-
-public class ComboBoxBase<E> extends JComboBox<Object> implements IComponenteBase {
+public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
 	private Container contenitorePadre;
@@ -23,8 +23,8 @@ public class ComboBoxBase<E> extends JComboBox<Object> implements IComponenteBas
 		init(contenitorePadre, this);
 	}
 	
-	public ComboBoxBase(final Container contenitorePadre, final Vector<Object> lista) {
-		this.setModel(new DefaultComboBoxModel<Object>(lista));
+	public ComboBoxBase(final Container contenitorePadre, final List<Object> lista) {
+		this.setModel(new DefaultComboBoxModel<Object>(new Vector<>(lista)));
 		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}

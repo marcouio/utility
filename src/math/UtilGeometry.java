@@ -260,7 +260,7 @@ public class UtilGeometry {
 	/**
 	 * Return the length of a vector.
 	 * 
-	 * @param v  Vector to compute length of [x,y,z].
+	 * @param v  List to compute length of [x,y,z].
 	 * @return   Length of vector.
 	 */
 	public static double length (final double[] v)
@@ -278,7 +278,7 @@ public class UtilGeometry {
 	 */
 	public static double length (final double[] p0, final double[] p1)
 	{
-		final double[] v = createVector (p0, p1);
+		final double[] v = createList (p0, p1);
 		return length (v);
 	}
 
@@ -384,8 +384,8 @@ public class UtilGeometry {
 	 */
 	public static double computeAngle (final double[] p0, final double[] p1, final double[] p2)
 	{
-		final double[] v0 = createVector (p0, p1);
-		final double[] v1 = createVector (p0, p2);
+		final double[] v0 = createList (p0, p1);
+		final double[] v1 = createList (p0, p2);
 
 		final double dotProduct = computeDotProduct (v0, v1);
 
@@ -406,7 +406,7 @@ public class UtilGeometry {
 	/**
 	 * Compute the dot product (a scalar) between two vectors.
 	 * 
-	 * @param v0, v1  Vectors to compute dot product between [x,y,z].
+	 * @param v0, v1  Lists to compute dot product between [x,y,z].
 	 * @return        Dot product of given vectors.
 	 */
 	public static double computeDotProduct (final double[] v0, final double[] v1)
@@ -419,7 +419,7 @@ public class UtilGeometry {
 	/**
 	 * Compute the cross product (a vector) of two vectors.
 	 * 
-	 * @param v0, v1        Vectors to compute cross product between [x,y,z].
+	 * @param v0, v1        Lists to compute cross product between [x,y,z].
 	 * @param crossProduct  Cross product of specified vectors [x,y,z].
 	 */
 	public static double[] computeCrossProduct (final double[] v0, final double[] v1)
@@ -439,9 +439,9 @@ public class UtilGeometry {
 	 * Construct the vector specified by two points.
 	 * 
 	 * @param  p0, p1  Points the construct vector between [x,y,z].
-	 * @return v       Vector from p0 to p1 [x,y,z].
+	 * @return v       List from p0 to p1 [x,y,z].
 	 */
-	public static double[] createVector (final double[] p0, final double[] p1)
+	public static double[] createList (final double[] p0, final double[] p1)
 	{
 		final double v[] = {p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]};
 		return v;

@@ -113,21 +113,25 @@ public class CommandManager {
 	 * @return
 	 * @throws Exception 
 	 */
-	public boolean invocaComando(final AbstractCommand comando) throws Exception {
-		if (comando instanceof UndoCommand) {
-			if (undo()) {
-				return true;
+	public boolean invocaComando(final AbstractCommand comando) {
+		try {
+			if (comando instanceof UndoCommand) {
+				if (undo()) {
+					return true;
+				}
+			} else if (comando instanceof RedoCommand) {
+				if (redo()) {
+					return true;
+				}
+			} else {
+				if (comando.doCommand()) {
+					history.add(comando);
+					indiceCorrente = history.size() - 1;
+					return true;
+				}
 			}
-		} else if (comando instanceof RedoCommand) {
-			if (redo()) {
-				return true;
-			}
-		} else {
-			if (comando.doCommand()) {
-				history.add(comando);
-				indiceCorrente = history.size() - 1;
-				return true;
-			}
+		} catch (Exception e) {
+			throw new CommandException(e);
 		}
 		return false;
 	}
