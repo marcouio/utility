@@ -3,12 +3,13 @@ package db;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class SelectBase extends ObjConClausole{
 
 	private HashMap<String, String> tabelle = new HashMap<String, String>();
-	private ArrayList<Join> joins = new ArrayList<Join>();
+	private List<Join> joins = new ArrayList<Join>();
 	private HashMap<String, String> campiSelect = new HashMap<String, String>();
 	private String appendToQuery = null;
 	
@@ -25,8 +26,8 @@ public class SelectBase extends ObjConClausole{
 	 * @return
 	 * @throws Exception
 	 */
-	public String getQuery(final String tabella, final ArrayList<Clausola> clausole) throws Exception{
-		HashMap<String, String> mapTable = new HashMap<String, String>();
+	public String getQuery(final String tabella, final List<Clausola> clausole) throws Exception{
+		HashMap<String, String> mapTable = new HashMap<>();
 		mapTable.put(tabella, tabella);
 		return getQuery(mapTable, null, clausole, null);
 	}
@@ -52,8 +53,8 @@ public class SelectBase extends ObjConClausole{
 	 */
 	public String getQuery(final HashMap<String, String> tabelle, 
 							final HashMap<String, String> campi, 
-							final ArrayList<Clausola> clausole, 
-							final ArrayList<Join> joins) {
+							final List<Clausola> clausole, 
+							final List<Join> joins) {
 		
 		setTable(tabelle);
 		setCampiSelect(campi);
@@ -148,11 +149,11 @@ public class SelectBase extends ObjConClausole{
 		joins.add(join);
 	}
 	
-	public ArrayList<Join> getJoins() {
+	public List<Join> getJoins() {
 		return joins;
 	}
 
-	public void setJoins(ArrayList<Join> joins) {
+	public void setJoins(List<Join> joins) {
 		this.joins = joins;
 	}
 

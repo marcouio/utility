@@ -3,13 +3,16 @@ package db.dao;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
@@ -38,7 +41,7 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public Object selectById(final int id) throws Exception {
+	public Object selectById(final int id)  {
 		try {
 			SelectBase selectObj = new SelectBase();
 			selectObj.putTabelle(getNomeTabella(), getNomeTabella());
@@ -58,56 +61,69 @@ public class GenericDAO extends Observable implements IDAO {
 		return null;
 	}
 
-	protected ArrayList<AbstractOggettoEntita> costruisciEntitaFromRs(ResultSet select) throws Exception {
-		ArrayList<AbstractOggettoEntita> listaReturn = null;
-		while (select.next()) {
-			
-			if(listaReturn == null){
-				listaReturn = new ArrayList<AbstractOggettoEntita>();
-			}
-			
-			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
-			final AbstractOggettoEntita ent = getEntita().getClass().newInstance();
-			listaReturn.add(ent);
-			while (iterColumn.hasNext()) {
-				final String colonna = (String) iterColumn.next();
-				final String colonnaValue = select.getString(colonna);
-				final Field field = getMappaColumnCampi().get(colonna);
-				final Class<?> parameterTypes = field.getType();
-				final String methodName = costruisciNomeSet(field.getName());
-				final Method method = getEntita().getClass().getMethod(methodName,parameterTypes);
+	protected ArrayList<AbstractOggettoEntita> costruisciEntitaFromRs(ResultSet select)  {
+		try {
+			ArrayList<AbstractOggettoEntita> listaReturn = null;
+			while (select.next()) {
 				
-				setValue(method, colonnaValue, parameterTypes, ent);
-			}
-			final Iterator<String> iterJoin = getMappaColumnJoin().keySet().iterator();
-			while (iterJoin.hasNext()) {
-				final String join = (String) iterJoin.next();
-				final int colonnaValue = select.getInt(join);
-				final Field field = getMappaColumnJoin().get(join);
-				final Class<?> parameterTypes = field.getType();
-				final String methodName = costruisciNomeSet(field.getName());
-				final Method method = getEntita().getClass().getMethod(methodName,parameterTypes);
+				if(listaReturn == null){
+					listaReturn = new ArrayList<AbstractOggettoEntita>();
+				}
+				
+				final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
+				final AbstractOggettoEntita ent = getEntita().getClass().newInstance();
+				listaReturn.add(ent);
+				while (iterColumn.hasNext()) {
+					final String colonna = (String) iterColumn.next();
+					final String colonnaValue = select.getString(colonna);
+					final Field field = getMappaColumnCampi().get(colonna);
+					final Class<?> parameterTypes = field.getType();
+					final String methodName = costruisciNomeSet(field.getName());
+					final Method method = getEntita().getClass().getMethod(methodName,parameterTypes);
+					
+					setValue(method, colonnaValue, parameterTypes, ent);
+				}
+				final Iterator<String> iterJoin = getMappaColumnJoin().keySet().iterator();
+				while (iterJoin.hasNext()) {
+					final String join = (String) iterJoin.next();
+					final int colonnaValue = select.getInt(join);
+					final Field field = getMappaColumnJoin().get(join);
+					final Class<?> parameterTypes = field.getType();
+					final String methodName = costruisciNomeSet(field.getName());
+					final Method method = getEntita().getClass().getMethod(methodName,parameterTypes);
 
-				setValue(method, colonnaValue, parameterTypes, ent);
+					setValue(method, colonnaValue, parameterTypes, ent);
 
+				}
 			}
+			return listaReturn;
+		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
+				| SQLException e) {
+			throw new DAOException(e);
 		}
-		return listaReturn;
 	}
 
-	protected void setValue(Method method, Object colonnaValue,Class<?> parameterTypes, AbstractOggettoEntita ent) throws Exception {
-		GenericDAO dao = UtilityDAO.getDaoByTipo(parameterTypes);
-		final Object selectById = dao.selectById(Integer.parseInt(colonnaValue.toString()));
-		method.invoke(ent, selectById);
+	protected void setValue(Method method, Object colonnaValue,Class<?> parameterTypes, AbstractOggettoEntita ent)  {
+		try {
+			GenericDAO dao = UtilityDAO.getDaoByTipo(parameterTypes);
+			final Object selectById = dao.selectById(Integer.parseInt(colonnaValue.toString()));
+			method.invoke(ent, selectById);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			throw new DAOException(e);
+		}
 	}
 
-	protected void setValue(Method method, String colonnaValue, Class<?> parameterTypes, AbstractOggettoEntita ent) throws Exception {
-		if (int.class.equals(parameterTypes)) {
-			method.invoke(ent, Integer.parseInt(colonnaValue));
-		} else if (double.class.equals(parameterTypes)) {
-			method.invoke(ent, Double.parseDouble(colonnaValue));
-		} else if (String.class.equals(parameterTypes)) {
-			method.invoke(ent, colonnaValue);
+	protected void setValue(Method method, String colonnaValue, Class<?> parameterTypes, AbstractOggettoEntita ent)  {
+		try {
+			if (int.class.equals(parameterTypes)) {
+				method.invoke(ent, Integer.parseInt(colonnaValue));
+			} else if (double.class.equals(parameterTypes)) {
+				method.invoke(ent, Double.parseDouble(colonnaValue));
+			} else if (String.class.equals(parameterTypes)) {
+				method.invoke(ent, colonnaValue);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			throw new DAOException(e);
 		}
 	}
 
@@ -153,7 +169,7 @@ public class GenericDAO extends Observable implements IDAO {
 					} else if ("javax.persistence.JoinColumns".equals(name)) {
 						nameColonna = getNomeColonnaByJoinColumnsAnnotation(annotation);
 						
-						if(nameColonna == null || nameColonna.equals("")){
+						if(nameColonna == null || "".equals(nameColonna)){
 							nameColonna = field.getName();
 						}
 						getMappaColumnJoin().put(nameColonna,field);
@@ -186,7 +202,7 @@ public class GenericDAO extends Observable implements IDAO {
 		return mappaColumnCampi;
 	}
 
-	protected String getNomeCampoId() throws Exception {
+	protected String getNomeCampoId()  {
 
 		if (nomeCampoId != null) {
 			return nomeCampoId;
@@ -277,53 +293,57 @@ public class GenericDAO extends Observable implements IDAO {
 		return nameColonna;
 	}
 	
-	private String getColumnDefinitionByAnnotation(Annotation annotation) {
-		return (String) getOggettoByAnnotation(annotation, "columnDefinition");
-	}
-	
 	protected String getNomeColonnaByAnnotation(Annotation annotation) {
 		return (String) getOggettoByAnnotation(annotation, "name");
 	}
 
 	@Override
-	public Object selectAll() throws Exception {
-		SelectBase selectObj = new SelectBase();
-		selectObj.putTabelle(getNomeTabella(), getNomeTabella());
-		Query query = new Query();
-		ResultSet rs = query.select(selectObj);
-		return costruisciEntitaFromRs(rs);
+	public Object selectAll()  {
+		try {
+			SelectBase selectObj = new SelectBase();
+			selectObj.putTabelle(getNomeTabella(), getNomeTabella());
+			Query query = new Query();
+			ResultSet rs = query.select(selectObj);
+			return costruisciEntitaFromRs(rs);
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
-	public boolean insert(Object oggettoEntita) throws Exception {
-		if(oggettoEntita != null){
-			InsertBase insertBase = new InsertBase();
-			insertBase.setTabella(getNomeTabella());
-			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
-			while (iterColumn.hasNext()) {
-				final String colonna = (String) iterColumn.next();
-				final Field field = getMappaColumnCampi().get(colonna);
-				final String getMethodName = costruisciNomeGet(field.getName());
-				final Method method = getEntita().getClass().getMethod(getMethodName);
-				Object getterCampo = method.invoke(oggettoEntita);
-				if(!colonna.equals(getNomeCampoId()) || isIdValido(getterCampo)){
+	public boolean insert(Object oggettoEntita)  {
+		try {
+			if(oggettoEntita != null){
+				InsertBase insertBase = new InsertBase();
+				insertBase.setTabella(getNomeTabella());
+				final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
+				while (iterColumn.hasNext()) {
+					final String colonna = (String) iterColumn.next();
+					final Field field = getMappaColumnCampi().get(colonna);
+					final String getMethodName = costruisciNomeGet(field.getName());
+					final Method method = getEntita().getClass().getMethod(getMethodName);
+					Object getterCampo = method.invoke(oggettoEntita);
+					if(!colonna.equals(getNomeCampoId()) || isIdValido(getterCampo)){
+						inserisciCampiValue(colonna, getterCampo, field.getType(), insertBase);
+					}
+					
+				}
+				Iterator<String> iterJoinColumn = getMappaColumnJoin().keySet().iterator();
+				while(iterJoinColumn.hasNext()){
+					final String colonna = (String) iterJoinColumn.next();
+					final Field field = getMappaColumnJoin().get(colonna);
+					final String getMethodName = costruisciNomeGet(field.getName());
+					final Method method = getEntita().getClass().getMethod(getMethodName);
+					Object getterCampo = method.invoke(oggettoEntita);
 					inserisciCampiValue(colonna, getterCampo, field.getType(), insertBase);
 				}
-				
+				Query query = new Query();
+				return query.insert(insertBase);
 			}
-			Iterator<String> iterJoinColumn = getMappaColumnJoin().keySet().iterator();
-			while(iterJoinColumn.hasNext()){
-				final String colonna = (String) iterJoinColumn.next();
-				final Field field = getMappaColumnJoin().get(colonna);
-				final String getMethodName = costruisciNomeGet(field.getName());
-				final Method method = getEntita().getClass().getMethod(getMethodName);
-				Object getterCampo = method.invoke(oggettoEntita);
-				inserisciCampiValue(colonna, getterCampo, field.getType(), insertBase);
-			}
-			Query query = new Query();
-			return query.insert(insertBase);
+			return false;
+		} catch (Exception e) {
+			throw new DAOException(e);
 		}
-		return false;
 	}
 
 	protected boolean isIdValido(Object getterCampo) {
@@ -355,47 +375,55 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public boolean delete(int id) throws Exception {
-		final DeleteBase deleteBase = new DeleteBase();
-		final String nomeCampoId = getNomeCampoId();
-		deleteBase.setTabella(getNomeTabella());
-		deleteBase.putClausole(null, nomeCampoId, "=", Integer.toString(id));
-		Query query = new Query();
-		return query.delete(deleteBase);
+	public boolean delete(int id)  {
+		try {
+			final DeleteBase deleteBase = new DeleteBase();
+			final String nomeCampoId = getNomeCampoId();
+			deleteBase.setTabella(getNomeTabella());
+			deleteBase.putClausole(null, nomeCampoId, "=", Integer.toString(id));
+			Query query = new Query();
+			return query.delete(deleteBase);
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita) throws Exception {
-		if(oggettoEntita != null){
-			final UpdateBase updateBase = new UpdateBase();
-			updateBase.setTabella(getNomeTabella());
-			final String campoId = getNomeCampoId();
-			String idEntita = ((AbstractOggettoEntita)oggettoEntita).getIdEntita();
-			updateBase.putClausole(null, campoId, "=", idEntita);
-			final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
-			while (iterColumn.hasNext()) {
-				final String colonna = (String) iterColumn.next();
-				final Field field = getMappaColumnCampi().get(colonna);
-				final String getMethodName = costruisciNomeGet(field.getName());
-				final Method method = getEntita().getClass().getMethod(getMethodName);
-				final Object getterCampo = method.invoke(oggettoEntita);
-				inserisciCampiUpdate(colonna, getterCampo, field.getType(), updateBase);
+	public boolean update(Object oggettoEntita)  {
+		try {
+			if(oggettoEntita != null){
+				final UpdateBase updateBase = new UpdateBase();
+				updateBase.setTabella(getNomeTabella());
+				final String campoId = getNomeCampoId();
+				String idEntita = ((AbstractOggettoEntita)oggettoEntita).getIdEntita();
+				updateBase.putClausole(null, campoId, "=", idEntita);
+				final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
+				while (iterColumn.hasNext()) {
+					final String colonna = (String) iterColumn.next();
+					final Field field = getMappaColumnCampi().get(colonna);
+					final String getMethodName = costruisciNomeGet(field.getName());
+					final Method method = getEntita().getClass().getMethod(getMethodName);
+					final Object getterCampo = method.invoke(oggettoEntita);
+					inserisciCampiUpdate(colonna, getterCampo, field.getType(), updateBase);
+					
+				}
 				
+				Iterator<String> iterJoinColumn = getMappaColumnJoin().keySet().iterator();
+				while(iterJoinColumn.hasNext()){
+					final String colonna = (String) iterJoinColumn.next();
+					final Field field = getMappaColumnJoin().get(colonna);
+					final String getMethodName = costruisciNomeGet(field.getName());
+					final Method method = getEntita().getClass().getMethod(getMethodName);
+					Object getterCampo = method.invoke(oggettoEntita);
+					inserisciCampiUpdate(colonna, getterCampo, field.getType(), updateBase);
+				}
+				Query query = new Query();
+				return query.update(updateBase);
 			}
-			
-			Iterator<String> iterJoinColumn = getMappaColumnJoin().keySet().iterator();
-			while(iterJoinColumn.hasNext()){
-				final String colonna = (String) iterJoinColumn.next();
-				final Field field = getMappaColumnJoin().get(colonna);
-				final String getMethodName = costruisciNomeGet(field.getName());
-				final Method method = getEntita().getClass().getMethod(getMethodName);
-				Object getterCampo = method.invoke(oggettoEntita);
-				inserisciCampiUpdate(colonna, getterCampo, field.getType(), updateBase);
-			}
-			Query query = new Query();
-			return query.update(updateBase);
+			return false;
+		} catch (Exception e) {
+			throw new DAOException(e);
 		}
-		return false;
 	}
 	
 	protected void inserisciCampiUpdate(String colonna, Object getterCampo, Class<?> parameterTypes, UpdateBase updateBase) {
@@ -412,10 +440,14 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public boolean deleteAll() throws Exception {
-		final DeleteBase deleteBase = new DeleteBase();
-		deleteBase.setTabella(getNomeTabella());
-		return new Query().delete(deleteBase);
+	public boolean deleteAll()  {
+		try {
+			final DeleteBase deleteBase = new DeleteBase();
+			deleteBase.setTabella(getNomeTabella());
+			return new Query().delete(deleteBase);
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
@@ -424,14 +456,19 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public ArrayList<AbstractOggettoEntita> selectWhere(ArrayList<Clausola> clausole, String appendToQuery) throws Exception {
-		SelectBase selectObj = new SelectBase();
-		selectObj.putTabelle(getNomeTabella(), getNomeTabella());
-		selectObj.setClausole(clausole);
-		selectObj.setAppendToQuery(appendToQuery);
-		final ArrayList<AbstractOggettoEntita> entities = costruisciEntitaFromRs(new Query().select(selectObj));
-		ConnectionPool.getSingleton().chiudiOggettiDb(null);
-		return entities;
+	public List<AbstractOggettoEntita> selectWhere(List<Clausola> clausole, String appendToQuery)  {
+		try {
+			SelectBase selectObj = new SelectBase();
+			selectObj.putTabelle(getNomeTabella(), getNomeTabella());
+			selectObj.setClausole(clausole);
+			selectObj.setAppendToQuery(appendToQuery);
+			ResultSet select = new Query().select(selectObj);
+			final ArrayList<AbstractOggettoEntita> entities = costruisciEntitaFromRs(select);
+			ConnectionPool.getSingleton().chiudiOggettiDb(null);
+			return entities;
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
 	}
 
 	public AbstractOggettoEntita getEntita() {

@@ -18,7 +18,7 @@ public class CacheDao extends GenericDAO{
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita) throws Exception {
+	public boolean update(Object oggettoEntita)  {
 		AbstractOggettoEntita entita = (AbstractOggettoEntita)oggettoEntita;
 		String idEntita = entita.getIdEntita();
 		cache.put(idEntita, entita);
@@ -26,7 +26,7 @@ public class CacheDao extends GenericDAO{
 	}
 	
 	@Override
-	public boolean insert(Object oggettoEntita) throws Exception {
+	public boolean insert(Object oggettoEntita)  {
 		AbstractOggettoEntita entita = (AbstractOggettoEntita)oggettoEntita;
 		String idEntita = entita.getIdEntita();
 		cache.put(idEntita, entita);
@@ -34,19 +34,19 @@ public class CacheDao extends GenericDAO{
 	}
 	
 	@Override
-	public boolean delete(int id) throws Exception {
+	public boolean delete(int id)  {
 		cache.remove(id);
 		return super.delete(id);
 	}
 	
 	@Override
-	public boolean deleteAll() throws Exception {
+	public boolean deleteAll()  {
 		cache.clear();
 		return super.deleteAll();
 	}
 	
 	@Override
-	public Object selectAll() throws Exception {
+	public Object selectAll()  {
 		if(caricata){
 			return cache.values();
 		}
@@ -57,7 +57,7 @@ public class CacheDao extends GenericDAO{
 	}
 	
 	@Override
-	public Object selectById(int id) throws Exception {
+	public Object selectById(int id)  {
 		String idString = Integer.toString(id);
 		AbstractOggettoEntita entita = cache.get(idString);
 		if(entita != null){

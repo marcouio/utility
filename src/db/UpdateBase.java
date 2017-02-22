@@ -1,8 +1,8 @@
 package db;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class UpdateBase extends ObjConClausole {
 
@@ -16,7 +16,7 @@ public class UpdateBase extends ObjConClausole {
 		return getUpdateQuery(tabella, campiUpdate, clausole);
 	}
 
-	public String getUpdateQuery(final String tabella, final HashMap<String, String> campi, ArrayList<Clausola> clausole) throws Exception{
+	public String getUpdateQuery(final String tabella, final HashMap<String, String> campi, List<Clausola> clausole) throws Exception{
 		this.tabella = tabella;
 		this.campiUpdate = campi;
 		this.clausole = clausole;

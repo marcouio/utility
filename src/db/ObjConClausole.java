@@ -2,10 +2,11 @@ package db;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ObjConClausole extends OggettoSQL{
 
-	ArrayList<Clausola> clausole = new ArrayList<Clausola>();
+	List<Clausola> clausole = new ArrayList<Clausola>();
 	
 	public ObjConClausole() {
 		super();
@@ -31,7 +32,7 @@ public class ObjConClausole extends OggettoSQL{
 		}
 	}
 	
-	public void setClausole(final ArrayList<Clausola> clausole) {
+	public void setClausole(final List<Clausola> clausole) {
 		this.clausole = clausole;
 	}
 	
@@ -44,7 +45,7 @@ public class ObjConClausole extends OggettoSQL{
 		clausole.add(clausola);
 	}
 
-	public ArrayList<Clausola> getClausole() {
+	public List<Clausola> getClausole() {
 		return clausole;
 	}
 	

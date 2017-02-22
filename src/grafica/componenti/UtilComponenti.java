@@ -27,8 +27,8 @@ public class UtilComponenti {
 		FrameBase frame = new FrameBase();
 		JPanel contentPane = (JPanel) frame.getContentPane();
 		contentPane.setLayout(lm);
-		frame.setVisible(true);
 		frame.setSize(400, 400);
+//		frame.setVisible(true);
 		if (controllore != null) {
 			ControlloreBase.setApplicationframe(frame);
 			ControlloreBase.setApplicationGraphics2d((Graphics2D) frame.getGraphics());

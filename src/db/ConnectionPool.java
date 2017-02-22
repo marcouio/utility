@@ -159,12 +159,14 @@ public abstract class ConnectionPool {
 	public abstract class ExecuteResultSet<T>{
 		
 		public T execute(String sql) throws SQLException{
-
+			
 			final Connection cn = getConnection();
 			try{
+				
+				ControlloreBase.getLog().info("Query in esecuzione: " + sql);
+				
 				ResultSet resulSet = getResulSet(cn, sql);
-				T ret = doWithResultSet(resulSet);
-				return ret;
+				return doWithResultSet(resulSet);
 			}finally{
 				chiudiOggettiDb(cn);
 			}
