@@ -217,7 +217,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		final Component padreComponent = ((Component) padre);
 		padreComponent.setFont(this.style.getFont());
 		padreComponent.setForeground(this.style.getForeground());
-		padreComponent.setBackground(this.style.getBackground());
+		if(this.style.getBackground() != null){
+			padreComponent.setBackground(this.style.getBackground());
+		}
 		padreComponent.setSize(this.style.getWidth(), this.style.getHeight());
 		if (CoreXMLManager.getSingleton().isAutoConfig()) {
 			if (ihaveToSetDimension(this.style, padreComponent)) {

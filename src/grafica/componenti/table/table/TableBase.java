@@ -98,7 +98,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 	// TODO
 	public TableCellRenderer setStyleColumn() {
 
-		final DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer() {
+		return new DefaultTableCellRenderer() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -130,7 +130,6 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 				return rendered;
 			}
 		};
-		return dtcr;
 
 	}
 

@@ -18,6 +18,10 @@ public class UtilMath {
 		}
 		return index;
 	}
+	
+	public static double getPercentage(double value, int percentage){
+		return value / 100 * percentage;
+	}
 
 	public static boolean checkDouble(final String Doble) {
 		boolean ok = true;

@@ -2,21 +2,22 @@ package grafica.componenti.table;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
 public abstract class TableModel extends AbstractTableModel{
 
 	private static final long serialVersionUID = 1L;
-	private Object[][] matrice;
-	private Riga nomiColonne;
+	private transient Object[][] matrice;
+	private transient Riga nomiColonne;
 	private ArrayList<Riga> righe;
 
 	public Riga getNomiColonne() {
 		return nomiColonne;
 	}
 
-	public ArrayList<Riga> getRighe() {
+	public List<Riga> getRighe() {
 		return righe;
 	}
 
@@ -88,8 +89,12 @@ public abstract class TableModel extends AbstractTableModel{
 	}
 
 	private void checkMetodi() throws Exception {
-		if(getNomiColonne() == null) throw new Exception("getNomiColonne() torna null, riempire la proprietà nomiColonne all'interno del metodo preBuild()");
-		if(getRighe() == null) throw new Exception("getRighe() torna null, riempire la proprietà righe all'interno del metodo preBuild()");
+		if(getNomiColonne() == null) {
+			throw new Exception("getNomiColonne() torna null, riempire la proprietà nomiColonne all'interno del metodo preBuild()");
+		}
+		if(getRighe() == null) { 
+			throw new Exception("getRighe() torna null, riempire la proprietà righe all'interno del metodo preBuild()");
+		}
 	}
 
 
