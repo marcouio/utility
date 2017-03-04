@@ -2,24 +2,23 @@ package db.dao;
 
 import java.util.List;
 
-import command.javabeancommand.AbstractOggettoEntita;
 import db.Clausola;
 
-public interface IDAO {
+public interface IDAO<T> {
 
-	public AbstractOggettoEntita getEntitaPadre();
+	public T getEntitaPadre();
 
-	public Object selectById(int id) ;
+	public T selectById(int id) ;
 
-	public Object selectWhere(List<Clausola> clausole, final String appentoToQuery) ;
+	public List<T> selectWhere(List<Clausola> clausole, final String appentoToQuery) ;
 
-	public Object selectAll() ;
+	public List<T> selectAll() ;
 
-	public boolean insert(Object oggettoEntita) ;
+	public boolean insert(T oggettoEntita) ;
 
 	public boolean delete(int id) ;
 
-	public boolean update(Object oggettoEntita) ;
+	public boolean update(T oggettoEntita) ;
 
 	public boolean deleteAll() ;
 }

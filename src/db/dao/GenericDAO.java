@@ -16,42 +16,40 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import sun.reflect.annotation.AnnotationType;
-
 import command.javabeancommand.AbstractOggettoEntita;
-
 import db.Clausola;
 import db.ConnectionPool;
 import db.DeleteBase;
 import db.InsertBase;
+import db.Query;
 import db.SelectBase;
 import db.UpdateBase;
-import db.Query;
+import sun.reflect.annotation.AnnotationType;
 
-public class GenericDAO extends Observable implements IDAO {
+public class GenericDAO<T extends AbstractOggettoEntita> extends Observable implements IDAO<T> {
 
 	private String nomeTabella;
 	private String nomeCampoId;
-	private AbstractOggettoEntita entita;
+	private T entita;
 	private HashMap<String, Field> mappaColumnCampi = null;
 	private HashMap<String, Field> mappaColumnJoin = null;
 
-	public GenericDAO(final AbstractOggettoEntita entita) {
+	public GenericDAO(final T entita) {
 		this.entita = entita;
 	}
 
 	@Override
-	public Object selectById(final int id)  {
+	public T selectById(final int id)  {
 		try {
 			SelectBase selectObj = new SelectBase();
 			selectObj.putTabelle(getNomeTabella(), getNomeTabella());
-			String nomeCampoId = getNomeCampoId();
-			Clausola clausolaId = new Clausola(null, nomeCampoId, "=", Integer.toString(id));
+			String nomeCampoIdLoc = getNomeCampoId();
+			Clausola clausolaId = new Clausola(null, nomeCampoIdLoc, "=", Integer.toString(id));
 			selectObj.putClausole(clausolaId);
 			Query query = new Query();
-			final ArrayList<AbstractOggettoEntita> entities = costruisciEntitaFromRs(query.select(selectObj));
+			final ArrayList<T> entities = costruisciEntitaFromRs(query.select(selectObj));
 			ConnectionPool.getSingleton().chiudiOggettiDb(null);
-			if (entities != null && entities.size() > 0) {
+			if (entities != null && !entities.isEmpty()) {
 				return entities.get(0);
 			}
 
@@ -61,20 +59,20 @@ public class GenericDAO extends Observable implements IDAO {
 		return null;
 	}
 
-	protected ArrayList<AbstractOggettoEntita> costruisciEntitaFromRs(ResultSet select)  {
+	protected ArrayList<T> costruisciEntitaFromRs(ResultSet select)  {
 		try {
-			ArrayList<AbstractOggettoEntita> listaReturn = null;
+			ArrayList<T> listaReturn = null;
 			while (select.next()) {
 				
 				if(listaReturn == null){
-					listaReturn = new ArrayList<AbstractOggettoEntita>();
+					listaReturn = new ArrayList<>();
 				}
 				
 				final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
 				final AbstractOggettoEntita ent = getEntita().getClass().newInstance();
-				listaReturn.add(ent);
+				listaReturn.add((T) ent);
 				while (iterColumn.hasNext()) {
-					final String colonna = (String) iterColumn.next();
+					final String colonna = iterColumn.next();
 					final String colonnaValue = select.getString(colonna);
 					final Field field = getMappaColumnCampi().get(colonna);
 					final Class<?> parameterTypes = field.getType();
@@ -85,7 +83,7 @@ public class GenericDAO extends Observable implements IDAO {
 				}
 				final Iterator<String> iterJoin = getMappaColumnJoin().keySet().iterator();
 				while (iterJoin.hasNext()) {
-					final String join = (String) iterJoin.next();
+					final String join = iterJoin.next();
 					final int colonnaValue = select.getInt(join);
 					final Field field = getMappaColumnJoin().get(join);
 					final Class<?> parameterTypes = field.getType();
@@ -298,7 +296,7 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public Object selectAll()  {
+	public List<T> selectAll()  {
 		try {
 			SelectBase selectObj = new SelectBase();
 			selectObj.putTabelle(getNomeTabella(), getNomeTabella());
@@ -311,14 +309,14 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public boolean insert(Object oggettoEntita)  {
+	public boolean insert(T oggettoEntita)  {
 		try {
 			if(oggettoEntita != null){
 				InsertBase insertBase = new InsertBase();
 				insertBase.setTabella(getNomeTabella());
 				final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
 				while (iterColumn.hasNext()) {
-					final String colonna = (String) iterColumn.next();
+					final String colonna = iterColumn.next();
 					final Field field = getMappaColumnCampi().get(colonna);
 					final String getMethodName = costruisciNomeGet(field.getName());
 					final Method method = getEntita().getClass().getMethod(getMethodName);
@@ -330,7 +328,7 @@ public class GenericDAO extends Observable implements IDAO {
 				}
 				Iterator<String> iterJoinColumn = getMappaColumnJoin().keySet().iterator();
 				while(iterJoinColumn.hasNext()){
-					final String colonna = (String) iterJoinColumn.next();
+					final String colonna = iterJoinColumn.next();
 					final Field field = getMappaColumnJoin().get(colonna);
 					final String getMethodName = costruisciNomeGet(field.getName());
 					final Method method = getEntita().getClass().getMethod(getMethodName);
@@ -389,7 +387,7 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita)  {
+	public boolean update(T oggettoEntita)  {
 		try {
 			if(oggettoEntita != null){
 				final UpdateBase updateBase = new UpdateBase();
@@ -451,19 +449,19 @@ public class GenericDAO extends Observable implements IDAO {
 	}
 
 	@Override
-	public AbstractOggettoEntita getEntitaPadre() {
+	public T getEntitaPadre() {
 		return getEntita();
 	}
 
 	@Override
-	public List<AbstractOggettoEntita> selectWhere(List<Clausola> clausole, String appendToQuery)  {
+	public List<T> selectWhere(List<Clausola> clausole, String appendToQuery)  {
 		try {
 			SelectBase selectObj = new SelectBase();
 			selectObj.putTabelle(getNomeTabella(), getNomeTabella());
 			selectObj.setClausole(clausole);
 			selectObj.setAppendToQuery(appendToQuery);
 			ResultSet select = new Query().select(selectObj);
-			final ArrayList<AbstractOggettoEntita> entities = costruisciEntitaFromRs(select);
+			final ArrayList<T> entities = costruisciEntitaFromRs(select);
 			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 			return entities;
 		} catch (Exception e) {
@@ -471,7 +469,7 @@ public class GenericDAO extends Observable implements IDAO {
 		}
 	}
 
-	public AbstractOggettoEntita getEntita() {
+	public T getEntita() {
 		return entita;
 	}
 

@@ -1,35 +1,33 @@
 package db.cache;
 
 import java.util.HashMap;
+import java.util.List;
 
 import command.javabeancommand.AbstractOggettoEntita;
-
 import db.dao.GenericDAO;
 
-public class CacheDao extends GenericDAO{
+public class CacheDao<T extends AbstractOggettoEntita> extends GenericDAO<T>{
 
-	HashMap<String, AbstractOggettoEntita> cache = null;
+	HashMap<String, T> cache = null;
 	
 	boolean caricata = false;
 	
-	private CacheDao(AbstractOggettoEntita entita) {
+	private CacheDao(T entita) {
 		super(entita);
-		cache = new HashMap<String, AbstractOggettoEntita>();
+		cache = new HashMap<>();
 	}
 
 	@Override
-	public boolean update(Object oggettoEntita)  {
-		AbstractOggettoEntita entita = (AbstractOggettoEntita)oggettoEntita;
-		String idEntita = entita.getIdEntita();
-		cache.put(idEntita, entita);
+	public boolean update(T oggettoEntita)  {
+		String idEntita = oggettoEntita.getIdEntita();
+		cache.put(idEntita, oggettoEntita);
 		return super.update(oggettoEntita);
 	}
 	
 	@Override
-	public boolean insert(Object oggettoEntita)  {
-		AbstractOggettoEntita entita = (AbstractOggettoEntita)oggettoEntita;
-		String idEntita = entita.getIdEntita();
-		cache.put(idEntita, entita);
+	public boolean insert(T oggettoEntita)  {
+		String idEntita = oggettoEntita.getIdEntita();
+		cache.put(idEntita, oggettoEntita);
 		return super.insert(oggettoEntita);
 	}
 	
@@ -46,20 +44,20 @@ public class CacheDao extends GenericDAO{
 	}
 	
 	@Override
-	public Object selectAll()  {
+	public List<T> selectAll()  {
 		if(caricata){
-			return cache.values();
+			return (List<T>) cache.values();
 		}
 		
-		Object selectAll = super.selectAll();
+		List<T> selectAll = super.selectAll();
 		caricata = true;
 		return selectAll;
 	}
 	
 	@Override
-	public Object selectById(int id)  {
+	public T selectById(int id)  {
 		String idString = Integer.toString(id);
-		AbstractOggettoEntita entita = cache.get(idString);
+		T entita = cache.get(idString);
 		if(entita != null){
 			return entita;
 		}
