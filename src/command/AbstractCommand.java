@@ -26,15 +26,23 @@ public abstract class AbstractCommand implements ICommand {
 	}
 
 	@Override
-	public abstract boolean execute() throws Exception;
+	public boolean execute() throws Exception {
+		return true;
+	}
 
 	@Override
-	public abstract boolean unExecute() throws Exception;
+	public boolean unExecute() throws Exception {
+		return true;
+	}
 
 	@Override
-	public abstract void scriviLogExecute(boolean isComandoEseguito);
+	public void scriviLogExecute(boolean isComandoEseguito){
+		// do nothing here
+	}
 
 	@Override
-	public abstract void scriviLogUnExecute(boolean isComandoEseguito);
+	public void scriviLogUnExecute(boolean isComandoEseguito){
+		// do nothing here
+	}
 
 }

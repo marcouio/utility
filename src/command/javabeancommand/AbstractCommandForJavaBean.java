@@ -8,6 +8,6 @@ import db.dao.IDAO;
 public abstract class AbstractCommandForJavaBean<T extends AbstractOggettoEntita> extends AbstractCommand {
 
 	protected T entita;
-	protected IDAO wrap;
+	protected IDAO<T> wrap;
 	protected Map<String, T> mappaCache;
 }

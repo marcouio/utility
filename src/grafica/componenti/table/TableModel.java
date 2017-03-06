@@ -62,14 +62,14 @@ public abstract class TableModel extends AbstractTableModel{
 		righe.add(riga);
 	}
 
-	public TableModel(final Object parametro) throws Exception {
+	public TableModel(final Object parametro) {
 		preBuild(parametro);
 		build(parametro);
 	}
 
-	protected abstract void preBuild(Object parametro) throws Exception;
+	protected abstract void preBuild(Object parametro);
 
-	protected void build(final Object parametro) throws Exception{
+	protected void build(final Object parametro) {
 
 		checkMetodi();
 		int lunghezza = getNomiColonne().getLunghezza();
@@ -88,12 +88,12 @@ public abstract class TableModel extends AbstractTableModel{
 		}
 	}
 
-	private void checkMetodi() throws Exception {
+	private void checkMetodi()  {
 		if(getNomiColonne() == null) {
-			throw new Exception("getNomiColonne() torna null, riempire la proprietà nomiColonne all'interno del metodo preBuild()");
+			throw new IllegalStateException("getNomiColonne() torna null, riempire la proprietà nomiColonne all'interno del metodo preBuild()");
 		}
 		if(getRighe() == null) { 
-			throw new Exception("getRighe() torna null, riempire la proprietà righe all'interno del metodo preBuild()");
+			throw new IllegalStateException("getRighe() torna null, riempire la proprietà righe all'interno del metodo preBuild()");
 		}
 	}
 
