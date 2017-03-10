@@ -4,7 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-import controller.ControlloreDisegno;;
+import controller.ControlloreDisegno;
 
 public class MyMouseListener {
 
