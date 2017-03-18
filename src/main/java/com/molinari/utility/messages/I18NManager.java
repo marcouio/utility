@@ -2,21 +2,20 @@ package com.molinari.utility.messages;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.xml.CoreXMLManager;
 
 public class I18NManager {
-
-	public static void main(final String[] args) {
-		final String prova = I18NManager.getSingleton().getMessaggio("titolo",
-				new String[] { "ante", "primoP", "secondoP", "terzoP" });
-		System.out.println(prova);
-	}
 
 	private static I18NManager singleton;
 	private Locale currentLocale;
 	private ResourceBundle messages;
 
+	private I18NManager() {
+		//do nothing
+	}
 	/**
 	 * @return the singleton
 	 */
@@ -27,9 +26,6 @@ public class I18NManager {
 		return singleton;
 	}
 
-	private I18NManager() {
-
-	}
 
 	public String getMessaggio(final String key) {
 		try {
@@ -38,34 +34,35 @@ public class I18NManager {
 			}
 			return this.getMessages().getString(key);
 		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(),e);
 			return key;
 		}
 	}
 
 	public String getMessaggio(final String key, final String[] params) {
 		try {
-			String msgTot = "";
+			StringBuilder msgTot = new StringBuilder();
 			final String messaggio = getMessaggio(key);
 			final String[] msgSplit = messaggio.split("@");
-			if (msgSplit.length - 1 == params.length) {
-				for (int i = 0; i < params.length; i++) {
-					msgTot += msgSplit[i] + params[i];
-					if (i == params.length - 1) {
-						msgTot += msgSplit[msgSplit.length - 1];
-					}
-				}
-				// lo split non funziona quando il regex e' alla fine
-			} else if (msgSplit.length == params.length && messaggio.endsWith("@")) {
-				for (int i = 0; i < params.length; i++) {
-					msgTot += msgSplit[i] + params[i];
-				}
-			}
-			return msgTot;
+			appendParams(params, msgTot, msgSplit);
+			return msgTot.toString();
 		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(),e);
 			return key;
 		}
 	}
 
+	private void appendParams(final String[] params, StringBuilder msgTot, final String[] msgSplit) {
+		if(msgSplit.length-1 == params.length){
+			for (int i = 0; i < params.length; i++) {
+				msgTot.append(msgSplit[i]);
+				msgTot.append(params[i]);
+				if(i==params.length-1){
+					msgTot.append(msgSplit[msgSplit.length-1]);
+				}
+			}
+		}
+	}
 	private void creaLocale(final String language, final String country) {
 		if (language != null && country != null) {
 			setLocale(language, country);
