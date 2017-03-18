@@ -1,61 +1,88 @@
 package com.molinari.utility.graphic.component.buttonpanel;
 
-import com.molinari.utility.graphic.ExceptionGraphics;
-import com.molinari.utility.graphic.component.button.ToggleBtnBase;
-import com.molinari.utility.graphic.component.container.PannelloBase;
-
-import java.awt.Container;
+import java.awt.BorderLayout;
 
 import javax.swing.AbstractButton;
+import javax.swing.JPanel;
 
-public class Bottone extends PannelloBase {
+public class Bottone extends JPanel {
 
-	private static final long	serialVersionUID	= 1L;
-	ToggleBtnBase				button				= null;
-	PannelloBottoni panelInterno = null;
+	private static final long serialVersionUID = 1L;
+	private AbstractButton    btn;
+	private transient PannelloBottoni   contenuto;
+	private boolean           isEspanso;
 
-	public Bottone(final ToggleBtnBase button, final Container contenitore) throws ExceptionGraphics {
-		super(contenitore);
-		this.button = button;
-		this.button.posizionaSottoA(null, 0, 0);
+	public static final int   RIEMPITO         = 0;
+
+	public Bottone() {
+		init();
 	}
 
-	public Bottone(final Container contenitore) throws ExceptionGraphics {
-		super(contenitore);
+	public Bottone(AbstractButton bottone) {
+		init();
+		this.btn = bottone;
+		this.add(bottone, BorderLayout.NORTH);
+	}
+
+	public Bottone(PannelloBottoni contenuto) {
+		init();
+		this.contenuto = contenuto;
+		this.add(this.contenuto, BorderLayout.SOUTH);
+	}
+
+	public Bottone(PannelloBottoni contenuto, AbstractButton bottone) {
+		init();
+		this.contenuto = contenuto;
+		this.btn = bottone;
+		this.add(this.btn, BorderLayout.NORTH);
+		this.add(this.contenuto, BorderLayout.SOUTH);
+
+	}
+
+	private void init() {
+		this.setLayout(new BorderLayout());
+	}
+
+	public void espandi() {
+		setEspanso(true);
+		if (contenuto != null) {
+			contenuto.setVisible(true);
+		}
+		revalidate();
+		repaint();
+	}
+
+	public void contrai() {
+		setEspanso(false);
+		if (contenuto != null) {
+			contenuto.setVisible(false);
+		}
 	}
 
 	public AbstractButton getBottone() {
-		return button;
+		return btn;
 	}
 
-	public void setBottone(final ToggleBtnBase button) {
-		this.button = button;
-		this.button.posizionaSottoA(null, 0, 0);
+	protected void setBottone(AbstractButton bottone) {
+		this.btn = bottone;
 	}
 
-	public PannelloBottoni getPanelInterno() {
-		return panelInterno;
+	public PannelloBottoni getContenuto() {
+		return contenuto;
 	}
 
-	@Override
-	public void setVisible(final boolean aFlag) {
-		super.setVisible(aFlag);
-		this.button.setVisible(aFlag);
+	public void setContenuto(PannelloBottoni contenuto) {
+		this.contenuto = contenuto;
+		add(this.contenuto);
+		this.contenuto.setVisible(false);
 	}
 
-	public void setPanelInterno(final PannelloBottoni panelInterno) {
-		this.panelInterno = panelInterno;
+	public void setEspanso(boolean isEspanso) {
+		this.isEspanso = isEspanso;
 	}
 
-	@Override
-	public void setSize(final int width, final int height) {
-		super.setSize(width, height);
-		if(panelInterno != null){
-			panelInterno.setSize(width, height);
-		}
-		if(button != null){
-			button.setSize(width, height);
-		}
+	public boolean isEspanso() {
+		return isEspanso;
 	}
 
 }

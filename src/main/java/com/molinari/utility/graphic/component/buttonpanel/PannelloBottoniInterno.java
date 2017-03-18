@@ -1,100 +1,56 @@
 package com.molinari.utility.graphic.component.buttonpanel;
 
-import com.molinari.utility.graphic.ExceptionGraphics;
-import com.molinari.utility.graphic.component.base.IComponenteBase;
-import com.molinari.utility.graphic.component.button.ToggleBtnBase;
-
-import java.awt.Component;
+import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.util.List;
 
-import javax.swing.ImageIcon;
+public class PannelloBottoniInterno extends PannelloBottoni {
 
-public class PannelloBottoniInterno extends PannelloBottoni{
+	private static final long serialVersionUID = 1L;
 
-	private static final long	serialVersionUID	= 1L;
-	private ToggleBtnBase	bottoniRet;
-	private ToggleBtnBase	bottoniPrimo;
-	private ToggleBtnBase	bottoniSecondo;
-
-	public PannelloBottoniInterno(final Container contenitore, final ImageIcon iconaRet,final String nomeUno,final ImageIcon iconaUno, final String nomeDue, final ImageIcon iconaDue) throws ExceptionGraphics {
+	public PannelloBottoniInterno(Container contenitore) {
 		super(contenitore);
-		initGui(contenitore, iconaRet, nomeUno, iconaUno, nomeDue, iconaDue);
 	}
 
-	private void initGui(final Container contenitore, 
-			final ImageIcon iconaRet, 
-			final String nomeUno, 
-			final ImageIcon iconaUno, 
-			final String nomeDue, 
-			final ImageIcon iconaDue) throws ExceptionGraphics {
 
-		bottoniRet = new ToggleBtnBase(null,iconaRet, this, 5,0);
-		bottoniRet.settaggioBottoneStandard();
-		bottoniRet.posizionaSottoA(null, 0, 0);
-		bottoniRet.setVisible(false);
-
-		bottoniRet.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				ToggleBtnBase toggle = (ToggleBtnBase) e.getSource();
-				Container contenitorePadre = ((IComponenteBase)toggle).getContenitorePadre();
-				if(contenitorePadre instanceof PannelloBottoniInterno){
-					PannelloBottoniInterno panelInterno = (PannelloBottoniInterno)contenitorePadre;
-					panelInterno.setVisible(false);
-					Bottone bottone = (Bottone) panelInterno.getContenitorePadre();
-					bottone.setVisible(true);
-					bottone.getBottone().setSelected(false);
-				}
-
-			}
-		});
-
-		bottoniPrimo = new ToggleBtnBase(nomeUno, iconaUno, this);
-		bottoniPrimo.settaggioBottoneStandard();
-		bottoniPrimo.posizionaADestraDi(bottoniRet, 5, 1);
-		bottoniPrimo.setVisible(false);
-
-		bottoniSecondo = new ToggleBtnBase(nomeDue, iconaDue, this);
-		bottoniSecondo.settaggioBottoneStandard();
-		bottoniSecondo.posizionaSottoA(bottoniPrimo, 0, 4);
-		bottoniSecondo.setVisible(false);
+	@Override
+	protected void init() {
+		final BorderLayout lay = new BorderLayout(0, 0);
+		this.setLayout(lay);
 	}
 
 	@Override
-	public void setSize(final int width, final int height) {
-		super.setSize(width, height);
-		if(bottoniRet != null && bottoniPrimo != null && bottoniSecondo != null){
-			bottoniRet.setSize(width/9, height);
-			bottoniPrimo.setSize((int) (width - bottoniRet.getSize().getWidth()), height/2-1);
-			bottoniSecondo.setSize((int) (width - bottoniRet.getSize().getWidth()), height/2-1);
+	public void addBottone(Bottone bottone) {
+		if (listaBottoni.isEmpty()) {
+			this.add(bottone, BorderLayout.NORTH);
+		} else {
+			this.add(bottone, BorderLayout.CENTER);
+		}
+		this.gruppoBottoni.add(bottone.getBottone());
+		this.listaBottoni.add(bottone);
+		if (bottone.getBottone() != null) {
+			bottone.getBottone().addActionListener(this);
 		}
 	}
 
-	@Override
-	public void setVisible(final boolean aFlag) {
-		super.setVisible(aFlag);
-		Component[] components = this.getComponents();
-		for (int i = 0; i < components.length; i++) {
-			Component component = components[i];
-			if (component instanceof ToggleBtnBase) {
-				component.setVisible(true);
-			} 
+	public void addDueBottoni(List<Bottone> dueBottoni) {
+		final Bottone bottone = dueBottoni.get(0);
+		this.add(bottone, BorderLayout.NORTH);
+		this.gruppoBottoni.add(bottone.getBottone());
+		this.listaBottoni.add(bottone);
+		if (bottone.getBottone() != null) {
+			bottone.getBottone().addActionListener(this);
 		}
-	}
+		bottone.getBottone().setPreferredSize(new Dimension(getWidth(), 22));
 
-	public ToggleBtnBase getBottoniRet() {
-		return bottoniRet;
+		final Bottone bottone2 = dueBottoni.get(1);
+		this.add(bottone2, BorderLayout.CENTER);
+		this.gruppoBottoni.add(bottone2.getBottone());
+		this.listaBottoni.add(bottone2);
+		if (bottone2.getBottone() != null) {
+			bottone2.getBottone().addActionListener(this);
+		}
+		bottone2.getBottone().setPreferredSize(new Dimension(getWidth(), 22));
 	}
-
-	public ToggleBtnBase getBottoniPrimo() {
-		return bottoniPrimo;
-	}
-
-	public ToggleBtnBase getBottoniSecondo() {
-		return bottoniSecondo;
-	}
-
 }

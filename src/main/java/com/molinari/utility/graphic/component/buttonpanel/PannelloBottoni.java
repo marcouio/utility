@@ -1,152 +1,92 @@
 package com.molinari.utility.graphic.component.buttonpanel;
 
-import com.molinari.utility.graphic.ExceptionGraphics;
-import com.molinari.utility.graphic.component.button.ToggleBtnBase;
-import com.molinari.utility.graphic.component.container.PannelloBase;
-
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
-public class PannelloBottoni extends PannelloBase implements ActionListener{
+import com.molinari.utility.graphic.component.button.ToggleBtn;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
-	private static final long	serialVersionUID	= 1L;
-	private final ButtonGroup gruppoBottoni = new ButtonGroup();
-	protected final ArrayList<Bottone> listaBottoni = new ArrayList<Bottone>();
+public class PannelloBottoni extends PannelloBase implements ActionListener {
+
+	private static final long serialVersionUID = 1L;
+	public static final int MODE_PIENO = 0;
+
+	private static final int ALTEZZA_BOTTONE = 50;
+
+	protected final ArrayList<Bottone> listaBottoni = new ArrayList<>();
+	protected final ButtonGroup gruppoBottoni = new ButtonGroup();
 
 
-	public PannelloBottoni(final Container contenitore) {
+	/**
+	 * Create the panel.
+	 */
+	public PannelloBottoni(Container contenitore) {
 		super(contenitore);
+		init();
 	}
 
-	public PannelloBottoni(final ArrayList<Bottone> bottoni, final Container contenitore) {
+	public PannelloBottoni(Container contenitore, final List<Bottone> bottoni) {
 		super(contenitore);
+		init();
 
 		for (final Bottone toggleBtn : bottoni) {
 			listaBottoni.add(toggleBtn);
+			gruppoBottoni.add(toggleBtn.getBottone());
 			this.addBottone(toggleBtn);
 		}
+
+	}
+
+	protected void init() {
+		this.setLayout(new GridLayout(1, 4));
 	}
 
 	public void addBottone(final Bottone bottone) {
-		listaBottoni.add(bottone);
-		gruppoBottoni.add(bottone.getBottone());
-		posiziona(bottone);
-		bottone.getBottone().addActionListener(this);
-
-	}
-
-	private void posiziona(final Bottone bottone) {
-		int last = listaBottoni.size();
-		if(last>1){
-			Bottone bottoneCompare = listaBottoni.get(last-2);
-			bottone.posizionaADestraDi(bottoneCompare, 0, 0);
-		}else{
-			bottone.posizionaADestraDi(null, 0, 0);
+		this.add(bottone);
+		this.gruppoBottoni.add(bottone.getBottone());
+		this.listaBottoni.add(bottone);
+		if (bottone.getBottone() != null) {
+			bottone.getBottone().setPreferredSize(new Dimension(getContenitorePadre().getWidth(), ALTEZZA_BOTTONE));
+			bottone.getBottone().addActionListener(this);
 		}
 	}
 
 	public void deselezionaBottoni() {
-		for (final Bottone bottone : listaBottoni) {
-			if(bottone.getPanelInterno() != null){
-				bottone.getPanelInterno().setVisible(false);
-			}
-			if (bottone.getBottone() != null) {
-				bottone.getBottone().setSelected(false);
-			}
-			bottone.setVisible(true);
-			gruppoBottoni.clearSelection();
+		this.gruppoBottoni.clearSelection();
+		for (final Bottone button : listaBottoni) {
+			button.contrai();
 		}
-
 	}
 
-	public static void addPulsanti(final PannelloBottoni pb) throws ExceptionGraphics{
-		final Bottone primo = new Bottone(pb);
-		PannelloBottoniInterno internoPrimo = new PannelloBottoniInterno(primo, null, "Uno", null, "Due", null);
-		primo.setPanelInterno(internoPrimo);
-		primo.setSize(150, 150);
-
-		final ToggleBtnBase bottoniPrimo = new ToggleBtnBase("Primo", new ImageIcon("/home/kiwi/Immagini/prova.png"), primo, primo);
-		bottoniPrimo.setSize(150, 150);
-		bottoniPrimo.settaggioBottoneStandard();
-		primo.setBottone(bottoniPrimo);
-
-		pb.addBottone(primo);
-		primo.posizionaSottoA(null, 0, 0);
-
-		final Bottone secondo = new Bottone(pb);
-		PannelloBottoniInterno internoSecondo = new PannelloBottoniInterno(secondo, null, "Uno", null, "Due", null);
-		secondo.setPanelInterno(internoSecondo);
-		secondo.setSize(150, 150);
-		final ToggleBtnBase bottoniSecondo = new ToggleBtnBase("Secondo", new ImageIcon("/home/kiwi/Immagini/prova.png"), secondo, secondo);
-		bottoniSecondo.setSize(150, 150);
-		bottoniSecondo.settaggioBottoneStandard();
-		secondo.setBottone(bottoniSecondo);
-
-		pb.addBottone(secondo);
-		secondo.posizionaADestraDi(primo, 0, 0);
-
-		final Bottone terzo = new Bottone(pb);
-		PannelloBottoniInterno internoTerzo = new PannelloBottoniInterno(terzo, null, "Uno", null, "Due", null);
-		terzo.setPanelInterno(internoTerzo);
-		terzo.setSize(150, 150);
-		final ToggleBtnBase bottoniTerzo = new ToggleBtnBase("Terzo", new ImageIcon("/home/kiwi/Immagini/prova.png"), terzo, terzo);
-		bottoniTerzo.setSize(150, 150);
-		bottoniTerzo.settaggioBottoneStandard();
-		terzo.setBottone(bottoniTerzo);
-
-		pb.addBottone(terzo);
-		terzo.posizionaADestraDi(secondo, 0, 0);
+	protected ArrayList<Bottone> getListaBottoni() {
+		return listaBottoni;
 	}
 
-	public static void main(final String[] args) {
-
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				final JFrame inst = new JFrame();
-				inst.setBounds(0, 0, 1000, 650);
-				PannelloBottoni pb = new PannelloBottoni(inst);
-				try {
-					PannelloBottoni.addPulsanti(pb);
-				} catch (ExceptionGraphics e) {
-					e.printStackTrace();
-				}
-				pb.posizionaSottoA(null, 0, 0);
-				pb.setSize(500, 200);
-				inst.setTitle("PannelloBottoni");
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-				inst.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			}
-		});
+	public ButtonGroup getGruppoBottoni() {
+		return gruppoBottoni;
 	}
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		deselezionaBottoni();
-		Bottone b = null;
-		if (e.getSource() instanceof ToggleBtnBase) {
-			ToggleBtnBase togglebtn = (ToggleBtnBase) e.getSource();
-			b = ((Bottone) togglebtn.getPadre());
-			togglebtn.setSelected(true);
-			if (b != null) {
-				if(b.getPanelInterno() != null){
-					togglebtn.setVisible(false);
-					b.getPanelInterno().setVisible(true);
-				}
+		final Bottone b = (Bottone) ((ToggleBtn) e.getSource()).getPadre();
+		if (b != null) {
+			if (b.isEspanso()) {
+				deselezionaBottoni();
+				b.contrai();
+				((ToggleBtn) e.getSource()).setSelected(false);
+			} else {
+				deselezionaBottoni();
+				((ToggleBtn) e.getSource()).setSelected(true);
+				b.espandi();
 			}
 		}
-	} 
-
-	public ArrayList<Bottone> getListaBottoni() {
-		return listaBottoni;
 	}
 
 }
