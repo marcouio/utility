@@ -4,7 +4,7 @@ package com.molinari.utility.commands;
 public abstract class AbstractCommand implements ICommand {
 
 	@Override
-	public boolean doCommand() throws Exception {
+	public boolean doCommand() {
 		if (execute()) {
 			scriviLogExecute(true);
 			return true;
@@ -15,7 +15,7 @@ public abstract class AbstractCommand implements ICommand {
 	}
 
 	@Override
-	public boolean undoCommand() throws Exception {
+	public boolean undoCommand() {
 		if (unExecute()) {
 			scriviLogUnExecute(true);
 			return true;
@@ -26,12 +26,12 @@ public abstract class AbstractCommand implements ICommand {
 	}
 
 	@Override
-	public boolean execute() throws Exception {
+	public boolean execute() {
 		return true;
 	}
 
 	@Override
-	public boolean unExecute() throws Exception {
+	public boolean unExecute() {
 		return true;
 	}
 
