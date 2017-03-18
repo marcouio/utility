@@ -5,6 +5,7 @@ public class CorreggiTesto {
 	private String testo;
 
 	public CorreggiTesto() {
+		//do nothing
 	}
 
 	public CorreggiTesto(final String testo) {
@@ -12,6 +13,11 @@ public class CorreggiTesto {
 		checkApici();
 	}
 
+	/**
+	 * Non so come gestire gli apici che mi creano problemi con istuzioni SQL, li elimino
+	 *
+	 * @return testo corretto
+	 */
 	public String checkApici() {
 		if (testo.contains("'")) {
 			final String nuovoTesto = testo.replace("'", "");
