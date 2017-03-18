@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.thread;
+package com.molinari.utility.thread;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import main.java.com.molinari.utility.thread.requests.RichiestaThread;
+import com.molinari.utility.thread.requests.RichiestaThread;
 
 public class ManagerThread {
 

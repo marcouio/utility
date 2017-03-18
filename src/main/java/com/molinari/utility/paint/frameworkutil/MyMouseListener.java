@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.paint.frameworkutil;
+package com.molinari.utility.paint.frameworkutil;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-import main.java.com.molinari.utility.controller.ControlloreDisegno;
+import com.molinari.utility.controller.ControlloreDisegno;
 
 public class MyMouseListener {
 

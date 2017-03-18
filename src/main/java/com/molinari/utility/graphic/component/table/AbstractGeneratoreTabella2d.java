@@ -1,6 +1,6 @@
-package main.java.com.molinari.utility.graphic.component.table;
+package com.molinari.utility.graphic.component.table;
 
-import main.java.com.molinari.utility.graphic.UtilComponenti;
+import com.molinari.utility.graphic.UtilComponenti;
 
 import java.lang.reflect.InvocationTargetException;
 

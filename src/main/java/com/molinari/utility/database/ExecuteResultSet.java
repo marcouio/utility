@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.database;
+package com.molinari.utility.database;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import main.java.com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public abstract class ExecuteResultSet<T> {
 

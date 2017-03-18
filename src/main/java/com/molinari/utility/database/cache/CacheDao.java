@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.database.cache;
+package com.molinari.utility.database.cache;
 
 import java.util.HashMap;
 import java.util.List;
 
-import main.java.com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
-import main.java.com.molinari.utility.database.dao.GenericDAO;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
+import com.molinari.utility.database.dao.GenericDAO;
 
 public class CacheDao<T extends AbstractOggettoEntita> extends GenericDAO<T>{
 

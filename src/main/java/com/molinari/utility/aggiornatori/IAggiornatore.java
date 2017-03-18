@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.aggiornatori;
+package com.molinari.utility.aggiornatori;
 
 
 public interface IAggiornatore {

@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.io;
+package com.molinari.utility.io;
 
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import main.java.com.molinari.utility.log.LoggerOggetto;
+import com.molinari.utility.log.LoggerOggetto;
 
 public class UtilIo {
 

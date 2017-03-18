@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.graphic.component.base;
+package com.molinari.utility.graphic.component.base;
 
-import main.java.com.molinari.utility.common.LineStackTracePrinter;
-import main.java.com.molinari.utility.graphic.component.alert.DialogoBase;
-import main.java.com.molinari.utility.graphic.component.container.FrameBase;
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.common.LineStackTracePrinter;
+import com.molinari.utility.graphic.component.alert.DialogoBase;
+import com.molinari.utility.graphic.component.container.FrameBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 import java.awt.Component;
 import java.awt.Container;

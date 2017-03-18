@@ -1,7 +1,7 @@
-package main.java.com.molinari.utility.graphic.component.textfield.date;
+package com.molinari.utility.graphic.component.textfield.date;
 
-import main.java.com.molinari.utility.graphic.component.alert.Alert;
-import main.java.com.molinari.utility.graphic.component.textfield.IFormatterTF;
+import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.textfield.IFormatterTF;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

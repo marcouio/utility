@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.database.dao;
+package com.molinari.utility.database.dao;
 
 public class DAOException extends RuntimeException {
 

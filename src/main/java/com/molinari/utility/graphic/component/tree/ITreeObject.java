@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.component.tree;
+package com.molinari.utility.graphic.component.tree;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;

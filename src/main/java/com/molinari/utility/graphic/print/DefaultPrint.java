@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.print;
+package com.molinari.utility.graphic.print;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

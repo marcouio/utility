@@ -1,11 +1,11 @@
-package main.java.com.molinari.utility.graphic.complexcomponent;
+package com.molinari.utility.graphic.complexcomponent;
 
-import main.java.com.molinari.utility.graphic.ExceptionGraphics;
-import main.java.com.molinari.utility.graphic.UtilComponenti;
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
-import main.java.com.molinari.utility.graphic.component.label.Label;
-import main.java.com.molinari.utility.graphic.component.textfield.TextFieldBase;
-import main.java.com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;
+import com.molinari.utility.graphic.ExceptionGraphics;
+import com.molinari.utility.graphic.UtilComponenti;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.label.Label;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
+import com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;
 
 import java.awt.Color;
 import java.awt.Container;

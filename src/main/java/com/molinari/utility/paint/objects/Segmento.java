@@ -1,8 +1,8 @@
-package main.java.com.molinari.utility.paint.objects;
+package com.molinari.utility.paint.objects;
 
 import java.awt.Point;
 
-import main.java.com.molinari.utility.paint.objects.painter.PainterSegmento;
+import com.molinari.utility.paint.objects.painter.PainterSegmento;
 
 public class Segmento extends FormaGeometrica {
 

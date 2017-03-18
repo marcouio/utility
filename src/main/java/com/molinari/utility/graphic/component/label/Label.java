@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.component.label;
+package com.molinari.utility.graphic.component.label;
 
 import java.awt.Container;
 

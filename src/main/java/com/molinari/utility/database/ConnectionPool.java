@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.database;
+package com.molinari.utility.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import main.java.com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 /**
  * @author marco.molinari

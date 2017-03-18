@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.paint.objects;
+package com.molinari.utility.paint.objects;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 
-import main.java.com.molinari.utility.paint.objects.painter.IPainter;
+import com.molinari.utility.paint.objects.painter.IPainter;
 
 public abstract class FormaGeometrica2D extends FormaGeometrica implements IFormaGeometrica2D, IFormaGeometrica {
 

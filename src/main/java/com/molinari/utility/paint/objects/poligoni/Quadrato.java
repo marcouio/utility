@@ -1,7 +1,7 @@
-package main.java.com.molinari.utility.paint.objects.poligoni;
+package com.molinari.utility.paint.objects.poligoni;
 
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
-import main.java.com.molinari.utility.paint.objects.painter.IPainter;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.paint.objects.painter.IPainter;
 
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;

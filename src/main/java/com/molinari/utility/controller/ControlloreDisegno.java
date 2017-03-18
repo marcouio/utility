@@ -1,11 +1,11 @@
-package main.java.com.molinari.utility.controller;
+package com.molinari.utility.controller;
 
-import main.java.com.molinari.utility.graphic.component.container.FrameBase;
-import main.java.com.molinari.utility.paint.UtilDisegno;
-import main.java.com.molinari.utility.paint.frameworkutil.PannelloDisegno;
-import main.java.com.molinari.utility.paint.objects.Cerchio;
-import main.java.com.molinari.utility.paint.objects.FormaGeometrica;
-import main.java.com.molinari.utility.paint.objects.poligoni.Poligono;
+import com.molinari.utility.graphic.component.container.FrameBase;
+import com.molinari.utility.paint.UtilDisegno;
+import com.molinari.utility.paint.frameworkutil.PannelloDisegno;
+import com.molinari.utility.paint.objects.Cerchio;
+import com.molinari.utility.paint.objects.FormaGeometrica;
+import com.molinari.utility.paint.objects.poligoni.Poligono;
 
 import java.awt.Color;
 import java.awt.Dimension;

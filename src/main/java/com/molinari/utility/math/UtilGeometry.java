@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.math;
+package com.molinari.utility.math;
 
 public class UtilGeometry {
 

@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.database.dao;
+package com.molinari.utility.database.dao;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import main.java.com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
-import main.java.com.molinari.utility.database.Clausola;
-import main.java.com.molinari.utility.database.ConnectionPool;
-import main.java.com.molinari.utility.database.DeleteBase;
-import main.java.com.molinari.utility.database.InsertBase;
-import main.java.com.molinari.utility.database.Query;
-import main.java.com.molinari.utility.database.SelectBase;
-import main.java.com.molinari.utility.database.UpdateBase;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
+import com.molinari.utility.database.Clausola;
+import com.molinari.utility.database.ConnectionPool;
+import com.molinari.utility.database.DeleteBase;
+import com.molinari.utility.database.InsertBase;
+import com.molinari.utility.database.Query;
+import com.molinari.utility.database.SelectBase;
+import com.molinari.utility.database.UpdateBase;
 import sun.reflect.annotation.AnnotationType;
 
 public class GenericDAO<T extends AbstractOggettoEntita> extends Observable implements IDAO<T> {

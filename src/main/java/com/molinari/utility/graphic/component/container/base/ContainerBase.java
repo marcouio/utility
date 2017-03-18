@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.graphic.component.container.base;
+package com.molinari.utility.graphic.component.container.base;
 
 import java.awt.Component;
 import java.awt.Container;
 
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
 
 public class ContainerBase extends Container {
 

@@ -1,12 +1,12 @@
-package main.java.com.molinari.utility.graphic.component.container;
+package com.molinari.utility.graphic.component.container;
 
-import main.java.com.molinari.utility.graphic.IFrame;
-import main.java.com.molinari.utility.graphic.component.base.ComponenteBaseFrame;
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.graphic.component.container.base.ContainerBase;
-import main.java.com.molinari.utility.graphic.component.container.base.ContainerBaseFrame;
-import main.java.com.molinari.utility.graphic.component.container.base.IContainerBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.IFrame;
+import com.molinari.utility.graphic.component.base.ComponenteBaseFrame;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.container.base.ContainerBase;
+import com.molinari.utility.graphic.component.container.base.ContainerBaseFrame;
+import com.molinari.utility.graphic.component.container.base.IContainerBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;

@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.graphic.component.base;
+package com.molinari.utility.graphic.component.base;
 
 import java.awt.Component;
 import java.awt.Container;
 
-import main.java.com.molinari.utility.graphic.component.container.ScrollPaneBase;
+import com.molinari.utility.graphic.component.container.ScrollPaneBase;
 
 public class ComponenteBaseScrollPane extends ComponenteBaseConPadreContenitore{
 

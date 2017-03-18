@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.component.textfield;
+package com.molinari.utility.graphic.component.textfield;
 
 public interface IFormatterTF {
 

@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.xml;
+package com.molinari.utility.xml;
 
 import java.io.File;
 import java.io.FileOutputStream;

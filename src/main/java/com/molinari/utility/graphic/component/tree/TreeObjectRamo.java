@@ -1,11 +1,11 @@
-package main.java.com.molinari.utility.graphic.component.tree;
+package com.molinari.utility.graphic.component.tree;
 
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import main.java.com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class TreeObjectRamo extends TreeObjectFoglia {
 

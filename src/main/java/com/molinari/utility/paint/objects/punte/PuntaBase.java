@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.paint.objects.punte;
+package com.molinari.utility.paint.objects.punte;
 
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
-import main.java.com.molinari.utility.paint.objects.FormaGeometrica2D;
-import main.java.com.molinari.utility.paint.objects.Segmento;
-import main.java.com.molinari.utility.paint.objects.painter.PainterPuntaBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.paint.objects.FormaGeometrica2D;
+import com.molinari.utility.paint.objects.Segmento;
+import com.molinari.utility.paint.objects.painter.PainterPuntaBase;
 
 import java.awt.Color;
 import java.awt.Graphics;

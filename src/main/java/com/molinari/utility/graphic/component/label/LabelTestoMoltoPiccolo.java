@@ -1,8 +1,8 @@
-package main.java.com.molinari.utility.graphic.component.label;
+package com.molinari.utility.graphic.component.label;
 
-import main.java.com.molinari.utility.graphic.UtilComponenti;
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.UtilComponenti;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 import java.awt.Container;
 

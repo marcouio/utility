@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.print;
+package com.molinari.utility.graphic.print;
 
 public interface IPrint {
 

@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.thread;
+package com.molinari.utility.thread;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import main.java.com.molinari.utility.database.UtilDb;
+import com.molinari.utility.database.UtilDb;
 
 
 public class ContainerDb {

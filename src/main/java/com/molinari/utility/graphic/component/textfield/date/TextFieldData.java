@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.graphic.component.textfield.date;
+package com.molinari.utility.graphic.component.textfield.date;
 
 import java.awt.Container;
 
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
-import main.java.com.molinari.utility.graphic.component.textfield.TextFieldBase;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 
 /**
  * TextFieldData è una specializzazione di JTextField per contenere e gestire

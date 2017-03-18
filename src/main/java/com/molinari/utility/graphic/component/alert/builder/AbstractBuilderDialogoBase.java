@@ -1,8 +1,8 @@
-package main.java.com.molinari.utility.graphic.component.alert.builder;
+package com.molinari.utility.graphic.component.alert.builder;
 
-import main.java.com.molinari.utility.graphic.component.alert.DialogoBase;
-import main.java.com.molinari.utility.graphic.component.button.ButtonBase;
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.alert.DialogoBase;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;

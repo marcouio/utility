@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.component.style;
+package com.molinari.utility.graphic.component.style;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,9 +9,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.xml.CoreXMLManager;
-import main.java.com.molinari.utility.xml.UtilXml;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.xml.CoreXMLManager;
+import com.molinari.utility.xml.UtilXml;
 
 /**
  * Gli oggetti nella gerarchia di StyleBase sono interni ad altri oggetti swing,

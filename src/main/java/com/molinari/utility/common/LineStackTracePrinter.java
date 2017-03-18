@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.common;
+package com.molinari.utility.common;
 
 /**
  * thanks to

@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.graphic.component.tree;
+package com.molinari.utility.graphic.component.tree;
 
-import main.java.com.molinari.utility.graphic.component.base.ComponenteBase;
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
-import main.java.com.molinari.utility.paint.images.UtilImage;
+import com.molinari.utility.graphic.component.base.ComponenteBase;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.paint.images.UtilImage;
 
 import java.awt.Component;
 import java.awt.Container;

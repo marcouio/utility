@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.look;
+package com.molinari.utility.graphic.look;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;

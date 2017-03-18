@@ -1,6 +1,6 @@
-package main.java.com.molinari.utility.graphic.component.textfield.text;
+package com.molinari.utility.graphic.component.textfield.text;
 
-import main.java.com.molinari.utility.graphic.component.textfield.IFormatterTF;
+import com.molinari.utility.graphic.component.textfield.IFormatterTF;
 
 public class FormatterTesto implements IFormatterTF {
 

@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.paint.images;
+package com.molinari.utility.paint.images;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

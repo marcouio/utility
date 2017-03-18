@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.io;
+package com.molinari.utility.io;
 
 import java.io.File;
 import java.util.ArrayList;

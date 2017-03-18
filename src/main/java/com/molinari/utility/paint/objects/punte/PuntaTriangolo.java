@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.paint.objects.punte;
+package com.molinari.utility.paint.objects.punte;
 
 import java.awt.Color;
 
-import main.java.com.molinari.utility.paint.objects.Segmento;
-import main.java.com.molinari.utility.paint.objects.painter.PainterPuntaTriangolo;
+import com.molinari.utility.paint.objects.Segmento;
+import com.molinari.utility.paint.objects.painter.PainterPuntaTriangolo;
 
 public class PuntaTriangolo extends PuntaBase {
 

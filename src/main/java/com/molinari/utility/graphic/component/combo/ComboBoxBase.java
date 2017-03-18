@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.component.combo;
+package com.molinari.utility.graphic.component.combo;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -8,9 +8,9 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-import main.java.com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 

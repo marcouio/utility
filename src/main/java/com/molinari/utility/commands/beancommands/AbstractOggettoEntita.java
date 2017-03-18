@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.commands.beancommands;
+package com.molinari.utility.commands.beancommands;
 
 
 public interface AbstractOggettoEntita {

@@ -1,11 +1,11 @@
-package main.java.com.molinari.utility.graphic.component.alert;
+package com.molinari.utility.graphic.component.alert;
 
 import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import main.java.com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 /**
  * Alert fornisce una facade per accedere in maniera più veloce alle

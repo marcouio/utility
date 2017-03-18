@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.thread;
+package com.molinari.utility.thread;
 
 public abstract class RunnerBase implements Runnable{
 

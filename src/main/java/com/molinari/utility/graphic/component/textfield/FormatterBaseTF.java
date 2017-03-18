@@ -1,6 +1,6 @@
-package main.java.com.molinari.utility.graphic.component.textfield;
+package com.molinari.utility.graphic.component.textfield;
 
-import main.java.com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.alert.Alert;
 
 public class FormatterBaseTF implements IFormatterTF {
 

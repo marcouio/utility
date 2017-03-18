@@ -1,7 +1,7 @@
-package main.java.com.molinari.utility.paint.frameworkutil;
+package com.molinari.utility.paint.frameworkutil;
 
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
-import main.java.com.molinari.utility.paint.objects.FormaGeometrica;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.paint.objects.FormaGeometrica;
 
 import java.awt.Container;
 import java.awt.Graphics;

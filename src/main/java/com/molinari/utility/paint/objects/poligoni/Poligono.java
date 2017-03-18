@@ -1,11 +1,11 @@
-package main.java.com.molinari.utility.paint.objects.poligoni;
+package com.molinari.utility.paint.objects.poligoni;
 
 import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-import main.java.com.molinari.utility.paint.objects.FormaGeometrica2D;
-import main.java.com.molinari.utility.paint.objects.painter.IPainter;
+import com.molinari.utility.paint.objects.FormaGeometrica2D;
+import com.molinari.utility.paint.objects.painter.IPainter;
 
 public abstract class Poligono extends FormaGeometrica2D implements IPoligono {
 

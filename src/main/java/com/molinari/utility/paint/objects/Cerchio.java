@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.paint.objects;
+package com.molinari.utility.paint.objects;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import main.java.com.molinari.utility.paint.objects.painter.PainterCerchio;
+import com.molinari.utility.paint.objects.painter.PainterCerchio;
 
 public class Cerchio extends FormaGeometrica2D {
 

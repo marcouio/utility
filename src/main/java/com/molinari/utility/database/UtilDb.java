@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.database;
+package com.molinari.utility.database;
 
 import java.io.Serializable;
 import java.sql.Connection;

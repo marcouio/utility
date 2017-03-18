@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.graphic.component.textfield;
+package com.molinari.utility.graphic.component.textfield;
 
-import main.java.com.molinari.utility.graphic.UtilComponenti;
-import main.java.com.molinari.utility.graphic.component.base.ComponenteBase;
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.UtilComponenti;
+import com.molinari.utility.graphic.component.base.ComponenteBase;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;

@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.listener;
+package com.molinari.utility.listener;
 
 
 public abstract class AscoltatoreNoRepaint extends AscoltatoreBase{

@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.graphic.component.textfield.text;
+package com.molinari.utility.graphic.component.textfield.text;
 
 import java.awt.Container;
 
-import main.java.com.molinari.utility.graphic.component.textfield.IFormatterTF;
-import main.java.com.molinari.utility.graphic.component.textfield.TextFieldBase;
+import com.molinari.utility.graphic.component.textfield.IFormatterTF;
+import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 
 public class TextFieldTesto extends TextFieldBase {
 

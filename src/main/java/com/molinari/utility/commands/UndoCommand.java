@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.commands;
+package com.molinari.utility.commands;
 
 public class UndoCommand extends AbstractCommand {
 

@@ -1,7 +1,7 @@
-package main.java.com.molinari.utility.graphic;
+package com.molinari.utility.graphic;
 
-import main.java.com.molinari.utility.controller.ControlloreBase;
-import main.java.com.molinari.utility.graphic.component.container.FrameBase;
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.FrameBase;
 
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;

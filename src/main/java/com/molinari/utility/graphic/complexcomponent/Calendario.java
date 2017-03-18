@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.complexcomponent;
+package com.molinari.utility.graphic.complexcomponent;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -8,12 +8,12 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JPanel;
 
-import main.java.com.molinari.utility.aggiornatori.IAggiornatore;
-import main.java.com.molinari.utility.database.UtilDb;
-import main.java.com.molinari.utility.graphic.UtilComponenti;
-import main.java.com.molinari.utility.graphic.component.combo.ComboBoxBase;
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
-import main.java.com.molinari.utility.listener.AscoltatoreBase;
+import com.molinari.utility.aggiornatori.IAggiornatore;
+import com.molinari.utility.database.UtilDb;
+import com.molinari.utility.graphic.UtilComponenti;
+import com.molinari.utility.graphic.component.combo.ComboBoxBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.listener.AscoltatoreBase;
 
 public class Calendario extends PannelloBase {
 

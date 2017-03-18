@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.paint.objects.painter;
+package com.molinari.utility.paint.objects.painter;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import main.java.com.molinari.utility.paint.objects.poligoni.Rettangolo;
+import com.molinari.utility.paint.objects.poligoni.Rettangolo;
 
 public class PainterRettangolo extends Painter2D {
 

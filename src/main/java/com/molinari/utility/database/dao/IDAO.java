@@ -1,8 +1,8 @@
-package main.java.com.molinari.utility.database.dao;
+package com.molinari.utility.database.dao;
 
 import java.util.List;
 
-import main.java.com.molinari.utility.database.Clausola;
+import com.molinari.utility.database.Clausola;
 
 public interface IDAO<T> {
 

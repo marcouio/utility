@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.component.button;
+package com.molinari.utility.graphic.component.button;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -12,7 +12,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import main.java.com.molinari.utility.paint.images.UtilImage;
+import com.molinari.utility.paint.images.UtilImage;
 
 /**
  * La classe estende JToggleButton per modificarne il funzionamento di default.

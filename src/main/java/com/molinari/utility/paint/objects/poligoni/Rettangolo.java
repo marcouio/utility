@@ -1,12 +1,12 @@
-package main.java.com.molinari.utility.paint.objects.poligoni;
+package com.molinari.utility.paint.objects.poligoni;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import main.java.com.molinari.utility.paint.UtilDisegno;
-import main.java.com.molinari.utility.paint.objects.IFormaGeometrica2D;
-import main.java.com.molinari.utility.paint.objects.painter.IPainter;
-import main.java.com.molinari.utility.paint.objects.painter.PainterRettangolo;
+import com.molinari.utility.paint.UtilDisegno;
+import com.molinari.utility.paint.objects.IFormaGeometrica2D;
+import com.molinari.utility.paint.objects.painter.IPainter;
+import com.molinari.utility.paint.objects.painter.PainterRettangolo;
 
 public class Rettangolo extends Poligono implements IFormaGeometrica2D {
 

@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.paint.objects;
+package com.molinari.utility.paint.objects;
 
 public interface IFormaGeometricaComplessa extends IFormaGeometrica {
 

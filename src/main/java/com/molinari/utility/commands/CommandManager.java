@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.commands;
+package com.molinari.utility.commands;
 
 import java.util.ArrayList;
 import java.util.List;

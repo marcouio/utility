@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.paint.objects.painter;
+package com.molinari.utility.paint.objects.painter;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-import main.java.com.molinari.utility.paint.objects.IFormaGeometrica2D;
+import com.molinari.utility.paint.objects.IFormaGeometrica2D;
 
 public abstract class Painter2D extends PainterBase implements IPainter{
 

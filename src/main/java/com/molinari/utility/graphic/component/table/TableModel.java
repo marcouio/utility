@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.component.table;
+package com.molinari.utility.graphic.component.table;
 
 import java.util.ArrayList;
 import java.util.Arrays;

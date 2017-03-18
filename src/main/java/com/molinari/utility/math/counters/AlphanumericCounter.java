@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.math.counters;
+package com.molinari.utility.math.counters;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.graphic.component.alert.builder;
+package com.molinari.utility.graphic.component.alert.builder;
 
 import java.awt.Dimension;
 
 import javax.swing.Icon;
 
-import main.java.com.molinari.utility.graphic.component.alert.DialogoBase;
+import com.molinari.utility.graphic.component.alert.DialogoBase;
 
 public interface IBuilderDialogo {
 

@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.messages;
+package com.molinari.utility.messages;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import main.java.com.molinari.utility.xml.CoreXMLManager;
+import com.molinari.utility.xml.CoreXMLManager;
 
 public class I18NManager {
 

@@ -1,6 +1,6 @@
-package main.java.com.molinari.utility.aggiornatori;
+package com.molinari.utility.aggiornatori;
 
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
 
 public class AggiornatoreBase implements IAggiornatore {
 

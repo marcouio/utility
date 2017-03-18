@@ -1,8 +1,8 @@
-package main.java.com.molinari.utility.thread;
+package com.molinari.utility.thread;
 
 import java.util.concurrent.Callable;
 
-import main.java.com.molinari.utility.thread.requests.RichiestaThread;
+import com.molinari.utility.thread.requests.RichiestaThread;
 
 
 public abstract class CallableBase implements Callable<Object>{

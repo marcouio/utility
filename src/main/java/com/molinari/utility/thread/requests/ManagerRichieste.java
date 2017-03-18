@@ -1,11 +1,11 @@
-package main.java.com.molinari.utility.thread.requests;
+package com.molinari.utility.thread.requests;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import main.java.com.molinari.utility.thread.CallableBase;
+import com.molinari.utility.thread.CallableBase;
 
 public class ManagerRichieste {
 	

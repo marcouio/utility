@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.controller;
+package com.molinari.utility.controller;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -9,17 +9,17 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
-import main.java.com.molinari.utility.commands.AbstractCommand;
-import main.java.com.molinari.utility.commands.CommandManager;
-import main.java.com.molinari.utility.database.ConnectionPool;
-import main.java.com.molinari.utility.graphic.UtilComponenti;
-import main.java.com.molinari.utility.graphic.component.container.FrameBase;
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
-import main.java.com.molinari.utility.log.LoggerOggetto;
-import main.java.com.molinari.utility.messages.I18NManager;
-import main.java.com.molinari.utility.xml.CoreXMLManager;
-import main.java.com.molinari.utility.xml.UtilXml;
+import com.molinari.utility.commands.AbstractCommand;
+import com.molinari.utility.commands.CommandManager;
+import com.molinari.utility.database.ConnectionPool;
+import com.molinari.utility.graphic.UtilComponenti;
+import com.molinari.utility.graphic.component.container.FrameBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.log.LoggerOggetto;
+import com.molinari.utility.messages.I18NManager;
+import com.molinari.utility.xml.CoreXMLManager;
+import com.molinari.utility.xml.UtilXml;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

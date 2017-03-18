@@ -1,12 +1,12 @@
-package main.java.com.molinari.utility.graphic.component.alert;
+package com.molinari.utility.graphic.component.alert;
 
-import main.java.com.molinari.utility.graphic.component.alert.builder.IBuilderDialogo;
-import main.java.com.molinari.utility.graphic.component.base.ComponenteBaseDialogo;
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.graphic.component.container.base.ContainerBase;
-import main.java.com.molinari.utility.graphic.component.container.base.ContainerBaseDialogo;
-import main.java.com.molinari.utility.graphic.component.container.base.IContainerBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.component.alert.builder.IBuilderDialogo;
+import com.molinari.utility.graphic.component.base.ComponenteBaseDialogo;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.container.base.ContainerBase;
+import com.molinari.utility.graphic.component.container.base.ContainerBaseDialogo;
+import com.molinari.utility.graphic.component.container.base.IContainerBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;

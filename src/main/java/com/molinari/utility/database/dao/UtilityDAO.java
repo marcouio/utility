@@ -1,6 +1,6 @@
-package main.java.com.molinari.utility.database.dao;
+package com.molinari.utility.database.dao;
 
-import main.java.com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
+import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 
 public abstract class UtilityDAO {
 

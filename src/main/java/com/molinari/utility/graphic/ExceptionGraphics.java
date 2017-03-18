@@ -1,6 +1,6 @@
-package main.java.com.molinari.utility.graphic;
+package com.molinari.utility.graphic;
 
-import main.java.com.molinari.utility.common.LineStackTracePrinter;
+import com.molinari.utility.common.LineStackTracePrinter;
 
 public class ExceptionGraphics extends Exception {
 

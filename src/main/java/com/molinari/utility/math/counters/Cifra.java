@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.math.counters;
+package com.molinari.utility.math.counters;
 
 public interface Cifra {
 

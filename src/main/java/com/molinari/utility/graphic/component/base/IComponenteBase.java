@@ -1,7 +1,7 @@
-package main.java.com.molinari.utility.graphic.component.base;
+package com.molinari.utility.graphic.component.base;
 
-import main.java.com.molinari.utility.graphic.ExceptionGraphics;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.ExceptionGraphics;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 import java.awt.Component;
 import java.awt.Container;

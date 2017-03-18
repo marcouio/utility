@@ -1,11 +1,11 @@
-package main.java.com.molinari.utility.graphic.component.alert.builder;
+package com.molinari.utility.graphic.component.alert.builder;
 
 import java.awt.Dimension;
 
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
-import main.java.com.molinari.utility.graphic.component.alert.DialogoBase;
+import com.molinari.utility.graphic.component.alert.DialogoBase;
 
 public class BuilderSwing implements IBuilderDialogo {
 

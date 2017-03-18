@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.thread.requests;
+package com.molinari.utility.thread.requests;
 
 public class RichiestaThread {
 

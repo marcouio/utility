@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.listener;
+package com.molinari.utility.listener;
 
-import main.java.com.molinari.utility.aggiornatori.AggiornatoreBase;
-import main.java.com.molinari.utility.aggiornatori.AggiornatoreManager;
-import main.java.com.molinari.utility.aggiornatori.IAggiornatore;
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.aggiornatori.AggiornatoreBase;
+import com.molinari.utility.aggiornatori.AggiornatoreManager;
+import com.molinari.utility.aggiornatori.IAggiornatore;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

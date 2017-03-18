@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.graphic.component.style;
+package com.molinari.utility.graphic.component.style;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import main.java.com.molinari.utility.xml.UtilXml;
+import com.molinari.utility.xml.UtilXml;
 
 public class StyleTextArea extends StyleBase {
 

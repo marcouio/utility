@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.graphic.component.alert;
+package com.molinari.utility.graphic.component.alert;
 
-import main.java.com.molinari.utility.graphic.component.alert.builder.AbstractBuilderDialogoBase;
-import main.java.com.molinari.utility.graphic.component.button.ButtonBase;
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
-import main.java.com.molinari.utility.graphic.component.label.Label;
+import com.molinari.utility.graphic.component.alert.builder.AbstractBuilderDialogoBase;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.component.label.Label;
 
 import java.awt.Component;
 import java.awt.Container;

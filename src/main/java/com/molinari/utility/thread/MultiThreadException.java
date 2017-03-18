@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.thread;
+package com.molinari.utility.thread;
 
 import java.util.concurrent.ExecutionException;
 

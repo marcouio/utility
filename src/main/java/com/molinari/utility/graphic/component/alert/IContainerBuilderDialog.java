@@ -1,6 +1,6 @@
-package main.java.com.molinari.utility.graphic.component.alert;
+package com.molinari.utility.graphic.component.alert;
 
-import main.java.com.molinari.utility.graphic.component.alert.builder.IBuilderDialogo;
+import com.molinari.utility.graphic.component.alert.builder.IBuilderDialogo;
 
 public interface IContainerBuilderDialog {
 

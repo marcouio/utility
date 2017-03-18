@@ -1,9 +1,9 @@
-package main.java.com.molinari.utility.graphic.component.table;
+package com.molinari.utility.graphic.component.table;
 
-import main.java.com.molinari.utility.graphic.component.base.ComponenteBaseScrollPane;
-import main.java.com.molinari.utility.graphic.component.base.IComponenteBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleBase;
-import main.java.com.molinari.utility.graphic.component.style.StyleTable;
+import com.molinari.utility.graphic.component.base.ComponenteBaseScrollPane;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.component.style.StyleTable;
 
 import java.awt.Color;
 import java.awt.Component;

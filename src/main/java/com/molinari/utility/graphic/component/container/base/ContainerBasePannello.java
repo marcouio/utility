@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.graphic.component.container.base;
+package com.molinari.utility.graphic.component.container.base;
 
 import java.awt.Container;
 

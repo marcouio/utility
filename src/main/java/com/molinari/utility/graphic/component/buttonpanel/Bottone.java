@@ -1,8 +1,8 @@
-package main.java.com.molinari.utility.graphic.component.buttonpanel;
+package com.molinari.utility.graphic.component.buttonpanel;
 
-import main.java.com.molinari.utility.graphic.ExceptionGraphics;
-import main.java.com.molinari.utility.graphic.component.button.ToggleBtnBase;
-import main.java.com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.graphic.ExceptionGraphics;
+import com.molinari.utility.graphic.component.button.ToggleBtnBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 import java.awt.Container;
 

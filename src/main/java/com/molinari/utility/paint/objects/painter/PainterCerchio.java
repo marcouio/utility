@@ -1,10 +1,10 @@
-package main.java.com.molinari.utility.paint.objects.painter;
+package com.molinari.utility.paint.objects.painter;
 
 import java.awt.Graphics;
 
-import main.java.com.molinari.utility.paint.objects.Cerchio;
-import main.java.com.molinari.utility.paint.objects.IFormaGeometrica;
-import main.java.com.molinari.utility.paint.objects.IFormaGeometrica2D;
+import com.molinari.utility.paint.objects.Cerchio;
+import com.molinari.utility.paint.objects.IFormaGeometrica;
+import com.molinari.utility.paint.objects.IFormaGeometrica2D;
 
 public class PainterCerchio extends Painter2D {
 

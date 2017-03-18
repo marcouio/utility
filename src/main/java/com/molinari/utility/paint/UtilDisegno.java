@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.paint;
+package com.molinari.utility.paint;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Transparency;
 
-import main.java.com.molinari.utility.paint.images.UtilImage;
+import com.molinari.utility.paint.images.UtilImage;
 
 public class UtilDisegno {
 

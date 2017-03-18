@@ -1,8 +1,8 @@
-package main.java.com.molinari.utility.paint.objects;
+package com.molinari.utility.paint.objects;
 
 import java.awt.Graphics;
 
-import main.java.com.molinari.utility.paint.objects.painter.IPainter;
+import com.molinari.utility.paint.objects.painter.IPainter;
 
 
 public abstract class FormaGeometrica implements IFormaGeometrica {

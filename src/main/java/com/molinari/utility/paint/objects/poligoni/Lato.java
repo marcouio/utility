@@ -1,8 +1,8 @@
-package main.java.com.molinari.utility.paint.objects.poligoni;
+package com.molinari.utility.paint.objects.poligoni;
 
 import java.awt.Point;
 
-import main.java.com.molinari.utility.paint.objects.Segmento;
+import com.molinari.utility.paint.objects.Segmento;
 
 public class Lato extends Segmento {
 

@@ -1,12 +1,12 @@
-package main.java.com.molinari.utility.paint.objects.painter;
+package com.molinari.utility.paint.objects.painter;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import main.java.com.molinari.utility.paint.objects.IFormaGeometrica2D;
-import main.java.com.molinari.utility.paint.objects.punte.PuntaTriangolo;
+import com.molinari.utility.paint.objects.IFormaGeometrica2D;
+import com.molinari.utility.paint.objects.punte.PuntaTriangolo;
 
 public class PainterPuntaTriangolo extends Painter2D{
 

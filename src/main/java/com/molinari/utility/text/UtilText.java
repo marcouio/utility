@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.text;
+package com.molinari.utility.text;
 
 import java.awt.GraphicsEnvironment;
 

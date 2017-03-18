@@ -1,4 +1,4 @@
-package main.java.com.molinari.utility.database.stringconverter;
+package com.molinari.utility.database.stringconverter;
 
 public class InClause {
 

@@ -1,11 +1,11 @@
-package main.java.com.molinari.utility.database;
+package com.molinari.utility.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import main.java.com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.controller.ControlloreBase;
 
 public abstract class ExecutePreparedStatement<T> {
 	public boolean executeUpdate(String sql, T obj){
