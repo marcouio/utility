@@ -1,27 +1,30 @@
 package com.molinari.utility.xml;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.molinari.utility.controller.ControlloreBase;
+
 public class CoreXMLManager {
 
 	public static final String XMLCOREPATH = "./config-core.xml";
 	public static final String XMLSTYLEPATH = "./config-style.xml";
 	private Document doc;
+	private static CoreXMLManager singleton;
 
 	private CoreXMLManager() {
 		try {
 			doc = UtilXml.createDocument(new File(XMLCOREPATH));
 		} catch (Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	private static CoreXMLManager singleton;
 
 	public static CoreXMLManager getSingleton() {
 		synchronized (CoreXMLManager.class) {
