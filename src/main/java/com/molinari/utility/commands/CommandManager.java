@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class CommandManager {
 
-	private ArrayList<AbstractCommand> history = new ArrayList<AbstractCommand>();
+	private ArrayList<AbstractCommand> history = new ArrayList<>();
 	private int indiceCorrente = -1;
 	private static CommandManager instance = new CommandManager();
 
@@ -25,13 +25,12 @@ public class CommandManager {
 
 	/**
 	 * Metodo che implementa l'azione "indietro".
-	 * @throws Exception 
 	 * 
 	 */
-	public boolean undo() throws Exception {
+	public boolean undo(){
 		//per tornare indietro devono esserci almeno 1 comando eseguito 
 		//e undo ripetuti non devono spostare l'indice più indietro di -1
-		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente <= history.size()-1) {
+		if (!history.isEmpty() && indiceCorrente > -1 && indiceCorrente <= history.size()-1) {
 			
 			//richiama il comando all'indice e sposta l'indice indietro di 1
 			final AbstractCommand comando = history.get(indiceCorrente);
@@ -43,30 +42,14 @@ public class CommandManager {
 		return false;
 	}
 	
-	public static int undoForTest(ArrayList<String> history,int indiceCorrente, boolean trueTest) {
-		//per tornare indietro devono esserci almeno 1 comando eseguito 
-		//e undo ripetuti non devono spostare l'indice più indietro di -1
-		if (history.size() > 0 && indiceCorrente > -1 && indiceCorrente <= history.size()-1) {
-			
-			//richiama il comando all'indice e sposta l'indice indietro di 1
-			final String comando = history.get(indiceCorrente);
-			if (trueTest) {
-				System.out.println("undo per il comando: " +comando);
-				indiceCorrente--;
-			}
-		}
-		return indiceCorrente;
-	}
-
 	/**
 	 * Metodo che implementa l'azione "avanti".
-	 * @throws Exception 
 	 * 
 	 */
-	public boolean redo() throws Exception {
+	public boolean redo() {
 		//per andare avanti devono esserci almeno 1 comando eseguito
 		//l'indice deve essere compreso tra -1 e (history.size-1)
-		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size() -1) {
+		if (!history.isEmpty() && indiceCorrente >= -1 && indiceCorrente < history.size() -1) {
 			
 			//sposto l'indice in avanti
 			indiceCorrente++;
@@ -81,25 +64,6 @@ public class CommandManager {
 
 		}
 		return false;
-	}
-	public static int redoForTest(ArrayList<String> history,int indiceCorrente, boolean trueTest) {
-		// per andare avanti devono esserci almeno 1 comando eseguito
-		// l'indice deve essere compreso tra -1 e (history.size-1)
-		if (history.size() > 0 && indiceCorrente >= -1 && indiceCorrente < history.size()-1) {
-
-			// sposto l'indice in avanti
-			indiceCorrente++;
-
-			final String comando = history.get(indiceCorrente);
-			
-			if (trueTest) {
-				System.out.println("redo per il comando: "+comando);
-			} else {
-				// altrimenti torno l'indice indietro di -1
-				indiceCorrente--;
-			}
-		}
-		return indiceCorrente;
 	}
 
 	/**
@@ -116,13 +80,9 @@ public class CommandManager {
 	public boolean invocaComando(final AbstractCommand comando) {
 		try {
 			if (comando instanceof UndoCommand) {
-				if (undo()) {
-					return true;
-				}
+				return undo();
 			} else if (comando instanceof RedoCommand) {
-				if (redo()) {
-					return true;
-				}
+				return redo();
 			} else {
 				if (comando.doCommand()) {
 					history.add(comando);
@@ -144,8 +104,8 @@ public class CommandManager {
 	 */
 	public AbstractCommand getLast(final Class<AbstractCommand> nomeClasse) {
 		AbstractCommand ultimoCommand = null;
-		if (history.size() > 0) {
-			for (int i = history.size() - 1; i <= 0; i--) {
+		if (!history.isEmpty()) {
+			for (int i = history.size() - 1; i >= 0; i--) {
 				if (history.get(i).getClass().equals(nomeClasse)) {
 					ultimoCommand = history.get(i);
 					break;
@@ -158,8 +118,6 @@ public class CommandManager {
 	public List<AbstractCommand> getHistory() {
 		return history;
 	}
-
-	// TODO da spostare...
 
 	/**
 	 * Genera la matrice di dati da inserire nel pannello history
@@ -175,39 +133,6 @@ public class CommandManager {
 
 		}
 		return dati;
-	}
-	
-	public static void main(String[] args) {
-		int indiceCorrente = 0;
-		ArrayList<String> history = new ArrayList<String>();
-		history.add("1° comando");
-		history.add("2° comando");
-		history.add("3° comando");
-		history.add("4° comando");
-		
-		for (int i = 0; i < 6; i++) {
-			boolean trueTest = true;
-			indiceCorrente = CommandManager.undoForTest(history, indiceCorrente, trueTest);
-		}
-		
-		for (int i = 0; i < 5; i++) {
-			boolean trueTest = true;
-			indiceCorrente = CommandManager.redoForTest(history, indiceCorrente, trueTest);
-		}
-		
-		for (int i = 0; i < 6; i++) {
-			boolean trueTest = true;
-			indiceCorrente = CommandManager.undoForTest(history, indiceCorrente, trueTest);
-		}
-		for (int i = 0; i < 6; i++) {
-			boolean trueTest = true;
-			indiceCorrente = CommandManager.redoForTest(history, indiceCorrente, trueTest);
-		}
-		
-		for (int i = 0; i < 6; i++) {
-			boolean trueTest = true;
-			indiceCorrente = CommandManager.undoForTest(history, indiceCorrente, trueTest);
-		}
 	}
 
 }
