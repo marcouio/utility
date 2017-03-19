@@ -1,7 +1,14 @@
 package com.molinari.utility.xml;
 
 import java.io.File;
+import java.io.StringWriter;
 import java.util.logging.Level;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,7 +31,43 @@ public class CoreXMLManager {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
+	
+	public Node getNode(String nodeName){
+		return UtilXml.getNodo(nodeName, doc);
+	}
+	
+	public Element getElement(Node node){
+		return UtilXml.getElement(node);
+	}
+	
+	// This method writes a DOM document to a file
+		public static void writeXmlFile(Document doc) {
+			try {
+				final Transformer transformer = TransformerFactory.newInstance().newTransformer();
+				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
+				// initialize StreamResult with File object to save to file
+				final StreamResult result = new StreamResult(new StringWriter());
+				final DOMSource source = new DOMSource(doc);
+				transformer.transform(source, result);
+
+			} catch (final Exception e) {
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			}
+
+		}
+
+		// This method writes a DOM document to a file
+		public static void writeXmlFile2(Document doc, String filename) {
+			try {
+				// save the result
+				final Transformer xformer = TransformerFactory.newInstance().newTransformer();
+				xformer.transform(new DOMSource(doc), new StreamResult(new File(filename)));
+
+			} catch (final Exception e) {
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			}
+		}
 
 	public static CoreXMLManager getSingleton() {
 		synchronized (CoreXMLManager.class) {
