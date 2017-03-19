@@ -312,11 +312,7 @@ public class UtilDb {
 		sql.append(")");
 
 
-		if (ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0) {
-			return true;
-		}
-		ControlloreBase.getLog().info("Record inserito correttamente ("+sql.toString()+")");
-		return false;
+		return ConnectionPool.getSingleton().executeUpdate(sql.toString()) != 0;
 	}
 
 	public static String[] trovaOggettoFromStringSQL(final String sqlParam, final String nome, final String partenza, final String fine, final String splitter) {

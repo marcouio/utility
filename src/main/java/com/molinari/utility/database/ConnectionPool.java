@@ -144,6 +144,7 @@ public abstract class ConnectionPool {
 	}
 
 	public int executeUpdate(final String sql) throws SQLException {
+		
 		int ritorno = 0;
 		final Connection cn = getConnection();
 		if (cn != null && sql != null) {
@@ -164,6 +165,11 @@ public abstract class ConnectionPool {
 		ResultSet rs = null;
 		if (cn != null && sql != null) {
 			final Statement st = cn.createStatement();
+			final Statement statementDaMap = mappaStatement.get(cn);
+			if (statementDaMap != null) {
+				statementDaMap.close();
+			}
+			mappaStatement.put(cn, st);
 			rs = st.executeQuery(sql);
 			ResultSet rsDaMappa = mappaRS.get(cn);
 			if (rsDaMappa != null) {
