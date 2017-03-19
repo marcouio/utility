@@ -1,7 +1,11 @@
 package com.molinari.utility.graphic.look;
 
+import java.util.logging.Level;
+
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
+import com.molinari.utility.controller.ControlloreBase;
 
 public class LookManager {
 
@@ -12,7 +16,7 @@ public class LookManager {
 				try {
 					UIManager.setLookAndFeel(look.getClassName());
 				} catch (final Exception e) {
-					e.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}

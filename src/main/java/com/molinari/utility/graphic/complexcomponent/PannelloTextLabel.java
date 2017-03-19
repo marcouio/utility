@@ -1,18 +1,20 @@
 package com.molinari.utility.graphic.complexcomponent;
 
+import java.awt.Color;
+import java.awt.Container;
+import java.util.logging.Level;
+
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.BorderUIResource;
+
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.ExceptionGraphics;
 import com.molinari.utility.graphic.UtilComponenti;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.label.Label;
 import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 import com.molinari.utility.graphic.component.textfield.text.TextFieldTesto;
-
-import java.awt.Color;
-import java.awt.Container;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.BorderUIResource;
 
 public class PannelloTextLabel extends PannelloBase {
 
@@ -31,8 +33,7 @@ public class PannelloTextLabel extends PannelloBase {
 					ptl = new PannelloTextLabel("LABEL", "TESTO", pannello);
 					ptl.setBackground(Color.CYAN);
 				} catch (final ExceptionGraphics e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

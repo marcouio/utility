@@ -5,9 +5,15 @@ import java.awt.Container;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.sql.Connection;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.molinari.utility.commands.AbstractCommand;
 import com.molinari.utility.commands.CommandManager;
@@ -20,11 +26,6 @@ import com.molinari.utility.log.LoggerOggetto;
 import com.molinari.utility.messages.I18NManager;
 import com.molinari.utility.xml.CoreXMLManager;
 import com.molinari.utility.xml.UtilXml;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * La classe è di estrema importanza nel framework. Essa funge da classe abstract per il controller, per cui tutte le operazioni di business devono passare di qui.
@@ -97,7 +98,7 @@ public abstract class ControlloreBase {
 						getLog().info("Frame, altezza: " + frame.getSize().getHeight());
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});
@@ -116,13 +117,13 @@ public abstract class ControlloreBase {
 	 * @param frame
 	 * @throws Exception 
 	 */
-	public abstract void mainOverridato(FrameBase frame) throws Exception;
+	public abstract void mainOverridato(FrameBase frame);
 
 	public static FrameBase getApplicationframe() {
 		return applicationframe;
 	}
 
-	public static Connection getConnection() throws Exception{
+	public static Connection getConnection() {
 		return ConnectionPool.getSingleton().getConnection();
 	}
 
@@ -157,7 +158,7 @@ public abstract class ControlloreBase {
 		return commandManager;
 	}
 
-	public static boolean invocaComando(final AbstractCommand comando) throws Exception {
+	public static boolean invocaComando(final AbstractCommand comando) {
 		return CommandManager.getIstance().invocaComando(comando);
 	}
 
@@ -166,7 +167,6 @@ public abstract class ControlloreBase {
 			applicationframe.setVisible(false);
 			applicationframe.dispose();
 		}
-		System.exit(0);
 	}
 
 	public static void setLog(final Logger log) {
@@ -180,7 +180,7 @@ public abstract class ControlloreBase {
 		return log;
 	}
 
-	public void creaFileXmlStyle() throws Exception{
+	public void creaFileXmlStyle() throws Exception {
 		StyleBase.creaFileXmlStyle();
 	}
 
@@ -212,8 +212,8 @@ public abstract class ControlloreBase {
 			UtilXml.addAttribute(doc, fileM, "nome", "messaggi");
 
 			//auto-config
-			Element auto_config = UtilXml.addElement(doc, rootElement, "auto-config");
-			UtilXml.addAttribute(doc, auto_config, "value", "true");
+			Element autoconfig = UtilXml.addElement(doc, rootElement, "auto-config");
+			UtilXml.addAttribute(doc, autoconfig, "value", "true");
 
 			UtilXml.writeXmlFile(doc, pathFile);
 		}

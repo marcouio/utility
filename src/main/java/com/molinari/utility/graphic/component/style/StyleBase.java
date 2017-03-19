@@ -3,12 +3,14 @@ package com.molinari.utility.graphic.component.style;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.util.logging.Level;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.base.IComponenteBase;
 import com.molinari.utility.xml.CoreXMLManager;
 import com.molinari.utility.xml.UtilXml;
@@ -72,11 +74,6 @@ public class StyleBase {
 	private int height;
 	private boolean trovato;
 
-	public static void main(final String[] args) {
-		//		final StyleBase base = new StyleBase();
-		//		System.out.println(base.getBackground());
-	}
-
 	public StyleBase() {
 		caricaInfoStyleBase("stylebase");
 	}
@@ -105,7 +102,7 @@ public class StyleBase {
 				}
 			}
 		} catch (final Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -188,7 +185,7 @@ public class StyleBase {
 				}
 
 			} catch (final Exception e) {
-				e.printStackTrace();
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 		return new Color(0, 0, 0);

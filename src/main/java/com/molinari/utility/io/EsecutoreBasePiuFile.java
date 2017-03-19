@@ -2,10 +2,13 @@ package com.molinari.utility.io;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
+
+import com.molinari.utility.controller.ControlloreBase;
 
 /**
  * Questa classe serve per eseguire la stessa operazione su piu file. Scorre
@@ -46,7 +49,7 @@ public abstract class EsecutoreBasePiuFile {
 						operazioneDaEseguireSulFile(pathFile, f);
 					} catch (final Exception e) {
 						// tag non presente
-						e.printStackTrace();
+						ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 					}
 				} else if (f.isDirectory()) {
 					cartelleDaScorrere.add(f.getAbsolutePath());
@@ -54,7 +57,7 @@ public abstract class EsecutoreBasePiuFile {
 			}
 		}
 		
-		if (cartelleDaScorrere != null && cartelleDaScorrere.size() > 0) {
+		if (cartelleDaScorrere != null && !cartelleDaScorrere.isEmpty()) {
 			final String path = cartelleDaScorrere.get(0);
 			cartelleDaScorrere.remove(0);
 			scorriEdEseguiSuTuttiIFile(path);

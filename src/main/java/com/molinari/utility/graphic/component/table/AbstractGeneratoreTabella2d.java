@@ -1,12 +1,14 @@
 package com.molinari.utility.graphic.component.table;
 
-import com.molinari.utility.graphic.UtilComponenti;
-
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
+
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.UtilComponenti;
 
 /**
  * Fornisce il codice comune per le tabelle e stabilisce i metodi da
@@ -37,7 +39,7 @@ public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel {
 				try {
 					matrice[i][x] = setCellaMatricePerRicorsione(i, x);
 				} catch (final Exception e) {
-					e.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}

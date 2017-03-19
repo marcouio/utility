@@ -7,6 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+
+import com.molinari.utility.controller.ControlloreBase;
 
 public class Query {
 	
@@ -262,13 +265,13 @@ public class Query {
 			}
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			if(cn != null){
 				try {
 					ConnectionPool.getSingleton().chiudiOggettiDb(cn);
 				} catch (Exception e) {
-					e.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				} 
 			}
 		}

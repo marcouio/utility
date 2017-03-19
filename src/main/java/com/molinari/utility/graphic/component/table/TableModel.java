@@ -3,8 +3,11 @@ package com.molinari.utility.graphic.component.table;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.table.AbstractTableModel;
+
+import com.molinari.utility.controller.ControlloreBase;
 
 public abstract class TableModel extends AbstractTableModel{
 
@@ -82,7 +85,7 @@ public abstract class TableModel extends AbstractTableModel{
 					matrice[i][x] = riga.getValore(x);
 
 				} catch (final Exception e) {
-					e.printStackTrace();
+					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}

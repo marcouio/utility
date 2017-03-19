@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.io.UtilIo;
 
 public class LoggerOggetto {
@@ -56,9 +57,9 @@ public class LoggerOggetto {
 			fileLog = new FileHandler("MyLog.txt", 50000, 1, true);
 			fileLog.setFormatter(new SimpleFormatter());
 		} catch (final SecurityException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} catch (final IOException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		log.addHandler(fileLog);
 		log.setLevel(Level.ALL);

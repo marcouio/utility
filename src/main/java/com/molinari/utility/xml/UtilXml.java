@@ -3,6 +3,7 @@ package com.molinari.utility.xml;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.molinari.utility.controller.ControlloreBase;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
@@ -135,7 +137,7 @@ public class UtilXml {
 				xformer.transform(new DOMSource(doc), outputTarget);
 				return outputTarget;
 			} catch (Exception e) {
-				e.printStackTrace();
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 			return null;
 		}

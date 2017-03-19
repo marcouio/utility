@@ -1,7 +1,9 @@
 package com.molinari.utility.thread;
 
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
 
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.thread.requests.RichiestaThread;
 
 
@@ -18,6 +20,7 @@ public abstract class CallableBase implements Callable<Object>{
 		db = new ContainerDb();
 	}
 	
+	@Override
 	public Object call() throws Exception {
 		RichiestaThread current = getRichiestaThread();
 
@@ -52,7 +55,7 @@ public abstract class CallableBase implements Callable<Object>{
 			if(irrecuperabile){
 				throw new Exception(e);
 			}else{
-			    e.printStackTrace();
+			    ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 	}

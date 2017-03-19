@@ -15,8 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.logging.Level;
 
 import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;
 import com.molinari.utility.database.DeleteBase;
@@ -24,6 +26,7 @@ import com.molinari.utility.database.InsertBase;
 import com.molinari.utility.database.Query;
 import com.molinari.utility.database.SelectBase;
 import com.molinari.utility.database.UpdateBase;
+
 import sun.reflect.annotation.AnnotationType;
 
 public class GenericDAO<T extends AbstractOggettoEntita> extends Observable implements IDAO<T> {
@@ -54,7 +57,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
 	}
@@ -152,7 +155,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 				for (int j = 0; j < annotations.length; j++) {
 	
 					String nameColonna = null;
-					Annotation annotation = (Annotation) annotations[j];
+					Annotation annotation = annotations[j];
 					Class<? extends Annotation> annotationType = annotation.annotationType();
 					String name = annotationType.getName();
 					
@@ -216,7 +219,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 				for (int j = 0; j < annotations.length; j++) {
 
 					String nameColonna = null;
-					Annotation annotation = (Annotation) annotations[j];
+					Annotation annotation = annotations[j];
 					Class<? extends Annotation> annotationType = annotation.annotationType();
 					String name = annotationType.getName();
 					if ("javax.persistence.Id".equals(name)) {
@@ -241,7 +244,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 		
 		for (int j = 0; j < annotations.length; j++) {
 
-			Annotation annotation = (Annotation) annotations[j];
+			Annotation annotation = annotations[j];
 			Class<? extends Annotation> annotationType = annotation.annotationType();
 			String name = annotationType.getName();
 			if("javax.persistence.Entity".equals(name) || "javax.persistence.Table".equals(name)){
@@ -265,7 +268,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 		try {
 			oggetto = invocationHandler.invoke(annotation, methodName, null);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return oggetto;
 	}
@@ -397,7 +400,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 				updateBase.putClausole(null, campoId, "=", idEntita);
 				final Iterator<String> iterColumn = getMappaColumnCampi().keySet().iterator();
 				while (iterColumn.hasNext()) {
-					final String colonna = (String) iterColumn.next();
+					final String colonna = iterColumn.next();
 					final Field field = getMappaColumnCampi().get(colonna);
 					final String getMethodName = costruisciNomeGet(field.getName());
 					final Method method = getEntita().getClass().getMethod(getMethodName);
@@ -408,7 +411,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 				
 				Iterator<String> iterJoinColumn = getMappaColumnJoin().keySet().iterator();
 				while(iterJoinColumn.hasNext()){
-					final String colonna = (String) iterJoinColumn.next();
+					final String colonna = iterJoinColumn.next();
 					final Field field = getMappaColumnJoin().get(colonna);
 					final String getMethodName = costruisciNomeGet(field.getName());
 					final Method method = getEntita().getClass().getMethod(getMethodName);
