@@ -10,22 +10,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.molinari.utility.log.LoggerOggetto;
+import com.molinari.utility.controller.ControlloreBase;
 
 public class UtilIo {
 
-	public static void uploadFile(String hostAddr, int port, String fileName) throws FileNotFoundException, IOException { 
+	public static void uploadFile(String hostAddr, int port, String fileName) throws IOException { 
 		byte[] buf = new byte[1000]; 
-		int len = -1; 
+		int len; 
 		// connessione con l'host, ad una data porta 
 		Socket sock = new Socket(hostAddr, port); 
-		FileInputStream in = new FileInputStream(fileName); 
+		FileInputStream in = createFileInputStream(fileName); 
 		OutputStream out = sock.getOutputStream(); 
 		while ( ( len = in.read(buf) ) != -1 ) { 
 			out.write(buf, 0, len); 
@@ -42,9 +44,8 @@ public class UtilIo {
 		try {
 
 			// Creare gli stream d’input e output
-			FileInputStream inStream = new FileInputStream(inputFileName);
-			ZipOutputStream outStream = new ZipOutputStream(
-					new FileOutputStream(zipFileName));
+			FileInputStream inStream = createFileInputStream(inputFileName);
+			ZipOutputStream outStream = new ZipOutputStream(createFileOutputStream(zipFileName));
 
 			// Aggiungere un oggetto ZipEntry allo stream d’output
 			outStream.putNextEntry(new ZipEntry(inputFileName));
@@ -64,38 +65,43 @@ public class UtilIo {
 			inStream.close();
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, ex.getMessage(), ex);
 		}
 	}
 
-	public static String[] deleteFileDaDirectory2(final String Dir) {
-		final File dir = new File(Dir);
-		String[] files = null;
-		if (dir != null && dir.isDirectory()) {
-			files = dir.list();
-
-			for (final String file : files) {
-				final File f = new File(dir, file);
-				f.delete();
-			}
-		}
-		return files;
+	private FileOutputStream createFileOutputStream(final String zipFileName) throws FileNotFoundException {
+		return new FileOutputStream(zipFileName);
 	}
 
-	public static String[] deleteFileDaDirectory(final String Dir,
-			final String treCharIniziali) {
-		final File dir = new File(Dir);
-		final String[] files = dir.list();
+	private static FileInputStream createFileInputStream(final String inputFileName) throws FileNotFoundException {
+		return new FileInputStream(inputFileName);
+	}
 
-		for (final String file : files) {
-			final File f = new File(dir, file);
-			if (f.isDirectory() == false
-					&& f.getName().substring(0, 3).equals(treCharIniziali)) {
-				f.delete();
-			}
+	public static void deleteFileDaDirectory(final String directory) {
+		Predicate<? super File> predicate = File::isFile;
+		deleteFileFromDirectory(directory, predicate);
+		
+	}
+	
+	public static void deleteFileFromDirectory(final String directory, Predicate<? super File> predicate){
+		final File dir = new File(directory);
+		
+		File[] listFiles = dir.listFiles();
+		List<File> fileList = Arrays.asList(listFiles);
+		Stream<File> streamFiltered = fileList.stream().filter(predicate);
+		streamFiltered.forEach(File::delete);
+			
+	}
 
-		}
-		return files;
+	public static void deleteFileDaDirectory(final String directory, final String treCharIniziali) {
+		
+		Predicate<? super File> predicate = t -> {
+			boolean startWith = t.getName().substring(0, 3).equals(treCharIniziali);
+			return t.isFile() && startWith;
+		};
+		
+		deleteFileFromDirectory(directory, predicate);
+		
 	}
 
 	public static void scriviFileSuPiuRighe(final File file, final List<String> righe) {
@@ -108,7 +114,7 @@ public class UtilIo {
 			}
 			close(out, fileWriter);
 		} catch (final IOException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -124,42 +130,35 @@ public class UtilIo {
 		
 	}
 
-	public boolean check(final String estensione, final File file) {
-		return file.exists() && file.isFile() ? checkEstensione(estensione,
-				file)
+	public static boolean check(final String estensione, final File file) {
+		if(fileExist(file)){ 
+				return checkEstensione(estensione, file)
 				&& checkLunghezzaNome(estensione, file)
-				&& checkAssenzaParentesi(estensione, file) : true;
-	}
-
-	public boolean checkEstensione(final String estensione, final File file) {
-		if (file.getName().endsWith(estensione)) {
-			return true;
+				&& checkAssenzaParentesi(file);
 		}
 		return false;
-
 	}
 
-	public boolean checkLunghezzaNome(final String estensione, final File file) {
-		boolean ok = true;
+	private static boolean fileExist(final File file) {
+		return file.exists() && file.isFile();
+	}
+
+	public static boolean checkEstensione(final String estensione, final File file) {
+		return file.getName().endsWith(estensione);
+	}
+
+	public static boolean checkLunghezzaNome(final String estensione, final File file) {
 		final String nomeFile = file.getName();
-		if (nomeFile.length() < estensione.length()) {
-			ok = false;
-		}
-		return ok;
+		return nomeFile.length() > estensione.length();
 	}
 
-	public boolean checkAssenzaParentesi(final String estensione,
-			final File file) {
-		boolean ok = true;
-		if (file.getName().contains("(") || file.getName().contains(")")) {
-			ok = false;
-		}
-		return ok;
+	public static boolean checkAssenzaParentesi(final File file) {
+		return !(file.getName().contains("(") || file.getName().contains(")"));
 	}
 
-	protected static boolean rename(final File mp3, final String nome_dopo)
+	protected static boolean rename(final File mp3, final String nomedopo)
 			throws IOException {
-		final File file2 = new File(nome_dopo);
+		final File file2 = new File(nomedopo);
 		return mp3.renameTo(file2);
 	}
 
