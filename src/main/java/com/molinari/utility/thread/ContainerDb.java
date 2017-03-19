@@ -15,10 +15,11 @@ import com.molinari.utility.database.UtilDb;
 public class ContainerDb {
 
 	private Connection				connection;
-	private ArrayList<ResultSet>	listRs			= new ArrayList<ResultSet>();
-	private ArrayList<Statement>	listStatement	= new ArrayList<Statement>();
+	private ArrayList<ResultSet>	listRs			= new ArrayList<>();
+	private ArrayList<Statement>	listStatement	= new ArrayList<>();
 
-	public ContainerDb() throws Exception {
+	public ContainerDb(){
+		//do nothing
 	}
 
 	public void chiudi() throws SQLException {
@@ -34,21 +35,21 @@ public class ContainerDb {
 		}
 	}
 	
-	public Statement creaPreparedStatement(String query) throws Exception {
+	public Statement creaPreparedStatement(String query) throws SQLException {
 
 		PreparedStatement prepareStatement = getConnessione().prepareStatement(query);
 		listStatement.add(prepareStatement);
 		return prepareStatement;
 	}
 
-	public Statement creaStatement() throws Exception {
+	public Statement creaStatement() throws SQLException {
 
 		Statement prepareStatement = getConnessione().createStatement();
 		listStatement.add(prepareStatement);
 		return prepareStatement;
 	}
 	
-	public ResultSet creaResultSet(Object query) throws Exception{
+	public ResultSet creaResultSet(Object query) throws SQLException{
 		Statement statement = getConnessione().createStatement();
 		listStatement.add(statement);
 		String sql = query.toString();
@@ -61,7 +62,7 @@ public class ContainerDb {
 	public ResultSet creaResultSet(Statement statement, Object query) throws SQLException{
 
 		listStatement.add(statement);
-		ResultSet rs = null;
+		ResultSet rs;
 		if(statement instanceof PreparedStatement){
 			rs = ((PreparedStatement)statement).executeQuery();
 		}else{
@@ -71,8 +72,8 @@ public class ContainerDb {
 		return rs;
 	}
 	
-	 private final String toDinamycStringSQL(String sqlStatement, Serializable[] oggettiAssegnati) {
-	        final StringBuffer sb = new StringBuffer();
+	 public final String toDinamycStringSQL(String sqlStatement, Serializable[] oggettiAssegnati) {
+	        final StringBuilder sb = new StringBuilder();
 	        final int stringSize = sqlStatement.length();
 	        final char[] stringa = sqlStatement.toCharArray();
 	        boolean inLiteral = false;
@@ -80,12 +81,12 @@ public class ContainerDb {
 	        for (int i = 0; i < stringSize; i++) {
 	            final char thisChar = stringa[i];
 	            /*else*/ if (thisChar == '\'') {
-	                inLiteral = (!inLiteral);
+	                inLiteral = !inLiteral;
 	                sb.append(thisChar);
 	            } // if
 	            else if ((!inLiteral) && (thisChar == '?')) {
 	                if (index == oggettiAssegnati.length) {
-	                    throw new RuntimeException("Troppi caratteri '?' trovati!");
+	                    throw new IllegalArgumentException("Troppi caratteri '?' trovati!");
 	                }
 	                sb.append(UtilDb.toString(oggettiAssegnati[index]));
 	                index++;
@@ -95,12 +96,12 @@ public class ContainerDb {
 	            }
 	        } // for
 	        if (index != oggettiAssegnati.length) {
-	            throw new RuntimeException("Pochi caratteri '?' trovati!");
+	            throw new IllegalArgumentException("Pochi caratteri '?' trovati!");
 	        }
 	        return sb.toString();
 	    } // toDinamycStringSQL
 
-	 private Connection getConnessione() throws Exception {
+	 private Connection getConnessione() throws SQLException {
 
 	     if (connection == null) {
 	         connection = DriverManager.getConnection("", "", "");
