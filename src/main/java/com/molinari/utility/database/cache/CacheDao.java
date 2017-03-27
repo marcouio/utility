@@ -8,11 +8,11 @@ import com.molinari.utility.database.dao.GenericDAO;
 
 public class CacheDao<T extends AbstractOggettoEntita> extends GenericDAO<T>{
 
-	HashMap<String, T> cache = null;
+	private HashMap<String, T> cache = null;
 	
 	boolean caricata = false;
 	
-	private CacheDao(T entita) {
+	public CacheDao(T entita) {
 		super(entita);
 		cache = new HashMap<>();
 	}

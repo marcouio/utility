@@ -55,7 +55,7 @@ public abstract class TableModel extends AbstractTableModel{
 		righe.add(new Riga(riga));
 	}
 
-	public void addRiga(final ArrayList<String> riga){
+	public void addRiga(final List<String> riga){
 		checkRighe();
 		righe.add(new Riga(riga));
 	}
@@ -125,16 +125,16 @@ public abstract class TableModel extends AbstractTableModel{
 	}
 
 	public class Riga {
-		ArrayList<String> celle = new ArrayList<String>();
+		List<String> celle = new ArrayList<>();
 
 		public Riga() {
-
+			//do nothing
 		}
 
 		public Riga(final String[] celle) {
-			this.celle = new ArrayList<String>(Arrays.asList(celle));
+			this.celle = new ArrayList<>(Arrays.asList(celle));
 		}
-		public Riga(final ArrayList<String> celle){
+		public Riga(final List<String> celle){
 			this.celle = celle;
 		}
 
@@ -171,7 +171,7 @@ public abstract class TableModel extends AbstractTableModel{
 			}
 		}
 
-		public ArrayList<String> getListaCelle() {
+		public List<String> getListaCelle() {
 			return celle;
 		}
 	}
