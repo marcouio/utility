@@ -74,6 +74,7 @@ public abstract class ConnectionPool {
 	 * 
 	 * @return {@link Connection}
 	 */
+	@SuppressWarnings("resource")
 	public synchronized Connection getConnection() {
 		Connection cn = null;
 		if (!freeConnections.isEmpty()) {
@@ -148,7 +149,7 @@ public abstract class ConnectionPool {
 		int ritorno = 0;
 		final Connection cn = getConnection();
 		if (cn != null && sql != null) {
-			final Statement st = cn.createStatement();
+			final Statement st = createStatement(cn);
 			final Statement statementDaMap = mappaStatement.get(cn);
 			if (statementDaMap != null) {
 				statementDaMap.close();
@@ -160,17 +161,21 @@ public abstract class ConnectionPool {
 		return ritorno;
 	}
 
+	private Statement createStatement(final Connection cn) throws SQLException {
+		return cn.createStatement();
+	}
+
 	public ResultSet getResulSet(Connection cn, final String sql) throws SQLException {
 
 		ResultSet rs = null;
 		if (cn != null && sql != null) {
-			final Statement st = cn.createStatement();
+			final Statement st = createStatement(cn);
 			final Statement statementDaMap = mappaStatement.get(cn);
 			if (statementDaMap != null) {
 				statementDaMap.close();
 			}
 			mappaStatement.put(cn, st);
-			rs = st.executeQuery(sql);
+			rs = createResultSet(sql, st);
 			ResultSet rsDaMappa = mappaRS.get(cn);
 			if (rsDaMappa != null) {
 				rsDaMappa.close();
@@ -178,6 +183,10 @@ public abstract class ConnectionPool {
 			mappaRS.put(cn, rs);
 		}
 		return rs;
+	}
+
+	private ResultSet createResultSet(final String sql, final Statement st) throws SQLException {
+		return st.executeQuery(sql);
 	}
 
 	/**

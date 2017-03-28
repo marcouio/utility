@@ -1,6 +1,6 @@
 package com.molinari.utility.database;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteBase extends ObjConClausole{
 
@@ -10,14 +10,14 @@ public class DeleteBase extends ObjConClausole{
 		super();
 	}
 
-	public String getDeleteQuery() throws Exception{
+	public String getDeleteQuery() {
 		introComando();
 		scriviClausole();
 		return sbSQL.toString();
 	}
 	
 	
-	public String getDeleteQuery(final String tabella, final ArrayList<Clausola> clausole) throws Exception{
+	public String getDeleteQuery(final String tabella, final List<Clausola> clausole) {
 		this.tabella = tabella;
 		introComando();
 		setClausole(clausole);
@@ -36,13 +36,4 @@ public class DeleteBase extends ObjConClausole{
 		this.tabella = tabella;
 	}
 
-	public static void main(String[] args) throws Exception {
-		DeleteBase deleteBase = new DeleteBase();
-		deleteBase.setTabella("tabNomi");
-		deleteBase.putClausole("id", "id", "=", "1");
-		deleteBase.putClausole("nome", "nome", "=", "Marco");
-		String deleteQuery = deleteBase.getDeleteQuery();
-		System.out.println(deleteQuery);
-		
-	}
 }

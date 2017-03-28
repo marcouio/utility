@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 public class SelectBase extends ObjConClausole{
 
-	private HashMap<String, String> tabelle = new HashMap<String, String>();
-	private List<Join> joins = new ArrayList<Join>();
-	private HashMap<String, String> campiSelect = new HashMap<String, String>();
+	private Map<String, String> tabelle = new HashMap<>();
+	private List<Join> joins = new ArrayList<>();
+	private Map<String, String> campiSelect = new HashMap<>();
 	private String appendToQuery = null;
 	
 	public SelectBase() {
@@ -51,8 +52,8 @@ public class SelectBase extends ObjConClausole{
 	 * @return
 	 * @throws Exception
 	 */
-	public String getQuery(final HashMap<String, String> tabelle, 
-							final HashMap<String, String> campi, 
+	public String getQuery(final Map<String, String> tabelle, 
+							final Map<String, String> campi, 
 							final List<Clausola> clausole, 
 							final List<Join> joins) {
 		
@@ -75,7 +76,7 @@ public class SelectBase extends ObjConClausole{
 		if(joins != null){
 			final Iterator<Join> iterJoins = joins.iterator();
 			while (iterJoins.hasNext()) {
-				Join oggettoJoin = (Join) iterJoins.next();
+				Join oggettoJoin = iterJoins.next();
 				sbSQL.append(AND);
 				sbSQL.append(oggettoJoin.toString());
 			}
@@ -91,7 +92,7 @@ public class SelectBase extends ObjConClausole{
 	protected void appendTabelle() {
 		final Iterator<String> iterAliasTabelle = tabelle.keySet().iterator();
 		while (iterAliasTabelle.hasNext()) {
-			final String aliasTabelle = (String) iterAliasTabelle.next();
+			final String aliasTabelle = iterAliasTabelle.next();
 			if(aliasTabelle.equals(tabelle.get(aliasTabelle))){
 				sbSQL.append(tabelle.get(aliasTabelle));
 			}else{
@@ -110,11 +111,11 @@ public class SelectBase extends ObjConClausole{
 			final Iterator<String> iterCampi = campiSelect.keySet().iterator();
 			
 			while (iterCampi.hasNext()) {
-				String alias = (String) iterCampi.next();
+				String alias = iterCampi.next();
 				if(alias.equals(campiSelect.get(alias))){
 					sbSQL.append(campiSelect.get(alias));
 				}else{
-					String campoConAlias = getCampoAlias((String) campiSelect.get(alias), alias);	
+					String campoConAlias = getCampoAlias(campiSelect.get(alias), alias);	
 					sbSQL.append(campoConAlias);
 				}
 				if(iterCampi.hasNext()){
@@ -133,7 +134,7 @@ public class SelectBase extends ObjConClausole{
 		sbSQL.append(SELECT).append(" ");
 	}
 
-	protected void setTable(final HashMap<String, String> table) {
+	protected void setTable(final Map<String, String> table) {
 		this.tabelle = table;
 	}
 	
@@ -141,7 +142,7 @@ public class SelectBase extends ObjConClausole{
 		tabelle.put(alias, tabella);
 	}
 
-	public HashMap<String, String> getTabelle() {
+	public Map<String, String> getTabelle() {
 		return tabelle;
 	}
 	
@@ -157,11 +158,11 @@ public class SelectBase extends ObjConClausole{
 		this.joins = joins;
 	}
 
-	public HashMap<String, String> getCampiSelect() {
+	public Map<String, String> getCampiSelect() {
 		return campiSelect;
 	}
 
-	public void setCampiSelect(HashMap<String, String> campiSelect) {
+	public void setCampiSelect(Map<String, String> campiSelect) {
 		this.campiSelect = campiSelect;
 	}
 	
@@ -176,19 +177,4 @@ public class SelectBase extends ObjConClausole{
 	public void setAppendToQuery(String appendToQuery) {
 		this.appendToQuery = appendToQuery;
 	}
-
-	public static void main(String[] args) throws Exception {
-		
-		SelectBase objSelectBase = new SelectBase();
-		objSelectBase.putTabelle("en", "ENTRATE");
-		objSelectBase.putTabelle("us", "USCITE");
-		
-		objSelectBase.putCampiSelect("en", "nome");
-		//objSelectBase.putClausole("en.nome", "marco");
-		Join join = new Join("en", "id", "us", "id");
-		objSelectBase.putJoin(join);
-		
-		System.out.println(objSelectBase.getQuery());
-	}
-	
 }

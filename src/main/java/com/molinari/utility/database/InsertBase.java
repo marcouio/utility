@@ -3,22 +3,23 @@ package com.molinari.utility.database;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class InsertBase extends OggettoSQL{
 
 
 	private String tabella;
-	protected HashMap<String, String> campiInsert = new HashMap<String, String>();
+	protected Map<String, String> campiInsert = new HashMap<>();
 
 	public InsertBase() {
 		super();
 	}
 	
-	public String getInsertQuery() throws Exception{
+	public String getInsertQuery() {
 		return getInsertQuery(tabella, campiInsert);
 	}
 
-	public String getInsertQuery(final String tabella, final HashMap<String, String> campi) throws Exception{
+	public String getInsertQuery(final String tabella, final Map<String, String> campi) {
 		this.tabella = tabella;
 		this.campiInsert = campi;
 
@@ -45,7 +46,7 @@ public class InsertBase extends OggettoSQL{
 		sbSQL.append(VALUES);
 	}
 
-	private StringBuffer introComando() {
+	private StringBuilder introComando() {
 		return sbSQL.append(INSERTINTO).append(tabella).append(" ");
 	}
 
@@ -69,11 +70,11 @@ public class InsertBase extends OggettoSQL{
 		campiInsert.put(campo, valore);
 	}
 	
-	public HashMap<String, String> getCampiInsert() {
+	public Map<String, String> getCampiInsert() {
 		return campiInsert;
 	}
 
-	public void setCampiInsert(HashMap<String, String> campiInsert) {
+	public void setCampiInsert(Map<String, String> campiInsert) {
 		this.campiInsert = campiInsert;
 	}
 
@@ -83,13 +84,5 @@ public class InsertBase extends OggettoSQL{
 
 	public void setTabella(String tabella) {
 		this.tabella = tabella;
-	}
-
-	public static void main(String[] args) throws Exception {
-		InsertBase oggetto = new InsertBase();
-		HashMap<String, String> campi = new HashMap<String, String>();
-		campi.put("id", "1");
-		campi.put("nome", "Marco");
-		oggetto.getInsertQuery("nomeTab", campi);
 	}
 }

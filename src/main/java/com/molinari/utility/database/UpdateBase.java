@@ -3,20 +3,21 @@ package com.molinari.utility.database;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class UpdateBase extends ObjConClausole {
 
 	private String tabella;
-	private HashMap<String, String> campiUpdate = new HashMap<String, String>();
+	private Map<String, String> campiUpdate = new HashMap<>();
 	public UpdateBase() {
 		super();
 	}
 	
-	public String getUpdateQuery() throws Exception{
+	public String getUpdateQuery(){
 		return getUpdateQuery(tabella, campiUpdate, clausole);
 	}
 
-	public String getUpdateQuery(final String tabella, final HashMap<String, String> campi, List<Clausola> clausole) throws Exception{
+	public String getUpdateQuery(final String tabella, final Map<String, String> campi, List<Clausola> clausole) {
 		this.tabella = tabella;
 		this.campiUpdate = campi;
 		this.clausole = clausole;
@@ -56,11 +57,11 @@ public class UpdateBase extends ObjConClausole {
 		sbSQL.append(UPDATE).append(" " + tabella).append(" SET ");
 	}
 
-	public HashMap<String, String> getCampiUpdate() {
+	public Map<String, String> getCampiUpdate() {
 		return campiUpdate;
 	}
 
-	public void setCampiUpdate(HashMap<String, String> campiUpdate) {
+	public void setCampiUpdate(Map<String, String> campiUpdate) {
 		this.campiUpdate = campiUpdate;
 	}
 	

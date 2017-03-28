@@ -131,22 +131,28 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 	protected String costruisciNomeSet(String name) {
 		final String upper = name.substring(0, 1).toUpperCase();
 		final String restante = name.substring(1);
-		String nome = "set" + upper + restante;
-		return nome;
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("set");
+		stringBuilder.append(upper);
+		stringBuilder.append(restante);
+		return stringBuilder.toString();
 	}
 	
 	protected String costruisciNomeGet(String name) {
 		final String upper = name.substring(0, 1).toUpperCase();
 		final String restante = name.substring(1);
-		String nome = "get" + upper + restante;
-		return nome;
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("get");
+		stringBuilder.append(upper);
+		stringBuilder.append(restante);
+		return stringBuilder.toString();
 	}
 	
 	
 
 	protected void caricaMaps() {
-		mappaColumnCampi = new HashMap<String, Field>();
-		mappaColumnJoin = new HashMap<String, Field>();
+		mappaColumnCampi = new HashMap<>();
+		mappaColumnJoin = new HashMap<>();
 		Field[] fields = getEntita().getClass().getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];
@@ -154,32 +160,38 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			if(annotations != null && annotations.length > 0){
 				for (int j = 0; j < annotations.length; j++) {
 	
-					String nameColonna = null;
-					Annotation annotation = annotations[j];
-					Class<? extends Annotation> annotationType = annotation.annotationType();
-					String name = annotationType.getName();
-					
-					if ("javax.persistence.Column".equals(name)) {
-						nameColonna = getNomeColonnaByAnnotation(annotation);
-						
-						if(nameColonna == null || nameColonna.equals("")){
-							nameColonna = field.getName();
-						}
-						getMappaColumnCampi().put(nameColonna,field);
-	
-					} else if ("javax.persistence.JoinColumns".equals(name)) {
-						nameColonna = getNomeColonnaByJoinColumnsAnnotation(annotation);
-						
-						if(nameColonna == null || "".equals(nameColonna)){
-							nameColonna = field.getName();
-						}
-						getMappaColumnJoin().put(nameColonna,field);
-					}
+					elaborateAnnotations(field, annotations, j);
 				}
-			}else{
-//				getMappaColumnCampi().put(field.getName(), field);
 			}
 		}
+	}
+
+	private void elaborateAnnotations(Field field, Annotation[] annotations, int j) {
+		String nameColonna;
+		Annotation annotation = annotations[j];
+		Class<? extends Annotation> annotationType = annotation.annotationType();
+		String name = annotationType.getName();
+		
+		if ("javax.persistence.Column".equals(name)) {
+			nameColonna = getNomeColonnaByAnnotation(annotation);
+			
+			if(stringIsEmpty(nameColonna)){
+				nameColonna = field.getName();
+			}
+			getMappaColumnCampi().put(nameColonna,field);
+
+		} else if ("javax.persistence.JoinColumns".equals(name)) {
+			nameColonna = getNomeColonnaByJoinColumnsAnnotation(annotation);
+			
+			if(stringIsEmpty(nameColonna)){
+				nameColonna = field.getName();
+			}
+			getMappaColumnJoin().put(nameColonna,field);
+		}
+	}
+
+	private boolean stringIsEmpty(String nameColonna) {
+		return nameColonna == null || "".equals(nameColonna);
 	}
 	
 	protected String getNomeTabella() {
@@ -189,14 +201,14 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 		return nomeTabella;
 	}
 
-	protected HashMap<String, Field> getMappaColumnJoin() {
+	protected Map<String, Field> getMappaColumnJoin() {
 		if (mappaColumnJoin == null) {
 			caricaMaps();
 		}
 		return mappaColumnJoin;
 	}
 
-	protected HashMap<String, Field> getMappaColumnCampi() {
+	protected Map<String, Field> getMappaColumnCampi() {
 		if (mappaColumnCampi == null) {
 			caricaMaps();
 		}
@@ -211,7 +223,6 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 
 		final Field[] fields = getEntita().getClass().getDeclaredFields();
 		if (fields != null) {
-			primo:
 			for (int i = 0; i < fields.length; i++) {
 				Field field = fields[i];
 				boolean idTrovato = false;
@@ -230,7 +241,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 					}
 					if (idTrovato && nameColonna != null) {
 						nomeCampoId = nameColonna;
-						break primo;
+						break;
 					}
 				}
 			}
@@ -249,15 +260,18 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			String name = annotationType.getName();
 			if("javax.persistence.Entity".equals(name) || "javax.persistence.Table".equals(name)){
 				nomeTabella = getNomeTabella(annotation);
-				if(nomeTabella != null && !nomeTabella.equals(""))return;
+				if(nomeTabella != null && !"".equals(nomeTabella)) {
+					return;
+				}
 			}
 		
 		}
-		if(nomeTabella == null && !"".equals(nomeTabella)){
+		if(nomeTabella == null){
 			nomeTabella = getEntita().getClass().getSimpleName();
 		}
 	}
 	
+	@SuppressWarnings("restriction")
 	protected Object getOggettoByAnnotation(Annotation annotation, String tipo){
 		Object oggetto = null;
 		final Class<? extends Annotation> annotationType = annotation.annotationType();
@@ -279,17 +293,19 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 
 	protected String getNomeColonnaByJoinColumnsAnnotation(Annotation annotation) {
 		String nameColonna = null;
-		try{
+		try {
 			Annotation[] joinColumn = (Annotation[]) getOggettoByAnnotation(annotation, "value");
-			
+
 			if(joinColumn != null){
 				Annotation column = joinColumn[0];
 				final Class<? extends Annotation> annotationType2 = column.annotationType();
 				final Method method = annotationType2.getMethod("name");
 				nameColonna = (String) method.invoke(column, new Object[0]);
 			}
-		}catch (Exception e) {
-			
+
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return nameColonna;
 	}
@@ -352,7 +368,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 		if(getterCampo != null){
 			if(getterCampo instanceof Number){
 				Long id = new Long(getterCampo.toString());
-				if(id.longValue() > 0){
+				if(id.intValue() > 0){
 					valido = true;
 				}
 			}else{

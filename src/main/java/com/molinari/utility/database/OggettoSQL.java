@@ -1,6 +1,6 @@
 package com.molinari.utility.database;
 
-import java.util.HashMap;
+import java.util.Map;
 
 
 public class OggettoSQL {
@@ -23,28 +23,33 @@ public class OggettoSQL {
 	
 	public static final String NUMSTRING = "@@@";
 	
-	protected StringBuffer sbSQL = new StringBuffer();
+	protected StringBuilder sbSQL = new StringBuilder();
 
 	public OggettoSQL() {
+		//do nothing
 	}
 	
-	protected void inserisciValore(final String prossimo, final HashMap<String, String> mappa) {
-		String valueClausola = (String) mappa.get(prossimo);
+	protected void inserisciValore(final String prossimo, final Map<String, String> mappa) {
+		String valueClausola = mappa.get(prossimo);
 		
 		try {
 			if (valueClausola == null) {
 				valueClausola = "null";
 			}else{
-				if(valueClausola.contains(".")){
-					Double.parseDouble(valueClausola);
-				}else{
-					Integer.parseInt(valueClausola);
-				}
+				checkIsNumber(valueClausola);
 			}
 			sbSQL.append(valueClausola);
 		} catch (final NumberFormatException e) {
 			String testoCorretto = FormatterSqlText.correggi(valueClausola);
 			sbSQL.append("'" + testoCorretto + "'");
+		}
+	}
+
+	private Number checkIsNumber(String valueClausola) {
+		if(valueClausola.contains(".")){
+			return Double.parseDouble(valueClausola);
+		}else{
+			return Integer.parseInt(valueClausola);
 		}
 	}	
 
@@ -55,11 +60,7 @@ public class OggettoSQL {
 			if (valueClausola == null) {
 				valueClausola = "null";
 			}else{
-				if(valueClausola.contains(".")){
-					Double.parseDouble(valueClausola);
-				}else{
-					Integer.parseInt(valueClausola);
-				}
+				checkIsNumber(valueClausola);
 			}
 			sbSQL.append(valueClausola);
 		} catch (final NumberFormatException e) {
@@ -69,11 +70,11 @@ public class OggettoSQL {
 	}	
 
 
-	public StringBuffer getSbSQL() {
+	public StringBuilder getSbSQL() {
 		return sbSQL;
 	}
 	
-	public void setSbSQL(final StringBuffer sbSQL) {
+	public void setSbSQL(final StringBuilder sbSQL) {
 		this.sbSQL = sbSQL;
 	}
 }
