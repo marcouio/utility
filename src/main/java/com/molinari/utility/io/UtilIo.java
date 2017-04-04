@@ -1,5 +1,7 @@
 package com.molinari.utility.io;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
@@ -8,10 +10,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.stream.Stream;
@@ -128,6 +133,29 @@ public class UtilIo {
 			closeable.close();
 		}
 		
+	}
+	
+	public abstract class Reader<T>{
+	
+		private File file;
+
+		public Reader(File file) {
+			this.file = file;
+		}
+		
+		public List<T> readAll() throws FileNotFoundException{
+			List<T> result = new ArrayList<>();
+			FileInputStream fis = new FileInputStream(file);
+			try (Scanner scanner = new Scanner(new InputStreamReader(fis, UTF_8))) {
+				while (scanner.hasNextLine()) {
+					String nextLine = scanner.nextLine();
+					result.add(doSomething(nextLine));
+				}
+			}
+			return result;
+		}
+
+		protected abstract T doSomething(String nextLine);
 	}
 
 	public static boolean check(final String estensione, final File file) {
