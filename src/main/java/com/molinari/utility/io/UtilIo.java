@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,7 @@ public class UtilIo {
 		byte[] buf = new byte[1000]; 
 		int len; 
 		// connessione con l'host, ad una data porta 
-		Socket sock = new Socket(hostAddr, port); 
+		Socket sock = createSock(hostAddr, port); 
 		FileInputStream in = createFileInputStream(fileName); 
 		OutputStream out = sock.getOutputStream(); 
 		while ( ( len = in.read(buf) ) != -1 ) { 
@@ -41,6 +42,10 @@ public class UtilIo {
 		out.close(); 
 		sock.close(); 
 		in.close();
+	}
+
+	private static Socket createSock(String hostAddr, int port) throws UnknownHostException, IOException {
+		return new Socket(hostAddr, port);
 	}
 
 	public void createZipFile(final String inputFileName,
