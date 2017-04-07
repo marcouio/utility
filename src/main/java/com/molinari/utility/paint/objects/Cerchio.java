@@ -21,8 +21,8 @@ public class Cerchio extends FormaGeometrica2D {
 	public Point getPuntoCentrale() {
 		final double x = getX();
 		final double y = getY();
-		final int centroY = new Double(y + (raggio / 2)).intValue();
-		final int centroX = new Double(x + (raggio / 2)).intValue();
+		final int centroY = (int) (y + (raggio / 2));
+		final int centroX = (int) (x + (raggio / 2));
 		return new Point(centroX, centroY);
 	}
 	
@@ -60,55 +60,8 @@ public class Cerchio extends FormaGeometrica2D {
 		}
 		
 
-		System.out.println("x mouse: "+mouse.getX());
-		System.out.println("y mouse: "+ mouse.getY());
-		System.out.println("x cerchio: "+this.getX());
-		System.out.println("y cerchio: "+this.getY());
-		System.out.println("raggio: "+this.getRaggio());
 	}
 
-//	@Override
-//	public void ridimensiona(final Point mouse) {
-//
-//		//TODO non funge
-//		
-//		final Point centro = getPuntoCentrale();
-//		
-//		final boolean isBassoSinistro = isMouseASinistra(mouse) && isMouseInBasso(mouse);
-//		final boolean isAltoSinistro = isMouseASinistra(mouse) && isMouseInAlto(mouse);
-//		final boolean isBassoDestro = isMouseADestra(mouse) && isMouseInBasso(mouse);
-//		final boolean isAltoDestro = isMouseADestra(mouse) && isMouseInAlto(mouse);
-//
-//		final int distMouseY = (int) Math.abs(centro.getY() - mouse.getY());
-//		final int distMouseX = (int) Math.abs(centro.getX() - mouse.getX());
-//		
-//		double coseno = Math.cos(getAngoloFromCentre(mouse));
-//		double seno = Math.sin(getAngoloFromCentre(mouse));
-//		
-//		if (isBassoSinistro) {
-//			final double newX = mouse.getX() - distanzaMouseDaXY.getX();
-//			setX((int) newX);
-//			setRaggio((int) ((centro.getX()-newX) *2));
-//			
-//		} else if (isAltoSinistro) {
-//			final double newX = mouse.getX() - distanzaMouseDaXY.getX();
-//			final double newY = mouse.getY() - distanzaMouseDaXY.getY();
-//			setRaggio((int) ((centro.getX()-newX) *2));
-//			setX((int) newX);
-//			setY((int) newY);
-//			
-//		} else if (isBassoDestro) {
-//			double diametro = Math.abs(distMouseX / seno); 
-//			setRaggio((int) (diametro*2));
-//		} else if (isAltoDestro) {
-//			final double newY = mouse.getY() - distanzaMouseDaXY.getY();
-//			setY((int) newY);
-//			double diametro = Math.abs(distMouseX / coseno); 
-//			setRaggio((int) (diametro*2));
-//		}
-//
-//	}
-	
 	/**
 	 * 
 	 * @param mouse
@@ -117,8 +70,7 @@ public class Cerchio extends FormaGeometrica2D {
 	public double getAngoloFromCentre(final Point mouse){
 		final Point centro = getPuntoCentrale();
 		
-		final double angolo = Math.atan2(centro.getY() - mouse.getY(), centro.getX() - mouse.getX());
-		return angolo;
+		return Math.atan2(centro.getY() - mouse.getY(), centro.getX() - mouse.getX());
 	}
 	
 	/**

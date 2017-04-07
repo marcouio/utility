@@ -1,18 +1,10 @@
 package com.molinari.utility.paint.objects.punte;
 
-import com.molinari.utility.graphic.component.container.PannelloBase;
+import java.awt.Point;
+
 import com.molinari.utility.paint.objects.FormaGeometrica2D;
 import com.molinari.utility.paint.objects.Segmento;
 import com.molinari.utility.paint.objects.painter.PainterPuntaBase;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 public class PuntaBase extends FormaGeometrica2D {
 
@@ -21,7 +13,7 @@ public class PuntaBase extends FormaGeometrica2D {
 	private Segmento latoSinistro;
 	private Segmento latoDestro;
 	private int lunghezzaLati = LUNGHEZZA_LATI_DEF;
-	final double ARROW_ANGLE = 45;
+	private static final double ARROW_ANGLE = 45;
 
 	public static final int LUNGHEZZA_LATI_DEF = 10;
 	
@@ -30,8 +22,6 @@ public class PuntaBase extends FormaGeometrica2D {
 		this.lunghezzaLati = lunghezzaLati;
 		calcolaAngoloLati();
 		setPainter(new PainterPuntaBase(this));
-		// add(latoSinistro);
-		// add(latoDestro);
 	}
 
 	private void calcolaAngoloLati() {
@@ -75,8 +65,7 @@ public class PuntaBase extends FormaGeometrica2D {
 
 	@Override
 	public void ridimensiona(final Point mouse) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 	public Segmento getLinea() {
@@ -123,47 +112,8 @@ public class PuntaBase extends FormaGeometrica2D {
 		return ARROW_ANGLE;
 	}
 
-	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				final JFrame f = new JFrame();
-				f.setVisible(true);
-				f.getContentPane().add(new PannelloBase(f) {
-
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					protected void paintComponent(final Graphics g) {
-						super.paintComponent(g);
-						final Point uno = new Point(120, 120);
-						final Point due = new Point(240, 120);
-						final Segmento l = new Segmento(uno, due);
-						l.draw(g);
-						// ArrowHead ah = new ArrowHead();
-						// ArrowHead.NONE.draw((Graphics2D) g, uno, due);
-						// ah.draw((Graphics2D) g, uno, due);
-						final PuntaTriangolo punta = new PuntaTriangolo(l, 20);
-						punta.setBackground(Color.RED);
-						// PuntaBase punta = new PuntaBase(l, 20);
-						punta.draw(g);
-					}
-				});
-				f.setBounds(0, 0, 600, 500);
-				f.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosing(final WindowEvent event) {
-						System.exit(0);
-					}
-				});
-			}
-		});
-	}
-
 	@Override
 	public boolean isInRegion(final Point mouse) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
