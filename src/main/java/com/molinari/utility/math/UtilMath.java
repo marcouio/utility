@@ -1,5 +1,6 @@
 package com.molinari.utility.math;
 
+import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 
 public class UtilMath {
@@ -25,14 +26,8 @@ public class UtilMath {
 		return value / 100 * percentage;
 	}
 
-	public static boolean checkDouble(final String Doble) {
-		boolean ok = true;
-		try {
-			arrotondaDecimaliDouble(Double.parseDouble(Doble), 2);
-		} catch (final Exception e) {
-			ok = false;
-		}
-		return ok;
+	public static boolean checkDouble(final String doble) {
+		return Doubles.tryParse(doble) != null;
 	}
 
 	/**
@@ -50,7 +45,7 @@ public class UtilMath {
 		String arrotondato = null;
 		double decimaleArrotondato = 0;
 		final String stringaDouble = Double.toString(d);
-		final String interi = stringaDouble.substring(0, stringaDouble.indexOf("."));
+		final String interi = stringaDouble.substring(0, stringaDouble.indexOf('.'));
 		final double parteIntera = Double.parseDouble(interi);
 		final double parteDecimali = d - parteIntera;
 		if (parteDecimali * 100 != 0) {
@@ -69,24 +64,21 @@ public class UtilMath {
 	 * @return
 	 */
 	public static double arrotondaDecimaliDouble(final double d, final int decimali) {
-		String moltiplicatore = "1";
+		
+		StringBuilder sb = new StringBuilder("1");
+				
 		for (int i = 0; i < decimali; i++) {
-			moltiplicatore += "0";
+			sb.append("0");
 		}
-		final int moltiplicatoreInt = Integer.parseInt(moltiplicatore);
+		final int moltiplicatoreInt = Integer.parseInt(sb.toString());
 		final Double moltiplicato = d * moltiplicatoreInt;
 		final String arrotondato = Long.toString(Math.round(moltiplicato));
 		return Double.parseDouble(arrotondato) / moltiplicatoreInt;
 
 	}
 
-	public static void main(final String[] args) {
-		final double arro2 = arrotondaDecimaliDouble(34.667, 0);
-		System.out.println(arro2);
-	}
-
 	public static boolean isNumber(String valore) {
-		return Ints.tryParse(valore) != null;
+		return Ints.tryParse(valore) != null || Doubles.tryParse(valore) != null;
 	}
 
 }
