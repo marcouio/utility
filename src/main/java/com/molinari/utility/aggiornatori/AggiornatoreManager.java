@@ -1,5 +1,9 @@
 package com.molinari.utility.aggiornatori;
 
+import java.util.logging.Level;
+
+import com.molinari.utility.controller.ControlloreBase;
+
 public class AggiornatoreManager {
 
 	public static final String TIPO_AGGIORNA_ALL = "all";
@@ -26,9 +30,11 @@ public class AggiornatoreManager {
 	public IAggiornatore creaAggiornatoreByClasse(final String classe) {
 		IAggiornatore aggiornatore = null;
 		try {
-			aggiornatore = classe != null ? (IAggiornatore) Class.forName(classe).newInstance()
-					: new AggiornatoreBase();
+			aggiornatore = classe != null ? 
+					(IAggiornatore) Class.forName(classe).newInstance() : 
+					new AggiornatoreBase();
 		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			aggiornatore = new AggiornatoreBase();
 		}
 		return aggiornatore;
@@ -42,11 +48,11 @@ public class AggiornatoreManager {
 	 */
 	public IAggiornatore creaAggiornatoreByTipo(String tipoAggiornamento) {
 		IAggiornatore aggiornatore = null;
-		tipoAggiornamento = tipoAggiornamento != null ? tipoAggiornamento : TIPO_AGGIORNA_NULLA;
+		String tipoAggiornamentoLoc = tipoAggiornamento != null ? tipoAggiornamento : TIPO_AGGIORNA_NULLA;
 
-		if (TIPO_AGGIORNA_ALL.equalsIgnoreCase(tipoAggiornamento)) {
+		if (TIPO_AGGIORNA_ALL.equalsIgnoreCase(tipoAggiornamentoLoc)) {
 			aggiornatore = new AggiornatoreAll();
-		} else if (TIPO_AGGIORNA_NULLA.equalsIgnoreCase(tipoAggiornamento)) {
+		} else if (TIPO_AGGIORNA_NULLA.equalsIgnoreCase(tipoAggiornamentoLoc)) {
 			aggiornatore = new AggiornatoreNull();
 		}
 		return aggiornatore;

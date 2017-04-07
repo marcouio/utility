@@ -17,26 +17,25 @@ import com.molinari.utility.controller.ControlloreBase;
  */
 public abstract class ConnectionPool {
 
-	private static ArrayList<Connection> freeConnections; // La coda di
+	private ArrayList<Connection> freeConnections; // La coda di
 															// connessioni
 															// libere
-	private static Connection lastConnection;
-	private static String dbUrl; // Il nome del database
-	private static String dbDriver; // Il driver del database
-	private static String dbUser; // Il login per il database
-	private static String dbPassword; // La password di accesso al database
-	private static HashMap<Connection, ResultSet> mappaRS = new HashMap<>();
-	private static HashMap<Connection, Statement> mappaStatement = new HashMap<>();
+	private Connection lastConnection;
+	private String dbUrl; // Il nome del database
+	private String dbDriver; // Il driver del database
+	private String dbUser; // Il login per il database
+	private String dbPassword; // La password di accesso al database
+	private HashMap<Connection, ResultSet> mappaRS = new HashMap<>();
+	private HashMap<Connection, Statement> mappaStatement = new HashMap<>();
 
 	private static ConnectionPool singleton;
 
 	protected ConnectionPool() {
-		ConnectionPool.freeConnections = new ArrayList<>();
-
-		ConnectionPool.dbUrl = getDbUrl();
-		ConnectionPool.dbDriver = getDriver();
-		ConnectionPool.dbUser = getUser();
-		ConnectionPool.dbPassword = getPassword();
+		freeConnections = new ArrayList<>();
+		dbUrl = getDbUrl();
+		dbDriver = getDriver();
+		dbUser = getUser();
+		dbPassword = getPassword();
 
 		loadDriver();
 
@@ -104,7 +103,7 @@ public abstract class ConnectionPool {
 	 * 
 	 * @return {@link Connection}
 	 */
-	private static Connection newConnection() {
+	private Connection newConnection() {
 
 		Connection con = null;
 
@@ -128,7 +127,7 @@ public abstract class ConnectionPool {
 	 * Il metodo releaseConnection rilascia una connessione inserendola nella
 	 * coda delle connessioni libere
 	 */
-	public static synchronized void releaseNewConnection() {
+	public synchronized void releaseNewConnection() {
 		final Connection cn = newConnection();
 		releaseConnection(cn);
 		ControlloreBase.getLog().info("add a new connection to pool for closed previous connection.");
@@ -139,7 +138,7 @@ public abstract class ConnectionPool {
 	 * Il metodo releaseConnection rilascia una connessione inserendola nella
 	 * coda delle connessioni libere
 	 */
-	public static synchronized void releaseConnection(final Connection con) {
+	public synchronized void releaseConnection(final Connection con) {
 		// Inserisce la connessione nella coda
 		freeConnections.add(con);
 	}
@@ -240,8 +239,8 @@ public abstract class ConnectionPool {
 	 */
 	protected abstract String getDbUrl();
 
-	public static void setDbUrl(String dbUrl) {
-		ConnectionPool.dbUrl = dbUrl;
+	public void setDbUrl(String dbUrl) {
+		this.dbUrl = dbUrl;
 	}
 
 	/**
