@@ -22,7 +22,7 @@ public class Cronometro {
 	private long	contatore;
 
 	/** Istante temporale dell'ultimo avvio del cronometro. */
-	private long	avviato_a;
+	private long	avviatoa;
 
 	/** Variabile di stato che indica se il cronometro sta avanzando oppure no. */
 	private boolean	avanzando;
@@ -59,7 +59,7 @@ public class Cronometro {
 	 */
 	public void avanza() {
 		synchronized (this) {
-			avviato_a = System.currentTimeMillis();
+			avviatoa = System.currentTimeMillis();
 			avanzando = true;
 		}
 	}
@@ -75,7 +75,7 @@ public class Cronometro {
 	 */
 	public void ferma() {
 		synchronized (this) {
-			contatore += System.currentTimeMillis() - avviato_a;
+			contatore += System.currentTimeMillis() - avviatoa;
 			avanzando = false;
 		}
 	}
@@ -95,7 +95,7 @@ public class Cronometro {
 	 */
 	public long leggi() {
 		synchronized (this) {
-			return avanzando ? contatore + System.currentTimeMillis() - avviato_a : contatore;
+			return avanzando ? contatore + System.currentTimeMillis() - avviatoa : contatore;
 		}
 	}
 
@@ -107,8 +107,9 @@ public class Cronometro {
 	 *         dall'istanza in questione.
 	 * @see #leggi()
 	 */
+	@Override
 	public String toString() {
-		return "" + leggi();
+		return Long.toString(leggi());
 	}
 
 }
