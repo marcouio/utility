@@ -8,11 +8,11 @@ public class AlterBase extends OggettoSQL {
 		super();
 	}
 
-	public boolean alterTable(final String comandoSql) throws Exception {
+	public boolean alterTable(final String comandoSql) {
 		return false;
 	}
 
-	public boolean alterTable(final String tabella, final Map<String, Object> bo) throws Exception {
+	public boolean alterTable(final String tabella, final Map<String, Object> bo) {
 		introComando();
 		return false;
 	}
