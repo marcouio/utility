@@ -1,5 +1,7 @@
 package com.molinari.utility.math;
 
+import com.google.common.primitives.Ints;
+
 public class UtilMath {
 
 	/**
@@ -81,6 +83,10 @@ public class UtilMath {
 	public static void main(final String[] args) {
 		final double arro2 = arrotondaDecimaliDouble(34.667, 0);
 		System.out.println(arro2);
+	}
+
+	public static boolean isNumber(String valore) {
+		return Ints.tryParse(valore) != null;
 	}
 
 }

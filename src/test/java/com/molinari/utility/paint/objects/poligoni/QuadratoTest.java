@@ -13,6 +13,6 @@ public class QuadratoTest {
 		rettangolo = quadrato;
 		rettangolo.setSize(50, 20);
 		
-		org.junit.Assert.assertEquals(1000, rettangolo.getArea());
+		org.junit.Assert.assertEquals(1000, rettangolo.getArea(), 0);
 	}
 }

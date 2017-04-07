@@ -1,5 +1,7 @@
 package com.molinari.utility.database;
 
+import com.molinari.utility.math.UtilMath;
+
 public class Clausola {
 
 		private String alias;
@@ -15,6 +17,7 @@ public class Clausola {
 			
 		}
 		
+		@Override
 		public String toString() {
 			String campoAlias = getCampoAlias(campo, alias);
 			if(campo.equals(alias) || alias == null){
@@ -23,17 +26,13 @@ public class Clausola {
 			if (valore == null) {
 				valore = "null";
 			}else{
-				try{
-				if(valore.contains(".")){
-					Double.parseDouble(valore);
-				}else{
-					Integer.parseInt(valore);
-				}
-				}catch (final NumberFormatException e) {
+				boolean number = UtilMath.isNumber(valore);
+				if(!number){
 					if(valore.contains("@@@")){
 						valore = valore.replaceFirst("@@@", "");
 					}
-					valore = "'" + valore + "'";
+					valore = "'" + valore + "'";	
+
 				}
 			}
 			

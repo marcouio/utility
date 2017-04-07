@@ -1,6 +1,6 @@
 package com.molinari.utility.database;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class AlterBase extends OggettoSQL {
 
@@ -10,17 +10,15 @@ public class AlterBase extends OggettoSQL {
 
 	public boolean alterTable(final String comandoSql) throws Exception {
 		return false;
-//		return aggiornaSqlFromString(comandoSql);
 	}
 
-	public boolean alterTable(final String tabella, final HashMap<String, Object> bo) throws Exception {
-//		this.tabella = tabella;
+	public boolean alterTable(final String tabella, final Map<String, Object> bo) throws Exception {
 		introComando();
 		return false;
 	}
 
 	public void introComando() {
-//		sbSQL.append(ALTERTABLE).append(tabella);
+		//default do nothing
 	}
 
 }

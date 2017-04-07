@@ -380,11 +380,10 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 
 	protected void inserisciCampiValue(String colonna, Object getterCampo,Class<?> parameterTypes, InsertBase insertBase) {
 		String valore = null;
-		//TODO gestire i campi date
 		if(getterCampo instanceof AbstractOggettoEntita){
 			valore = ((AbstractOggettoEntita) getterCampo).getIdEntita();
 		}else if(getterCampo instanceof Date){
-			
+			//gestire i campi date
 		}else if(getterCampo != null){
 			valore = getterCampo.toString();
 		}
@@ -395,9 +394,9 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 	public boolean delete(int id)  {
 		try {
 			final DeleteBase deleteBase = new DeleteBase();
-			final String nomeCampoId = getNomeCampoId();
+			final String nomeCampoIdLoc = getNomeCampoId();
 			deleteBase.setTabella(getNomeTabella());
-			deleteBase.putClausole(null, nomeCampoId, "=", Integer.toString(id));
+			deleteBase.putClausole(null, nomeCampoIdLoc, "=", Integer.toString(id));
 			Query query = new Query();
 			return query.delete(deleteBase);
 		} catch (Exception e) {
@@ -445,7 +444,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 	
 	protected void inserisciCampiUpdate(String colonna, Object getterCampo, Class<?> parameterTypes, UpdateBase updateBase) {
 		String valore = null;
-		//TODO gestire i campi date
+		//gestire i campi date
 		if(getterCampo instanceof AbstractOggettoEntita){
 			final String id = ((AbstractOggettoEntita)getterCampo).getIdEntita();
 			valore = id;
