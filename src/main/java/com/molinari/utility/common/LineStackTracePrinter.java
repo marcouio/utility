@@ -1,5 +1,9 @@
 package com.molinari.utility.common;
 
+import java.util.logging.Level;
+
+import com.molinari.utility.controller.ControlloreBase;
+
 /**
  * thanks to
  * http://blog.taragana.com/index.php/archive/core-java-how-to-get-java
@@ -9,6 +13,10 @@ package com.molinari.utility.common;
  * 
  */
 public class LineStackTracePrinter {
+	
+	private LineStackTracePrinter(){
+		//do nothing
+	}
 
 	// original tutorial suggests items [2]
 	// from arrays, but [3] works for android.
@@ -25,20 +33,24 @@ public class LineStackTracePrinter {
 
 	public static String getFileName(final int nStack) {
 		StackTraceElement[] stackTraces = Thread.currentThread().getStackTrace();
-		String className = stackTraces[6].getClassName();
-		String methodName = stackTraces[6].getMethodName();
+		String className = stackTraces[nStack].getClassName();
+		String methodName = stackTraces[nStack].getMethodName();
 		return className + " (" + methodName + ")";
 	}
 
 	public static String scriviLineaDellErrore(final int nStack) {
-		final String msg = " Errore sul file: " + LineStackTracePrinter.getFileName(nStack) + " line " + LineStackTracePrinter.getLineNumber(nStack);
-		return msg;
+		StringBuilder sb = new StringBuilder();
+		sb.append(" Errore sul file: ");
+		sb.append(LineStackTracePrinter.getFileName(nStack));
+		sb.append(" line ");
+		sb.append(LineStackTracePrinter.getLineNumber(nStack));
+		return sb.toString();
 	}
 
 	public static void scriviLineeErrore() {
 		for (int i = 2; i < 6; i++) {
 			final String msg = " Errore sul file: " + LineStackTracePrinter.getFileName(i) + " line " + LineStackTracePrinter.getLineNumber(i);
-			System.err.println(msg);
+			ControlloreBase.getLog().log(Level.SEVERE, msg);
 		}
 	}
 }

@@ -1,23 +1,24 @@
 package com.molinari.utility.paint.frameworkutil;
 
-import com.molinari.utility.graphic.component.container.PannelloBase;
-import com.molinari.utility.paint.objects.FormaGeometrica;
-
 import java.awt.Container;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+
+import com.molinari.utility.graphic.component.container.PannelloBase;
+import com.molinari.utility.paint.objects.FormaGeometrica;
 
 public class PannelloDisegno extends PannelloBase {
 
-	private LinkedHashMap<String, FormaGeometrica> mapOggetti = new LinkedHashMap<String, FormaGeometrica>();
+	private LinkedHashMap<String, FormaGeometrica> mapOggetti = new LinkedHashMap<>();
 	FormaGeometrica oggettoSelezionato;
 
 	private static final long serialVersionUID = 1L;
 
 	public PannelloDisegno(final Container contenitore) {
 		super(contenitore);
-		final MyMouseListener mouseListener = new MyMouseListener();
+		final MyMouseListener mouseListener = new MyMouseListener(this);
 		this.addMouseListener(mouseListener.getMouseAdapter());
 		this.addMouseMotionListener(mouseListener.getMouseMotionAdapter());
 	}
@@ -55,8 +56,8 @@ public class PannelloDisegno extends PannelloBase {
 		return nome;
 	}
 	
-	public ArrayList<FormaGeometrica> getOggetti() {
-		return new ArrayList<FormaGeometrica>(mapOggetti.values());
+	public List<FormaGeometrica> getOggetti() {
+		return new ArrayList<>(mapOggetti.values());
 	}
 
 	public FormaGeometrica getOggettoSelezionato() {
