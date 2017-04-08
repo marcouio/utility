@@ -10,7 +10,7 @@ public class FileXml {
 	private File file;
 	private Document doc;
 
-	public FileXml(final String path) throws Exception {
+	public FileXml(final String path) {
 		file = new File(path);
 		doc = UtilXml.createDocument(file);
 

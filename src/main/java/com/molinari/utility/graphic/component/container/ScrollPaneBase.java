@@ -1,16 +1,16 @@
 package com.molinari.utility.graphic.component.container;
 
+import java.awt.Component;
+import java.awt.Container;
+
+import javax.swing.JScrollPane;
+
 import com.molinari.utility.graphic.component.base.ComponenteBase;
 import com.molinari.utility.graphic.component.base.IComponenteBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBaseScrollPane;
 import com.molinari.utility.graphic.component.container.base.IContainerBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
-
-import java.awt.Component;
-import java.awt.Container;
-
-import javax.swing.JScrollPane;
 
 public class ScrollPaneBase extends JScrollPane implements IComponenteBase, IContainerBase {
 
@@ -182,8 +182,7 @@ public class ScrollPaneBase extends JScrollPane implements IComponenteBase, ICon
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 
 }

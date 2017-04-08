@@ -15,6 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.molinari.utility.GenericException;
 import com.molinari.utility.controller.ControlloreBase;
 
 public class CoreXMLManager {
@@ -97,7 +98,7 @@ public class CoreXMLManager {
 		Node nodo = UtilXml.getNodo("auto-config", doc);
 		Element elemento = UtilXml.getElement(nodo);
 		if (elemento != null) {
-			return new Boolean(elemento.getAttribute("value")).booleanValue();
+			return Boolean.parseBoolean(elemento.getAttribute("value"));
 		}
 		return false;
 	}
@@ -106,13 +107,13 @@ public class CoreXMLManager {
 	 * @return path del file di style in formato stringa
 	 * @throws Exception 
 	 */
-	public String getXMLStyleFilePath() throws Exception {
+	public String getXMLStyleFilePath() {
 		Node nodo = UtilXml.getNodo("style", doc);
 		if(nodo != null){
 			NodeList listaFigli = nodo.getChildNodes();
 			for (int i = 0; i < listaFigli.getLength(); i++) {
 				Node nodoFiglio = listaFigli.item(i);
-				if (nodoFiglio.getNodeName().equals("file")) {
+				if ("file".equals(nodoFiglio.getNodeName())) {
 					Element elemento = UtilXml.getElement(nodoFiglio);
 					if (elemento != null) {
 						return elemento.getAttribute("url");
@@ -121,7 +122,7 @@ public class CoreXMLManager {
 			}
 		}
 		String msg = "<style><file url=\"./config-style.xml\" /></style>";
-		throw new Exception("E' necessario mantenere nel config-core.xml:" + msg);
+		throw new GenericException("E' necessario mantenere nel config-core.xml:" + msg);
 	}
 
 	/**
@@ -132,7 +133,7 @@ public class CoreXMLManager {
 		NodeList listaFigli = nodo.getChildNodes();
 		for (int i = 0; i < listaFigli.getLength(); i++) {
 			Node nodoFiglio = listaFigli.item(i);
-			if (nodoFiglio.getNodeName().equals("file")) {
+			if ("file".equals(nodoFiglio.getNodeName())) {
 				Element elemento = UtilXml.getElement(nodoFiglio);
 				if (elemento != null) {
 					return elemento.getAttribute("nome");

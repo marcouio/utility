@@ -3,6 +3,7 @@ package com.molinari.utility.graphic.component.style;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 
 import org.w3c.dom.Document;
@@ -47,6 +48,7 @@ import com.molinari.utility.xml.UtilXml;
  */
 public class StyleBase {
 
+	private static final String COLOR = "color";
 	public static final String FONT = "font";
 	public static final String BACKGROUND = "background";
 	public static final String FOREGROUND = "foreground";
@@ -122,7 +124,7 @@ public class StyleBase {
 				for (int x = 0; x < figliNodoComponente.getLength(); x++) {
 					final Node nodoComponente = figliNodoComponente.item(x);
 					if (nodoComponente.getNodeName().equals(FONT)) {
-						settaFont(nodo, this, nodoComponente);
+						settaFont(this, nodoComponente);
 					} else if (nodoComponente.getNodeName().equals(BACKGROUND)) {
 						settaBackground(this, nodoComponente);
 					} else if (nodoComponente.getNodeName().equals(FOREGROUND)) {
@@ -207,7 +209,7 @@ public class StyleBase {
 	 * @param style
 	 * @param nodoComponente
 	 */
-	protected static void settaFont(final Node nodo, final StyleBase style, final Node nodoComponente) {
+	protected static void settaFont( final StyleBase style, final Node nodoComponente) {
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
 			final String carattere = elemento.getAttribute(FONTFAMILY);
@@ -275,7 +277,7 @@ public class StyleBase {
 		this.trovato = trovato;
 	}
 	
-	public static void creaFileXmlStyle() throws Exception{
+	public static void creaFileXmlStyle() throws IOException {
 
 		String pathFile = CoreXMLManager.getSingleton().getXMLStyleFilePath();
 
@@ -292,12 +294,8 @@ public class StyleBase {
 			
 			addColorSetting(doc, styleElement, "255", "255", "255", StyleTable.FOREGROUND_NOTSEL);
 			addColorSetting(doc, styleElement, "255", "0", "0", StyleTable.FOREGROUND_SEL);
-//			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.FOREGROUND_PRIMACOLONNA);
-//			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.FOREGROUND_PRIMARIGA);
 			addColorSetting(doc, styleElement, "192", "192", "192", StyleTable.BACKGROUND_NOTSEL);
 			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.BACKGROUND_SEL);
-//			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.BACKGROUND_PRIMACOLONNA);
-//			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.BACKGROUND_PRIMARIGA);
 			
 			UtilXml.writeXmlFile(doc, pathFile);
 		}
@@ -305,7 +303,7 @@ public class StyleBase {
 	
 	protected static void addColorSetting(Document doc, Element elStyle, String r, String g, String b, String nomeElemento){
 		Element elemento = UtilXml.addElement(doc, elStyle, nomeElemento);
-		Element elementoColor = UtilXml.addElement(doc, elemento, "color");
+		Element elementoColor = UtilXml.addElement(doc, elemento, COLOR);
 		UtilXml.addAttribute(doc, elementoColor, StyleBase.R, r);
 		UtilXml.addAttribute(doc, elementoColor, StyleBase.G, g);
 		UtilXml.addAttribute(doc, elementoColor, StyleBase.B, b);
@@ -324,14 +322,14 @@ public class StyleBase {
 
 		//foreground
 		Element foregroundElement = UtilXml.addElement(doc, styleElement, StyleBase.FOREGROUND);
-		Element colorForeElement = UtilXml.addElement(doc, foregroundElement, "color");
+		Element colorForeElement = UtilXml.addElement(doc, foregroundElement, COLOR);
 		UtilXml.addAttribute(doc, colorForeElement, StyleBase.R, "100");
 		UtilXml.addAttribute(doc, colorForeElement, StyleBase.G, "100");
 		UtilXml.addAttribute(doc, colorForeElement, StyleBase.B, "100");
 
 		//background
 		Element backgroundElement = UtilXml.addElement(doc, styleElement, StyleBase.BACKGROUND);
-		Element colorBackElement = UtilXml.addElement(doc, backgroundElement, "color");
+		Element colorBackElement = UtilXml.addElement(doc, backgroundElement, COLOR);
 		UtilXml.addAttribute(doc, colorBackElement, StyleBase.R, "255");
 		UtilXml.addAttribute(doc, colorBackElement, StyleBase.G, "255");
 		UtilXml.addAttribute(doc, colorBackElement, StyleBase.B, "255");

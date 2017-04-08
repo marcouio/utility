@@ -21,6 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.io.UtilIo;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
@@ -150,7 +151,7 @@ public class UtilXml {
 			return null;
 		}
 
-	public static void writeXmlFile(Document doc, String path) {
+	public static void writeXmlFile(Document doc, String path) throws IOException {
 
 		FileOutputStream fos = null;
 		File file = new File(path);
@@ -170,6 +171,8 @@ public class UtilXml {
 
 		} catch (Exception e1) {
 			writeXmlFile2(doc, new StreamResult(file));
+		}finally {
+			UtilIo.close(fos);
 		}
 	}
 	

@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics2D;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,35 +72,31 @@ public abstract class ControlloreBase {
 
 	public void myMain(final ControlloreBase controllore, final boolean dimensiona, final String nomeApplicazione) {
 		ControlloreBase.nomeApplicazione = nomeApplicazione;
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					creaFileXmlConfigurazione();
-					creaFileXmlStyle();
-					init();
-					FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
-					ControlloreBase.setApplicationframe(frame);
-					controllore.mainOverridato(frame);
-					if (dimensiona) {
-						Container content = frame.getContentPane();
-						Component[] components = content.getComponents();
-						for (Component component : components) {
-							if(component instanceof PannelloBase){
-								PannelloBase pannello = (PannelloBase) component;
-								pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
-							}
+		SwingUtilities.invokeLater(() -> {
+			try {
+				creaFileXmlConfigurazione();
+				creaFileXmlStyle();
+				init();
+				FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
+				ControlloreBase.setApplicationframe(frame);
+				controllore.mainOverridato(frame);
+				if (dimensiona) {
+					Container content = frame.getContentPane();
+					Component[] components = content.getComponents();
+					for (Component component : components) {
+						if(component instanceof PannelloBase){
+							PannelloBase pannello = (PannelloBase) component;
+							pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
 						}
-						int larghezza = frame.getLarghezza();
-						int altezza = frame.getAltezza();
-						frame.setSize(larghezza, altezza);
-						getLog().info("Frame, larghezza: " + frame.getSize().getWidth());
-						getLog().info("Frame, altezza: " + frame.getSize().getHeight());
 					}
-				} catch (Exception e) {
-					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+					int larghezza = frame.getLarghezza();
+					int altezza = frame.getAltezza();
+					frame.setSize(larghezza, altezza);
+					getLog().info("Frame, larghezza: " + frame.getSize().getWidth());
+					getLog().info("Frame, altezza: " + frame.getSize().getHeight());
 				}
+			} catch (Exception e) {
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 		});
 	}
@@ -180,11 +177,11 @@ public abstract class ControlloreBase {
 		return log;
 	}
 
-	public void creaFileXmlStyle() throws Exception {
+	public void creaFileXmlStyle() throws IOException {
 		StyleBase.creaFileXmlStyle();
 	}
 
-	public static void creaFileXmlConfigurazione() throws Exception{
+	public static void creaFileXmlConfigurazione() throws IOException {
 		String pathFile = CoreXMLManager.XMLCOREPATH;
 		File fileConf = new File(pathFile);
 		Document doc = UtilXml.createDocument(fileConf);

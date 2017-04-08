@@ -1,5 +1,11 @@
 package com.molinari.utility.graphic.component.container;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.LayoutManager;
+
+import javax.swing.JPanel;
+
 import com.molinari.utility.graphic.ExceptionGraphics;
 import com.molinari.utility.graphic.component.base.ComponenteBase;
 import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
@@ -8,13 +14,6 @@ import com.molinari.utility.graphic.component.container.base.ContainerBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBasePannello;
 import com.molinari.utility.graphic.component.container.base.IContainerBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
-
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.LayoutManager;
-
-import javax.swing.JPanel;
 
 public class PannelloBase extends JPanel implements IComponenteBase, IContainerBase {
 
@@ -140,17 +139,6 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	}
 
 	@Override
-	protected void paintComponent(final Graphics g) {
-		super.paintComponent(g);
-	}
-
-	@Override
-	public void paint(final Graphics g) {
-		// TODO Auto-generated method stub
-		super.paint(g);
-	}
-
-	@Override
 	public Container getContenitorePadre() {
 		return contenitorePadre;
 	}
@@ -198,7 +186,6 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//Do nothing
 	}
 }
