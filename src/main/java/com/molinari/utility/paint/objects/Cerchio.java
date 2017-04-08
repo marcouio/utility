@@ -133,7 +133,7 @@ public class Cerchio extends FormaGeometrica2D {
 		
 		isOnCirconferenza = false;
 	
-		// TODO non va modificare
+		//non funziona è da modificare
 		final Point centro = getPuntoCentrale();
 		double yToCirconferenza = getYFromCentroToCirconferenza(mouse);
 		double xToCirconferenza = getXFromCentroToCirconferenza(mouse);

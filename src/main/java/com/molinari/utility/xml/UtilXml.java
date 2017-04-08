@@ -25,6 +25,11 @@ import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class UtilXml {
+	
+	
+	private UtilXml() {
+		//do nothing
+	}
 
 	/**
 	 * Carica tutte le informazioni del parametro xml in un document
@@ -35,16 +40,18 @@ public class UtilXml {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Document createDocument(final File xml)
-	    throws ParserConfigurationException, SAXException {
-		
-		final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc;
+	public static Document createDocument(final File xml){
+		Document doc = null;
+		DocumentBuilder dBuilder = null;
 		try {
+			final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dBuilder = dbFactory.newDocumentBuilder();
 			doc = dBuilder.parse(xml);
-		} catch (IOException e) {
-			doc = dBuilder.newDocument();
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			if(dBuilder != null){
+				doc = dBuilder.newDocument();
+			}
 		}
 		return doc;
 	}
@@ -59,20 +66,21 @@ public class UtilXml {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static NodeList getNodeList(final String path)
-	    throws ParserConfigurationException, SAXException, IOException {
+	public static NodeList getNodeList(final String path) {
 		final Document doc = UtilXml.createDocument(new File(path));
-		final Element root = doc.getDocumentElement();
-		final NodeList listaNodi = (root.hasChildNodes()) ? root.getChildNodes() : null;
-		return listaNodi;
+		if(doc != null){
+			final Element root = doc.getDocumentElement();
+			return root.hasChildNodes() ? root.getChildNodes() : null;
+		}
+		return null;
 	}
+		
 
 	public static NodeList getNodeList(final Document doc) {
 		if(doc != null){
 			final Element root = doc.getDocumentElement();
 			if(root!=null){
-				final NodeList listaNodi = (root.hasChildNodes()) ? root.getChildNodes() : null;
-				return listaNodi;
+				return root.hasChildNodes() ? root.getChildNodes() : null;
 			}
 		}
 		return null;
@@ -86,10 +94,8 @@ public class UtilXml {
 	 */
 	public static Element getElement(final Node nodoComponente) {
 		Element elemento = null;
-		if(nodoComponente != null){
-			if (nodoComponente.getNodeType() == Node.ELEMENT_NODE) {
-				elemento = (Element) nodoComponente;
-			}
+		if (nodoComponente != null && nodoComponente.getNodeType() == Node.ELEMENT_NODE) {
+			elemento = (Element) nodoComponente;
 		}
 		return elemento;
 	}
@@ -97,10 +103,12 @@ public class UtilXml {
 	public static Node getNodo(String nodo, String path)
 	    throws ParserConfigurationException, SAXException, IOException {
 		NodeList listaNodi = getNodeList(path);
-		for (int i = 0; i < listaNodi.getLength(); i++) {
-			Node nodoDaLista = listaNodi.item(i);
-			if (nodoDaLista.getNodeName().equals(nodo)) {
-				return nodoDaLista;
+		if(listaNodi != null){
+			for (int i = 0; i < listaNodi.getLength(); i++) {
+				Node nodoDaLista = listaNodi.item(i);
+				if (nodoDaLista.getNodeName().equals(nodo)) {
+					return nodoDaLista;
+				}
 			}
 		}
 		return null;

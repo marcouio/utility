@@ -56,9 +56,7 @@ public class LoggerOggetto {
 			UtilIo.deleteFileDaDirectory("./", "MyL");
 			fileLog = new FileHandler("MyLog.txt", 50000, 1, true);
 			fileLog.setFormatter(new SimpleFormatter());
-		} catch (final SecurityException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} catch (final IOException e) {
+		} catch (SecurityException | IOException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		log.addHandler(fileLog);
