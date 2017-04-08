@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class InsertBase extends OggettoSQL{
 
-
 	private String tabella;
 	protected Map<String, String> campiInsert = new HashMap<>();
 

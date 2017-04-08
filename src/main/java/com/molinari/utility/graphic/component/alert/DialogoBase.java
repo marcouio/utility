@@ -1,5 +1,12 @@
 package com.molinari.utility.graphic.component.alert;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+
 import com.molinari.utility.graphic.component.alert.builder.IBuilderDialogo;
 import com.molinari.utility.graphic.component.base.ComponenteBaseDialogo;
 import com.molinari.utility.graphic.component.base.IComponenteBase;
@@ -7,13 +14,6 @@ import com.molinari.utility.graphic.component.container.base.ContainerBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBaseDialogo;
 import com.molinari.utility.graphic.component.container.base.IContainerBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
-
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dialog;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 public class DialogoBase extends JDialog implements IComponenteBase, IContainerBase, IContainerBuilderDialog {
 
@@ -41,25 +41,6 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	public IBuilderDialogo getBuilder() {
 		return new BuilderDialogo(padre);
 	}
-
-//	public static void main(final String[] args) {
-//		final FrameBase panello = UtilComponenti.initContenitoreFrameApplicazione(null, null);
-//		final ButtonBase bottone = new ButtonBase("premi qui di nuovo e ancora!", panello);
-//		bottone.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(final ActionEvent e) {
-//
-//				final IBuilderDialogo builder = new DialogoBase(panello).getBuilder();
-//				builder.setMessaggio("Questo è un messaggio veramente troppo troppo lungo");
-//				builder.setTitolo("Titolo");
-//				builder.addPositiveButton();
-//				builder.addNegativeButton();
-//				builder.addCancelButton();
-//				final DialogoBase dialogo = builder.creaDialogo();
-//			}
-//		});
-//	}
 
 	@Override
 	public int getMaxDimensionX() {
@@ -195,8 +176,7 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 
 }

@@ -1,13 +1,5 @@
 package com.molinari.utility.graphic.component.button;
 
-import com.molinari.utility.graphic.UtilComponenti;
-import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
-import com.molinari.utility.graphic.component.base.IComponenteBase;
-import com.molinari.utility.graphic.component.container.base.ContainerBase;
-import com.molinari.utility.graphic.component.container.base.ContainerBaseBottone;
-import com.molinari.utility.graphic.component.container.base.IContainerBase;
-import com.molinari.utility.graphic.component.style.StyleBase;
-
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Insets;
@@ -16,6 +8,14 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import com.molinari.utility.graphic.UtilComponenti;
+import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.container.base.ContainerBase;
+import com.molinari.utility.graphic.component.container.base.ContainerBaseBottone;
+import com.molinari.utility.graphic.component.container.base.IContainerBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 public class ButtonBase extends JButton implements IComponenteBase, IContainerBase {
 
@@ -208,8 +208,7 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 
 }

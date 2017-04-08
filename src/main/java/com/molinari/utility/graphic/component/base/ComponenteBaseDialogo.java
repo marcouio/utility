@@ -13,6 +13,6 @@ public class ComponenteBaseDialogo extends ComponenteBase {
 
 	@Override
 	public void aggiungiAlContenitore(final Container contenitorePadre2, final Component componenteFiglio) {
-
+		//do nothing
 	}
 }

@@ -23,18 +23,14 @@ public class PannelloTextLabel extends PannelloBase {
 	private Label label;
 
 	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				final JPanel pannello = UtilComponenti.initContenitoreFrame(null);
-				PannelloTextLabel ptl = null;
-				try {
-					ptl = new PannelloTextLabel("LABEL", "TESTO", pannello);
-					ptl.setBackground(Color.CYAN);
-				} catch (final ExceptionGraphics e) {
-					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-				}
+		SwingUtilities.invokeLater(() -> {
+			final JPanel pannello = UtilComponenti.initContenitoreFrame(null);
+			PannelloTextLabel ptl = null;
+			try {
+				ptl = new PannelloTextLabel("LABEL", "TESTO", pannello);
+				ptl.setBackground(Color.CYAN);
+			} catch (final ExceptionGraphics e) {
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 		});
 	}

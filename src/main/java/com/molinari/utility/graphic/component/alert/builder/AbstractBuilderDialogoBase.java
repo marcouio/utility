@@ -1,15 +1,13 @@
 package com.molinari.utility.graphic.component.alert.builder;
 
-import com.molinari.utility.graphic.component.alert.DialogoBase;
-import com.molinari.utility.graphic.component.button.ButtonBase;
-import com.molinari.utility.graphic.component.container.PannelloBase;
-
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
+
+import com.molinari.utility.graphic.component.alert.DialogoBase;
+import com.molinari.utility.graphic.component.button.ButtonBase;
+import com.molinari.utility.graphic.component.container.PannelloBase;
 
 public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 
@@ -53,14 +51,17 @@ public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 		this.dimensioni = dimensioni;
 	}
 
+	@Override
 	public void addNegativeButton() {
 		listaBottoni[INDEX_BTN_NEGATIVE] = INDEX_BTN_NEGATIVE;
 	}
 
+	@Override
 	public void addPositiveButton() {
 		listaBottoni[INDEX_BTN_POSITIVE] = INDEX_BTN_POSITIVE;
 	}
 
+	@Override
 	public void addCancelButton() {
 		listaBottoni[INDEX_BTN_CANCEL] = INDEX_BTN_CANCEL;
 	}
@@ -78,38 +79,20 @@ public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 
 	protected ButtonBase creaPositiveButton() {
 		ButtonBase positive = new ButtonBase("Ok", pannelloButtonBar);
-		positive.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				dialogo.setOpzioneScelta(JOptionPane.OK_OPTION);
-			}
-		});
+		positive.addActionListener(e -> dialogo.setOpzioneScelta(JOptionPane.OK_OPTION));
 		return positive;
 	}
 
 	protected ButtonBase creaNegativeButton() {
 		ButtonBase negative = new ButtonBase("No", pannelloButtonBar);
-		negative.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				dialogo.setOpzioneScelta(JOptionPane.NO_OPTION);
-			}
-		});
+		negative.addActionListener(e -> dialogo.setOpzioneScelta(JOptionPane.NO_OPTION));
 		return negative;
 	}
 
 	protected ButtonBase creaCancelButton() {
 		ButtonBase cancel = new ButtonBase("Cancel", pannelloButtonBar);
 		cancel.setMargin(null);
-		cancel.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				dialogo.setOpzioneScelta(JOptionPane.CANCEL_OPTION);
-			}
-		});
+		cancel.addActionListener(e -> dialogo.setOpzioneScelta(JOptionPane.CANCEL_OPTION));
 		return cancel;
 	}
 

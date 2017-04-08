@@ -2,7 +2,6 @@ package com.molinari.utility.database;
 
 import java.util.Map;
 
-
 public class OggettoSQL {
 
 	public static final String SELECT = "select";

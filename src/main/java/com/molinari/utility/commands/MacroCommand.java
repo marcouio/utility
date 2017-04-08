@@ -2,10 +2,11 @@ package com.molinari.utility.commands;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class MacroCommand extends AbstractCommand {
 
-	ArrayList<AbstractCommand> listaComandiInterna = new ArrayList<AbstractCommand>();
+	ArrayList<AbstractCommand> listaComandiInterna = new ArrayList<>();
 	private int indiceCorrente = 0;
 	
 
@@ -57,17 +58,15 @@ public class MacroCommand extends AbstractCommand {
 
 	@Override
 	public void scriviLogExecute(boolean isComandoEseguito) {
-		// TODO Auto-generated method stub
-
+		//do nothing		
 	}
 
 	@Override
 	public void scriviLogUnExecute(boolean isComandoEseguito) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
-	public ArrayList<AbstractCommand> getListaComandiInterna() {
+	public List<AbstractCommand> getListaComandiInterna() {
 		return listaComandiInterna;
 	}
 	

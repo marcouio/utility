@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ObjConClausole extends OggettoSQL{
 
-	List<Clausola> clausole = new ArrayList<Clausola>();
+	List<Clausola> clausole = new ArrayList<>();
 	
 	public ObjConClausole() {
 		super();
@@ -20,7 +20,7 @@ public class ObjConClausole extends OggettoSQL{
 				
 				sbSQL.append(" AND ");
 
-				final Clausola prossimo = (Clausola) where.next();
+				final Clausola prossimo = where.next();
 				
 				sbSQL.append(prossimo);
 

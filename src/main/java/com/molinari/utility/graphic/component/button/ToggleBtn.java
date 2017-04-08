@@ -181,7 +181,6 @@ public class ToggleBtn extends JToggleButton {
 		return testo;
 	}
 
-	// TODO metodo da verificare
 	/**
 	 * Setta la proprietà "xPartenzaTesto" sulla base delle impostazioni iniziali della proprietà, 
 	 * sulla larghezza dell'immagine e la distanza dal bordo ovest dell'immagine
@@ -206,21 +205,13 @@ public class ToggleBtn extends JToggleButton {
 	 */
 	public void settaggioBottoneStandard() {
 
-		// final Border bordo =
-		// BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY,
-		// Color.LIGHT_GRAY);
-		// Border bordo = BorderFactory.createEtchedBorder(EtchedBorder.RAISED,
-		// Color.RED, Color.GREEN);
 		this.setBorder(null);
 		this.setRolloverEnabled(true);
 		this.setBackground(Color.WHITE);
 		this.setHorizontalAlignment(SwingConstants.LEFT); // allinea il
-		// contenuto a
-		// sinitra
-		if (this instanceof ToggleBtn) {
-			final Icon icona1 = (this).getMyIcon();
-			this.setRolloverIcon(icona1);
-		}
+		// contenuto a sinitra
+		final Icon icona1 = (this).getMyIcon();
+		this.setRolloverIcon(icona1);
 		this.setRolloverEnabled(true);
 	}
 
@@ -388,11 +379,11 @@ public class ToggleBtn extends JToggleButton {
 
 			@Override
 			public void run() {
-				ImageIcon icona = new ImageIcon("/home/kiwi2/Scaricati/icona.png");
-				icona = UtilImage.resizeImage(30, 30, icona);
-				ToggleBtn tb = new ToggleBtn("Ciao", icona);
+				ImageIcon iconaLoc = new ImageIcon("/home/kiwi2/Scaricati/icona.png");
+				iconaLoc = UtilImage.resizeImage(30, 30, iconaLoc);
+				ToggleBtn tb = new ToggleBtn("Ciao", iconaLoc);
 				tb.setBounds(10, 10, 200, 100);
-				ToggleBtn tb2 = new ToggleBtn("Ciao2", icona);
+				ToggleBtn tb2 = new ToggleBtn("Ciao2", iconaLoc);
 				tb2.setBounds(10, 140, 200, 100);
 				JFrame frame = new JFrame();
 				frame.getContentPane().add(tb);

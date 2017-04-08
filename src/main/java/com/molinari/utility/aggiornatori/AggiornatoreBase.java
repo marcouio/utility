@@ -8,6 +8,7 @@ public class AggiornatoreBase implements IAggiornatore {
 	protected IComponenteBase comp;
 
 	public AggiornatoreBase() {
+		//do nothing
 	}
 
 	@Override

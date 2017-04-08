@@ -1,9 +1,5 @@
 package com.molinari.utility.graphic.component.base;
 
-import com.molinari.utility.controller.ControlloreBase;
-import com.molinari.utility.graphic.component.style.StyleBase;
-import com.molinari.utility.xml.CoreXMLManager;
-
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FontMetrics;
@@ -14,6 +10,10 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.text.JTextComponent;
+
+import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.xml.CoreXMLManager;
 
 /**
  * La classe è per uso privato all'interno degli oggetti grafici base. Non va
@@ -31,11 +31,11 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public static final int WIDTH_DEFAULT = 100;
 	public static final int WIDTH_STRING_MIN = 5;
 	public static final int HEIGHT_STRING_MIN = 5;
-	public IComponenteBase padre;
+	private IComponenteBase padre;
 	protected StyleBase style = new StyleBase();
 
 	public ComponenteBase(final IComponenteBase padre) {
-		this.padre = padre;
+		this.setPadre(padre);
 	}
 
 	/**
@@ -60,6 +60,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		}
 	}
 	
+	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
 		return false;
 	}
@@ -92,10 +93,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	private boolean modelIsNull(final Object objForRepaint, final Object model) {
-		if (objForRepaint instanceof JTree || objForRepaint instanceof JComboBox || objForRepaint instanceof JTable) {
-			if (model == null) {
-				return true;
-			}
+		if ((objForRepaint instanceof JTree || objForRepaint instanceof JComboBox || objForRepaint instanceof JTable) && model == null) {
+			return true;
 		}
 		return false;
 	}
@@ -160,7 +159,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
-	public int getLarghezzaSingleStringa(Graphics g, final String label, final Component compDaPosizionare, final boolean setDefault) {
+	public int getLarghezzaSingleStringa(Graphics graphics, final String label, final Component compDaPosizionare, final boolean setDefault) {
+		Graphics g = graphics;
 		int larghezza = 0;
 		g = trovaUnGraphicsValido(g, compDaPosizionare);
 		if (g != null && compDaPosizionare.getFont() != null) {
@@ -186,7 +186,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return getLarghezzaSingleStringa(g, label, compDaPosizionare, true);
 	}
 
-	public int getAltezzaSingleStringa(Graphics g, final Component compDaPosizionare) {
+	public int getAltezzaSingleStringa(Graphics graphics, final Component compDaPosizionare) {
+		Graphics g = graphics;
+		
 		int altezza = 0;
 		g = trovaUnGraphicsValido(g, compDaPosizionare);
 		if (g != null && compDaPosizionare.getFont() != null) {
@@ -196,7 +198,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return altezza > ComponenteBase.HEIGHT_STRING_MIN ? altezza + 3 : ComponenteBase.HEIGHT_STRING_DEFAULT;
 	}
 
-	public Graphics trovaUnGraphicsValido(Graphics g, final Component compDaPosizionare) {
+	public Graphics trovaUnGraphicsValido(Graphics graphics, final Component compDaPosizionare) {
+		Graphics g = graphics;
 		if (g == null) {
 			if (compDaPosizionare.getParent() != null) {
 				g = compDaPosizionare.getParent().getGraphics();
@@ -208,57 +211,48 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return g;
 	}
 
+	@Override
 	public void applicaStile(final StyleBase style, final IComponenteBase padre) {
 		if (style != null) {
 			this.style = style;
 		}
 		this.style.setPadre(padre);
-		final Component padreComponent = ((Component) padre);
+		final Component padreComponent = (Component) padre;
 		padreComponent.setFont(this.style.getFont());
 		padreComponent.setForeground(this.style.getForeground());
 		if(this.style.getBackground() != null){
 			padreComponent.setBackground(this.style.getBackground());
 		}
 		padreComponent.setSize(this.style.getWidth(), this.style.getHeight());
-		if (CoreXMLManager.getSingleton().isAutoConfig()) {
-			if (ihaveToSetDimension(this.style, padreComponent)) {
-				final int width = ((IComponenteBase) padreComponent).getLarghezza();
-				final int height = ((IComponenteBase) padreComponent).getAltezza();
-				padreComponent.setSize(width, height);
-			}
+		if (CoreXMLManager.getSingleton().isAutoConfig() && ihaveToSetDimension(this.style, padreComponent)) {
+			final int width = ((IComponenteBase) padreComponent).getLarghezza();
+			final int height = ((IComponenteBase) padreComponent).getAltezza();
+			padreComponent.setSize(width, height);
 		}
 	}
 
 	public boolean ihaveToSetDimension(final StyleBase style, final Component padreComponent) {
-		if (padreComponent instanceof JTextComponent) {
-			if (style.getWidth() == 0 && style.getHeight() == 0) {
-				if ((padreComponent.getWidth() != 0 && padreComponent.getHeight() != 0)) {
-					return false;
-				} else {
-					return true;
-				}
-			}
+		boolean dimensionNull = style.getWidth() == 0 && style.getHeight() == 0;
+		if (padreComponent instanceof JTextComponent && dimensionNull) {
+			return padreComponent.getWidth() != 0 && padreComponent.getHeight() != 0;
 		}
 		return false;
 	}
 
 	@Override
 	public int getLarghezza() {
-		System.out.println("getLarghezza() in " + padre.getClass().getSimpleName() + " non implementato. Ritornata una larghezza default: " + WIDTH_DEFAULT);
 		return WIDTH_DEFAULT;
 	}
 
 	@Override
 	public int getAltezza() {
-
-		System.out.println("getAltezza() in " + padre.getClass().getSimpleName() + " non implementato. Ritornata una altezza default: " + HEIGHT_DEFAULT);
 		return HEIGHT_DEFAULT;
 	}
 
 	@Override
 	public Container getContenitorePadre() {
-		if (padre instanceof Container) {
-			return (Container) padre;
+		if (getPadre() instanceof Container) {
+			return (Container) getPadre();
 		}
 		return null;
 
@@ -266,7 +260,14 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//do nothing
+	}
+
+	public IComponenteBase getPadre() {
+		return padre;
+	}
+
+	public void setPadre(IComponenteBase padre) {
+		this.padre = padre;
 	}
 }

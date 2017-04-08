@@ -5,11 +5,11 @@ import java.util.List;
 
 public class SelectQuery {
 
-	private List<SelectColumn> selectColumns = new ArrayList<SelectColumn>();
-	private List<FromTable> fromTables = new ArrayList<FromTable>();
-	private List<WhereClause> whereClauses = new ArrayList<WhereClause>();
-	private List<JoinClause> joinClauses = new ArrayList<JoinClause>();
-	private List<InClause> inClauses = new ArrayList<InClause>();
+	private List<SelectColumn> selectColumns = new ArrayList<>();
+	private List<FromTable> fromTables = new ArrayList<>();
+	private List<WhereClause> whereClauses = new ArrayList<>();
+	private List<JoinClause> joinClauses = new ArrayList<>();
+	private List<InClause> inClauses = new ArrayList<>();
 	
 	public void addSelectColumn(SelectColumn selCol){
 		getSelectColumns().add(selCol);

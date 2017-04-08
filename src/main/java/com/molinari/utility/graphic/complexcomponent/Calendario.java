@@ -6,11 +6,8 @@ import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.swing.JPanel;
-
 import com.molinari.utility.aggiornatori.IAggiornatore;
 import com.molinari.utility.database.UtilDb;
-import com.molinari.utility.graphic.UtilComponenti;
 import com.molinari.utility.graphic.component.combo.ComboBoxBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.listener.AscoltatoreBase;
@@ -25,7 +22,6 @@ public class Calendario extends PannelloBase {
 	private ComboBoxBase comboMinuti;
 	private final boolean time;
 	private Date thisDate = new Date();
-	private Dimension dimension = null;
 
 	public Calendario(final Container contenitore, final boolean time){
 		this(contenitore, time, null);
@@ -34,7 +30,6 @@ public class Calendario extends PannelloBase {
 	public Calendario(final Container contenitore, final boolean time, final Dimension dimension) {
 		super(contenitore);
 		this.time = time;
-		this.dimension = dimension;
 
 
 		final String[] giorni = creaListaNumerica(31, 1);
@@ -130,38 +125,37 @@ public class Calendario extends PannelloBase {
 		return comboMinuti;
 	}
 
-	//	public String getAnni(){
-	//		if(getComboAnni().getSelectedItem() != null){
-	//			return (String)getComboAnni().getSelectedItem();
-	//		}
-	//		return null;
-	//	}
-
-
-	public static void main(final String[] args) {
-		//		questo main non funziona, va inserito in un controllorebase
-		JPanel p = UtilComponenti.initContenitoreFrame(null);
-		Calendario cal = new Calendario(p, false);
-
-	}
-
 	public class AscoltatoreCalendario extends AscoltatoreBase{
 
 		public AscoltatoreCalendario(final IAggiornatore aggiornatore,final Object[] parametri, Calendario calendario) {
 			super(aggiornatore, parametri, calendario);
 		}
+		
+		private boolean checkData(final boolean timestamp){
+			
+			boolean timeStampok = true;
+			if (timestamp) {
+				timeStampok = getComboOre().getSelectedItem() != null && 
+						getComboMinuti().getSelectedItem() != null;
+			}
+			return getComboAnni().getSelectedItem() != null && 
+					getComboMesi().getSelectedItem() != null &&
+					getComboGiorni().getSelectedItem() != null && 
+					timeStampok;
+
+		}
 
 		@Override
 		protected void actionPerformedOverride(final ActionEvent e) {
-			final String anniSel = ((String)getComboAnni().getSelectedItem());
-			final String mesiSel = ((String)getComboMesi().getSelectedItem());
-			final String giorniSel = ((String)getComboGiorni().getSelectedItem());
+			final String anniSel = (String)getComboAnni().getSelectedItem();
+			final String mesiSel = (String)getComboMesi().getSelectedItem();
+			final String giorniSel = (String)getComboGiorni().getSelectedItem();
 			String oreSel = "00";
 			String minutiSel = "00";
 
 			if(time){
-				oreSel = ((String)getComboOre().getSelectedItem());
-				minutiSel = ((String)getComboMinuti().getSelectedItem());
+				oreSel = (String)getComboOre().getSelectedItem();
+				minutiSel = (String)getComboMinuti().getSelectedItem();
 			}
 
 			String dataString = null;
@@ -172,7 +166,6 @@ public class Calendario extends PannelloBase {
 			if(dataString != null){ 
 				thisDate = UtilDb.stringToDate(dataString, "yyyy/MM/dd, HH:mm");
 			}
-			System.out.println(dataString);
 		}
 
 	}
@@ -183,18 +176,5 @@ public class Calendario extends PannelloBase {
 
 	public Date getDate(){
 		return thisDate;
-	}
-
-	private boolean checkData(final boolean timestamp){
-		boolean timeStampok = true;
-		if (timestamp) {
-			timeStampok = getComboOre().getSelectedItem() != null && 
-					getComboMinuti().getSelectedItem() != null;
-		}
-		return getComboAnni().getSelectedItem() != null && 
-				getComboMesi().getSelectedItem() != null &&
-				getComboGiorni().getSelectedItem() != null && 
-				timeStampok;
-
 	}
 }

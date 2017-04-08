@@ -15,6 +15,10 @@ import com.molinari.utility.controller.ControlloreBase;
  */
 public class Alert {
 
+	private Alert() {
+		//do nothing
+	}
+	
 	public static final String TITLE_OK = "ok!";
 	public static final String TITLE_ERROR = "Non ci siamo!";
 

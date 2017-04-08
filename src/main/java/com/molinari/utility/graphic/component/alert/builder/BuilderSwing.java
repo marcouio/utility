@@ -16,8 +16,6 @@ public class BuilderSwing implements IBuilderDialogo {
 	private String message;
 	private int messageType;
 	private Icon icon;
-	private Dimension dimensioni;
-	private int[] listaBottoni = new int[] { -1, -1, -1 };
 	protected DialogoBase dialogo;
 
 	@Override
@@ -44,8 +42,7 @@ public class BuilderSwing implements IBuilderDialogo {
 
 	@Override
 	public void setDimensioni(final Dimension dimensioni) {
-		this.dimensioni = dimensioni;
-
+		//Do nothing
 	}
 
 	@Override
@@ -63,19 +60,16 @@ public class BuilderSwing implements IBuilderDialogo {
 
 	@Override
 	public void addNegativeButton() {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 
 	@Override
 	public void addPositiveButton() {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 
 	@Override
 	public void addCancelButton() {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 }

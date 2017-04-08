@@ -2,13 +2,12 @@ package com.molinari.utility.database;
 
 public class FormatterSqlText {
 
-	public FormatterSqlText() {
-		
+	private FormatterSqlText() {
+		//do nothing
 	}
 
 	public static String correggi(String text){
-		text = text.replaceAll("'", "''");
-		return text;
+		return text.replaceAll("'", "''");
 	}
 	
 }
