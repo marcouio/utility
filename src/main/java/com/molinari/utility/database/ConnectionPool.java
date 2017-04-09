@@ -47,7 +47,7 @@ public abstract class ConnectionPool {
 	public static synchronized ConnectionPool getSingleton() {
 		if (singleton == null) {
 			try {
-				singleton = (ConnectionPool) Class.forName(ControlloreBase.connectionClassName).newInstance();
+				singleton = (ConnectionPool) Class.forName(ControlloreBase.getSingleton().getConnectionClassName()).newInstance();
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}

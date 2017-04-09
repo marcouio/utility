@@ -25,6 +25,7 @@ import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
 import com.molinari.utility.log.LoggerOggetto;
 import com.molinari.utility.messages.I18NManager;
+import com.molinari.utility.servicesloader.ServiceLoaderBase;
 import com.molinari.utility.xml.CoreXMLManager;
 import com.molinari.utility.xml.UtilXml;
 
@@ -38,11 +39,11 @@ import com.molinari.utility.xml.UtilXml;
  * @author marco.molinari
  *
  */
-public abstract class ControlloreBase {
+public class ControlloreBase {
 
-	public static String connectionClassName = "";
+	private String connectionClassName = "";
 
-	private static String nomeApplicazione = "default";
+	private String nomeApplicazione = "default";
 
 	/**
 	 * Frame generale che conterra tutti gli altri contenuti
@@ -68,10 +69,23 @@ public abstract class ControlloreBase {
 	/**
 	 * Logger dell'applicazione
 	 */
-	private static Logger log;
+	private Logger log;
 
+	private static ControlloreBase singleton;
+	
+	private Starter starter;
+	
+	public static ControlloreBase getSingleton() {
+		synchronized (ControlloreBase.class) {
+			if (singleton == null) {
+				singleton = new ControlloreBase();
+			}
+		} // if101
+		return singleton;
+	}
+	
 	public void myMain(final ControlloreBase controllore, final boolean dimensiona, final String nomeApplicazione) {
-		ControlloreBase.nomeApplicazione = nomeApplicazione;
+		this.nomeApplicazione = nomeApplicazione;
 		SwingUtilities.invokeLater(() -> {
 			try {
 				creaFileXmlConfigurazione();
@@ -114,7 +128,17 @@ public abstract class ControlloreBase {
 	 * @param frame
 	 * @throws Exception 
 	 */
-	public abstract void mainOverridato(FrameBase frame);
+	public void mainOverridato(FrameBase frame){
+		setStarter(createStarterInstance(this));
+		getStarter().start(frame);
+	}
+
+	private Starter createStarterInstance(ControlloreBase controlloreBase) {
+		ServiceLoaderBase<Starter> slb = new ServiceLoaderBase<>();
+		Starter load = slb.load(Starter.class);
+		load.setControllore(controlloreBase);
+		return load;
+	}
 
 	public static FrameBase getApplicationframe() {
 		return applicationframe;
@@ -166,11 +190,15 @@ public abstract class ControlloreBase {
 		}
 	}
 
-	public static void setLog(final Logger log) {
-		ControlloreBase.log = log;
+	public void setLog(final Logger log) {
+		this.log = log;
+	}
+	
+	public static Logger getLog() {
+		return ControlloreBase.getSingleton().getLogObj();
 	}
 
-	public static Logger getLog() {
+	public Logger getLogObj() {
 		if (log == null) {
 			log = LoggerOggetto.getLog(nomeApplicazione);
 		}
@@ -216,15 +244,29 @@ public abstract class ControlloreBase {
 		}
 
 	}
-
-	public static void main(final String[] args) throws Exception {
-		ControlloreBase.creaFileXmlConfigurazione();
+	
+	public static void main(final String[] args) {
+		ControlloreBase.getSingleton().myMain(ControlloreBase.getSingleton(), false, "myApplication");
 	}
 
 	public void init(){
-		connectionClassName = getConnectionClassName(); 
+		setConnectionClassName(getConnectionClassName()); 
 	}
 
-	public abstract String getConnectionClassName();
+	public String getConnectionClassName(){
+		return connectionClassName;
+	}
+
+	public void setConnectionClassName(String connectionClassName) {
+		this.connectionClassName = connectionClassName;
+	}
+
+	public Starter getStarter() {
+		return starter;
+	}
+
+	public void setStarter(Starter starter) {
+		this.starter = starter;
+	}
 
 }
