@@ -80,5 +80,9 @@ public class UtilMath {
 	public static boolean isNumber(String valore) {
 		return Ints.tryParse(valore) != null || Doubles.tryParse(valore) != null;
 	}
+	
+	public static boolean doubleEquals(double first, double second){
+		return Double.compare(first, second) == 0;
+	}
 
 }
