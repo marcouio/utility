@@ -19,7 +19,7 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 
 	private Container contenitorePadre;
 	private final ContainerBasePannello containerBase = new ContainerBasePannello();
-	protected StyleBase style = new StyleBase();
+	private transient StyleBase style = new StyleBase();
 	private static final long serialVersionUID = 1L;
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 

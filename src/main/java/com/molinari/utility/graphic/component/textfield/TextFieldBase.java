@@ -1,36 +1,26 @@
 package com.molinari.utility.graphic.component.textfield;
 
-import com.molinari.utility.graphic.UtilComponenti;
-import com.molinari.utility.graphic.component.base.ComponenteBase;
-import com.molinari.utility.graphic.component.base.IComponenteBase;
-import com.molinari.utility.graphic.component.style.StyleBase;
-
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.molinari.utility.graphic.component.base.ComponenteBase;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 public class TextFieldBase extends JTextField implements FocusListener, IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
-	protected IFormatterTF formatter;
+	private transient IFormatterTF formatter;
 	private Container contenitorePadre;
 	private final ComponenteBase componenteBase = new ComponenteBase(this);
 
-	public static void main(final String[] args) {
-		final JPanel p = UtilComponenti.initContenitoreFrame(null);
-		final TextFieldBase tfb = new TextFieldBase("dd-MM-yyyy", p);
-		System.out.println(tfb.getBackground());
-		System.out.println(tfb.getWidth());
-		System.out.println(tfb.getHeight());
-	}
-
 	public TextFieldBase(final String testo, final IFormatterTF formatter, final Container contenitore) {
 		super(testo);
-		this.formatter = formatter;
+		this.setFormatter(formatter);
 		makeGUI(contenitore);
 		init(contenitore, this);
 	}
@@ -62,11 +52,11 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 
 	public Object getTestoConvertitoInTipo() {
 		final Object testoConvertito = null;
-		if (formatter != null && getText() != null) {
+		if (getFormatter() != null && getText() != null) {
 			try {
-				formatter.parsifica(getText());
+				getFormatter().parsifica(getText());
 			} catch (final Exception e) {
-				formatter.metodoForCatch(e);
+				getFormatter().metodoForCatch(e);
 			}
 		}
 		return testoConvertito;
@@ -79,11 +69,13 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 
 	@Override
 	public void focusGained(final FocusEvent arg0) {
+		//do nothing
 	}
 
 	@Override
 	public void focusLost(final FocusEvent arg0) {
 		if (this.getTestoConvertitoInTipo() == null) {
+			//do nothing
 		}
 	}
 
@@ -181,7 +173,14 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//do nothing
+	}
+
+	public IFormatterTF getFormatter() {
+		return formatter;
+	}
+
+	public void setFormatter(IFormatterTF formatter) {
+		this.formatter = formatter;
 	}
 }

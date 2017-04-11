@@ -2,7 +2,7 @@ package com.molinari.utility.graphic;
 
 import com.molinari.utility.common.LineStackTracePrinter;
 
-public class ExceptionGraphics extends Exception {
+public class ExceptionGraphics extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	private String message = null;
@@ -15,7 +15,7 @@ public class ExceptionGraphics extends Exception {
 
 	@Override
 	public String getMessage() {
-		StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(LineStackTracePrinter.scriviLineaDellErrore(6));
 		sb.append(". Motivo: ");
 		if (message != null && help != null) {
@@ -27,7 +27,6 @@ public class ExceptionGraphics extends Exception {
 		} else {
 			sb.append("Metodo non supportato o esistente solo perché esteso: da non chiamare!");
 		}
-		String msg = sb.toString();
-		return msg;
+		return sb.toString();
 	}
 }

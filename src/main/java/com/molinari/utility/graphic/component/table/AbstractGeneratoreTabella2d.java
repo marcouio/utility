@@ -20,7 +20,7 @@ import com.molinari.utility.graphic.UtilComponenti;
 public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	private Object[][] matrice;
+	private transient Object[][] matrice;
 
 	public AbstractGeneratoreTabella2d() {
 		init();
@@ -107,33 +107,29 @@ public abstract class AbstractGeneratoreTabella2d extends AbstractTableModel {
 	}
 	
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
-		SwingUtilities.invokeAndWait(new Runnable() {
-
-			@Override
-			public void run() {
-				JPanel panel = UtilComponenti.initContenitoreFrame(null);
-				TableBase table = new TableBase(panel);
-				panel.add(table);
-				table.setLocation(10, 10);
-				table.setSize(200, 300);
-				table.setModel(new AbstractGeneratoreTabella2d() {
-					
-					@Override
-					public Object setCellaMatricePerRicorsione(int i, int x) {
-						return "ciao" + i + x;
-					}
-					
-					@Override
-					protected String[] costruisciArrayNomiColonna() {
-						return new String[]{"colonna 1", "colonna 2", "colonna 3"};
-					}
-					
-					@Override
-					protected String[] costruisciArrayNomeRighe() {
-						return new String[]{"riga 1","riga 2","riga 3", "riga 4"};
-					}
-				});
-			}
+		SwingUtilities.invokeAndWait(() -> {
+			final JPanel panel = UtilComponenti.initContenitoreFrame(null);
+			final TableBase table = new TableBase(panel);
+			panel.add(table);
+			table.setLocation(10, 10);
+			table.setSize(200, 300);
+			table.setModel(new AbstractGeneratoreTabella2d() {
+				
+				@Override
+				public Object setCellaMatricePerRicorsione(int i, int x) {
+					return "ciao" + i + x;
+				}
+				
+				@Override
+				protected String[] costruisciArrayNomiColonna() {
+					return new String[]{"colonna 1", "colonna 2", "colonna 3"};
+				}
+				
+				@Override
+				protected String[] costruisciArrayNomeRighe() {
+					return new String[]{"riga 1","riga 2","riga 3", "riga 4"};
+				}
+			});
 		});
 		
 	}

@@ -1,17 +1,17 @@
 package com.molinari.utility.graphic.component.button;
 
+import java.awt.Component;
+import java.awt.Container;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
 import com.molinari.utility.graphic.component.base.IComponenteBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBaseBottone;
 import com.molinari.utility.graphic.component.container.base.IContainerBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
-
-import java.awt.Component;
-import java.awt.Container;
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContainerBase {
 
@@ -52,7 +52,7 @@ public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContai
 	}
 
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBase();
+	private transient StyleBase style = new StyleBase();
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 	private final ContainerBaseBottone containerBase = new ContainerBaseBottone();
 	private Container contenitorePadre;

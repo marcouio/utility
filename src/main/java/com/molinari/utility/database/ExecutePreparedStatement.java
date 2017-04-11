@@ -13,13 +13,13 @@ public abstract class ExecutePreparedStatement<T> {
 		final Connection cn = ConnectionPool.getSingleton().getConnection();
 		try{
 			
-			ControlloreBase.getLog().info("Query in esecuzione: " + sql);
+			ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
 			
-			PreparedStatement ps = cn.prepareStatement(sql);
+			final PreparedStatement ps = cn.prepareStatement(sql);
 			doWithPreparedStatement(ps, obj);
 			ps.executeUpdate();
 			return true;
-		}catch (SQLException e) {
+		}catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}finally{

@@ -11,16 +11,16 @@ public class TextFieldTesto extends TextFieldBase {
 
 	public TextFieldTesto(final String testo, final IFormatterTF formatter, final Container contenitorePadre) {
 		super(testo, formatter, contenitorePadre);
-		this.formatter = new FormatterTesto();
+		this.setFormatter(new FormatterTesto());
 	}
 
 	public TextFieldTesto(final String testo, final Container contenitorePadre) {
 		super(testo, contenitorePadre);
-		formatter = new FormatterTesto();
+		setFormatter(new FormatterTesto());
 	}
 
 	public TextFieldTesto(final Container contenitorePadre) {
 		super(contenitorePadre);
-		formatter = new FormatterTesto();
+		setFormatter(new FormatterTesto());
 	}
 }

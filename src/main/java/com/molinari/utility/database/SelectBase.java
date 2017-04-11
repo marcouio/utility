@@ -27,8 +27,8 @@ public class SelectBase extends ObjConClausole{
 	 * @return
 	 * @throws Exception
 	 */
-	public String getQuery(final String tabella, final List<Clausola> clausole) throws Exception{
-		HashMap<String, String> mapTable = new HashMap<>();
+	public String getQuery(final String tabella, final List<Clausola> clausole) {
+		final HashMap<String, String> mapTable = new HashMap<>();
 		mapTable.put(tabella, tabella);
 		return getQuery(mapTable, null, clausole, null);
 	}
@@ -76,7 +76,7 @@ public class SelectBase extends ObjConClausole{
 		if(joins != null){
 			final Iterator<Join> iterJoins = joins.iterator();
 			while (iterJoins.hasNext()) {
-				Join oggettoJoin = iterJoins.next();
+				final Join oggettoJoin = iterJoins.next();
 				sbSQL.append(AND);
 				sbSQL.append(oggettoJoin.toString());
 			}
@@ -111,11 +111,11 @@ public class SelectBase extends ObjConClausole{
 			final Iterator<String> iterCampi = campiSelect.keySet().iterator();
 			
 			while (iterCampi.hasNext()) {
-				String alias = iterCampi.next();
+				final String alias = iterCampi.next();
 				if(alias.equals(campiSelect.get(alias))){
 					sbSQL.append(campiSelect.get(alias));
 				}else{
-					String campoConAlias = getCampoAlias(campiSelect.get(alias), alias);	
+					final String campoConAlias = getCampoAlias(campiSelect.get(alias), alias);	
 					sbSQL.append(campoConAlias);
 				}
 				if(iterCampi.hasNext()){

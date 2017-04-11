@@ -17,16 +17,16 @@ import com.molinari.utility.controller.ControlloreBase;
  */
 public abstract class ConnectionPool {
 
-	private ArrayList<Connection> freeConnections; // La coda di
+	private final ArrayList<Connection> freeConnections; // La coda di
 															// connessioni
 															// libere
 	private Connection lastConnection;
 	private String dbUrl; // Il nome del database
-	private String dbDriver; // Il driver del database
-	private String dbUser; // Il login per il database
-	private String dbPassword; // La password di accesso al database
-	private HashMap<Connection, ResultSet> mappaRS = new HashMap<>();
-	private HashMap<Connection, Statement> mappaStatement = new HashMap<>();
+	private final String dbDriver; // Il driver del database
+	private final String dbUser; // Il login per il database
+	private final String dbPassword; // La password di accesso al database
+	private final HashMap<Connection, ResultSet> mappaRS = new HashMap<>();
+	private final HashMap<Connection, Statement> mappaStatement = new HashMap<>();
 
 	private static ConnectionPool singleton;
 
@@ -82,13 +82,13 @@ public abstract class ConnectionPool {
 				ControlloreBase.getLog().warning("Utilizzata ultima connessione disponibile.");
 			}
 			freeConnections.remove(0);
-			ControlloreBase.getLog().info("Connection removed. Connections available: " + freeConnections.size());
+			ControlloreBase.getLog().info(() -> "Connection removed. Connections available: " + freeConnections.size());
 
 			try {
 				if (cn != null && cn.isClosed()) {
 					cn = getConnection();
 				}
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				cn = getConnection();
 				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
@@ -116,7 +116,7 @@ public abstract class ConnectionPool {
 				pass = "&password=" + dbPassword;
 			}
 			con = DriverManager.getConnection(dbUrl + user + pass);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		// restituisce la nuova connessione
@@ -131,7 +131,7 @@ public abstract class ConnectionPool {
 		final Connection cn = newConnection();
 		releaseConnection(cn);
 		ControlloreBase.getLog().info("add a new connection to pool for closed previous connection.");
-		ControlloreBase.getLog().info("Now are available " + freeConnections.size() + " connections");
+		ControlloreBase.getLog().info(() -> "Now are available " + freeConnections.size() + " connections");
 	}
 
 	/**
@@ -175,7 +175,7 @@ public abstract class ConnectionPool {
 			}
 			mappaStatement.put(cn, st);
 			rs = createResultSet(sql, st);
-			ResultSet rsDaMappa = mappaRS.get(cn);
+			final ResultSet rsDaMappa = mappaRS.get(cn);
 			if (rsDaMappa != null) {
 				rsDaMappa.close();
 			}
@@ -211,7 +211,7 @@ public abstract class ConnectionPool {
 				}
 				conn.close();
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		} finally {
 			releaseNewConnection();

@@ -1,20 +1,20 @@
 package com.molinari.utility.graphic.component.menu;
 
+import java.awt.Component;
+import java.awt.Container;
+
+import javax.swing.JMenuBar;
+
 import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
 import com.molinari.utility.graphic.component.base.IComponenteBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBase;
 import com.molinari.utility.graphic.component.container.base.IContainerBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
 
-import java.awt.Component;
-import java.awt.Container;
-
-import javax.swing.JMenuBar;
-
 public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainerBase {
 
 	private static final long serialVersionUID = 1L;
-	protected StyleBase style = new StyleBase();
+	protected transient StyleBase style = new StyleBase();
 	private Container contenitorePadre;
 	private final ContainerBase containerBase = new ContainerBase();
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);

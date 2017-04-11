@@ -17,7 +17,7 @@ public class TextFieldData extends TextFieldBase {
 
 	public TextFieldData(final String format, final Container componentePadre) {
 		super(format, componentePadre);
-		formatter = new FormatterData(format);
+		setFormatter(new FormatterData(format));
 	}
 
 	@Override
