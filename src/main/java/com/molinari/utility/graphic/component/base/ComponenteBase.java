@@ -92,11 +92,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		return true;
 	}
 
-	private boolean modelIsNull(final Object objForRepaint, final Object model) {
-		if ((objForRepaint instanceof JTree || objForRepaint instanceof JComboBox || objForRepaint instanceof JTable) && model == null) {
-			return true;
-		}
-		return false;
+	protected boolean modelIsNull(final Object objForRepaint, final Object model) {
+		return (objForRepaint instanceof JTree || objForRepaint instanceof JComboBox || objForRepaint instanceof JTable) && model == null;
 	}
 
 	@Override
@@ -232,7 +229,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	public boolean ihaveToSetDimension(final StyleBase style, final Component padreComponent) {
-		boolean dimensionNull = style.getWidth() == 0 && style.getHeight() == 0;
+		final boolean dimensionNull = style.getWidth() == 0 && style.getHeight() == 0;
 		if (padreComponent instanceof JTextComponent && dimensionNull) {
 			return padreComponent.getWidth() != 0 && padreComponent.getHeight() != 0;
 		}

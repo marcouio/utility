@@ -22,7 +22,7 @@ public class Query {
 	}
 
 	public boolean update(final String tabella, final Map<String, String> campi, List<Clausola> clausole) throws SQLException {
-		UpdateBase updateBase = new UpdateBase();
+		final UpdateBase updateBase = new UpdateBase();
 		return eseguiSqlFromString(updateBase.getUpdateQuery(tabella, campi, clausole));
 	}
 	
@@ -31,7 +31,7 @@ public class Query {
 	}
 
 	public boolean insert(final String tabella, final Map<String, String> campi) throws SQLException {
-		InsertBase insertBase = new InsertBase();
+		final InsertBase insertBase = new InsertBase();
 		return eseguiSqlFromString(insertBase.getInsertQuery(tabella, campi));
 		
 	}
@@ -46,7 +46,7 @@ public class Query {
 	 * @
 	 */
 	public ResultSet select(final String tabella, final List<Clausola> clausole) {
-		HashMap<String, String> mapTable = new HashMap<>();
+		final HashMap<String, String> mapTable = new HashMap<>();
 		mapTable.put(tabella, tabella);
 		return select(tabella, clausole);
 	}
@@ -77,7 +77,7 @@ public class Query {
 							final List<Clausola> clausole, 
 							final List<Join> joins) throws SQLException {
 		
-		SelectBase selectBase = new SelectBase();
+		final SelectBase selectBase = new SelectBase();
 		return resultSetfromIstruzione(selectBase.getQuery(tabelle, campi, clausole, joins));
 	}
 	
@@ -87,21 +87,17 @@ public class Query {
 	
 	
 	public boolean delete(final String tabella, final List<Clausola> clausole) throws SQLException {
-		DeleteBase deleteBase = new DeleteBase();
+		final DeleteBase deleteBase = new DeleteBase();
 		return eseguiSqlFromString(deleteBase.getDeleteQuery(tabella, clausole));
 	}
 	
 	
 	public boolean eseguiSqlFromString(final String comandoSql) throws SQLException {
-		if (ConnectionPool.getSingleton().executeUpdate(comandoSql) != 0) {
-			return true;
-		}
-		return false;
-
+		return ConnectionPool.getSingleton().executeUpdate(comandoSql) != 0;
 	}
 
 	public ResultSet resultSetfromIstruzione(final String comandoSql) throws SQLException  {
-		Connection connection = ConnectionPool.getSingleton().getConnection();
+		final Connection connection = ConnectionPool.getSingleton().getConnection();
 		return ConnectionPool.getSingleton().getResulSet(connection, comandoSql);
 	}
 	
@@ -153,7 +149,7 @@ public class Query {
 			if(cn != null){
 				try {
 					ConnectionPool.getSingleton().chiudiOggettiDb(cn);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 				} 
 			}
@@ -172,8 +168,9 @@ public class Query {
 			final String prossimo = iterInsert.next();
 			// aggiunge nome colonna
 			sql.append(prossimo);
-			if (iterInsert.hasNext())
+			if (iterInsert.hasNext()) {
 				sql.append(", ");
+			}
 		}
 		sql.append(") ").append(" VALUES (");
 		final Iterator<String> iterInsert2 = campi.keySet().iterator();
@@ -184,8 +181,9 @@ public class Query {
 			} catch (final NumberFormatException e) {
 				sql.append("'" + campi.get(prossimo) + "'");
 			}
-			if (iterInsert2.hasNext())
+			if (iterInsert2.hasNext()) {
 				sql.append(", ");
+			}
 		}
 
 		sql.append(")");
@@ -231,8 +229,9 @@ public class Query {
 			
 			if (campi.get(prossimo).contains(".")) {
 				sql.append(Double.parseDouble(clausole.get(prossimo)));
-			} else
+			} else {
 				sql.append(Integer.parseInt(clausole.get(prossimo)));
+			}
 		} catch (final NumberFormatException e) {
 			sql.append("'" + clausole.get(prossimo) + "'");
 		}
@@ -254,8 +253,9 @@ public class Query {
 
 				appendCampo(campi, clausole, sql, prossimo);
 			}
-			if (where.hasNext())
+			if (where.hasNext()) {
 				sql.append(", ");
+			}
 			cn.close();
 			result = executeUpdate(cn, result, sql);
 		}
@@ -275,9 +275,9 @@ public class Query {
 	private void appendSelect(final Map<String, String> campi, final Map<String, String> clausole,
 			final StringBuilder sql, final String command) {
 		sql.append(command);
-		if (campi == null)
+		if (campi == null) {
 			sql.append(" * ");
-		else {
+		} else {
 			final Iterator<String> iterSelect = clausole.keySet().iterator();
 			while (iterSelect.hasNext()) {
 				final String prossimo = iterSelect.next();
