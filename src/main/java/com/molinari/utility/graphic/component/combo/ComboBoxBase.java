@@ -30,7 +30,7 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 	}
 	
 	public ComboBoxBase(final Container contenitorePadre, final Object[] lista) {
-		final DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<Object>(lista);
+		final DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<>(lista);
 		this.setModel(modelGiorni);
 		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
@@ -54,7 +54,7 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 	public boolean repaintCustomizzato(final Object[] parametri) {
 		 if(componenteBase.repaintCustomizzato(parametri, this)){
 			 @SuppressWarnings("unchecked")
-			final DefaultComboBoxModel<Object> comboModel = ((DefaultComboBoxModel<Object>) parametri[IComponenteBase.PARAM_REPAINT_MODEL]);
+			final DefaultComboBoxModel<Object> comboModel = (DefaultComboBoxModel<Object>) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
 			 setModel(comboModel);
 			 componenteBase.ridisegna(this);
 			 return true;
@@ -129,8 +129,7 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//do nothing		
 	}
 
 }

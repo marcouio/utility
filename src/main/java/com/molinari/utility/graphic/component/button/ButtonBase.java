@@ -7,9 +7,7 @@ import java.awt.Insets;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
-import com.molinari.utility.graphic.UtilComponenti;
 import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
 import com.molinari.utility.graphic.component.base.IComponenteBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBase;
@@ -20,12 +18,6 @@ import com.molinari.utility.graphic.component.style.StyleBase;
 public class ButtonBase extends JButton implements IComponenteBase, IContainerBase {
 
 	public static final double COSTANTE_ALLARGA = 1.05;
-
-	public static void main(final String[] args) {
-		final JPanel p = UtilComponenti.initContenitoreFrame(null);
-		final ButtonBase b = new ButtonBase("button", p);
-		System.out.println(b.getFont().getSize());
-	}
 
 	public ButtonBase(final Container contenitore) {
 		super();

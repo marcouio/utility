@@ -29,19 +29,19 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 		init(contenitore, this);
 	}
 
-	public PannelloBase(final boolean isDoubleBuffered, final Container contenitore) throws ExceptionGraphics {
+	public PannelloBase(final boolean isDoubleBuffered, final Container contenitore)  {
 		super(isDoubleBuffered);
 		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
-	public PannelloBase(final LayoutManager layout, final boolean isDoubleBuffered, final Container contenitore) throws ExceptionGraphics {
+	public PannelloBase(final LayoutManager layout, final boolean isDoubleBuffered, final Container contenitore)  {
 		super(layout, isDoubleBuffered);
 		makeGUI(contenitore);
 		init(contenitore, this);
 	}
 
-	public PannelloBase(final LayoutManager layout, final Container contenitore) throws ExceptionGraphics {
+	public PannelloBase(final LayoutManager layout, final Container contenitore)  {
 		super(layout);
 		makeGUI(contenitore);
 		init(contenitore, this);

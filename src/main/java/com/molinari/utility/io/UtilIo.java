@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +28,12 @@ import com.molinari.utility.controller.ControlloreBase;
 public class UtilIo {
 
 	public static void uploadFile(String hostAddr, int port, String fileName) throws IOException { 
-		byte[] buf = new byte[1000]; 
+		final byte[] buf = new byte[1000]; 
 		int len; 
 		// connessione con l'host, ad una data porta 
-		Socket sock = createSock(hostAddr, port); 
-		FileInputStream in = createFileInputStream(fileName); 
-		OutputStream out = sock.getOutputStream(); 
+		final Socket sock = createSock(hostAddr, port); 
+		final FileInputStream in = createFileInputStream(fileName); 
+		final OutputStream out = sock.getOutputStream(); 
 		while ( ( len = in.read(buf) ) != -1 ) { 
 			out.write(buf, 0, len); 
 			out.flush(); 
@@ -44,7 +43,7 @@ public class UtilIo {
 		in.close();
 	}
 
-	private static Socket createSock(String hostAddr, int port) throws UnknownHostException, IOException {
+	private static Socket createSock(String hostAddr, int port) throws IOException {
 		return new Socket(hostAddr, port);
 	}
 
@@ -54,13 +53,13 @@ public class UtilIo {
 		try {
 
 			// Creare gli stream d’input e output
-			FileInputStream inStream = createFileInputStream(inputFileName);
-			ZipOutputStream outStream = new ZipOutputStream(createFileOutputStream(zipFileName));
+			final FileInputStream inStream = createFileInputStream(inputFileName);
+			final ZipOutputStream outStream = new ZipOutputStream(createFileOutputStream(zipFileName));
 
 			// Aggiungere un oggetto ZipEntry allo stream d’output
 			outStream.putNextEntry(new ZipEntry(inputFileName));
 
-			byte[] buffer = new byte[1024];
+			final byte[] buffer = new byte[1024];
 			int bytesRead;
 
 			// Ciascuna porzione di dati letti dallo stream di input
@@ -74,7 +73,7 @@ public class UtilIo {
 			outStream.close();
 			inStream.close();
 
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			ControlloreBase.getLog().log(Level.SEVERE, ex.getMessage(), ex);
 		}
 	}
@@ -88,7 +87,7 @@ public class UtilIo {
 	}
 
 	public static void deleteFileDaDirectory(final String directory) {
-		Predicate<? super File> predicate = File::isFile;
+		final Predicate<? super File> predicate = File::isFile;
 		deleteFileFromDirectory(directory, predicate);
 		
 	}
@@ -96,17 +95,17 @@ public class UtilIo {
 	public static void deleteFileFromDirectory(final String directory, Predicate<? super File> predicate){
 		final File dir = new File(directory);
 		
-		File[] listFiles = dir.listFiles();
-		List<File> fileList = Arrays.asList(listFiles);
-		Stream<File> streamFiltered = fileList.stream().filter(predicate);
+		final File[] listFiles = dir.listFiles();
+		final List<File> fileList = Arrays.asList(listFiles);
+		final Stream<File> streamFiltered = fileList.stream().filter(predicate);
 		streamFiltered.forEach(File::delete);
 			
 	}
 
 	public static void deleteFileDaDirectory(final String directory, final String treCharIniziali) {
 		
-		Predicate<? super File> predicate = t -> {
-			boolean startWith = t.getName().substring(0, 3).equals(treCharIniziali);
+		final Predicate<? super File> predicate = t -> {
+			final boolean startWith = t.getName().substring(0, 3).equals(treCharIniziali);
 			return t.isFile() && startWith;
 		};
 		
@@ -116,7 +115,7 @@ public class UtilIo {
 
 	public static void scriviFileSuPiuRighe(final File file, final List<String> righe) {
 		try {
-			FileWriter fileWriter = createFileWriter(file);
+			final FileWriter fileWriter = createFileWriter(file);
 			final BufferedWriter out = new BufferedWriter(fileWriter);
 			for (final String type : righe) {
 				out.write(type);
@@ -134,7 +133,7 @@ public class UtilIo {
 	}
 	
 	public static void close(Closeable ...closeables) throws IOException {
-		for (Closeable closeable : closeables) {
+		for (final Closeable closeable : closeables) {
 			closeable.close();
 		}
 		
@@ -142,18 +141,18 @@ public class UtilIo {
 	
 	public abstract class Reader<T>{
 	
-		private File file;
+		private final File file;
 
 		public Reader(File file) {
 			this.file = file;
 		}
 		
 		public List<T> readAll() throws FileNotFoundException{
-			List<T> result = new ArrayList<>();
-			FileInputStream fis = new FileInputStream(file);
+			final List<T> result = new ArrayList<>();
+			final FileInputStream fis = new FileInputStream(file);
 			try (Scanner scanner = new Scanner(new InputStreamReader(fis, UTF_8))) {
 				while (scanner.hasNextLine()) {
-					String nextLine = scanner.nextLine();
+					final String nextLine = scanner.nextLine();
 					result.add(doSomething(nextLine));
 				}
 			}
@@ -189,8 +188,7 @@ public class UtilIo {
 		return !(file.getName().contains("(") || file.getName().contains(")"));
 	}
 
-	protected static boolean rename(final File mp3, final String nomedopo)
-			throws IOException {
+	protected static boolean rename(final File mp3, final String nomedopo) {
 		final File file2 = new File(nomedopo);
 		return mp3.renameTo(file2);
 	}

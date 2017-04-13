@@ -13,7 +13,6 @@ public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 
 	private String titolo;
 	private String message;
-	private int messageType;
 	private Icon icon;
 	private Dimension dimensioni;
 	private int[] listaBottoni = new int[] { -1, -1, -1 };
@@ -38,7 +37,6 @@ public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 
 	@Override
 	public void setMessageType(final int tipoMessaggio) {
-		this.messageType = tipoMessaggio;
 	}
 
 	@Override
@@ -53,17 +51,17 @@ public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 
 	@Override
 	public void addNegativeButton() {
-		listaBottoni[INDEX_BTN_NEGATIVE] = INDEX_BTN_NEGATIVE;
+		getListaBottoni()[INDEX_BTN_NEGATIVE] = INDEX_BTN_NEGATIVE;
 	}
 
 	@Override
 	public void addPositiveButton() {
-		listaBottoni[INDEX_BTN_POSITIVE] = INDEX_BTN_POSITIVE;
+		getListaBottoni()[INDEX_BTN_POSITIVE] = INDEX_BTN_POSITIVE;
 	}
 
 	@Override
 	public void addCancelButton() {
-		listaBottoni[INDEX_BTN_CANCEL] = INDEX_BTN_CANCEL;
+		getListaBottoni()[INDEX_BTN_CANCEL] = INDEX_BTN_CANCEL;
 	}
 
 	public ButtonBase chiamaMetodoPerCreazioneButton(final int index) {
@@ -110,7 +108,7 @@ public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 		if (this.message != null) {
 			labelMessaggio = creaDialogoMessaggio(this.message, labelIcona);
 		}
-		creaDialogButtonBar(this.listaBottoni, labelIcona, labelMessaggio);
+		creaDialogButtonBar(this.getListaBottoni(), labelIcona, labelMessaggio);
 
 		creaDialogoDimensioni(this.dimensioni);
 
@@ -130,4 +128,12 @@ public abstract class AbstractBuilderDialogoBase implements IBuilderDialogo {
 	protected abstract Object creaDialogoMessaggio(String message2, Object labelIcona);
 
 	protected abstract Object creaDialogoTitolo(String titolo2);
+
+	public int[] getListaBottoni() {
+		return listaBottoni;
+	}
+
+	public void setListaBottoni(int[] listaBottoni) {
+		this.listaBottoni = listaBottoni;
+	}
 }

@@ -1,15 +1,15 @@
 package com.molinari.utility.graphic.component.checkbox;
 
-import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
-import com.molinari.utility.graphic.component.base.IComponenteBase;
-import com.molinari.utility.graphic.component.style.StyleBase;
-
 import java.awt.Component;
 import java.awt.Container;
 
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
+
+import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 public class CheckBoxBase extends JCheckBox implements IComponenteBase {
 
@@ -177,8 +177,7 @@ public class CheckBoxBase extends JCheckBox implements IComponenteBase {
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 }

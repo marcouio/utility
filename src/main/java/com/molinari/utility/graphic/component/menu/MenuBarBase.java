@@ -2,9 +2,11 @@ package com.molinari.utility.graphic.component.menu;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.text.MessageFormat;
 
 import javax.swing.JMenuBar;
 
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
 import com.molinari.utility.graphic.component.base.IComponenteBase;
 import com.molinari.utility.graphic.component.container.base.ContainerBase;
@@ -129,8 +131,7 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 
 	@Override
 	public int getLarghezza() {
-		// TODO
-		System.out.println("getLarghezza non implementato: " + this.getClass().getSimpleName());
+		ControlloreBase.getLog().info(MessageFormat.format("getLarghezza non implementato: {0}", this.getClass().getSimpleName()));
 		return getMaxDimensionX() + 300;
 	}
 
@@ -162,7 +163,6 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//Do nothing
 	}
 }

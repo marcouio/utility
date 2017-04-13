@@ -20,7 +20,7 @@ public interface IComponenteBase {
 	 * 
 	 * @param contenitorePadre2
 	 * @param componenteFiglio
-	 * @throws ExceptionGraphics
+	 * @
 	 */
 	public void init(final Container contenitorePadre2, final Component componenteFiglio);
 

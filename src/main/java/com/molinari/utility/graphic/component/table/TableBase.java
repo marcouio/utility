@@ -1,10 +1,5 @@
 package com.molinari.utility.graphic.component.table;
 
-import com.molinari.utility.graphic.component.base.ComponenteBaseScrollPane;
-import com.molinari.utility.graphic.component.base.IComponenteBase;
-import com.molinari.utility.graphic.component.style.StyleBase;
-import com.molinari.utility.graphic.component.style.StyleTable;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -19,9 +14,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
+import com.molinari.utility.graphic.component.base.ComponenteBaseScrollPane;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.graphic.component.style.StyleTable;
+
 public class TableBase extends JTable implements FocusListener, IComponenteBase {
 
 	
+	
+
 	private Container contenitorePadre;
 	private final ComponenteBaseScrollPane componenteBase = new ComponenteBaseScrollPane(this);
 	
@@ -67,7 +69,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		contenitorePadre = contenitorePadre2;
 		componenteBase.init(contenitorePadre2, componenteFiglio);
 		this.addFocusListener(this);
-		StyleTable styleTable = new StyleTable("stylebasetable");
+		final StyleTable styleTable = new StyleTable("stylebasetable");
 		this.applicaStile(styleTable, this);
 		setSize(this.generaDimensioniMinime());
 	}
@@ -95,41 +97,9 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		return setStyleColumn();
 	}
 
-	// TODO
 	public TableCellRenderer setStyleColumn() {
 
-		return new DefaultTableCellRenderer() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
-				final Component rendered = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				if (isSelected && hasFocus) {
-					rendered.setBackground(getBackgroundSel());
-					rendered.setForeground(getForegroundSel());
-				} else {
-					rendered.setBackground(getBackgroundNotSel());
-					rendered.setForeground(getForegroundNotSel());
-				}
-				if (column == 0) {
-					if(getBackgroundPrimaColonna() != null){
-						rendered.setBackground(getBackgroundPrimaColonna());
-					}
-					if(getForegroundPrimaColonna() != null){
-						rendered.setForeground(getForegroundPrimaColonna());
-					}
-				}
-				if (row == 0) {
-					if(getBackgroundPrimaRiga() != null){
-						rendered.setBackground(getBackgroundPrimaRiga());
-					}
-					if(getForegroundPrimaRiga() != null){
-						rendered.setForeground(getForegroundPrimaRiga());
-					}
-				} 
-				return rendered;
-			}
-		};
+		return new TableCellRendererBase();
 
 	}
 
@@ -144,7 +114,7 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		
 		if(styleBase != null && styleBase instanceof StyleTable){
 			
-			StyleTable styleTable = (StyleTable) styleBase;
+			final StyleTable styleTable = (StyleTable) styleBase;
 			this.setBackgroundNotSel(styleTable.getBackgroundNotSel());
 			this.setBackgroundPrimaColonna(styleTable.getBackgroundPrimaColonna());
 			this.setBackgroundPrimaRiga(styleTable.getBackgroundPrimaRiga());
@@ -159,14 +129,12 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	@Override
 	public void focusGained(final FocusEvent e) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 	@Override
 	public void focusLost(final FocusEvent e) {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 	@Override
@@ -347,8 +315,51 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 
+	private final class TableCellRendererBase extends DefaultTableCellRenderer {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
+			final Component rendered = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			configSelection(isSelected, hasFocus, rendered);
+			if (column == 0) {
+				configFirstColumn(rendered);
+			}
+			if (row == 0) {
+				configFirstRow(rendered);
+			} 
+			return rendered;
+		}
+
+		private void configSelection(final boolean isSelected, final boolean hasFocus, final Component rendered) {
+			if (isSelected && hasFocus) {
+				rendered.setBackground(getBackgroundSel());
+				rendered.setForeground(getForegroundSel());
+			} else {
+				rendered.setBackground(getBackgroundNotSel());
+				rendered.setForeground(getForegroundNotSel());
+			}
+		}
+
+		private void configFirstRow(final Component rendered) {
+			if(getBackgroundPrimaRiga() != null){
+				rendered.setBackground(getBackgroundPrimaRiga());
+			}
+			if(getForegroundPrimaRiga() != null){
+				rendered.setForeground(getForegroundPrimaRiga());
+			}
+		}
+
+		private void configFirstColumn(final Component rendered) {
+			if(getBackgroundPrimaColonna() != null){
+				rendered.setBackground(getBackgroundPrimaColonna());
+			}
+			if(getForegroundPrimaColonna() != null){
+				rendered.setForeground(getForegroundPrimaColonna());
+			}
+		}
+	}
 }
