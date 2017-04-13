@@ -6,13 +6,9 @@ import java.awt.Graphics;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
-import com.molinari.utility.paint.images.UtilImage;
 
 /**
  * La classe estende JToggleButton per modificarne il funzionamento di default.
@@ -27,7 +23,7 @@ public class ToggleBtn extends JToggleButton {
 	String testo;
 	ImageIcon imageIcon;
 
-	MyIcon icona;
+	transient MyIcon icona;
 	private JPanel padre;
 
 	/**
@@ -113,7 +109,7 @@ public class ToggleBtn extends JToggleButton {
 	public void paintComponent(final Graphics g) {
 		// setto l'icona a null per non farla disegnare dal super.paintcomponent
 		this.setIcon(new ImageIcon());
-		String old = getText();
+		final String old = getText();
 
 		//devo settarlo a vuoto perché altrimenti il super.paint me lo scrive una volta in più
 		setText("");
@@ -126,8 +122,8 @@ public class ToggleBtn extends JToggleButton {
 
 		// invece di far disegnare il testo lo disegno qui così ho un
 		// maggiore controllo
-		int coordinataXTesto = getLarghezzaImmagine(imageIcon) + distanzaBordoImageX + calcolaTextGap(imageIcon);
-		int coordinataYTesto = (getHeight() + g.getFontMetrics().getAscent()) / 2 - 1;
+		final int coordinataXTesto = getLarghezzaImmagine(imageIcon) + distanzaBordoImageX + calcolaTextGap(imageIcon);
+		final int coordinataYTesto = (getHeight() + g.getFontMetrics().getAscent()) / 2 - 1;
 		g.drawString(testo != null ? testo : "", coordinataXTesto, coordinataYTesto);
 
 		// reimposto l'icona a quella passata e la disegno per il funzionamento default
@@ -371,28 +367,5 @@ public class ToggleBtn extends JToggleButton {
 				disegnaBottone(g, colorForegroundIconRollover, colorIconRollover);
 			}
 		}
-	}
-
-	public static void main(final String[] args) {
-
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				ImageIcon iconaLoc = new ImageIcon("/home/kiwi2/Scaricati/icona.png");
-				iconaLoc = UtilImage.resizeImage(30, 30, iconaLoc);
-				ToggleBtn tb = new ToggleBtn("Ciao", iconaLoc);
-				tb.setBounds(10, 10, 200, 100);
-				ToggleBtn tb2 = new ToggleBtn("Ciao2", iconaLoc);
-				tb2.setBounds(10, 140, 200, 100);
-				JFrame frame = new JFrame();
-				frame.getContentPane().add(tb);
-				frame.getContentPane().add(tb2);
-				frame.setLayout(null);
-				frame.setVisible(true);
-				frame.setSize(600, 600);
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			}
-		});
 	}
 }
