@@ -2,7 +2,6 @@ package com.molinari.utility.graphic.component.menu;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.text.MessageFormat;
 
 import javax.swing.JMenuBar;
 
@@ -131,7 +130,7 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 
 	@Override
 	public int getLarghezza() {
-		ControlloreBase.getLog().info(MessageFormat.format("getLarghezza non implementato: {0}", this.getClass().getSimpleName()));
+		ControlloreBase.getLog().info(() -> "getLarghezza non implementato: " + this.getClass().getSimpleName());
 		return getMaxDimensionX() + 300;
 	}
 

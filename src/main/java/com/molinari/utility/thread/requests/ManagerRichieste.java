@@ -9,13 +9,13 @@ import com.molinari.utility.thread.CallableBase;
 
 public class ManagerRichieste {
 	
-	private CopyOnWriteArrayList<RichiestaThread> richieste = new CopyOnWriteArrayList<RichiestaThread>();
+	private List<RichiestaThread> richieste = new CopyOnWriteArrayList<>();
 
 	public ManagerRichieste(List<Future<CallableBase>> reqs) throws InterruptedException, ExecutionException {
 		if(reqs != null){
 			
-			for (Future<CallableBase> req : reqs) {
-				RichiestaThread reqThread = req.get().getRichiestaThread();
+			for (final Future<CallableBase> req : reqs) {
+				final RichiestaThread reqThread = req.get().getRichiestaThread();
 				add(reqThread);
 			}
 		}
@@ -25,11 +25,11 @@ public class ManagerRichieste {
 		richieste.add(ric);
 	}
 
-	public CopyOnWriteArrayList<RichiestaThread> getRichieste() {
+	public List<RichiestaThread> getRichieste() {
 		return richieste;
 	}
 
-	public void setRichieste(CopyOnWriteArrayList<RichiestaThread> richieste) {
+	public void setRichieste(List<RichiestaThread> richieste) {
 		this.richieste = richieste;
 	}
 	
@@ -55,7 +55,7 @@ public class ManagerRichieste {
 			int counter = 0;
 			if(richieste != null){
 				for (int i = 0; i < richieste.size(); i++) {
-					RichiestaThread richiesta = richieste.get(i);
+					final RichiestaThread richiesta = richieste.get(i);
 					if(richiesta.getStato() == stato){
 						counter++;
 					

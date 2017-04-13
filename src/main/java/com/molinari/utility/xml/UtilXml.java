@@ -101,12 +101,11 @@ public class UtilXml {
 		return elemento;
 	}
 
-	public static Node getNodo(String nodo, String path)
-	    throws ParserConfigurationException, SAXException, IOException {
-		NodeList listaNodi = getNodeList(path);
+	public static Node getNodo(String nodo, String path) {
+		final NodeList listaNodi = getNodeList(path);
 		if(listaNodi != null){
 			for (int i = 0; i < listaNodi.getLength(); i++) {
-				Node nodoDaLista = listaNodi.item(i);
+				final Node nodoDaLista = listaNodi.item(i);
 				if (nodoDaLista.getNodeName().equals(nodo)) {
 					return nodoDaLista;
 				}
@@ -118,16 +117,16 @@ public class UtilXml {
 	public static Element addElement(final Document doc, 
 									 final Element elementoPadre,
 									 final String nomeElemento) {
-		Element style = doc.createElement(nomeElemento);
+		final Element style = doc.createElement(nomeElemento);
 		elementoPadre.appendChild(style);
 		return style;
 	}
 
 	public static Node getNodo(String nodo, Document doc) {
-		NodeList listaNodi = getNodeList(doc);
+		final NodeList listaNodi = getNodeList(doc);
 		if(listaNodi!=null){
 			for (int i = 0; i < listaNodi.getLength(); i++) {
-				Node nodoDaLista = listaNodi.item(i);
+				final Node nodoDaLista = listaNodi.item(i);
 				if (nodoDaLista.getNodeName().equals(nodo)) {
 					return nodoDaLista;
 				}
@@ -140,12 +139,12 @@ public class UtilXml {
 		public static StreamResult writeXmlFile2(Document doc, StreamResult stream) {
 			try {
 				// save the result
-				Transformer xformer = TransformerFactory.newInstance().newTransformer();
+				final Transformer xformer = TransformerFactory.newInstance().newTransformer();
 				
-				StreamResult outputTarget = stream;
+				final StreamResult outputTarget = stream;
 				xformer.transform(new DOMSource(doc), outputTarget);
 				return outputTarget;
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 			return null;
@@ -154,72 +153,26 @@ public class UtilXml {
 	public static void writeXmlFile(Document doc, String path) throws IOException {
 
 		FileOutputStream fos = null;
-		File file = new File(path);
+		final File file = new File(path);
 		try {
 			fos = new FileOutputStream(file);
 			// XERCES 1 or 2 additionnal classes.
-			OutputFormat of = new OutputFormat("XML","ISO-8859-1",true);
+			final OutputFormat of = new OutputFormat("XML","ISO-8859-1",true);
 			of.setIndent(1);
 			of.setIndenting(true);
 			of.setDoctype(null,"users.dtd");
-			XMLSerializer serializer = new XMLSerializer(fos,of);
+			final XMLSerializer serializer = new XMLSerializer(fos,of);
 			// As a DOM Serializer
 			
 			serializer.asDOMSerializer();
 			serializer.serialize( doc);
 			fos.close();		
 
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
+			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
 			writeXmlFile2(doc, new StreamResult(file));
 		}finally {
 			UtilIo.close(fos);
-		}
-	}
-	
-	public static void main(String[] args) {
-		try {
-			
-			String pathname = "/home/kiwi/Documenti/file.xml";
-			Document doc = UtilXml.createDocument(new File(pathname));
-			Element rootElement = doc.createElement("configs");
-			
-			doc.appendChild(rootElement);
-
-			//Style
-			Element style = doc.createElement("style");
-			rootElement.appendChild(style);
-			Element file = doc.createElement("file");
-			style.appendChild(file);
-			Attr attrUrl = doc.createAttribute("url");
-			attrUrl.setValue("./config-style.xml");
-			file.setAttributeNode(attrUrl);
-			
-			//lang
-			Element lang = doc.createElement("lang");
-			rootElement.appendChild(lang);
-			Attr attrLocale = doc.createAttribute("locale");
-			attrLocale.setValue("it");
-			lang.setAttributeNode(attrLocale);
-			
-			//messaggi
-			Element messaggi = doc.createElement("messaggi");
-			rootElement.appendChild(messaggi);
-			Element fileM = doc.createElement("file");
-			messaggi.appendChild(fileM);
-			Attr attrNome = doc.createAttribute("nome");
-			attrNome.setValue("messaggi");
-			fileM.setAttributeNode(attrNome);
-			
-			//auto-config
-			Element auto_config = doc.createElement("auto-config");
-			rootElement.appendChild(auto_config);
-			Attr attrValue = doc.createAttribute("value");
-			attrValue.setValue("true");
-			auto_config.setAttributeNode(attrValue);
-			
-			UtilXml.writeXmlFile(doc, pathname);
-		}catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 
@@ -227,14 +180,14 @@ public class UtilXml {
 									final Element element, 
 									final String attrNome,
 									final String attrValue) {
-		Attr attr = doc.createAttribute(attrNome);
+		final Attr attr = doc.createAttribute(attrNome);
 		attr.setValue(attrValue);
 		element.setAttributeNode(attr);
 		return attr;
 	}
 
 	public static Element addRootElement(Document doc, String rootNome) {
-		Element root = doc.createElement(rootNome);
+		final Element root = doc.createElement(rootNome);
 		doc.appendChild(root);
 		return root;
 	}

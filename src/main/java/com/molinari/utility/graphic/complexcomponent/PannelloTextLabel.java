@@ -4,7 +4,6 @@ import java.awt.Container;
 
 import javax.swing.plaf.BorderUIResource;
 
-import com.molinari.utility.graphic.ExceptionGraphics;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.label.Label;
 import com.molinari.utility.graphic.component.textfield.TextFieldBase;

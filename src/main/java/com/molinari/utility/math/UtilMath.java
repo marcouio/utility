@@ -48,7 +48,7 @@ public class UtilMath {
 		final String interi = stringaDouble.substring(0, stringaDouble.indexOf('.'));
 		final double parteIntera = Double.parseDouble(interi);
 		final double parteDecimali = d - parteIntera;
-		if (parteDecimali * 100 != 0) {
+		if (0 != parteDecimali * 100) {
 			final double decimaliDaArrotondare = parteDecimali * 100;
 			arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
 			decimaleArrotondato = (Double.parseDouble(arrotondato)) / 100;
@@ -65,7 +65,7 @@ public class UtilMath {
 	 */
 	public static double arrotondaDecimaliDouble(final double d, final int decimali) {
 		
-		StringBuilder sb = new StringBuilder("1");
+		final StringBuilder sb = new StringBuilder("1");
 				
 		for (int i = 0; i < decimali; i++) {
 			sb.append("0");

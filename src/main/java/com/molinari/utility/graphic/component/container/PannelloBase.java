@@ -6,7 +6,6 @@ import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
 
-import com.molinari.utility.graphic.ExceptionGraphics;
 import com.molinari.utility.graphic.component.base.ComponenteBase;
 import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreContenitore;
 import com.molinari.utility.graphic.component.base.IComponenteBase;

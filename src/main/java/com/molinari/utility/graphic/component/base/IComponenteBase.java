@@ -1,10 +1,9 @@
 package com.molinari.utility.graphic.component.base;
 
-import com.molinari.utility.graphic.ExceptionGraphics;
-import com.molinari.utility.graphic.component.style.StyleBase;
-
 import java.awt.Component;
 import java.awt.Container;
+
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 public interface IComponenteBase {
 
