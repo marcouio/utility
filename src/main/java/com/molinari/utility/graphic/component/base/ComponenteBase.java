@@ -76,20 +76,12 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	}
 
 	public boolean repaintCustomizzato(final Object[] parametri, IComponenteBase componente) {
-		if (!checkPreliminariForRepaint(parametri, componente)) {
-			return false;
-		}
-		return true;
+		return checkPreliminariForRepaint(parametri, componente);
 	}
 
 	private boolean checkPreliminariForRepaint(final Object[] parametri, IComponenteBase componente) {
-		if (parametri == null || parametri.length == 0) {
-			return false;
-		}
-		if (parametri.length > 1 && modelIsNull(componente, parametri[IComponenteBase.PARAM_REPAINT_MODEL])) {
-			return false;
-		}
-		return true;
+		final boolean nessunParametro = parametri == null || parametri.length == 0;
+		return !(nessunParametro || (parametri.length > 1 && modelIsNull(componente, parametri[IComponenteBase.PARAM_REPAINT_MODEL])));
 	}
 
 	protected boolean modelIsNull(final Object objForRepaint, final Object model) {
