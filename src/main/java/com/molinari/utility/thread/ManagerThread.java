@@ -3,20 +3,24 @@ package com.molinari.utility.thread;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
 
+import com.molinari.utility.GenericException;
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.thread.requests.RichiestaThread;
 
 public class ManagerThread {
 
-	ArrayList<Runnable>					listaRunnable			= new ArrayList<Runnable>();
+	private final List<Runnable>					listaRunnable			= new ArrayList<>();
 	
-	public int							numberOfThread	= 10;
+	private int							numberOfThread	= 10;
 
-	private CopyOnWriteArrayList<RichiestaThread>	listaRichieste;
-	private Class<?>					classeRunnable;
+	private final CopyOnWriteArrayList<RichiestaThread>	listaRichieste;
+	private final Class<?>					classeRunnable;
 	private long counterCallable = 0;
 	private Task						task;
 	private ExecutorService			esecutore;
@@ -26,12 +30,12 @@ public class ManagerThread {
 		this.classeRunnable = classe;
 	}
 
-	public void eseguiProcesso() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException {
+	public void eseguiProcesso() {
 
-		if (listaRichieste != null && listaRichieste.size() > 0) {
+		if (listaRichieste != null && !listaRichieste.isEmpty()) {
 
-			while (listaRunnable.size() <= numberOfThread && listaRichieste.size() > 0) {
-				final Object parametro = (Object) listaRichieste.get(0);
+			while (listaRunnable.size() <= numberOfThread && !listaRichieste.isEmpty()) {
+				final Object parametro = listaRichieste.get(0);
 
 				final Runnable runner = cercaRunnable(parametro);
 
@@ -45,7 +49,7 @@ public class ManagerThread {
 
 			synchronized (listaRunnable) {
 				for (int i = 0; i<listaRunnable.size(); i++) {
-					Runnable runner = listaRunnable.get(i);
+					final Runnable runner = listaRunnable.get(i);
 					executor.execute(runner);
 				}
 			}
@@ -55,71 +59,32 @@ public class ManagerThread {
 			
 			while (!executor.isTerminated()) {
 	        }
-	        System.out.println("Finished all threads");
+			ControlloreBase.getLog().info("Finished all threads");
 		}
 	}
 
-	private Runnable cercaRunnable(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+	private Runnable cercaRunnable(Object parametro) {
 		synchronized (listaRunnable) {
 			return creaRunnable(parametro);
 		}
 	}
 
-	private Runnable creaRunnable(Object parametro) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-		if (classeRunnable != null) {
+	private Runnable creaRunnable(Object parametro) {
+		try {
+			if (classeRunnable != null) {
 
-			Constructor<? extends RunnerBase> costruttoreRunnable = (Constructor<? extends RunnerBase>) classeRunnable.getConstructor(new Class[] { ManagerThread.class, Object.class });
-			RunnerBase run = costruttoreRunnable.newInstance(new Object[] { this, parametro });
-			return run;
+				final Constructor<? extends RunnerBase> costruttoreRunnable = (Constructor<? extends RunnerBase>) classeRunnable.getConstructor(new Class[] { ManagerThread.class, Object.class });
+				return costruttoreRunnable.newInstance(new Object[] { this, parametro });
+			}
+
+			return null;
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			throw new GenericException();
 		}
-
-		return null;
 	}
 
-	public static void main(String[] args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException {
-
-		ArrayList<Object> lista = new ArrayList<Object>();
-		lista.add("thr1");
-		lista.add("thr2");
-		lista.add("thr3");
-		lista.add("thr4");
-		lista.add("thr5");
-		lista.add("thr6");
-		lista.add("thr7");
-		lista.add("thr8");
-		lista.add("thr9");
-		lista.add("thr10");
-		lista.add("thr11");
-		lista.add("thr12");
-		lista.add("thr13");
-		lista.add("thr14");
-		lista.add("thr15");
-		lista.add("thr16");
-		lista.add("thr17");
-		lista.add("thr18");
-		lista.add("thr19");
-		lista.add("thr20");
-
-//		ManagerThread managerThread = new ManagerThread(lista, RunnerCiao.class);
-//		managerThread.eseguiProcesso();
-
-		// GregorianCalendar secondoStart = new GregorianCalendar();
-		// System.out.println("start single: " +
-		// dateFormat.format(secondoStart.getTime()));
-		// System.out.println();
-		//
-		// RunProva target = new RunProva();
-		// target.setParametro("UNico");
-		// Thread thread = new Thread(target);
-		// thread.start();
-		//
-		// GregorianCalendar secondoFine = new GregorianCalendar();
-		// System.out.println("fine single: " +
-		// dateFormat.format(secondoFine.getTime()));
-		//
-		// System.out.println(secondoFine.getTimeInMillis() -
-		// secondoStart.getTimeInMillis());
-	}
 	/**
 	 * @return the task
 	 */

@@ -6,8 +6,7 @@ public class UtilText {
 
 	public String[] listSystemFontsName() {
 		final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		final String[] fontsName = ge.getAvailableFontFamilyNames();
-		return fontsName;
+		return ge.getAvailableFontFamilyNames();
 	}
 
 	/**
@@ -19,14 +18,21 @@ public class UtilText {
 	 * @param dimensione
 	 * @return String
 	 */
-	public static String creaStringStessaDimensione(String campo, final int dimensione) {
+	public static String creaStringStessaDimensione(String field, final int dimensione) {
+		String campo = field;
 		if (campo.length() < dimensione) {
 			for (int i = campo.length(); i < dimensione + 1; i++) {
-				campo = campo + " ";
+				final StringBuilder sb = new StringBuilder();
+				sb.append(campo);
+				sb.append(" ");
+				campo = sb.toString();
 			}
 		} else {
 			campo = campo.substring(0, dimensione);
-			campo = campo + " ";
+			final StringBuilder sb = new StringBuilder();
+			sb.append(campo);
+			sb.append(" ");
+			campo = sb.toString();
 		}
 		return campo;
 	}
@@ -44,7 +50,7 @@ public class UtilText {
 
 	public static boolean noNull(final String[] lista) {
 		for (final String string : lista) {
-			if (string == null || string.equals("")) {
+			if (string == null || "".equals(string)) {
 				return false;
 			}
 		}

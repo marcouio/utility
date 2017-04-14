@@ -3,6 +3,7 @@ package com.molinari.utility.thread;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
+import com.molinari.utility.GenericException;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.thread.requests.RichiestaThread;
 
@@ -10,11 +11,11 @@ import com.molinari.utility.thread.requests.RichiestaThread;
 public abstract class CallableBase implements Callable<Object>{
 
 	RichiestaThread richiestaThread;
-	private ManagerThread	manager;
-	private ContainerDb db;
+	private final ManagerThread	manager;
+	private final ContainerDb db;
 	private long numberOfCall;
 
-	public CallableBase(ManagerThread manager, RichiestaThread richiestaThread) throws Exception {
+	public CallableBase(ManagerThread manager, RichiestaThread richiestaThread) {
 		this.manager = manager;
 		this.richiestaThread = richiestaThread;
 		db = new ContainerDb();
@@ -22,7 +23,7 @@ public abstract class CallableBase implements Callable<Object>{
 	
 	@Override
 	public Object call() throws Exception {
-		RichiestaThread current = getRichiestaThread();
+		final RichiestaThread current = getRichiestaThread();
 
 		try{
 			
@@ -32,7 +33,7 @@ public abstract class CallableBase implements Callable<Object>{
 			
 			terminate();
 			
-		}catch (Exception e) {
+		}catch (final Exception e) {
 			gestisciEccezione(e);
 		}
 		
@@ -43,17 +44,17 @@ public abstract class CallableBase implements Callable<Object>{
 	}
 
 	private void terminate() {
-		RichiestaThread current = getRichiestaThread();
+		final RichiestaThread current = getRichiestaThread();
 		current.setStato(RichiestaThread.STATO_ESEGUITO);
 	}
 
-	protected void gestisciEccezione(Exception e) throws Exception {
+	protected void gestisciEccezione(Exception e) {
 		getRichiestaThread().setStato(RichiestaThread.STATO_SCARTATO);
 		
 		if(e instanceof MultiThreadException){
-			boolean irrecuperabile = ((MultiThreadException)e).isIrrecuperabile();
+			final boolean irrecuperabile = ((MultiThreadException)e).isIrrecuperabile();
 			if(irrecuperabile){
-				throw new Exception(e);
+				throw new GenericException(e);
 			}else{
 			    ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
@@ -61,13 +62,7 @@ public abstract class CallableBase implements Callable<Object>{
 	}
 
 	protected void init()  {
-		ManagerThread man = getManager();
-		Task task = man.getTask();
-
-		if (task != null) {
-			
-		}
-		
+		final ManagerThread man = getManager();
 		man.incCounterCallable();
 		setNumberOfCall(man.getCounterCallable());
 		
