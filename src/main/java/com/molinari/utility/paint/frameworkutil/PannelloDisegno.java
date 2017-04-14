@@ -11,8 +11,8 @@ import com.molinari.utility.paint.objects.FormaGeometrica;
 
 public class PannelloDisegno extends PannelloBase {
 
-	private LinkedHashMap<String, FormaGeometrica> mapOggetti = new LinkedHashMap<>();
-	FormaGeometrica oggettoSelezionato;
+	private final LinkedHashMap<String, FormaGeometrica> mapOggetti = new LinkedHashMap<>();
+	private transient FormaGeometrica oggettoSelezionato;
 
 	private static final long serialVersionUID = 1L;
 

@@ -18,12 +18,12 @@ public class PainterCerchio extends Painter2D {
 
 	@Override
 	protected void disegnaTracciato(final Graphics g) {
-		g.drawOval(cerchio.getX(), cerchio.getY(), cerchio.getRaggio(), cerchio.getRaggio());
+		g.drawOval(cerchio.getX(), cerchio.getY(), (int)cerchio.getRaggio(), (int)cerchio.getRaggio());
 	}
 
 	@Override
 	protected void disegnaBackground(final Graphics g) {
-		g.fillOval(cerchio.getX(), cerchio.getY(), cerchio.getRaggio(), cerchio.getRaggio());
+		g.fillOval(cerchio.getX(), cerchio.getY(), (int)cerchio.getRaggio(), (int)cerchio.getRaggio());
 
 	}
 

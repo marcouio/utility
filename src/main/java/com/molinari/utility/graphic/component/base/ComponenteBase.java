@@ -31,8 +31,8 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public static final int WIDTH_DEFAULT = 100;
 	public static final int WIDTH_STRING_MIN = 5;
 	public static final int HEIGHT_STRING_MIN = 5;
-	private IComponenteBase padre;
-	protected StyleBase style = new StyleBase();
+	private transient IComponenteBase padre;
+	private transient StyleBase style = new StyleBase();
 
 	public ComponenteBase(final IComponenteBase padre) {
 		this.setPadre(padre);
@@ -203,17 +203,17 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	@Override
 	public void applicaStile(final StyleBase style, final IComponenteBase padre) {
 		if (style != null) {
-			this.style = style;
+			this.setStyle(style);
 		}
-		this.style.setPadre(padre);
+		this.getStyle().setPadre(padre);
 		final Component padreComponent = (Component) padre;
-		padreComponent.setFont(this.style.getFont());
-		padreComponent.setForeground(this.style.getForeground());
-		if(this.style.getBackground() != null){
-			padreComponent.setBackground(this.style.getBackground());
+		padreComponent.setFont(this.getStyle().getFont());
+		padreComponent.setForeground(this.getStyle().getForeground());
+		if(this.getStyle().getBackground() != null){
+			padreComponent.setBackground(this.getStyle().getBackground());
 		}
-		padreComponent.setSize(this.style.getWidth(), this.style.getHeight());
-		if (CoreXMLManager.getSingleton().isAutoConfig() && ihaveToSetDimension(this.style, padreComponent)) {
+		padreComponent.setSize(this.getStyle().getWidth(), this.getStyle().getHeight());
+		if (CoreXMLManager.getSingleton().isAutoConfig() && ihaveToSetDimension(this.getStyle(), padreComponent)) {
 			final int width = ((IComponenteBase) padreComponent).getLarghezza();
 			final int height = ((IComponenteBase) padreComponent).getAltezza();
 			padreComponent.setSize(width, height);
@@ -258,5 +258,13 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	public void setPadre(IComponenteBase padre) {
 		this.padre = padre;
+	}
+
+	public StyleBase getStyle() {
+		return style;
+	}
+
+	public void setStyle(StyleBase style) {
+		this.style = style;
 	}
 }

@@ -1,26 +1,14 @@
 package com.molinari.utility.graphic.component.tree;
 
-import com.molinari.utility.graphic.component.base.ComponenteBase;
-import com.molinari.utility.graphic.component.base.IComponenteBase;
-import com.molinari.utility.graphic.component.style.StyleBase;
-import com.molinari.utility.paint.images.UtilImage;
-
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -29,6 +17,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
+
+import com.molinari.utility.graphic.component.base.ComponenteBase;
+import com.molinari.utility.graphic.component.base.IComponenteBase;
+import com.molinari.utility.graphic.component.style.StyleBase;
 
 /**
  * La classe è un oggetto grafico base che estende il JTree di Swing. Oltre alle
@@ -226,86 +218,9 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 		this.contenitorePadre = contenitorePadre;
 	}
 
-	public static void main(final String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				final JFrame frame = new JFrame();
-				final JPanel pane = new JPanel();
-				final JScrollPane panel = new JScrollPane();
-				panel.setSize(200, 200);
-				final TreeBase tree = new TreeBase(panel) {
-
-					private static final long serialVersionUID = 1L;
-
-				};
-
-				final String path = "/home/marcouio/Immagini/";
-				ImageIcon icona = new ImageIcon(path + "icon.png");
-				ImageIcon icona2 = new ImageIcon(path + "icon.png");
-				ImageIcon icona3 = new ImageIcon(path + "icon.png");
-
-				icona = UtilImage.resizeImage(10, 10, icona);
-				icona2 = UtilImage.resizeImage(10, 10, icona2);
-				icona3 = UtilImage.resizeImage(10, 10, icona3);
-
-				final TreeObjectFoglia foglia1 = new TreeObjectFoglia("foglia1", icona);
-
-				final TreeObjectFoglia foglia2 = new TreeObjectFoglia("foglia2", icona2);
-				final TreeObjectRamo ramo1 = new TreeObjectRamo(foglia2, "ramo1", foglia2.getIcona());
-				final TreeObjectFoglia foglia3 = new TreeObjectFoglia("foglia3", icona2);
-				ramo1.addFoglia(foglia3);
-				ramo1.addChildrenToTree();
-				final DefaultMutableTreeNode root = initTree(tree).getTreeNode();
-
-				root.add(foglia1.getTreeNode());
-				root.add(ramo1.getTreeNode());
-				root.add(new DefaultMutableTreeNode("Ciao"));
-				panel.setViewportView(tree);
-
-				tree.setIconForAll(null, null, icona3);
-				frame.getContentPane().add(panel);
-				frame.getContentPane().add(pane);
-				frame.setVisible(true);
-				frame.setSize(400, 400);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				tree.expandRow(0);
-
-				final JButton button = new JButton("aggiorna tree");
-				pane.add(button);
-				button.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(final ActionEvent e) {
-						tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Ciao")));
-					}
-				});
-			}
-
-			private TreeObjectRamo initTree(final TreeBase tree) {
-				final String path = "C:/Documents and Settings/marco.molinari/Documenti/Download/Mio/Immagini/";
-				ImageIcon icona = new ImageIcon(path + "stop.jpg");
-				icona = UtilImage.resizeImage(10, 10, icona);
-				final TreeObjectFoglia fogliaroot = new TreeObjectFoglia("root", icona);
-				final TreeObjectRamo ramoRoot = new TreeObjectRamo(fogliaroot, "ramo", fogliaroot.getIcona());
-				// tree.setImmagineTreeObject(ramoRoot);
-				// tree.setIconOnlyFoglie(icona);
-				// tree.setIconForAll();
-				final DefaultTreeModel treeModel = new DefaultTreeModel(ramoRoot.getTreeNode());
-				tree.setModel(treeModel);
-				tree.setEditable(false);
-				tree.setRootVisible(true);
-				tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-
-				return ramoRoot;
-			}
-		});
-	}
-
 	@Override
 	public boolean repaintCustomizzato(final Object[] parametri) {
-		 boolean repaintCustomizzato = componenteBase.repaintCustomizzato(parametri, this);
+		 final boolean repaintCustomizzato = componenteBase.repaintCustomizzato(parametri, this);
 		 if (repaintCustomizzato) {
 			 final TreeModel treeModel = (TreeModel) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
 			 setModel(treeModel);
@@ -405,7 +320,7 @@ public class TreeBase extends JTree implements TreeSelectionListener, IComponent
 
 	@Override
 	public void makeGUI(Container contenitorePadre) {
-		// TODO Auto-generated method stub
+		//do nothing
 		
 	}
 

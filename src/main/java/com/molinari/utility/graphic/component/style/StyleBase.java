@@ -337,8 +337,8 @@ public class StyleBase {
 
 		//dimensionarea
 		final Element dimensionAreaElement = UtilXml.addElement(doc, styleElement, StyleTextArea.DIMENSION_AREA);
-		UtilXml.addAttribute(doc, dimensionAreaElement, StyleTextArea.ROWS, "60");
-		UtilXml.addAttribute(doc, dimensionAreaElement, StyleTextArea.COLUMNS, "60");
+		UtilXml.addAttribute(doc, dimensionAreaElement, StyleTextArea.ROWS_ELEMENT, "60");
+		UtilXml.addAttribute(doc, dimensionAreaElement, StyleTextArea.COLUMNS_ELEMENT, "60");
 
 		//dimension
 		final Element dimensionElement = UtilXml.addElement(doc, styleElement, StyleBase.DIMENSION);

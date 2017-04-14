@@ -7,7 +7,7 @@ import com.molinari.utility.paint.objects.painter.PainterCerchio;
 
 public class Cerchio extends FormaGeometrica2D {
 
-	private int raggio;
+	private double raggio;
 	boolean isOnCirconferenza = false;
 
 	public Cerchio(final Point2D estremi, final int raggio) {
@@ -29,13 +29,13 @@ public class Cerchio extends FormaGeometrica2D {
 	@Override
 	public void ridimensiona(Point mouse) {
 		
-		double coseno = Math.cos(getAngoloFromCentre(mouse));
-		double seno = Math.sin(getAngoloFromCentre(mouse));
+		final double coseno = Math.cos(getAngoloFromCentre(mouse));
+		final double seno = Math.sin(getAngoloFromCentre(mouse));
 		
 		//sinistra
 		if(coseno > 0){
 			final double newX = mouse.getX() - distanzaMouseDaXY.getX();
-			final int width = (int) (getX() - newX) + getRaggio();
+			final double width = (int) (getX() - newX) + getRaggio();
 			if (width > 3) {
 				setRaggio(width);
 				setX((int) (newX));
@@ -48,7 +48,7 @@ public class Cerchio extends FormaGeometrica2D {
 		//alto
 		if(seno > 0){
 			final double newY = mouse.getY() - distanzaMouseDaXY.getY();
-			final int height = (int) (getY() - newY) + getRaggio();
+			final double height = (int) (getY() - newY) + getRaggio();
 			if (height > 3) {
 				setRaggio(height);
 				setY((int) (newY));
@@ -85,13 +85,13 @@ public class Cerchio extends FormaGeometrica2D {
 		// questo è l'angolo del segmento formato dai due punti: centro e puntatore
 		final double angolo = getAngoloFromCentre(mouse);
 		
-		final int diametro = raggio / 2;
+		final double diametro = raggio / 2;
 		return Math.abs(diametro * Math.sin(angolo));
 	}
 	
 	public double getXFromCentroToCirconferenza(final Point mouse){
 		
-		final int diametro = raggio / 2;
+		final double diametro = raggio / 2;
 
 		// questo è l'angolo del segmento formato dai due punti: centro e puntatore
 		final double angolo = getAngoloFromCentre(mouse);
@@ -121,11 +121,11 @@ public class Cerchio extends FormaGeometrica2D {
 		return true;
 	}
 
-	public int getRaggio() {
+	public double getRaggio() {
 		return raggio;
 	}
 
-	public void setRaggio(final int raggio) {
+	public void setRaggio(final double raggio) {
 		this.raggio = raggio;
 	}
 
@@ -135,15 +135,15 @@ public class Cerchio extends FormaGeometrica2D {
 	
 		//non funziona è da modificare
 		final Point centro = getPuntoCentrale();
-		double yToCirconferenza = getYFromCentroToCirconferenza(mouse);
-		double xToCirconferenza = getXFromCentroToCirconferenza(mouse);
+		final double yToCirconferenza = getYFromCentroToCirconferenza(mouse);
+		final double xToCirconferenza = getXFromCentroToCirconferenza(mouse);
 
 		final int distMouseY = (int) Math.abs(centro.getY() - mouse.getY());
 		final int distMouseX = (int) Math.abs(centro.getX() - mouse.getX());
 		
-		double differenzaY = Math.abs(yToCirconferenza - distMouseY);
-		double differenzaX = Math.abs(xToCirconferenza - distMouseX);
-		boolean ridimensiona = differenzaX < 3 && differenzaY < 3;
+		final double differenzaY = Math.abs(yToCirconferenza - distMouseY);
+		final double differenzaX = Math.abs(xToCirconferenza - distMouseX);
+		final boolean ridimensiona = differenzaX < 3 && differenzaY < 3;
 		isOnCirconferenza = ridimensiona;
 		return ridimensiona;
 	}

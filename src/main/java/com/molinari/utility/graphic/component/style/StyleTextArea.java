@@ -10,10 +10,10 @@ public class StyleTextArea extends StyleBase {
 
 	public static final String LINE_WRAP = "lineWrap";
 	public static final String WRAP_STYLE_WORD = "wrapStyleWord";
-	public static final String AUTOSCROLL = "autoscroll";
+	public static final String AUTOSCROLL_ELEMENT = "autoscroll";
 
-	public static final String ROWS = "rows";
-	public static final String COLUMNS = "columns";
+	public static final String ROWS_ELEMENT = "rows";
+	public static final String COLUMNS_ELEMENT = "columns";
 	public static final String DIMENSION_AREA = "dimensionarea";
 
 	private int rows;
@@ -22,19 +22,6 @@ public class StyleTextArea extends StyleBase {
 	private boolean lineWrap = false;
 	private boolean wrapStyleWord = false;
 	private boolean autoscroll = false;
-
-//	public static void main(final String[] args) {
-//		SwingUtilities.invokeLater(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				JPanel p = UtilComponenti.initContenitoreFrame(null);
-//				TextAreaBase tab = new TextAreaBase("Coao", p) {
-//					private static final long	serialVersionUID	= 1L;
-//				};
-//			}
-//		});
-//	}
 
 	public StyleTextArea() {
 		super();
@@ -48,46 +35,46 @@ public class StyleTextArea extends StyleBase {
 	protected void settaStileBase(final Node nodo, final String stile) {
 		super.settaStileBase(nodo, stile);
 		if (nodo.getNodeName().equalsIgnoreCase(STYLE)) {
-			Element elementoStyle = UtilXml.getElement(nodo);
-			String nomeStile = elementoStyle.getAttribute(NAME);
+			final Element elementoStyle = UtilXml.getElement(nodo);
+			final String nomeStile = elementoStyle.getAttribute(NAME);
 			if (nomeStile != null && nomeStile.equalsIgnoreCase(stile)) {
 				final NodeList figliNodoComponente = nodo.getChildNodes();
 				for (int x = 0; x < figliNodoComponente.getLength(); x++) {
 					final Node nodoComponente = figliNodoComponente.item(x);
 					if (nodoComponente.getNodeName().equals(LINE_WRAP)) {
-						settaLineWrap(nodo, this, nodoComponente);
+						settaLineWrap(this, nodoComponente);
 					} else if (nodoComponente.getNodeName().equals(WRAP_STYLE_WORD)) {
-						settaWrapStyleWord(nodo, this, nodoComponente);
-					} else if (nodoComponente.getNodeName().equals(AUTOSCROLL)) {
-						settaAutoscroll(nodo, this, nodoComponente);
+						settaWrapStyleWord(this, nodoComponente);
+					} else if (nodoComponente.getNodeName().equals(AUTOSCROLL_ELEMENT)) {
+						settaAutoscroll(this, nodoComponente);
 					} else if (nodoComponente.getNodeName().equals(DIMENSION_AREA)) {
-						settaDimensioniTextArea(nodo, this, nodoComponente);
+						settaDimensioniTextArea(this, nodoComponente);
 					}
 				}
 			}
 		}
 	}
 
-	private void settaDimensioniTextArea(final Node nodo, final StyleTextArea styleTextArea, final Node nodoComponente) {
+	private void settaDimensioniTextArea(final StyleTextArea styleTextArea, final Node nodoComponente) {
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
-			int rows, columns = 0;
-			if (elemento.getAttribute(ROWS) != null) {
-				rows = Integer.parseInt(elemento.getAttribute(ROWS));
-				styleTextArea.setRows(rows);
+			int rowsLoc = 0; 
+			int columnsLoc = 0;
+			if (elemento.getAttribute(ROWS_ELEMENT) != null) {
+				rowsLoc = Integer.parseInt(elemento.getAttribute(ROWS_ELEMENT));
+				styleTextArea.setRows(rowsLoc);
 			}
-			if (elemento.getAttribute(COLUMNS) != null) {
-				columns = Integer.parseInt(elemento.getAttribute(COLUMNS));
-				styleTextArea.setColumns(columns);
+			if (elemento.getAttribute(COLUMNS_ELEMENT) != null) {
+				columnsLoc = Integer.parseInt(elemento.getAttribute(COLUMNS_ELEMENT));
+				styleTextArea.setColumns(columnsLoc);
 			}
 		}
 	}
 
-	private void settaAutoscroll(final Node nodo, final StyleTextArea styleTextArea, final Node nodoComponente) {
+	private void settaAutoscroll(final StyleTextArea styleTextArea, final Node nodoComponente) {
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
-			final boolean autoscroll = new Boolean(elemento.getAttribute(VALUE)).booleanValue();
-			styleTextArea.setAutoscroll(autoscroll);
+			styleTextArea.setAutoscroll(Boolean.parseBoolean(elemento.getAttribute(VALUE)));
 		}
 	}
 
@@ -103,10 +90,10 @@ public class StyleTextArea extends StyleBase {
 	 * @param styleTextArea
 	 * @param nodoComponente
 	 */
-	private void settaWrapStyleWord(final Node nodo, final StyleTextArea styleTextArea, final Node nodoComponente) {
+	private void settaWrapStyleWord(final StyleTextArea styleTextArea, final Node nodoComponente) {
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
-			final boolean wrap = new Boolean(elemento.getAttribute(VALUE)).booleanValue();
+			final boolean wrap = Boolean.parseBoolean(elemento.getAttribute(VALUE));
 			styleTextArea.setWrapStyleWord(wrap);
 		}
 	}
@@ -123,10 +110,10 @@ public class StyleTextArea extends StyleBase {
 	 * @param styleTextArea
 	 * @param nodoComponente
 	 */
-	private void settaLineWrap(final Node nodo, final StyleTextArea styleTextArea, final Node nodoComponente) {
+	private void settaLineWrap(final StyleTextArea styleTextArea, final Node nodoComponente) {
 		final Element elemento = UtilXml.getElement(nodoComponente);
 		if (elemento != null) {
-			final boolean wrap = new Boolean(elemento.getAttribute(VALUE)).booleanValue();
+			final boolean wrap = Boolean.parseBoolean(elemento.getAttribute(VALUE));
 			styleTextArea.setLineWrap(wrap);
 		}
 	}
