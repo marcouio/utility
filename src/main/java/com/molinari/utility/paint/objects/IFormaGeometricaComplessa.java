@@ -1,10 +1,9 @@
 package com.molinari.utility.paint.objects;
 
+import java.awt.Point;
+import java.util.List;
+
 public interface IFormaGeometricaComplessa extends IFormaGeometrica {
 
-	public void add(final IFormaGeometrica oggettoGrafico);
-
-	public void remove(final IFormaGeometrica oggettoGrafico);
-
-	public IFormaGeometrica getChild(final int index);
+	List<Point> getPoints();
 }
