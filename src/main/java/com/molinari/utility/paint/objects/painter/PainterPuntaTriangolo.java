@@ -5,12 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import com.molinari.utility.paint.objects.IFormaGeometrica2D;
 import com.molinari.utility.paint.objects.punte.PuntaTriangolo;
 
-public class PainterPuntaTriangolo extends Painter2D{
+public class PainterPuntaTriangolo extends Painter2D<PuntaTriangolo>{
 
-	public PainterPuntaTriangolo(final IFormaGeometrica2D oggettoGrafico) {
+	public PainterPuntaTriangolo(final PuntaTriangolo oggettoGrafico) {
 		super(oggettoGrafico);
 	}
 
@@ -25,7 +24,7 @@ public class PainterPuntaTriangolo extends Painter2D{
 
 	@Override
 	protected void disegnaTracciato(Graphics g) {
-		PuntaTriangolo puntaTriangolo = (PuntaTriangolo) getOggettoGrafico();
+		PuntaTriangolo puntaTriangolo = getOggettoGrafico();
 		GeneralPath path = getPath(puntaTriangolo);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLACK);

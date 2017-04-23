@@ -6,7 +6,7 @@ import java.awt.geom.GeneralPath;
 
 import com.molinari.utility.paint.objects.poligoni.Rettangolo;
 
-public class PainterRettangolo extends Painter2D {
+public class PainterRettangolo extends Painter2D<Rettangolo> {
 
 	public PainterRettangolo(Rettangolo oggettoGrafico) {
 		super(oggettoGrafico);
@@ -27,14 +27,14 @@ public class PainterRettangolo extends Painter2D {
 
 	@Override
 	protected void disegnaTracciato(Graphics g) {
-		Rettangolo rettangolo = (Rettangolo) oggettoGrafico;
+		Rettangolo rettangolo = (Rettangolo) getOggettoGrafico();
 		GeneralPath path = getPath(rettangolo);
 		((Graphics2D)g).draw(path);
 	}
 
 	@Override
 	protected void disegnaBackground(Graphics g) {
-		Rettangolo rettangolo = (Rettangolo) oggettoGrafico;
+		Rettangolo rettangolo = (Rettangolo) getOggettoGrafico();
 		GeneralPath path = getPath(rettangolo);
 		((Graphics2D)g).fill(path);
 	}

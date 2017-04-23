@@ -6,12 +6,11 @@ import java.awt.geom.GeneralPath;
 
 import com.molinari.utility.paint.objects.punte.PuntaBase;
 
-public class PainterPuntaBase implements IPainter {
+public class PainterPuntaBase extends PainterBase<PuntaBase> {
 
-	PuntaBase punta;
 
 	public PainterPuntaBase(final PuntaBase punta) {
-		this.punta = punta;
+		super(punta);
 	}
 
 	@Override
@@ -23,10 +22,10 @@ public class PainterPuntaBase implements IPainter {
 
 	private GeneralPath getPath() {
 		final GeneralPath path = new GeneralPath();
-		path.moveTo(punta.getLatoDestro().getDestinazione().getX(), punta.getLatoDestro().getDestinazione().getY());
-		path.lineTo(punta.getLatoDestro().getOrigine().getX(), punta.getLatoDestro().getOrigine().getY());
-		path.lineTo(punta.getLatoSinistro().getDestinazione().getX(), punta.getLatoSinistro().getDestinazione().getY());
-		path.lineTo(punta.getLatoSinistro().getOrigine().getX(), punta.getLatoSinistro().getOrigine().getY());
+		path.moveTo(getOggettoGrafico().getLatoDestro().getDestinazione().getX(), getOggettoGrafico().getLatoDestro().getDestinazione().getY());
+		path.lineTo(getOggettoGrafico().getLatoDestro().getOrigine().getX(), getOggettoGrafico().getLatoDestro().getOrigine().getY());
+		path.lineTo(getOggettoGrafico().getLatoSinistro().getDestinazione().getX(), getOggettoGrafico().getLatoSinistro().getDestinazione().getY());
+		path.lineTo(getOggettoGrafico().getLatoSinistro().getOrigine().getX(), getOggettoGrafico().getLatoSinistro().getOrigine().getY());
 		path.closePath();
 		return path;
 	}

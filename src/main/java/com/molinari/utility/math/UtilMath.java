@@ -1,7 +1,6 @@
 package com.molinari.utility.math;
 
-import com.google.common.primitives.Doubles;
-import com.google.common.primitives.Ints;
+import com.google.common.primitives.*;
 
 public class UtilMath {
 

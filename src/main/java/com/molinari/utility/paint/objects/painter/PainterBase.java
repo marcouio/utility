@@ -4,11 +4,11 @@ import java.awt.Graphics;
 
 import com.molinari.utility.paint.objects.IFormaGeometrica;
 
-public class PainterBase implements IPainter {
+public class PainterBase<T extends IFormaGeometrica> implements IPainter<T> {
 
-	IFormaGeometrica oggettoGrafico;
+	private T oggettoGrafico;
 
-	public PainterBase(final IFormaGeometrica oggettoGrafico) {
+	public PainterBase(final T oggettoGrafico) {
 		this.oggettoGrafico = oggettoGrafico;
 	}
 
@@ -19,7 +19,7 @@ public class PainterBase implements IPainter {
 		}
 	}
 
-	public IFormaGeometrica getOggettoGrafico() {
+	public T getOggettoGrafico() {
 		return oggettoGrafico;
 	}
 

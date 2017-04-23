@@ -6,7 +6,7 @@ import java.awt.Point;
 
 import com.molinari.utility.paint.objects.painter.IPainter;
 
-public abstract class FormaGeometrica2D extends FormaGeometrica implements IFormaGeometrica2D, IFormaGeometrica {
+public abstract class FormaGeometrica2D extends FormaGeometrica implements IFormaGeometrica2D {
 
 	private int width;
 	private int height;
@@ -15,7 +15,7 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	public Point distanzaMouseDaXY;
 	private Color background = Color.WHITE;
 
-	public FormaGeometrica2D(final String nome, final IPainter painter) {
+	public FormaGeometrica2D(final String nome, final IPainter<? extends IFormaGeometrica2D> painter) {
 		super(nome, painter);
 	}
 

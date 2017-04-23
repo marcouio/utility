@@ -7,17 +7,17 @@ import com.molinari.utility.paint.objects.painter.IPainter;
 
 public abstract class FormaGeometrica implements IFormaGeometrica {
 
-	protected IPainter painter;
+	protected IPainter<? extends IFormaGeometrica> painter;
 	private String nome;
 
 	public FormaGeometrica() {
 	}
 
-	public FormaGeometrica(final IPainter painter) {
+	public FormaGeometrica(final IPainter<? extends IFormaGeometrica> painter) {
 		this.painter = painter;
 	}
 
-	public FormaGeometrica(final String nome, final IPainter painter) {
+	public FormaGeometrica(final String nome, final IPainter<? extends IFormaGeometrica> painter) {
 		this.nome = nome;
 		this.painter = painter;
 	}

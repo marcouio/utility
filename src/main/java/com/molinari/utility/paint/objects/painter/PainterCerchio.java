@@ -3,27 +3,21 @@ package com.molinari.utility.paint.objects.painter;
 import java.awt.Graphics;
 
 import com.molinari.utility.paint.objects.Cerchio;
-import com.molinari.utility.paint.objects.IFormaGeometrica;
-import com.molinari.utility.paint.objects.IFormaGeometrica2D;
 
-public class PainterCerchio extends Painter2D {
+public class PainterCerchio extends Painter2D<Cerchio> {
 
-	Cerchio cerchio;
-
-	public PainterCerchio(final IFormaGeometrica oggettoGrafico) {
-		super((IFormaGeometrica2D) oggettoGrafico);
-		cerchio = (Cerchio) oggettoGrafico;
-
+	public PainterCerchio(final Cerchio oggettoGrafico) {
+		super(oggettoGrafico);
 	}
 
 	@Override
 	protected void disegnaTracciato(final Graphics g) {
-		g.drawOval(cerchio.getX(), cerchio.getY(), (int)cerchio.getRaggio(), (int)cerchio.getRaggio());
+		g.drawOval(getOggettoGrafico().getX(), getOggettoGrafico().getY(), (int)getOggettoGrafico().getRaggio(), (int)getOggettoGrafico().getRaggio());
 	}
 
 	@Override
 	protected void disegnaBackground(final Graphics g) {
-		g.fillOval(cerchio.getX(), cerchio.getY(), (int)cerchio.getRaggio(), (int)cerchio.getRaggio());
+		g.fillOval(getOggettoGrafico().getX(), getOggettoGrafico().getY(), (int)getOggettoGrafico().getRaggio(), (int)getOggettoGrafico().getRaggio());
 
 	}
 
