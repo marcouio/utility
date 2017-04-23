@@ -3,6 +3,9 @@ package com.molinari.utility.paint.objects;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
+
+import com.molinari.utility.paint.objects.poligoni.Lato;
 
 public interface IFormaGeometrica2D extends IFormaGeometrica {
 
@@ -33,5 +36,5 @@ public interface IFormaGeometrica2D extends IFormaGeometrica {
 	public Color getBackground();
 
 	public void setBackground(Color background);
-
+	
 }
