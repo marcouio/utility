@@ -52,7 +52,7 @@ public class PuntaBase extends FormaGeometrica2D {
 		
 		if (distanzaMouseDaXY != null) {
 			final double angolo = getArrowAngle();
-			int latoLinea = UtilDisegno.makeLengthByAngle(angolo, linea.getOrigine(), linea.getDestinazione());
+			int latoLinea = UtilDisegno.makeLengthByAngle(linea.getOrigine(), linea.getDestinazione());
 			estremoCentrale = new Point(x - (int) distanzaMouseDaXY.getX(), y - (int) distanzaMouseDaXY.getY());
 			setX((int)estremoCentrale.getX());
 			setY((int)estremoCentrale.getY());

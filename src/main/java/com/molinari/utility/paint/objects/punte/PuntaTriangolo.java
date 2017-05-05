@@ -39,7 +39,7 @@ public class PuntaTriangolo extends PuntaBase {
 			Point rightTarget = latoDestro.getDestinazione();
 			Point leftTarget = latoSinistro.getDestinazione();
 			
-			int makeLengthByAngle = UtilDisegno.makeHeightByAngle(getArrowAngle(), rightTarget, leftTarget);
+			int makeLengthByAngle = UtilDisegno.makeHeightByAngle(rightTarget, leftTarget);
 			for (int i = 0; i < makeLengthByAngle; i++) {
 				
 				double angoloLatoBasso = UtilDisegno.getArcoTangenteSegmento(new Segmento(rightTarget, leftTarget));
