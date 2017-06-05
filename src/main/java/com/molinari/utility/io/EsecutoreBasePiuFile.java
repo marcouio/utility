@@ -20,7 +20,7 @@ import com.molinari.utility.controller.ControlloreBase;
  */
 public abstract class EsecutoreBasePiuFile {
 
-	private final ArrayList<String> cartelleDaScorrere = new ArrayList<String>();
+	private final ArrayList<String> cartelleDaScorrere = new ArrayList<>();
 
 	/**
 	 * Questo metodo e' solo una parte di codice ricorrente che scorre tutte le
@@ -32,7 +32,8 @@ public abstract class EsecutoreBasePiuFile {
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
-	public boolean scorriEdEseguiSuTuttiIFile(String pathFile) throws ParserConfigurationException, SAXException {
+	public boolean scorriEdEseguiSuTuttiIFile(String pathFilePar) throws ParserConfigurationException, SAXException {
+		String pathFile = pathFilePar;
 		final boolean ok = true;
 		if (!pathFile.substring(pathFile.length() - 1, pathFile.length()).equals(UtilIo.slash())) {
 			pathFile += UtilIo.slash();
@@ -71,7 +72,7 @@ public abstract class EsecutoreBasePiuFile {
 			
 			@Override
 			public void operazioneDaEseguireSulFile(String pathFile, File f) {
-				System.out.println("Ciao, sto scorrendo il file: " +f.getName());
+				ControlloreBase.getLog().log(Level.INFO, "Sto scorrendo il file: " +f.getName());
 				
 			}
 		};
@@ -87,6 +88,7 @@ public abstract class EsecutoreBasePiuFile {
 	 * @return
 	 */
 	public boolean checkFile(final File f) {
+		ControlloreBase.getLog().log(Level.INFO, "Sto eseguendo il check per il file: " +f.getName());
 		return true;
 	}
 
