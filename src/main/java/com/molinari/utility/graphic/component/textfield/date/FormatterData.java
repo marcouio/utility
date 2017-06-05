@@ -1,10 +1,12 @@
 package com.molinari.utility.graphic.component.textfield.date;
 
-import com.molinari.utility.graphic.component.alert.Alert;
-import com.molinari.utility.graphic.component.textfield.IFormatterTF;
-
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.molinari.utility.GenericException;
+import com.molinari.utility.graphic.component.alert.Alert;
+import com.molinari.utility.graphic.component.textfield.IFormatterTF;
 
 public class FormatterData extends SimpleDateFormat implements IFormatterTF {
 
@@ -15,8 +17,12 @@ public class FormatterData extends SimpleDateFormat implements IFormatterTF {
 	}
 
 	@Override
-	public Date parsifica(final String testo) throws Exception {
-		return super.parse(testo);
+	public Date parsifica(final String testo) {
+		try {
+			return super.parse(testo);
+		} catch (ParseException e) {
+			throw new GenericException(e);
+		}
 	}
 
 	@Override

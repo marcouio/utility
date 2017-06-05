@@ -5,8 +5,7 @@ import com.molinari.utility.graphic.component.alert.Alert;
 public class FormatterBaseTF implements IFormatterTF {
 
 	@Override
-	public Object parsifica(String testo)
-	    throws Exception {
+	public Object parsifica(String testo){
 		return testo;
 	}
 

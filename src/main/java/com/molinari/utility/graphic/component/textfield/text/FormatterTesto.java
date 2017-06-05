@@ -5,14 +5,14 @@ import com.molinari.utility.graphic.component.textfield.IFormatterTF;
 public class FormatterTesto implements IFormatterTF {
 
 	@Override
-	public Object parsifica(final String testo) throws Exception {
-		// TODO Auto-generated method stub
+	public Object parsifica(final String testo) {
+		// da fare
 		return null;
 	}
 
 	@Override
 	public Object metodoForCatch(final Exception e) {
-		// TODO Auto-generated method stub
+		//da fare
 		return null;
 	}
 
