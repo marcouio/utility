@@ -106,19 +106,6 @@ public class MyMouseListener {
 				getP().paint(bufferGraphics);
 				getP().getGraphics().drawImage(offscreen, 0, 0, null);
 			}
-
-			// System.out.println("*********************************")
-			// System.out.println("X Rettangolo: " + ret.getX())
-			// System.out.println("Y Rettangolo: " + ret.getY())
-			// System.out.println("Larghezza rettangolo: " + ret.getWidth())
-			// System.out.println("Altezza Rettangolo: " + ret.getHeight())
-			// System.out.println("Mouse X: " + puntatore.getX())
-			// System.out.println("Mouse Y: " + puntatore.getY())
-			// System.out.println("PuntoCentrale X,Y: " +
-			// ret.getPuntoCentrale().getX() + ", " +
-			// ret.getPuntoCentrale().getY())
-			// System.out.println("*********************************")
-		
 		}
 
 	};
