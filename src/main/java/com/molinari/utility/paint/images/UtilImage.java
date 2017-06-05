@@ -41,15 +41,15 @@ public class UtilImage extends JPanel {
 	 * @param image
 	 * @param scale
 	 */
-	public static Image getScaledImage(Image image, final double scale) {
+	public static Image getScaledImage(Image parImage, final double scale) {
+		Image image = parImage;
 		int w = image.getWidth(null);
 		int h = image.getHeight(null);
 		BufferedImage scaled = new BufferedImage((int) (w * scale), (int) (h * scale), ((BufferedImage) image).getType());
 		AffineTransform at = AffineTransform.getScaleInstance(scale, scale);
 		Graphics2D g2d = (Graphics2D) scaled.getGraphics();
 		g2d.drawImage((BufferedImage) image, new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR), 0, 0);
-		image = scaled;
-		return image;
+		return scaled;
 	}
 
 	@Override
