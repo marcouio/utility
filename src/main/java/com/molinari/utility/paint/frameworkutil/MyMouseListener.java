@@ -80,7 +80,7 @@ public class MyMouseListener {
 
 			if (getP().getOggettoSelezionato() instanceof Poligono) {
 				final Poligono pol = (Poligono) getP().getOggettoSelezionato();
-				if (pol.getLatiVicinoMouse(puntatore).size() > 0) {
+				if (!pol.getLatiVicinoMouse(puntatore).isEmpty()) {
 					pol.ridimensiona(puntatore);
 				} else if (pol.isInRegion(puntatore)) {
 					pol.moveTo(x, y);
@@ -96,7 +96,7 @@ public class MyMouseListener {
 			}
 			Image offscreen = null;
 			Graphics bufferGraphics = null;
-			final Object[] returns = UtilDisegno.getImmagineBufferizzata(new Dimension(getP().getWidth(), getP().getHeight()), offscreen, bufferGraphics);
+			final Object[] returns = UtilDisegno.getImmagineBufferizzata(new Dimension(getP().getWidth(), getP().getHeight()), offscreen);
 			bufferGraphics = (Graphics) returns[0];
 			offscreen = (Image) returns[1];
 			bufferGraphics.setColor(Color.WHITE);

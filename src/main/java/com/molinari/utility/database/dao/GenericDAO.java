@@ -3,6 +3,7 @@ package com.molinari.utility.database.dao;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ import com.molinari.utility.database.UpdateBase;
 import com.molinari.utility.database.dao.columninfo.ColumnDefinition;
 import com.molinari.utility.database.dao.columninfo.Definition;
 import com.molinari.utility.database.dao.columninfo.ManyToManyDefinitionBase;
+import com.molinari.utility.database.dao.columninfo.ManyToOneDefinitionBase;
 
 public class GenericDAO<T extends AbstractOggettoEntita> extends Observable implements IDAO<T> {
 
@@ -51,27 +53,14 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			T execute = retList.get(0);
 			
 			List<Definition> columnList = elabAnnotation.getColumnList();
-			for (Definition definition : columnList) {
-				if(definition instanceof ManyToManyDefinitionBase){
-					ManyToManyDefinitionBase manyToManyDefinitionBase = (ManyToManyDefinitionBase) definition;
-					Class<?> linkedEntityClass = manyToManyDefinitionBase.getLinkedEntityClass();
-					ElaborateAnnotations elab = new ElaborateAnnotations<>(linkedEntityClass.newInstance());
-					String nomeTabella = elab.getNomeTabella();
-					ColumnDefinition idDef = elab.getId();
-					String sql = "SELECT * FROM " + nomeTabella + " WHERE " + idDef.getColumnName() + " IN ( SELECT " + manyToManyDefinitionBase.getInverseJoinColumn() + " FROM "+ manyToManyDefinitionBase.getRelationTable()  +" WHERE "+ nomeCampoIdLoc +" = "+ id +")";
-					
-					ExecuteResultSet execLink = new  ExecuteResultSet<>();
-					execLink.setSql(sql);
-					List manyExecute = execLink.execute(rs -> elab.costruisciEntitaFromRs(rs));
-					Set ret = new HashSet<>(manyExecute);
-					
-					String methodName = elab.costruisciNomeSet(manyToManyDefinitionBase.getField().getName());
-					final Method method = getEntita().getClass().getMethod(methodName, Set.class);
-					elab.setListValue(method, ret, execute);
-				}
-			}
+			manyToManySelect(id, nomeCampoIdLoc, execute, columnList);
 			
 			//TODO ALtro... ManyToOne
+			for (Definition definition : columnList) {
+				if(definition instanceof ManyToOneDefinitionBase){
+					
+				}
+			}
 			
 			return execute;
 
@@ -79,6 +68,29 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return null;
+	}
+
+	private void manyToManySelect(final int id, String nomeCampoIdLoc, T execute, List<Definition> columnList)
+			throws InstantiationException, IllegalAccessException, SQLException, NoSuchMethodException {
+		for (Definition definition : columnList) {
+			if(definition instanceof ManyToManyDefinitionBase){
+				ManyToManyDefinitionBase manyToManyDefinitionBase = (ManyToManyDefinitionBase) definition;
+				Class<?> linkedEntityClass = manyToManyDefinitionBase.getLinkedEntityClass();
+				ElaborateAnnotations elab = new ElaborateAnnotations<>(linkedEntityClass.newInstance());
+				String nomeTabella = elab.getNomeTabella();
+				ColumnDefinition idDef = elab.getId();
+				String sql = "SELECT * FROM " + nomeTabella + " WHERE " + idDef.getColumnName() + " IN ( SELECT " + manyToManyDefinitionBase.getInverseJoinColumn() + " FROM "+ manyToManyDefinitionBase.getRelationTable()  +" WHERE "+ nomeCampoIdLoc +" = "+ id +")";
+				
+				ExecuteResultSet execLink = new  ExecuteResultSet<>();
+				execLink.setSql(sql);
+				List manyExecute = execLink.execute(rs -> elab.costruisciEntitaFromRs(rs));
+				Set ret = new HashSet<>(manyExecute);
+				
+				String methodName = elab.costruisciNomeSet(manyToManyDefinitionBase.getField().getName());
+				final Method method = getEntita().getClass().getMethod(methodName, Set.class);
+				elab.setListValue(method, ret, execute);
+			}
+		}
 	}
 
 	private List<T> returnEntity(ResultSet rs) {

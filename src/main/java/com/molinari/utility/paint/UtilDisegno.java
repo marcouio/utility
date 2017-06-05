@@ -1,7 +1,6 @@
 package com.molinari.utility.paint;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -11,15 +10,20 @@ import com.molinari.utility.paint.images.UtilImage;
 import com.molinari.utility.paint.objects.Segmento;
 
 public class UtilDisegno {
+	
+	private UtilDisegno() {
+		//do nothing
+	}
 
 	public static final int SENSIBILITA = 3;
 	
-	public static Object[] getImmagineBufferizzata(final Dimension dimensioniImage, Image offscreen, Graphics bufferGraphics) {
+	public static Object[] getImmagineBufferizzata(final Dimension dimensioniImage, Image offscreenPar) {
+		Image offscreen = offscreenPar;
 		Object[] returns = new Object[2];
 		if (offscreen == null) {
 			offscreen = UtilImage.createVolatileImage(((int) dimensioniImage.getWidth()), ((int) dimensioniImage.getHeight()), Transparency.TRANSLUCENT);
 		}
-		returns[0] = bufferGraphics = offscreen.getGraphics();
+		returns[0] = offscreen.getGraphics();
 		returns[1] = offscreen;
 		return returns;
 
@@ -27,11 +31,7 @@ public class UtilDisegno {
 
 	public static boolean isInRegion(final int x, final int y, final Rectangle rectangle) {
 
-		if ((x >= rectangle.getX() && x <= rectangle.getX() + rectangle.getWidth()) && (y >= rectangle.getY() && y <= rectangle.getY() + rectangle.getHeight() - 1)) {
-			return true;
-		} else {
-			return false;
-		}
+		return ((x >= rectangle.getX() && x <= rectangle.getX() + rectangle.getWidth()) && (y >= rectangle.getY() && y <= rectangle.getY() + rectangle.getHeight() - 1));
 
 	}
 	
@@ -54,8 +54,7 @@ public class UtilDisegno {
 	public static Point makePointByAngle(Point target, final double angolo, int refLength) {
 		int xDestLatoDestro = (int) target.getX() + (int) (Math.cos(angolo) * refLength);
 		int yDestLatoDestro = (int) target.getY() + (int) (Math.sin(angolo) * refLength);
-		final Point pointDestro = new Point(xDestLatoDestro, yDestLatoDestro);
-		return pointDestro;
+		return new Point(xDestLatoDestro, yDestLatoDestro);
 	}
 
 	public static int makeLengthByAngle(Point source, Point target){
