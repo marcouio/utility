@@ -14,11 +14,14 @@ import java.awt.image.VolatileImage;
 import java.awt.print.PageFormat;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import com.molinari.utility.controller.ControlloreBase;
 
 public class UtilImage extends JPanel {
 
@@ -45,7 +48,8 @@ public class UtilImage extends JPanel {
 		AffineTransform at = AffineTransform.getScaleInstance(scale, scale);
 		Graphics2D g2d = (Graphics2D) scaled.getGraphics();
 		g2d.drawImage((BufferedImage) image, new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR), 0, 0);
-		return image = scaled;
+		image = scaled;
+		return image;
 	}
 
 	@Override
@@ -133,7 +137,7 @@ public class UtilImage extends JPanel {
 			baos.close();
 			arrayByte = baos.toByteArray();
 		} catch (final IOException ex) {
-			ex.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, ex.getMessage(), ex);
 		}
 
 		return arrayByte;
