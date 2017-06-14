@@ -3,13 +3,10 @@ package com.molinari.utility.database.dao;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
-import java.util.Set;
 import java.util.logging.Level;
 
 import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
@@ -24,8 +21,6 @@ import com.molinari.utility.database.SelectBase;
 import com.molinari.utility.database.UpdateBase;
 import com.molinari.utility.database.dao.columninfo.ColumnDefinition;
 import com.molinari.utility.database.dao.columninfo.Definition;
-import com.molinari.utility.database.dao.columninfo.ManyToManyDefinitionBase;
-import com.molinari.utility.database.dao.columninfo.ManyToOneDefinitionBase;
 
 public class GenericDAO<T extends AbstractOggettoEntita> extends Observable implements IDAO<T> {
 
@@ -52,15 +47,8 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			List<T> retList = executeResultSet.execute( rs -> returnEntity(rs));
 			T execute = retList.get(0);
 			
-			List<Definition> columnList = elabAnnotation.getColumnList();
-			manyToManySelect(id, nomeCampoIdLoc, execute, columnList);
-			
-			//TODO ALtro... ManyToOne
-			for (Definition definition : columnList) {
-				if(definition instanceof ManyToOneDefinitionBase){
-					
-				}
-			}
+//			List<Definition> columnList = elabAnnotation.getColumnList();
+//			manyToManySelect(id, nomeCampoIdLoc, execute, columnList);
 			
 			return execute;
 
@@ -70,31 +58,8 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 		return null;
 	}
 
-	private void manyToManySelect(final int id, String nomeCampoIdLoc, T execute, List<Definition> columnList)
-			throws InstantiationException, IllegalAccessException, SQLException, NoSuchMethodException {
-		for (Definition definition : columnList) {
-			if(definition instanceof ManyToManyDefinitionBase){
-				ManyToManyDefinitionBase manyToManyDefinitionBase = (ManyToManyDefinitionBase) definition;
-				Class<?> linkedEntityClass = manyToManyDefinitionBase.getLinkedEntityClass();
-				ElaborateAnnotations elab = new ElaborateAnnotations<>(linkedEntityClass.newInstance());
-				String nomeTabella = elab.getNomeTabella();
-				ColumnDefinition idDef = elab.getId();
-				String sql = "SELECT * FROM " + nomeTabella + " WHERE " + idDef.getColumnName() + " IN ( SELECT " + manyToManyDefinitionBase.getInverseJoinColumn() + " FROM "+ manyToManyDefinitionBase.getRelationTable()  +" WHERE "+ nomeCampoIdLoc +" = "+ id +")";
-				
-				ExecuteResultSet execLink = new  ExecuteResultSet<>();
-				execLink.setSql(sql);
-				List manyExecute = execLink.execute(rs -> elab.costruisciEntitaFromRs(rs));
-				Set ret = new HashSet<>(manyExecute);
-				
-				String methodName = elab.costruisciNomeSet(manyToManyDefinitionBase.getField().getName());
-				final Method method = getEntita().getClass().getMethod(methodName, Set.class);
-				elab.setListValue(method, ret, execute);
-			}
-		}
-	}
-
 	private List<T> returnEntity(ResultSet rs) {
-		return elabAnnotation.costruisciEntitaFromRs(rs);
+		return elabAnnotation.costruisciEntitaFromRs(rs, false);
 	}
 
 	protected String getNomeCampoId() {
@@ -117,7 +82,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			selectObj.putTabelle(elabAnnotation.getNomeTabella(), elabAnnotation.getNomeTabella());
 			Query query = new Query();
 			ResultSet rs = query.select(selectObj);
-			return elabAnnotation.costruisciEntitaFromRs(rs);
+			return elabAnnotation.costruisciEntitaFromRs(rs, false);
 		} catch (Exception e) {
 			throw new DAOException(e);
 		}
@@ -266,7 +231,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			selectObj.setClausole(clausole);
 			selectObj.setAppendToQuery(appendToQuery);
 			ResultSet select = new Query().select(selectObj);
-			final ArrayList<T> entities = elabAnnotation.costruisciEntitaFromRs(select);
+			final ArrayList<T> entities = elabAnnotation.costruisciEntitaFromRs(select, false);
 			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 			return entities;
 		} catch (Exception e) {

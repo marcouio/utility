@@ -1,6 +1,7 @@
 package com.molinari.utility.math.counters;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AlphanumericCounter {
@@ -72,13 +73,24 @@ public class AlphanumericCounter {
 	}
 	
 	public static void main(String[] args) {
+		Date start = new Date();
 		String next = "0000";
-		AlphanumericCounter alphanumericCounter = new AlphanumericCounter();
+		AlphanumericCounter2 alphanumericCounter = new AlphanumericCounter2(next);
 
 		for (int i = 0; i < 15000000; i++) {
-			next = alphanumericCounter.getNext(next);
+			next = alphanumericCounter.getNext();
 		}
 		System.out.println(next);
+		Date end = new Date();
+		
+		long millisDiff = end.getTime()-start.getTime();
+		
+		// Calculates days/hours/minutes/seconds.
+		int seconds = (int) (millisDiff / 1000 % 60);
+		int minutes = (int) (millisDiff / 60000 % 60);
+		
+		System.out.println("minuti-secondi: "+minutes+"-"+seconds);
+		System.out.println("millisecondi: " + millisDiff);
 	}
 
 	private void updateValue(Cifra cQuarto) {

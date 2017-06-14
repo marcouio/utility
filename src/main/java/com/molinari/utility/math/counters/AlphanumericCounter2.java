@@ -1,6 +1,7 @@
 package com.molinari.utility.math.counters;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AlphanumericCounter2 {
@@ -61,7 +62,7 @@ public class AlphanumericCounter2 {
 	private void configCifre() {
 		for (int i = 0; i < cifraList.size(); i++) {
 			Cifra cifra = cifraList.get(i);
-			if(i ==0){
+			if(i == 0){
 				cifra.setCifraInferiore(cifraList.get(i+1));
 			}else if(i==cifraList.size()-1){
 				cifra.setCifraSuperiore(cifraList.get(i-1));
@@ -81,6 +82,7 @@ public class AlphanumericCounter2 {
 	}
 	
 	public static void main(String[] args) {
+		Date start = new Date();
 		String next = "0000";
 		AlphanumericCounter2 alphanumericCounter = new AlphanumericCounter2(next);
 
@@ -88,6 +90,16 @@ public class AlphanumericCounter2 {
 			next = alphanumericCounter.getNext();
 		}
 		System.out.println(next);
+		Date end = new Date();
+		
+		long millisDiff = end.getTime()-start.getTime();
+		
+		// Calculates days/hours/minutes/seconds.
+		int seconds = (int) (millisDiff / 1000 % 60);
+		int minutes = (int) (millisDiff / 60000 % 60);
+		
+		System.out.println("minuti-secondi: "+minutes+"-"+seconds);
+		System.out.println("millisecondi: " + millisDiff);
 	}
 
 	private void updateValue(Cifra cQuarto) {
