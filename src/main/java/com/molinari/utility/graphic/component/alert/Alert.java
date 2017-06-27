@@ -32,7 +32,7 @@ public class Alert {
 	
 	public static void segnalazioneEccezione(Exception e, String msg){
 		String messaggio = msg != null ? msg : e.getMessage();
-		Alert.errore("Errore: " + messaggio +". Controlla i log per maggiori info" , Alert.TITLE_ERROR);
+		Alert.errore("Error: " + messaggio +". Check logs for other info" , Alert.TITLE_ERROR);
 		ControlloreBase.getLog().log(Level.SEVERE, messaggio, e);
 	}
 
@@ -52,7 +52,7 @@ public class Alert {
 	}
 
 	public static String getMessaggioErrore(final String messaggio) {
-		return "Operazione non eseguita: " + messaggio;
+		return "Error: " + messaggio;
 	}
 
 }
