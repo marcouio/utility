@@ -105,6 +105,10 @@ public class ToggleBtn extends JToggleButton {
 		imageIcon = icon;
 	}
 
+	public ToggleBtn(ImageIcon iconaMovimentiPic, int i, int j) {
+		this("", iconaMovimentiPic, i, j);
+	}
+
 	@Override
 	public void paintComponent(final Graphics g) {
 		// setto l'icona a null per non farla disegnare dal super.paintcomponent

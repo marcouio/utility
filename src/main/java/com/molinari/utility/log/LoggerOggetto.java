@@ -60,7 +60,6 @@ public class LoggerOggetto {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		log.addHandler(fileLog);
-		log.setLevel(Level.ALL);
 		log.info("Start programma!");
 		return log;
 	}

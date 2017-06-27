@@ -53,7 +53,8 @@ public class PannelloBottoni extends PannelloBase implements ActionListener {
 		this.gruppoBottoni.add(bottone.getBottone());
 		this.listaBottoni.add(bottone);
 		if (bottone.getBottone() != null) {
-			bottone.getBottone().setPreferredSize(new Dimension(getContenitorePadre().getWidth(), ALTEZZA_BOTTONE));
+			int altezza = getContenitorePadre().getHeight() / 15;
+			bottone.getBottone().setPreferredSize(new Dimension(getContenitorePadre().getWidth(), altezza));
 			bottone.getBottone().addActionListener(this);
 		}
 	}
