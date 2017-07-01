@@ -23,6 +23,11 @@ public class DialogoBase extends JDialog implements IComponenteBase, IContainerB
 	Container padre;
 	private int opzioneScelta = -1;
 
+	public DialogoBase() {
+		makeGUI(null);
+		init(null, this);
+	}
+	
 	public DialogoBase(final JFrame frame) {
 		super(frame);
 		padre = frame;
