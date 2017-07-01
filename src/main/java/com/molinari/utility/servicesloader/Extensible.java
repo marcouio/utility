@@ -14,9 +14,9 @@ public interface Extensible<T> {
 		public int compare(Extensible<T> o1, Extensible<T> o2) {
 			int level1 = o1.getLevel();
 			int level2 = o2.getLevel();
-			if(level1 < level2){
+			if(level1 > level2){
 				return -1;
-			}else if(level1 > level2){
+			}else if(level1 < level2){
 				return 1;
 			}
 			return 0;
