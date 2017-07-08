@@ -16,4 +16,10 @@ public class UtilMathTest {
 		double arrotondaDecimaliDouble = UtilMath.arrotondaDecimaliDouble(34.667);
 		Assert.assertEquals(34.67, arrotondaDecimaliDouble, 0);
 	}
+	
+	@Test
+	public void getPercentageTest(){
+		double percentage = UtilMath.getPercentage(1000, 10);
+		Assert.assertEquals(100, percentage, 0);
+	}
 }
