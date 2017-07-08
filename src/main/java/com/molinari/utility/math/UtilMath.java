@@ -1,6 +1,9 @@
 package com.molinari.utility.math;
 
-import com.google.common.primitives.*;
+import org.apache.commons.math3.util.MathUtils;
+
+import com.google.common.primitives.Doubles;
+import com.google.common.primitives.Ints;
 
 public class UtilMath {
 
@@ -36,23 +39,23 @@ public class UtilMath {
 	 * utilizzare il metodo Math.round che permette l'arrotondamento. Divido
 	 * nuovamente per 100 e riottengo i decimali arrotondati a due cifre. A
 	 * questo punto posso aggiungerli nuovamente agli interi
-	 * 
+	 *
 	 * @param d
 	 * @return un double arrotondato a due cifre
 	 */
 	public static double arrotondaDecimaliDouble(final double d) {
-		String arrotondato = null;
 		double decimaleArrotondato = 0;
 		final String stringaDouble = Double.toString(d);
 		final String interi = stringaDouble.substring(0, stringaDouble.indexOf('.'));
 		final double parteIntera = Double.parseDouble(interi);
 		final double parteDecimali = d - parteIntera;
-		if (0 != parteDecimali * 100) {
+		boolean equalzero = MathUtils.equals(parteDecimali * 100, 0);
+		if (!equalzero) {
 			final double decimaliDaArrotondare = parteDecimali * 100;
-			arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
-			decimaleArrotondato = (Double.parseDouble(arrotondato)) / 100;
+			final String arrotondato = Long.toString(Math.round(decimaliDaArrotondare));
+			decimaleArrotondato = Double.parseDouble(arrotondato) / 100;
 		}
-		return parteIntera + (decimaleArrotondato);
+		return parteIntera + decimaleArrotondato;
 	}
 
 	/**
