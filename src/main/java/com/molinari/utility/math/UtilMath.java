@@ -7,6 +7,8 @@ import com.google.common.primitives.Ints;
 
 public class UtilMath {
 
+	public static final double ZERO = 0;
+
 	/**
 	 * Restituisce un indice casuale da un valore massimo. L'indice è generato
 	 * per array e liste quindi se l'indice generato è uguale al parametro
@@ -24,7 +26,7 @@ public class UtilMath {
 		return index;
 	}
 	
-	public static double getPercentage(double value, int percentage){
+	public static double getPercentage(double value, double percentage){
 		return value / 100 * percentage;
 	}
 

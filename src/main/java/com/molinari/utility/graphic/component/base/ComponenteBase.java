@@ -13,6 +13,7 @@ import javax.swing.text.JTextComponent;
 
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
+import com.molinari.utility.math.UtilMath;
 import com.molinari.utility.xml.CoreXMLManager;
 
 /**
@@ -55,7 +56,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 	public void init(final Container contenitorePadre2, final Component componenteFiglio) {
 		aggiungiAlContenitore(contenitorePadre2, componenteFiglio);
 		componenteFiglio.setLocation(0, 0);
-		if (!(componenteFiglio instanceof Container)) {
+		double widthLoc = componenteFiglio.getSize().getWidth();
+		double heightLoc = componenteFiglio.getSize().getHeight();
+		if(UtilMath.doubleEquals(widthLoc, UtilMath.ZERO) && UtilMath.doubleEquals(heightLoc, UtilMath.ZERO)){
 			componenteFiglio.setSize(WIDTH_STRING_DEFAULT, HEIGHT_STRING_DEFAULT);
 		}
 	}
@@ -154,7 +157,9 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		g = trovaUnGraphicsValido(g, compDaPosizionare);
 		if (g != null && compDaPosizionare.getFont() != null) {
 			final FontMetrics fm = g.getFontMetrics(compDaPosizionare.getFont());
-			larghezza = fm.stringWidth(label);
+			if(label != null){
+				larghezza = fm.stringWidth(label);
+			}
 		}
 		if (setDefault) {
 			return larghezza > ComponenteBase.WIDTH_STRING_MIN ? larghezza + 3 : ComponenteBase.WIDTH_STRING_DEFAULT;

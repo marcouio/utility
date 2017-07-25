@@ -12,7 +12,7 @@ import com.molinari.utility.graphic.component.base.ComponenteBaseConPadreConteni
 import com.molinari.utility.graphic.component.base.IComponenteBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
 
-public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
+public class ComboBoxBase<T> extends JComboBox<T> implements IComponenteBase {
 
 	private static final long serialVersionUID = 1L;
 	private Container contenitorePadre;
@@ -23,14 +23,14 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 		init(contenitorePadre, this);
 	}
 	
-	public ComboBoxBase(final Container contenitorePadre, final List<Object> lista) {
-		this.setModel(new DefaultComboBoxModel<Object>(new Vector<>(lista)));
+	public ComboBoxBase(final Container contenitorePadre, final List<T> lista) {
+		this.setModel(new DefaultComboBoxModel<T>(new Vector<>(lista)));
 		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
 	}
 	
-	public ComboBoxBase(final Container contenitorePadre, final Object[] lista) {
-		final DefaultComboBoxModel<Object> modelGiorni = new DefaultComboBoxModel<>(lista);
+	public ComboBoxBase(final Container contenitorePadre, final T[] lista) {
+		final DefaultComboBoxModel<T> modelGiorni = new DefaultComboBoxModel<>(lista);
 		this.setModel(modelGiorni);
 		makeGUI(contenitorePadre);
 		init(contenitorePadre, this);
@@ -54,7 +54,7 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 	public boolean repaintCustomizzato(final Object[] parametri) {
 		 if(componenteBase.repaintCustomizzato(parametri, this)){
 			 @SuppressWarnings("unchecked")
-			final DefaultComboBoxModel<Object> comboModel = (DefaultComboBoxModel<Object>) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
+			final DefaultComboBoxModel<T> comboModel = (DefaultComboBoxModel<T>) parametri[IComponenteBase.PARAM_REPAINT_MODEL];
 			 setModel(comboModel);
 			 componenteBase.ridisegna(this);
 			 return true;
@@ -104,10 +104,12 @@ public class ComboBoxBase extends JComboBox<Object> implements IComponenteBase {
 		int largMax = 0;
 		for (int i = 0; i < nMember; i++) {
 			final Object elementAt = this.getModel().getElementAt(i);
-			final int larghezzaComp = componenteBase.getLarghezzaSingleStringa(getGraphics(), elementAt.toString(), this);
-
-			if (larghezzaComp > largMax) {
-				largMax = larghezzaComp;
+			if(elementAt != null){
+				final int larghezzaComp = componenteBase.getLarghezzaSingleStringa(getGraphics(), elementAt.toString(), this);
+	
+				if (larghezzaComp > largMax) {
+					largMax = larghezzaComp;
+				}
 			}
 		}
 		return largMax;
