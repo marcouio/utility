@@ -1,6 +1,6 @@
 package com.molinari.utility.thread.requests;
 
-public class RichiestaThread {
+public class RichiestaThread<R,C> {
 
 	public static final int STATO_DA_ESEGUIRE = 0;
 	public static final int STATO_IN_ESECUZIONE = 1;
@@ -8,8 +8,8 @@ public class RichiestaThread {
 	public static final int STATO_SCARTATO = 3;
 	
 	private int stato = STATO_DA_ESEGUIRE;
-	private Object richiesta;
-	private Object callBack;
+	private R richiesta;
+	private C callBack;
 	
 	public int getStato() {
 		return stato;
@@ -17,16 +17,16 @@ public class RichiestaThread {
 	public void setStato(int stato) {
 		this.stato = stato;
 	}
-	public Object getRichiesta() {
+	public R getRichiesta() {
 		return richiesta;
 	}
-	public void setRichiesta(Object richiesta) {
+	public void setRichiesta(R richiesta) {
 		this.richiesta = richiesta;
 	}
-	public Object getCallBack() {
+	public C getCallBack() {
 		return callBack;
 	}
-	public void setCallBack(Object callBack) {
+	public void setCallBack(C callBack) {
 		this.callBack = callBack;
 	}
 	

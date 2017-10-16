@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.CopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +22,11 @@ import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.google.common.io.Files;
+import com.molinari.utility.GenericException;
 import com.molinari.utility.controller.ControlloreBase;
 
 public class UtilIo {
@@ -42,12 +46,92 @@ public class UtilIo {
 		sock.close(); 
 		in.close();
 	}
+	
+	public static String prepareUrl(String pathPar){
+		String path = pathPar;
+		if(path != null){
+			path = adjust(path);
+			return URLUTF8Encoder.unescape(URLUTF8Encoder.encode(path));
+		}
+		return null;
+	}
+
+	private static String adjust(String path) {
+		String nome = path;
+		nome = nome.replaceAll(">", "");
+		nome = nome.replaceAll("<", "");
+		nome = nome.replaceAll("'", " ");
+		nome = nome.replaceAll("\\?", "");
+		nome = nome.replaceAll("!", "");
+		nome = nome.replaceAll("\"", "");
+		nome = nome.replaceAll("[\\[\\]]", "");
+		nome = nome.replaceAll("\\*", "");
+		nome = nome.replaceAll("\\(", "");
+		nome = nome.replaceAll("\\)", "");
+		nome = nome.trim();
+		return nome;
+	}
 
 	private static Socket createSock(String hostAddr, int port) throws IOException {
 		return new Socket(hostAddr, port);
 	}
+	
+	 /**
+     * Unzip it
+     * @param zipFile input zip file
+     * @param output zip file output folder
+     */
+    public static void unZipIt(String zipFile, String outputFolder){
 
-	public void createZipFile(final String inputFileName,
+     byte[] buffer = new byte[1024];
+
+     try{
+
+    	//create output directory is not exists
+    	File folder = new File(outputFolder);
+    	if(!folder.exists()){
+    		folder.mkdir();
+    	}
+
+    	//get the zip file content
+    	ZipInputStream zis =
+    		new ZipInputStream(new FileInputStream(zipFile));
+    	//get the zipped file list entry
+    	ZipEntry ze = zis.getNextEntry();
+
+    	while(ze!=null){
+
+    	   String fileName = ze.getName();
+           File newFile = new File(outputFolder + File.separator + fileName);
+
+           System.out.println("file unzip : "+ newFile.getAbsoluteFile());
+
+            //create all non exists folders
+            //else you will hit FileNotFoundException for compressed folder
+            new File(newFile.getParent()).mkdirs();
+
+            FileOutputStream fos = new FileOutputStream(newFile);
+
+            int len;
+            while ((len = zis.read(buffer)) > 0) {
+       		fos.write(buffer, 0, len);
+            }
+
+            fos.close();
+            ze = zis.getNextEntry();
+    	}
+
+        zis.closeEntry();
+    	zis.close();
+
+    	System.out.println("Done");
+
+    }catch(IOException ex){
+       ex.printStackTrace();
+    }
+   }
+
+	public static void createZipFile(final String inputFileName,
 			final String zipFileName) {
 
 		try {
@@ -78,7 +162,7 @@ public class UtilIo {
 		}
 	}
 
-	private FileOutputStream createFileOutputStream(final String zipFileName) throws FileNotFoundException {
+	private static FileOutputStream createFileOutputStream(final String zipFileName) throws FileNotFoundException {
 		return new FileOutputStream(zipFileName);
 	}
 
@@ -193,8 +277,14 @@ public class UtilIo {
 		return mp3.renameTo(file2);
 	}
 
-	public boolean moveFile(final File origine, final File destinazione) {
-		return origine.renameTo(destinazione);
+	public static boolean moveFile(final File origine, final File destinazione, CopyOption... copyOptions) {
+		String pathTo = prepareUrl(destinazione.getAbsolutePath());
+		try {
+			Files.move(origine, new File(pathTo));
+			return  true;
+		} catch (IOException e) {
+			throw new GenericException(e);
+		}
 	}
 
 	public static String slash() {

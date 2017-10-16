@@ -4,7 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -19,48 +20,81 @@ public class ManagerThread {
 	
 	private int							numberOfThread	= 10;
 
-	private final CopyOnWriteArrayList<RichiestaThread>	listaRichieste;
+	private List<RichiestaThread>	listaRichieste;
+	private BlockingQueue<RichiestaThread>	queue;
 	private final Class<?>					classeRunnable;
 	private long counterCallable = 0;
 	private Task						task;
 	private ExecutorService			esecutore;
 
-	public ManagerThread(CopyOnWriteArrayList<RichiestaThread> listaRichieste, Class<? extends RunnerBase> classe) {
+	private boolean end;
+
+	public void setEnd(boolean end) {
+		this.end = end;
+	}
+
+	public ManagerThread(List<RichiestaThread> listaRichieste, Class<? extends RunnerBase> classe) {
 		this.listaRichieste = listaRichieste;
 		this.classeRunnable = classe;
 	}
+	
+	public ManagerThread(Class<? extends RunnerBase> classe, int capacity) {
+		this.queue = new ArrayBlockingQueue<>(numberOfThread);
+		this.classeRunnable = classe;
+	}
 
-	public void eseguiProcesso() {
+	public void eseguiProcesso() throws InterruptedException {
 
 		if (listaRichieste != null && !listaRichieste.isEmpty()) {
 
-			while (listaRunnable.size() <= numberOfThread && !listaRichieste.isEmpty()) {
-				final Object parametro = listaRichieste.get(0);
+			executeRequest();
+		}else if(queue != null && !queue.isEmpty()){
+			final Object parametro = queue.take();
+			final Runnable runner = cercaRunnable(parametro);
 
-				final Runnable runner = cercaRunnable(parametro);
+			final ExecutorService executor = Executors.newCachedThreadPool();
 
-				if (runner != null) {
-					listaRunnable.add(runner);
-					listaRichieste.remove(0);
-				}
+			if (runner != null) {
+				executor.execute(runner);
 			}
 			
-			final ExecutorService executor = Executors.newFixedThreadPool(numberOfThread);
-
-			synchronized (listaRunnable) {
-				for (int i = 0; i<listaRunnable.size(); i++) {
-					final Runnable runner = listaRunnable.get(i);
-					executor.execute(runner);
-				}
+			if(isEnd()){
+				executor.shutdown();
 			}
-				
-			executor.shutdown();
-
-			
-			while (!executor.isTerminated()) {
-	        }
-			ControlloreBase.getLog().info("Finished all threads");
 		}
+	}
+
+	private boolean isEnd() {
+		return end;
+	}
+
+	public void executeRequest() {
+		while (listaRunnable.size() <= numberOfThread && !listaRichieste.isEmpty()) {
+			final Object parametro = listaRichieste.get(0);
+
+			final Runnable runner = cercaRunnable(parametro);
+
+			if (runner != null) {
+				listaRunnable.add(runner);
+				listaRichieste.remove(0);
+			}
+		}
+		
+		final ExecutorService executor = Executors.newFixedThreadPool(numberOfThread);
+
+		synchronized (listaRunnable) {
+			for (int i = 0; i<listaRunnable.size(); i++) {
+				final Runnable runner = listaRunnable.get(i);
+				executor.execute(runner);
+			}
+		}
+			
+		executor.shutdown();
+
+		
+		while (!executor.isTerminated()) {
+		}
+		ControlloreBase.getLog().info("Finished all threads");
 	}
 
 	private Runnable cercaRunnable(Object parametro) {
