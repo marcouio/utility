@@ -189,14 +189,13 @@ public class UtilIo {
 	}
 
 	public static void scriviFileSuPiuRighe(final File file, final List<String> righe) {
-		try {
-			final FileWriter fileWriter = createFileWriter(file);
-			final BufferedWriter out = new BufferedWriter(fileWriter);
+		try (final FileWriter fileWriter = createFileWriter(file);
+				final BufferedWriter out = new BufferedWriter(fileWriter);) {
+
 			for (final String type : righe) {
 				out.write(type);
 				out.newLine();
 			}
-			close(out, fileWriter);
 		} catch (final IOException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}

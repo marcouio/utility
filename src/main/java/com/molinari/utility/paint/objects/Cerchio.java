@@ -34,7 +34,7 @@ public class Cerchio extends FormaGeometrica2D {
 		
 		//sinistra
 		if(coseno > 0){
-			final double newX = mouse.getX() - distanzaMouseDaXY.getX();
+			final double newX = mouse.getX() - getDistanzaMouseDaXY().getX();
 			final double width = (int) (getX() - newX) + getRaggio();
 			if (width > 3) {
 				setRaggio(width);
@@ -47,7 +47,7 @@ public class Cerchio extends FormaGeometrica2D {
 		}
 		//alto
 		if(seno > 0){
-			final double newY = mouse.getY() - distanzaMouseDaXY.getY();
+			final double newY = mouse.getY() - getDistanzaMouseDaXY().getY();
 			final double height = (int) (getY() - newY) + getRaggio();
 			if (height > 3) {
 				setRaggio(height);

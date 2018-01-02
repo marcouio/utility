@@ -134,7 +134,7 @@ public class Rettangolo extends Poligono implements IFormaGeometrica2D {
 	}
 
 	private void ridimensionaClickSuLatoAlto(final Point mouse) {
-		final double newY = mouse.getY() - distanzaMouseDaXY.getY();
+		final double newY = mouse.getY() - getDistanzaMouseDaXY().getY();
 		final int height = (int) (getY() - newY) + getHeight();
 		if (height > 3) {
 			setHeight(height);
@@ -148,7 +148,7 @@ public class Rettangolo extends Poligono implements IFormaGeometrica2D {
 	}
 
 	private void ridimensionaClickSuLatoSinistro(final Point mouse) {
-		final double newX = mouse.getX() - distanzaMouseDaXY.getX();
+		final double newX = mouse.getX() - getDistanzaMouseDaXY().getX();
 		final int width = (int) (getX() - newX) + getWidth();
 		if (width > 3) {
 			setWidth(width);

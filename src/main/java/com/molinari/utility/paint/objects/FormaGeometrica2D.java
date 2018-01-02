@@ -12,7 +12,7 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	private int height;
 	private int x;
 	private int y;
-	public Point distanzaMouseDaXY;
+	private Point distanzaMouseDaXY;
 	private Color background = Color.WHITE;
 
 	public FormaGeometrica2D(final String nome, final IPainter<? extends IFormaGeometrica2D> painter) {
@@ -102,9 +102,9 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	 * @param y
 	 */
 	public void moveTo(final int x, final int y) {
-		if (distanzaMouseDaXY != null) {
-			setX((x - (int) distanzaMouseDaXY.getX()));
-			setY(y - (int) distanzaMouseDaXY.getY());
+		if (getDistanzaMouseDaXY() != null) {
+			setX((x - (int) getDistanzaMouseDaXY().getX()));
+			setY(y - (int) getDistanzaMouseDaXY().getY());
 			this.setLocation(getX(), getY());
 		}
 	} // moveTo
@@ -122,7 +122,11 @@ public abstract class FormaGeometrica2D extends FormaGeometrica implements IForm
 	public void settaDistanzaDaMouse(final Point puntatoreMouse) {
 		if (puntatoreMouse != null) {
 			final Point distanza = new Point((int) puntatoreMouse.getX() - getX(), (int) puntatoreMouse.getY() - getY());
-			distanzaMouseDaXY = distanza;
+			setDistanzaMouseDaXY(distanza);
 		}
+	}
+
+	public void setDistanzaMouseDaXY(Point distanzaMouseDaXY) {
+		this.distanzaMouseDaXY = distanzaMouseDaXY;
 	}
 }

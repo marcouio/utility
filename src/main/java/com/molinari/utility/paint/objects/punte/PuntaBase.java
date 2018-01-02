@@ -50,10 +50,10 @@ public class PuntaBase extends FormaGeometrica2D {
 	@Override
 	public void moveTo(int x, int y) {
 		
-		if (distanzaMouseDaXY != null) {
+		if (getDistanzaMouseDaXY() != null) {
 			final double angolo = getArrowAngle();
 			int latoLinea = UtilDisegno.makeLengthByAngle(linea.getOrigine(), linea.getDestinazione());
-			estremoCentrale = new Point(x - (int) distanzaMouseDaXY.getX(), y - (int) distanzaMouseDaXY.getY());
+			estremoCentrale = new Point(x - (int) getDistanzaMouseDaXY().getX(), y - (int) getDistanzaMouseDaXY().getY());
 			setX((int)estremoCentrale.getX());
 			setY((int)estremoCentrale.getY());
 			
@@ -80,7 +80,7 @@ public class PuntaBase extends FormaGeometrica2D {
 	@Override
 	public void settaDistanzaDaMouse(Point puntatoreMouse) {
 		final Point distanza = new Point((int) puntatoreMouse.getX() - (int)estremoCentrale.getX(), (int) puntatoreMouse.getY() - (int)estremoCentrale.getY());
-		distanzaMouseDaXY = distanza;
+		setDistanzaMouseDaXY(distanza);
 	}
 
 	private void calcolaAngoloLati() {

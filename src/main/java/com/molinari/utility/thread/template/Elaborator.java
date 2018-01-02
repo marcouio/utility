@@ -5,7 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
 
+import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.thread.CallableBase;
 import com.molinari.utility.thread.requests.RichiestaThread;
 
@@ -33,7 +35,8 @@ public class Elaborator<R, C> {
 			execProducer.shutdown();
 			execOper.shutdown();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -44,8 +47,8 @@ public class Elaborator<R, C> {
 				return constructor.newInstance(take);
 			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+				
 			}
 			return null;
 	}
