@@ -54,7 +54,7 @@ public class LoggerOggetto {
 		log = Logger.getLogger(nomeLog);
 		try {
 			UtilIo.deleteFileDaDirectory("./", "MyL");
-			fileLog = new FileHandler("MyLog.txt", 50000, 1, true);
+			fileLog = new FileHandler("MyLog.txt", 500000, 1, false);
 			fileLog.setFormatter(new SimpleFormatter());
 		} catch (SecurityException | IOException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
