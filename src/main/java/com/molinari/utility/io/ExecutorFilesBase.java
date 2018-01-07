@@ -27,7 +27,7 @@ public class ExecutorFilesBase implements ExecutorFiles {
 		
 		before(startingPathFile);
 		
-		boolean result = fileVisitors.runOnFiles(startingPathFile);
+		boolean result = getFileVisitors().runOnFiles(startingPathFile);
 		
 		after();
 		
