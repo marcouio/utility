@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import com.molinari.utility.graphic.component.container.FrameBase;
 import com.molinari.utility.servicesloader.Extensible;
+import com.molinari.utility.servicesloader.LoaderLevel;
 
 public class StarterBase implements Starter {
 
@@ -33,8 +34,8 @@ public class StarterBase implements Starter {
 	}
 
 	@Override
-	public int getLevel() {
-		return 0;
+	public LoaderLevel getLevel() {
+		return LoaderLevel.BASE;
 	}
 
 	@Override
