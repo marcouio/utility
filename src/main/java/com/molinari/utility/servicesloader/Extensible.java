@@ -22,4 +22,6 @@ public interface Extensible<T> {
 			return 0;
 		}
 	}
+	
+	public T createInstance(Object...args);
 }

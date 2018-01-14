@@ -12,5 +12,13 @@ public interface FileOperation extends Extensible<FileOperation>{
 
 	boolean checkDirectory(File f);
 
+	void executeOnDirectory(File f);
+	
+	String getOperation();
+	
+	void after();
+
+	void before(String startingPathFile);
+
 	
 }

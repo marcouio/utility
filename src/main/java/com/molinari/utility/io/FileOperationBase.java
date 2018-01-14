@@ -9,6 +9,10 @@ import com.molinari.utility.servicesloader.Extensible;
 
 public class FileOperationBase implements FileOperation {
 
+	public FileOperationBase() {
+		//do nothing
+	}
+	
 	@Override
 	public void execute(String pathFile, File f) {
 		ControlloreBase.getLog().log(Level.INFO, () -> "Executing operation for file: " +f.getName());
@@ -48,6 +52,33 @@ public class FileOperationBase implements FileOperation {
 	@Override
 	public Comparator<Extensible<FileOperation>> getComparator() {
 		return new ComparatorExtendibile<>();
+	}
+
+	@Override
+	public void executeOnDirectory(File f) {
+		ControlloreBase.getLog().log(Level.INFO, () -> "Executing operation for directory: " +f.getName());
+		
+	}
+
+	@Override
+	public String getOperation() {
+		return "";
+	}
+
+	@Override
+	public void after() {
+		ControlloreBase.getLog().info("Termination phase of visiting files");		
+	}
+
+	@Override
+	public void before(String startingPathFile) {
+		ControlloreBase.getLog().info("Starting phase of visiting files");
+		ControlloreBase.getLog().info(() -> "Starting path file is: " + startingPathFile);
+	}
+
+	@Override
+	public FileOperation createInstance(Object... args) {
+		return new FileOperationBase();
 	}
 
 }

@@ -43,4 +43,9 @@ public class StarterBase implements Starter {
 		return new ComparatorExtendibile<>();
 	}
 
+	@Override
+	public Starter createInstance(Object... args) {
+		return new StarterBase();
+	}
+
 }

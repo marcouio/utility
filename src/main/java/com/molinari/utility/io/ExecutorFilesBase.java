@@ -1,10 +1,14 @@
 package com.molinari.utility.io;
 
+import java.io.File;
+import java.util.Comparator;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.servicesloader.Extensible;
+import com.molinari.utility.servicesloader.LoaderLevel;
 import com.molinari.utility.servicesloader.ServiceLoaderBase;
 
 /**
@@ -19,48 +23,73 @@ public class ExecutorFilesBase implements ExecutorFiles {
 	
 	private FilesVisitor fileVisitors;
 	
+	private FileOperation operation;
+	
+	public ExecutorFilesBase() {
+		//default do nothing
+	}
+	
+	public ExecutorFilesBase(FileOperation operation) {
+		super();
+		this.operation = operation;
+	}
+
 	/* (non-Javadoc)
 	 * @see com.molinari.utility.io.ExecutorFiles#start(java.lang.String)
 	 */
 	@Override
 	public boolean start(String startingPathFile) throws ParserConfigurationException, SAXException {
 		
-		before(startingPathFile);
+		checkPathIsDir(startingPathFile);
 		
+		getOperation().before(startingPathFile);
+
 		boolean result = getFileVisitors().runOnFiles(startingPathFile);
 		
-		after();
+		getOperation().after();
 		
 		return result;
+	}
+
+	public void checkPathIsDir(String startingPathFile) {
+		File dir = new File(startingPathFile);
+		if(!dir.isDirectory()) {
+			throw new IllegalArgumentException("startingPathFile parameter has to be the absolute path of a directory");
+		}
 	}
 	
 	public FilesVisitor getFileVisitors() {
 		if(fileVisitors == null) {
-			fileVisitors = createFileVisitors();
+			fileVisitors = createFileVisitors(getOperation());
 		}
 		return fileVisitors;
 	}
 
-	private FilesVisitor createFileVisitors() {
+	private FilesVisitor createFileVisitors(FileOperation operationPar) {
 		ServiceLoaderBase<FilesVisitor> slb = new ServiceLoaderBase<>();
-		return slb.load(FilesVisitor.class);
+		return slb.load(FilesVisitor.class).createInstance(operationPar);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.molinari.utility.io.ExecutorFiles#after()
-	 */
-	@Override
-	public void after() {
-		ControlloreBase.getLog().info("Termination phase of visiting files");
+	public FileOperation getOperation() {
+		return operation;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.molinari.utility.io.ExecutorFiles#before(java.lang.String)
-	 */
-	@Override
-	public void before(String startingPathFile) {
-		ControlloreBase.getLog().info("Starting phase of visiting files");
-		ControlloreBase.getLog().info(() -> "Starting path file is: " + startingPathFile);
+	public void setOperation(FileOperation operation) {
+		this.operation = operation;
 	}
-	
+
+	@Override
+	public LoaderLevel getLevel() {
+		return LoaderLevel.BASE;
+	}
+
+	@Override
+	public Comparator<Extensible<ExecutorFiles>> getComparator() {
+		return new ComparatorExtendibile<>();
+	}
+
+	@Override
+	public ExecutorFiles createInstance(Object... args) {
+		return new ExecutorFilesBase((FileOperation) args[0]);
+	}
 }

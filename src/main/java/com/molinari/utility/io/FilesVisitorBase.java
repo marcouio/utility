@@ -17,6 +17,15 @@ public class FilesVisitorBase implements FilesVisitor {
 
 	private FileOperation operation;
 	
+	public FilesVisitorBase(FileOperation operation) {
+		super();
+		this.operation = operation;
+	}
+	
+	public FilesVisitorBase() {
+		// do nothing
+	}
+
 	/* (non-Javadoc)
 	 * @see com.molinari.utility.io.FileVisitors#scorriEdEseguiSuTuttiIFile(java.lang.String)
 	 */
@@ -24,9 +33,8 @@ public class FilesVisitorBase implements FilesVisitor {
 	public boolean runOnFiles(String pathFilePar) throws ParserConfigurationException, SAXException {
 		String pathFile = pathFilePar;
 		final boolean ok = true;
-		if (!pathFile.substring(pathFile.length() - 1, pathFile.length()).equals(UtilIo.slash())) {
-			pathFile += UtilIo.slash();
-		}
+		pathFile = normalizePath(pathFile);
+		
 		final File dir = new File(pathFile);
 		final String[] files = dir.list();
 
@@ -37,15 +45,24 @@ public class FilesVisitorBase implements FilesVisitor {
 				try {
 					getOperation().execute(pathFile, f);
 				} catch (final Exception e) {
-					ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+					ControlloreBase.getLog().log(Level.SEVERE, "Error on execute operation on file: " + e.getMessage(), e);
 				}
 			} else if (getOperation().checkDirectory(f)) {
+				getOperation().executeOnDirectory(f);
 				runOnFiles(f.getAbsolutePath());
 			}
 		}
 		return ok;
 	}
 
+	public String normalizePath(String pathFile) {
+		if (!pathFile.substring(pathFile.length() - 1, pathFile.length()).equals(UtilIo.slash())) {
+			pathFile += UtilIo.slash();
+		}
+		return pathFile;
+	}
+
+	@Override
 	public FileOperation getOperation() {
 		if(operation == null) {
 			operation = createFileOperation();
@@ -55,7 +72,7 @@ public class FilesVisitorBase implements FilesVisitor {
 
 	private FileOperation createFileOperation() {
 		ServiceLoaderBase<FileOperation> slb = new ServiceLoaderBase<>();
-		return slb.load(FileOperation.class);
+		return slb.load(FileOperation.class).createInstance();
 	}
 
 	@Override
@@ -66,5 +83,15 @@ public class FilesVisitorBase implements FilesVisitor {
 	@Override
 	public Comparator<Extensible<FilesVisitor>> getComparator() {
 		return new ComparatorExtendibile<>(); 
+	}
+
+	@Override
+	public void setOperation(FileOperation op) {
+		this.operation = op;
+	}
+
+	@Override
+	public FilesVisitor createInstance(Object... args) {
+		return new FilesVisitorBase((FileOperation) args[0]);
 	}
 }

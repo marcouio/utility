@@ -20,4 +20,7 @@ public interface FilesVisitor extends Extensible<FilesVisitor>{
 	 */
 	boolean runOnFiles(String pathFilePar) throws ParserConfigurationException, SAXException;
 
+	void setOperation(FileOperation op);
+	
+	FileOperation getOperation();
 }

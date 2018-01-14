@@ -2,4 +2,5 @@ autoEnabled=true
 eclipse.preferences.version=1
 extraProperties=
 moduleKey=com.molinari\:utility
-serverId=sonarqube.com
+projectKey=com.molinari\:utility
+serverId=SonarCloud/marcouio-github
