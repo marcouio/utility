@@ -6,7 +6,7 @@ import com.molinari.utility.servicesloader.Extensible;
 
 public interface FileOperation extends Extensible<FileOperation>{
 
-	void execute(String pathFile, File f);
+	<T extends ReturnFileOperation> T execute(String pathFile, File f);
 
 	boolean checkFile(File f);
 
@@ -20,5 +20,6 @@ public interface FileOperation extends Extensible<FileOperation>{
 
 	void before(String startingPathFile);
 
+	<T extends ReturnFileOperation> void writeReport(T retExec, File f);
 	
 }

@@ -36,12 +36,13 @@ public class Query {
 	 * @param tabella
 	 * @param clausole
 	 * @return
+	 * @throws SQLException 
 	 * @
 	 */
-	public ResultSet select(final String tabella, final List<Clausola> clausole) {
+	public ResultSet select(final String tabella, final List<Clausola> clausole) throws SQLException {
 		final HashMap<String, String> mapTable = new HashMap<>();
 		mapTable.put(tabella, tabella);
-		return select(tabella, clausole);
+		return select(mapTable, null, clausole, null);
 	}
 	
 	/**

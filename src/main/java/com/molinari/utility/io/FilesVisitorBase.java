@@ -17,8 +17,10 @@ public class FilesVisitorBase implements FilesVisitor {
 
 	private FileOperation operation;
 	
+	
 	public FilesVisitorBase(FileOperation operation) {
 		super();
+		
 		this.operation = operation;
 	}
 	
@@ -42,17 +44,22 @@ public class FilesVisitorBase implements FilesVisitor {
 			final File f = new File(pathFile + file);
 
 			if (getOperation().checkFile(f)) {
-				try {
-					getOperation().execute(pathFile, f);
-				} catch (final Exception e) {
-					ControlloreBase.getLog().log(Level.SEVERE, "Error on execute operation on file: " + e.getMessage(), e);
-				}
+				operationExecute(pathFile, f);
 			} else if (getOperation().checkDirectory(f)) {
 				getOperation().executeOnDirectory(f);
 				runOnFiles(f.getAbsolutePath());
 			}
 		}
 		return ok;
+	}
+
+	public <T extends ReturnFileOperation> void operationExecute(String pathFile, final File f) {
+		try {
+			T retExec = getOperation().execute(pathFile, f);
+			getOperation().writeReport(retExec, f);
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, "Error on execute operation on file: " + e.getMessage(), e);
+		}
 	}
 
 	public String normalizePath(String pathFile) {
@@ -64,9 +71,6 @@ public class FilesVisitorBase implements FilesVisitor {
 
 	@Override
 	public FileOperation getOperation() {
-		if(operation == null) {
-			operation = createFileOperation();
-		}
 		return operation;
 	}
 
