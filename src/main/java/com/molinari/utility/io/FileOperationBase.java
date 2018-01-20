@@ -14,8 +14,9 @@ public class FileOperationBase implements FileOperation {
 	}
 	
 	@Override
-	public void execute(String pathFile, File f) {
+	public <T> T execute(String pathFile, File f) {
 		ControlloreBase.getLog().log(Level.INFO, () -> "Executing operation for file: " +f.getName());
+		return null;
 	}
 
 	/**

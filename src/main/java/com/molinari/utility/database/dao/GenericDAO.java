@@ -42,15 +42,10 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			Clausola clausolaId = new Clausola(null, nomeCampoIdLoc, "=", Integer.toString(id));
 			selectObj.putClausole(clausolaId);
 
-			ExecuteResultSet<T> executeResultSet = new ExecuteResultSet<T>();
+			ExecuteResultSet<T> executeResultSet = new ExecuteResultSet<>();
 			executeResultSet.setSql(selectObj.getQuery());
-			List<T> retList = executeResultSet.execute( rs -> returnEntity(rs));
-			T execute = retList.get(0);
-			
-//			List<Definition> columnList = elabAnnotation.getColumnList();
-//			manyToManySelect(id, nomeCampoIdLoc, execute, columnList);
-			
-			return execute;
+			List<T> retList = executeResultSet.execute( this::returnEntity);
+			return retList.get(0);
 
 		} catch (Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
@@ -167,7 +162,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 				final UpdateBase updateBase = new UpdateBase();
 				updateBase.setTabella(elabAnnotation.getNomeTabella());
 				final String campoId = getNomeCampoId();
-				String idEntita = ((AbstractOggettoEntita) oggettoEntita).getIdEntita();
+				String idEntita = oggettoEntita.getIdEntita();
 				updateBase.putClausole(null, campoId, "=", idEntita);
 				
 				List<Definition> columnList = elabAnnotation.getColumnList();
