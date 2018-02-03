@@ -6,7 +6,7 @@ import com.molinari.utility.servicesloader.Extensible;
 
 public interface FileOperation extends Extensible<FileOperation>{
 
-	<T extends ReturnFileOperation> T execute(String pathFile, File f);
+	<T> T execute(String pathFile, File f);
 
 	boolean checkFile(File f);
 

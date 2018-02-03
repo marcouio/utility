@@ -19,11 +19,11 @@ public class FileOperationBase implements FileOperation {
 	WriterCSV<BeanOperationFile> writer;
 	
 	public FileOperationBase() {
-		
+		//do nothing
 	}
 	
 	@Override
-	public <T extends ReturnFileOperation> T execute(String pathFile, File f) {
+	public <T> T execute(String pathFile, File f) {
 		ControlloreBase.getLog().log(Level.INFO, () -> "Executing operation for file: " +f.getName());
 		return null;
 	}
