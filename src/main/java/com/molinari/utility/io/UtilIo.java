@@ -171,10 +171,11 @@ public class UtilIo {
 		final File dir = new File(directory);
 
 		final File[] listFiles = dir.listFiles();
-		final List<File> fileList = Arrays.asList(listFiles);
-		final Stream<File> streamFiltered = fileList.stream().filter(predicate);
-		streamFiltered.forEach(File::delete);
-
+		if(listFiles != null) {
+			final List<File> fileList = Arrays.asList(listFiles);
+			final Stream<File> streamFiltered = fileList.stream().filter(predicate);
+			streamFiltered.forEach(File::delete);
+		}
 	}
 
 	public static void deleteFileDaDirectory(final String directory, final String treCharIniziali) {
