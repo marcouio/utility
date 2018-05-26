@@ -33,24 +33,34 @@ public class FilesVisitorBase implements FilesVisitor {
 	 */
 	@Override
 	public boolean runOnFiles(String pathFilePar) throws ParserConfigurationException, SAXException {
-		String pathFile = pathFilePar;
 		final boolean ok = true;
-		pathFile = normalizePath(pathFile);
+		final String pathFile = normalizePath(pathFilePar);
 		
 		final File dir = new File(pathFile);
 		final String[] files = dir.list();
 
+//		List<String> lst = Arrays.asList(files);
+//		lst.parallelStream().forEach((file -> eseguiSuFile(pathFile, file)));
+		
 		for (final String file : files) {
-			final File f = new File(pathFile + file);
+			eseguiSuFile(pathFile, file);
+		}
+		return ok;
+	}
 
+	public void eseguiSuFile(String pathFile, final String file) {
+		final File f = new File(pathFile + file);
+
+		try {
 			if (getOperation().checkFile(f)) {
 				operationExecute(pathFile, f);
 			} else if (getOperation().checkDirectory(f)) {
 				getOperation().executeOnDirectory(f);
 				runOnFiles(f.getAbsolutePath());
 			}
+		} catch (ParserConfigurationException | SAXException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
-		return ok;
 	}
 
 	public <T extends ReturnFileOperation> void operationExecute(String pathFile, final File f) {

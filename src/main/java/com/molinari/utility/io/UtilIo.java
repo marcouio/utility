@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +31,11 @@ import com.molinari.utility.controller.ControlloreBase;
 
 public class UtilIo {
 
+	public static String getParentPath(File f) {
+		String folder = f.toPath().getParent().toAbsolutePath().toString();
+		return normalizePath(folder);
+	}
+	
 	public static void uploadFile(String hostAddr, int port, String fileName) throws IOException {
 		final byte[] buf = new byte[1000];
 		int len;
@@ -44,6 +50,13 @@ public class UtilIo {
 		out.close();
 		sock.close();
 		in.close();
+	}
+	
+	public static String normalizePath(String pathFile) {
+		if (!pathFile.substring(pathFile.length() - 1, pathFile.length()).equals(UtilIo.slash())) {
+			pathFile += UtilIo.slash();
+		}
+		return pathFile;
 	}
 
 	public static String prepareUrl(String pathPar) {
@@ -284,5 +297,13 @@ public class UtilIo {
 			slash = "/";
 		}
 		return slash;
+	}
+
+	public static void deleteIfExists(Path p) {
+		try {
+			java.nio.file.Files.deleteIfExists(p);
+		} catch (IOException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, "Report is impossible to delete", e);
+		}
 	}
 }

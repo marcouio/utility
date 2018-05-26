@@ -29,7 +29,7 @@ public class FileOperationBase implements FileOperation {
 	}
 	
 	@Override
-	public <T extends ReturnFileOperation> void writeReport(T objReturn, File f) {
+	public synchronized <T extends ReturnFileOperation> void writeReport(T objReturn, File f) {
 		try {
 			if(writer == null) { 
 				writer = new WriterCSV<>(BeanOperationFile.class, startingPath + File.separator + "report.csv");
@@ -37,20 +37,25 @@ public class FileOperationBase implements FileOperation {
 				writeBean(bof);
 			}
 			BeanOperationFile bof = createBean(objReturn, f);
-			writeBean(bof);
+			if(bof != null) {
+				writeBean(bof);
+			}
 		} catch (IOException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
 	public <T extends ReturnFileOperation> BeanOperationFile createBean(T objReturn, File f) {
-		BeanOperationFile bof = new BeanOperationFile();
-		bof.setInput(f.getAbsolutePath());
-		bof.setOutput(objReturn.getResponse());
-		if(!objReturn.getErrors().isEmpty()) {
-			bof.setError(objReturn.getErrors().get(0));
+		if(objReturn != null) {
+			BeanOperationFile bof = new BeanOperationFile();
+			bof.setInput(f.getAbsolutePath());
+			bof.setOutput(objReturn.getResponse());
+			if(!objReturn.getErrors().isEmpty()) {
+				bof.setError(objReturn.getErrors().get(0));
+			}
+			return bof;
 		}
-		return bof;
+		return null;
 	}
 
 	public void writeBean(BeanOperationFile bof) throws IOException {
