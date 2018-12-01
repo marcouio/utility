@@ -281,10 +281,22 @@ public class UtilIo {
 	public static boolean moveFile(final File origine, final File destinazione) {
 		String pathTo = prepareUrl(destinazione.getAbsolutePath());
 		try {
+			makeDirsIfNotExists(pathTo);
 			Files.move(origine, new File(pathTo));
 			return true;
 		} catch (IOException e) {
 			throw new GenericException(e);
+		}
+	}
+
+	public static void makeDirsIfNotExists(String pathTo) {
+		int lastIndexOf = pathTo.lastIndexOf(UtilIo.slash());
+		if(lastIndexOf != -1) {
+			String lastDir = pathTo.substring(0, lastIndexOf);
+			File file = new File(lastDir);
+			if(!file.exists()) {
+				file.mkdirs();
+			}
 		}
 	}
 
