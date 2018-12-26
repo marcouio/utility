@@ -35,7 +35,7 @@ public class UtilIo {
 		String folder = f.toPath().getParent().toAbsolutePath().toString();
 		return normalizePath(folder);
 	}
-	
+
 	public static void uploadFile(String hostAddr, int port, String fileName) throws IOException {
 		final byte[] buf = new byte[1000];
 		int len;
@@ -51,7 +51,7 @@ public class UtilIo {
 		sock.close();
 		in.close();
 	}
-	
+
 	public static String normalizePath(String pathFile) {
 		if (!pathFile.substring(pathFile.length() - 1, pathFile.length()).equals(UtilIo.slash())) {
 			pathFile += UtilIo.slash();
@@ -184,7 +184,7 @@ public class UtilIo {
 		final File dir = new File(directory);
 
 		final File[] listFiles = dir.listFiles();
-		if(listFiles != null) {
+		if (listFiles != null) {
 			final List<File> fileList = Arrays.asList(listFiles);
 			final Stream<File> streamFiltered = fileList.stream().filter(predicate);
 			streamFiltered.forEach(File::delete);
@@ -282,19 +282,26 @@ public class UtilIo {
 		String pathTo = prepareUrl(destinazione.getAbsolutePath());
 		try {
 			makeDirsIfNotExists(pathTo);
-			Files.move(origine, new File(pathTo));
+			File to = new File(pathTo);
+			if(!sameFile(origine, to)) {
+				Files.move(origine, to);
+			}
 			return true;
 		} catch (IOException e) {
 			throw new GenericException(e);
 		}
 	}
+	
+	public static boolean sameFile(File first, File second) {
+		return first.getAbsolutePath().equals(second.getAbsolutePath());
+	}
 
 	public static void makeDirsIfNotExists(String pathTo) {
 		int lastIndexOf = pathTo.lastIndexOf(UtilIo.slash());
-		if(lastIndexOf != -1) {
+		if (lastIndexOf != -1) {
 			String lastDir = pathTo.substring(0, lastIndexOf);
 			File file = new File(lastDir);
-			if(!file.exists()) {
+			if (!file.exists()) {
 				file.mkdirs();
 			}
 		}
