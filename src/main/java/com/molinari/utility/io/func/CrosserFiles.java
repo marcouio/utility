@@ -5,10 +5,13 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.logging.Level;
+import java.util.stream.Stream;
 
 import com.molinari.utility.controller.ControlloreBase;
 
 public class CrosserFiles {
+	
+	private boolean parallel;
 	
 	public CrosserFiles() {
 		
@@ -26,15 +29,24 @@ public class CrosserFiles {
 		}
 
 		File[] file = new File(pathFile).listFiles();
-		Arrays.stream(file).filter(File::isDirectory).forEach(getDirectoryConsumer(exec));
-		Arrays.stream(file).filter(File::isFile).forEach(exec);
+		
+		Arrays.stream(file).parallel().forEach(getDirectoryConsumer(exec));
 	}
 
 	public Consumer<File> getDirectoryConsumer(Consumer<File> exec) {
 		return f -> { 
-			Arrays.stream(f.listFiles()).filter(File::isDirectory).forEach(getDirectoryConsumer(exec));
-			Arrays.stream(f.listFiles()).filter(File::isFile).forEach(exec);
+			File[] listFiles = f.listFiles();
+			if(listFiles != null) { 
+				toStream(listFiles).filter(File::isDirectory).forEach(getDirectoryConsumer(exec));
+				toStream(listFiles).filter(File::isFile).forEach(exec);
+				return;
+			}
+			exec.accept(f);
 		};
+	}
+	
+	private <T> Stream<T> toStream(T[] arrayObj){
+		return parallel ? Arrays.stream(arrayObj).parallel() :  Arrays.stream(arrayObj);
 	}
 
 	public boolean checkPath(String pathFile) {
@@ -63,5 +75,13 @@ public class CrosserFiles {
 			ControlloreBase.getLog().log(Level.INFO, () -> "Check on file is ok");
 		}
 		return test;
+	}
+
+	public boolean isParallel() {
+		return parallel;
+	}
+
+	public void setParallel(boolean parallel) {
+		this.parallel = parallel;
 	}
 }
