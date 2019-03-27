@@ -39,7 +39,7 @@ public class WriterCSV<T> {
 	
 	private List<Method> createGetter() {
 		List<Method> ret = new ArrayList<>();
-		Method[] methods = beanClass.getMethods();
+		Method[] methods = beanClass.getDeclaredMethods();
 		if(methods != null) {
 			for (Method method : methods) {
 				String metName = method.getName();

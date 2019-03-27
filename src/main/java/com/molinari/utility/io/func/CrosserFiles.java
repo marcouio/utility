@@ -12,11 +12,7 @@ import com.molinari.utility.controller.ControlloreBase;
 public class CrosserFiles {
 	
 	private boolean parallel;
-	
-	public CrosserFiles() {
-		
-	}
-	
+
 	public void execute(String pathFile, Consumer<File> exec) {
 		executeOnDir(pathFile, exec);
 	}
@@ -28,20 +24,18 @@ public class CrosserFiles {
 			throw new IllegalArgumentException("Path parameter is not valid");
 		}
 
-		File[] file = new File(pathFile).listFiles();
-		
-		Arrays.stream(file).parallel().forEach(getDirectoryConsumer(exec));
+		File[] files = new File(pathFile).listFiles();
+		executeOnFilesArrays(exec, files);
+	}
+
+	public void executeOnFilesArrays(Consumer<File> exec, File[] file) {
+		Arrays.stream(file).filter(File::isDirectory).forEach(getDirectoryConsumer(exec));
+		Arrays.stream(file).filter(File::isFile).forEach(exec);
 	}
 
 	public Consumer<File> getDirectoryConsumer(Consumer<File> exec) {
-		return f -> { 
-			File[] listFiles = f.listFiles();
-			if(listFiles != null) { 
-				toStream(listFiles).filter(File::isDirectory).forEach(getDirectoryConsumer(exec));
-				toStream(listFiles).filter(File::isFile).forEach(exec);
-				return;
-			}
-			exec.accept(f);
+		return f -> {
+			executeOnFilesArrays(exec, f.listFiles());
 		};
 	}
 	
