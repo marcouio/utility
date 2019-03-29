@@ -1,7 +1,5 @@
 package com.molinari.utility.paint;
 
-import static org.junit.Assert.fail;
-
 import java.awt.Point;
 import java.awt.Rectangle;
 
