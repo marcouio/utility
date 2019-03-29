@@ -1,8 +1,11 @@
 package com.molinari.utility.messages;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.xml.CoreXMLManager;
@@ -11,7 +14,8 @@ public class I18NManager {
 
 	private static I18NManager singleton;
 	private Locale currentLocale;
-	private ResourceBundle messages;
+	private List<ResourceBundle> messages;
+	CollectorBundle collectorBundle = new CollectorBundle();
 
 	private I18NManager() {
 		//do nothing
@@ -32,37 +36,32 @@ public class I18NManager {
 			if (this.getMessages() == null) {
 				this.caricaMessaggi(CoreXMLManager.getSingleton().getLanguage(), null);
 			}
-			return this.getMessages().getString(key);
+			
+			Optional<ResourceBundle> firstRB = getMessages().stream().filter(rb -> rb.containsKey(key)).findFirst();
+			if(firstRB.isPresent()) {
+				return firstRB.get().getString(key);
+			}
+			
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(),e);
-			return key;
 		}
+		return key;
 	}
 
 	public String getMessaggio(final String key, final String[] params) {
 		try {
-			StringBuilder msgTot = new StringBuilder();
-			final String messaggio = getMessaggio(key);
-			final String[] msgSplit = messaggio.split("@");
-			appendParams(params, msgTot, msgSplit);
-			return msgTot.toString();
+			String messaggio = getMessaggio(key);
+			
+			for (String par : params) {
+				messaggio = messaggio.replaceFirst("@", par);
+			}
+			return messaggio;
 		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(),e);
 			return key;
 		}
 	}
-
-	private void appendParams(final String[] params, StringBuilder msgTot, final String[] msgSplit) {
-		if(msgSplit.length-1 == params.length){
-			for (int i = 0; i < params.length; i++) {
-				msgTot.append(msgSplit[i]);
-				msgTot.append(params[i]);
-				if(i==params.length-1){
-					msgTot.append(msgSplit[msgSplit.length-1]);
-				}
-			}
-		}
-	}
+	
 	private void creaLocale(final String language, final String country) {
 		if (language != null && country != null) {
 			setLocale(language, country);
@@ -84,14 +83,18 @@ public class I18NManager {
 
 	public void caricaMessaggi(final String language, final String country) {
 		creaLocale(language, country);
-		setMessages(ResourceBundle.getBundle(CoreXMLManager.getSingleton().getFileMessaggiName(), currentLocale));
+		List<String> fileMessaggiName = CoreXMLManager.getSingleton().getFileMessaggiName();
+		messages = fileMessaggiName.parallelStream().map(f -> getBundle(f)).collect(Collectors.toList());
+		
+	}
+	private ResourceBundle getBundle(String f) {
+		return getCollectorBundle().getBundle(f, currentLocale);
 	}
 
-	public void setMessages(final ResourceBundle messages) {
-		this.messages = messages;
-	}
-
-	public ResourceBundle getMessages() {
+	public List<ResourceBundle> getMessages() {
 		return messages;
+	}
+	public CollectorBundle getCollectorBundle() {
+		return collectorBundle;
 	}
 }

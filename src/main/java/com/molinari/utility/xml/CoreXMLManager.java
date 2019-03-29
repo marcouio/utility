@@ -2,6 +2,8 @@ package com.molinari.utility.xml;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.xml.transform.OutputKeys;
@@ -128,7 +130,8 @@ public class CoreXMLManager {
 	/**
 	 * @return il nome del file dei messaggi
 	 */
-	public String getFileMessaggiName() {
+	public List<String> getFileMessaggiName() {
+		List<String> files = new ArrayList<>();
 		Node nodo = UtilXml.getNodo("messaggi", doc);
 		NodeList listaFigli = nodo.getChildNodes();
 		for (int i = 0; i < listaFigli.getLength(); i++) {
@@ -136,11 +139,11 @@ public class CoreXMLManager {
 			if ("file".equals(nodoFiglio.getNodeName())) {
 				Element elemento = UtilXml.getElement(nodoFiglio);
 				if (elemento != null) {
-					return elemento.getAttribute("nome");
+					files.add(elemento.getAttribute("nome"));
 				}
 			}
 		}
-		return null;
+		return files;
 	}
 
 	public Document getDoc() {
