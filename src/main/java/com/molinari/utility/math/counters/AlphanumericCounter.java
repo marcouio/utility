@@ -8,14 +8,24 @@ public class AlphanumericCounter {
  
 	private List<Cifra> cifraList = new ArrayList<>();
 
-	String stringCodes = "0123456789abcdefghilmnopqrstuvzABCDEFGHILMNOPQRSTUVZ*#@§?.,'!£$&/()";
+	private static String stringCodes = "0123456789abcdefghilmnopqrstuvzABCDEFGHILMNOPQRSTUVZ*#@§?.,'!�$&/()";
 	private String[] codes = {};
+	private String current;
 	
-	public enum Posizione{
-		PRIMO, SECONDO, TERZO, QUATTRO
+	public AlphanumericCounter(String code) {
+		
+		initCode();
+		
+		if(code != null){
+			setCurrent(code);
+			
+			fillList(code);
+			
+			configCifre();
+		}
 	}
-	
-	public AlphanumericCounter() {
+
+	private void initCode() {
 		List<String> list = new ArrayList<>();
 		for (int i = 0; i < stringCodes.length(); i++) {
 			list.add(stringCodes.substring(i, i+1));
@@ -23,21 +33,20 @@ public class AlphanumericCounter {
 		codes = list.toArray(new String[list.size()]);
 	}
 	
-	public String getNext(String code){
-		
-		if(code != null){
-			
-			fillList(code);
-			
-			configCifre();
-			
-			updateValue(cifraList.get(cifraList.size()-1));
-			
-			return createReturn();
-						
+	public String getNext(){
+
+		for (int i = 0; i < current.length(); i++) {
+ 			Cifra cifra = cifraList.get(i);
+			cifra.setValore(current.substring(i, i+1));
 		}
-		return code;
 		
+		updateValue(cifraList.get(cifraList.size()-1));
+
+		current = createReturn();
+		
+		return current;
+
+
 	}
 
 	private String createReturn() {
@@ -53,7 +62,7 @@ public class AlphanumericCounter {
 	private void configCifre() {
 		for (int i = 0; i < cifraList.size(); i++) {
 			Cifra cifra = cifraList.get(i);
-			if(i ==0){
+			if(i == 0){
 				cifra.setCifraInferiore(cifraList.get(i+1));
 			}else if(i==cifraList.size()-1){
 				cifra.setCifraSuperiore(cifraList.get(i-1));
@@ -75,7 +84,7 @@ public class AlphanumericCounter {
 	public static void main(String[] args) {
 		Date start = new Date();
 		String next = "0000";
-		AlphanumericCounter2 alphanumericCounter = new AlphanumericCounter2(next);
+		AlphanumericCounter alphanumericCounter = new AlphanumericCounter(next);
 
 		for (int i = 0; i < 15000000; i++) {
 			next = alphanumericCounter.getNext();
@@ -124,5 +133,13 @@ public class AlphanumericCounter {
 
 	public void setCodes(String[] codes) {
 		this.codes = codes;
+	}
+
+	public String getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(String current) {
+		this.current = current;
 	}
 }
