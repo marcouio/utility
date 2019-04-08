@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 
 import com.molinari.utility.controller.ControlloreBase;
@@ -25,8 +24,6 @@ public abstract class ConnectionPool {
 	private final String dbDriver; // Il driver del database
 	private final String dbUser; // Il login per il database
 	private final String dbPassword; // La password di accesso al database
-	private final HashMap<Connection, ResultSet> mappaRS = new HashMap<>();
-	private final HashMap<Connection, Statement> mappaStatement = new HashMap<>();
 
 	private static ConnectionPool singleton;
 
@@ -146,17 +143,13 @@ public abstract class ConnectionPool {
 	public int executeUpdate(final String sql) throws SQLException {
 		
 		int ritorno = 0;
-		final Connection cn = getConnection();
-		if (cn != null && sql != null) {
+		try(final Connection cn = getConnection();
 			final Statement st = createStatement(cn);
-			final Statement statementDaMap = mappaStatement.get(cn);
-			if (statementDaMap != null) {
-				statementDaMap.close();
+			){
+			if (cn != null && sql != null) {
+				ritorno = st.executeUpdate(sql);
 			}
-			mappaStatement.put(cn, st);
-			ritorno = st.executeUpdate(sql);
 		}
-		chiudiOggettiDb(cn);
 		return ritorno;
 	}
 
@@ -169,54 +162,13 @@ public abstract class ConnectionPool {
 		ResultSet rs = null;
 		if (cn != null && sql != null) {
 			final Statement st = createStatement(cn);
-			final Statement statementDaMap = mappaStatement.get(cn);
-			if (statementDaMap != null) {
-				statementDaMap.close();
-			}
-			mappaStatement.put(cn, st);
 			rs = createResultSet(sql, st);
-			final ResultSet rsDaMappa = mappaRS.get(cn);
-			if (rsDaMappa != null) {
-				rsDaMappa.close();
-			}
-			mappaRS.put(cn, rs);
 		}
 		return rs;
 	}
 
 	private ResultSet createResultSet(final String sql, final Statement st) throws SQLException {
 		return st.executeQuery(sql);
-	}
-
-	/**
-	 * Chiude la connessione e se c'è il relativo resultSet o la statement
-	 * 
-	 * @param cn
-	 * @throws SQLException
-	 */
-	public void chiudiOggettiDb(Connection cn) {
-		Connection conn = cn;
-		try {
-			if (conn == null) {
-				conn = lastConnection;
-			}
-			if (conn != null) {
-				final ResultSet resultSet = mappaRS.get(cn);
-				final Statement statement = mappaStatement.get(cn);
-				if (resultSet != null) {
-					resultSet.close();
-				}
-				if (statement != null) {
-					statement.close();
-				}
-				conn.close();
-			}
-		} catch (final SQLException e) {
-			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
-		} finally {
-			releaseNewConnection();
-		}
-
 	}
 
 	/**

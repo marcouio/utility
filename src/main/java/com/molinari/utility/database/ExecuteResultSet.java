@@ -21,27 +21,24 @@ public class ExecuteResultSet<T> {
 
 	public T execute(String sql) throws SQLException {
 		final ConnectionPool connectionPool = ConnectionPool.getSingleton();
-		final Connection cn = connectionPool.getConnection();
-		try {
-
-			ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
-
+		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
+		try(
+			final Connection cn = connectionPool.getConnection();
 			final ResultSet resulSet = connectionPool.getResulSet(cn, sql);
+			){
 			return doWithResultSet(resulSet);
-		} finally {
-			connectionPool.chiudiOggettiDb(cn);
-		}
+		} 
 	}
 	
 	public List<T> execute(ElaborateResultSet<T> elabRS) throws SQLException {
 		final ConnectionPool connectionPool = ConnectionPool.getSingleton();
-		final Connection cn = connectionPool.getConnection();
-		try {
-			ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
-			final ResultSet resulSet = connectionPool.getResulSet(cn, sql);
+		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
+		try (
+				final Connection cn = connectionPool.getConnection();
+				final ResultSet resulSet = connectionPool.getResulSet(cn, sql);
+			)
+			{
 			return doWithResultSet(elabRS, resulSet);
-		} finally {
-			connectionPool.chiudiOggettiDb(cn);
 		}
 	}
 

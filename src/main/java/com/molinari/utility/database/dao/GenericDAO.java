@@ -229,7 +229,6 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			selectObj.setAppendToQuery(appendToQuery);
 			ResultSet select = new Query().select(selectObj);
 			final ArrayList<T> entities = elabAnnotation.costruisciEntitaFromRs(select, false);
-			ConnectionPool.getSingleton().chiudiOggettiDb(null);
 			return entities;
 		} catch (Exception e) {
 			throw new DAOException(e);
