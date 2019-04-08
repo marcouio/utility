@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.function.Function;
 import java.util.logging.Level;
 
 import com.molinari.utility.controller.ControlloreBase;
@@ -63,6 +64,14 @@ public abstract class ConnectionPool {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
+	
+	public <R> R useConnection(Function<Connection, R> f) throws SQLException {
+		try (Connection connection = getConnection();){
+			return f.apply(connection);
+		}finally {
+			releaseNewConnection();
+		}
+	}
 
 	/**
 	 * Restituisce la prima connessione disponibile all'interno del pool di
@@ -71,7 +80,7 @@ public abstract class ConnectionPool {
 	 * @return {@link Connection}
 	 */
 	@SuppressWarnings("resource")
-	public synchronized Connection getConnection() {
+	private synchronized Connection getConnection() {
 		Connection cn = null;
 		if (!freeConnections.isEmpty()) {
 			cn = freeConnections.get(0);
@@ -83,6 +92,7 @@ public abstract class ConnectionPool {
 
 			try {
 				if (cn != null && cn.isClosed()) {
+					releaseNewConnection();
 					cn = getConnection();
 				}
 			} catch (final SQLException e) {
@@ -92,6 +102,10 @@ public abstract class ConnectionPool {
 
 			lastConnection = cn;
 		}
+		while(freeConnections.isEmpty()) {
+			System.out.println("I'm wating for a free connection");
+		}
+		cn = freeConnections.get(0);
 		return cn;
 	}
 
@@ -149,6 +163,10 @@ public abstract class ConnectionPool {
 			if (cn != null && sql != null) {
 				ritorno = st.executeUpdate(sql);
 			}
+		}catch (Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}finally {
+			releaseNewConnection();
 		}
 		return ritorno;
 	}

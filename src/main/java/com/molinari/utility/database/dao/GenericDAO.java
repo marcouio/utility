@@ -15,6 +15,7 @@ import com.molinari.utility.database.Clausola;
 import com.molinari.utility.database.ConnectionPool;
 import com.molinari.utility.database.DeleteBase;
 import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.ExecuteResultSet.ElaborateResultSet;
 import com.molinari.utility.database.InsertBase;
 import com.molinari.utility.database.Query;
 import com.molinari.utility.database.SelectBase;
@@ -42,7 +43,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			Clausola clausolaId = new Clausola(null, nomeCampoIdLoc, "=", Integer.toString(id));
 			selectObj.putClausole(clausolaId);
 
-			List<T> retList = new ExecuteResultSet<T>().execute(this::returnEntity, selectObj.getQuery());
+			List<T> retList = new ExecuteResultSet<T>().executeList(this::returnEntity, selectObj.getQuery());
 			return retList.get(0);
 
 		} catch (Exception e) {
@@ -73,9 +74,8 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 		try {
 			SelectBase selectObj = new SelectBase();
 			selectObj.putTabelle(elabAnnotation.getNomeTabella(), elabAnnotation.getNomeTabella());
-			Query query = new Query();
-			ResultSet rs = query.select(selectObj);
-			return elabAnnotation.costruisciEntitaFromRs(rs, false);
+			ElaborateResultSet<T> elabRS = rs -> elabAnnotation.costruisciEntitaFromRs(rs, false);
+			return new ExecuteResultSet<T>().executeList(elabRS, selectObj.getQuery());
 		} catch (Exception e) {
 			throw new DAOException(e);
 		}
@@ -225,9 +225,10 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			selectObj.putTabelle(elabAnnotation.getNomeTabella(), elabAnnotation.getNomeTabella());
 			selectObj.setClausole(clausole);
 			selectObj.setAppendToQuery(appendToQuery);
-			ResultSet select = new Query().select(selectObj);
-			final ArrayList<T> entities = elabAnnotation.costruisciEntitaFromRs(select, false);
-			return entities;
+			
+			ElaborateResultSet<T> elabRS = rs -> elabAnnotation.costruisciEntitaFromRs(rs, false);
+			return new ExecuteResultSet<T>().executeList(elabRS, selectObj.getQuery());
+			
 		} catch (Exception e) {
 			throw new DAOException(e);
 		}

@@ -144,10 +144,6 @@ public class ControlloreBase {
 		return applicationframe;
 	}
 
-	public static Connection getConnection() {
-		return ConnectionPool.getSingleton().getConnection();
-	}
-
 	public static void setApplicationframe(final FrameBase applicationframe) {
 		ControlloreBase.applicationframe = applicationframe;
 	}

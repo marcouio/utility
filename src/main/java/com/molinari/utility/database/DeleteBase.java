@@ -21,11 +21,14 @@ public class DeleteBase extends ObjConClausole{
 		this.tabella = tabella;
 		introComando();
 		setClausole(clausole);
+		scriviClausole();
 		return sbSQL.toString();
 	}
 	
 	private void introComando() {
-		sbSQL.append(DELETE).append(FROM).append(tabella);
+		if(tabella != null && !"".equals(tabella)) {
+			sbSQL.append(DELETE).append(FROM).append(tabella);
+		}
 	}
 
 	public String getTabella() {

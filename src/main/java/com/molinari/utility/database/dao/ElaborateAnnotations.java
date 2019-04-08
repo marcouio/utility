@@ -86,7 +86,7 @@ public class ElaborateAnnotations<T> {
 								String sql = "SELECT * FROM " + elabAnnotation.getNomeTabella() + " WHERE "
 										+ joinColumnDefinition.getColumnName() + " = " + colonnaValue;
 
-								List manyExecute = new ExecuteResultSet<>().execute(makeEntity(elabAnnotation), sql);
+								List manyExecute = new ExecuteResultSet<>().executeList(makeEntity(elabAnnotation), sql);
 								if (manyExecute != null && !manyExecute.isEmpty()) {
 									try {
 										method.invoke(ent, manyExecute.get(0));
@@ -118,7 +118,7 @@ public class ElaborateAnnotations<T> {
 									+ manyToManyDefinitionBase.getRelationTable() + " WHERE " + getId().getColumnName()
 									+ " = " + select.getString(getId().getColumnName()) + ")";
 
-							List manyExecute = new ExecuteResultSet<>().execute(makeEntity(elab), sql);
+							List manyExecute = new ExecuteResultSet<>().executeList(makeEntity(elab), sql);
 							Set ret = new HashSet<>(manyExecute);
 
 							String methodName = elab.costruisciNomeSet(manyToManyDefinitionBase.getField().getName());
