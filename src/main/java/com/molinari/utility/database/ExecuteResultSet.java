@@ -9,16 +9,6 @@ import com.molinari.utility.controller.ControlloreBase;
 
 public class ExecuteResultSet<T> {
 
-	private String sql;
-
-	public String getSql() {
-		return sql;
-	}
-
-	public void setSql(String sql) {
-		this.sql = sql;
-	}
-
 	public T execute(String sql) throws SQLException {
 		final ConnectionPool connectionPool = ConnectionPool.getSingleton();
 		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
@@ -30,22 +20,17 @@ public class ExecuteResultSet<T> {
 		} 
 	}
 	
-	public List<T> execute(ElaborateResultSet<T> elabRS) throws SQLException {
+	public List<T> execute(ElaborateResultSet<T> elabRS, String sql) throws SQLException {
 		final ConnectionPool connectionPool = ConnectionPool.getSingleton();
 		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
 		try (
 				final Connection cn = connectionPool.getConnection();
 				final ResultSet resulSet = connectionPool.getResulSet(cn, sql);
-			)
-			{
-			return doWithResultSet(elabRS, resulSet);
+			){
+			return elabRS.elaborate(resulSet);
 		}
 	}
 
-	protected List<T> doWithResultSet(ElaborateResultSet<T> elabRS, ResultSet resultSet) throws SQLException {
-		return elabRS.elaborate(resultSet);
-	}
-	
 	protected T doWithResultSet(ResultSet resultSet) throws SQLException {
 		return null;
 	}

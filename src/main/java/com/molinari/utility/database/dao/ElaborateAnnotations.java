@@ -24,6 +24,7 @@ import javax.persistence.ManyToOne;
 
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.ExecuteResultSet;
+import com.molinari.utility.database.ExecuteResultSet.ElaborateResultSet;
 import com.molinari.utility.database.dao.columninfo.ColumnDefinition;
 import com.molinari.utility.database.dao.columninfo.ColumnDefinitionBase;
 import com.molinari.utility.database.dao.columninfo.Definition;
@@ -85,9 +86,7 @@ public class ElaborateAnnotations<T> {
 								String sql = "SELECT * FROM " + elabAnnotation.getNomeTabella() + " WHERE "
 										+ joinColumnDefinition.getColumnName() + " = " + colonnaValue;
 
-								ExecuteResultSet execLink = new ExecuteResultSet<>();
-								execLink.setSql(sql);
-								List manyExecute = execLink.execute(rs -> elabAnnotation.costruisciEntitaFromRs(rs, true));
+								List manyExecute = new ExecuteResultSet<>().execute(makeEntity(elabAnnotation), sql);
 								if (manyExecute != null && !manyExecute.isEmpty()) {
 									try {
 										method.invoke(ent, manyExecute.get(0));
@@ -119,9 +118,7 @@ public class ElaborateAnnotations<T> {
 									+ manyToManyDefinitionBase.getRelationTable() + " WHERE " + getId().getColumnName()
 									+ " = " + select.getString(getId().getColumnName()) + ")";
 
-							ExecuteResultSet execLink = new ExecuteResultSet<>();
-							execLink.setSql(sql);
-							List manyExecute = execLink.execute(rs -> elab.costruisciEntitaFromRs(rs, true));
+							List manyExecute = new ExecuteResultSet<>().execute(makeEntity(elab), sql);
 							Set ret = new HashSet<>(manyExecute);
 
 							String methodName = elab.costruisciNomeSet(manyToManyDefinitionBase.getField().getName());
@@ -138,6 +135,10 @@ public class ElaborateAnnotations<T> {
 				| SQLException e) {
 			throw new DAOException(e);
 		}
+	}
+
+	private ElaborateResultSet makeEntity(ElaborateAnnotations<?> elabAnnotation) {
+		return rs -> elabAnnotation.costruisciEntitaFromRs(rs, true);
 	}
 
 	protected void setValue(Method method, Object colonnaValue, Class parameterTypes, T ent) {

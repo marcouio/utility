@@ -42,9 +42,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 			Clausola clausolaId = new Clausola(null, nomeCampoIdLoc, "=", Integer.toString(id));
 			selectObj.putClausole(clausolaId);
 
-			ExecuteResultSet<T> executeResultSet = new ExecuteResultSet<>();
-			executeResultSet.setSql(selectObj.getQuery());
-			List<T> retList = executeResultSet.execute( this::returnEntity);
+			List<T> retList = new ExecuteResultSet<T>().execute(this::returnEntity, selectObj.getQuery());
 			return retList.get(0);
 
 		} catch (Exception e) {
