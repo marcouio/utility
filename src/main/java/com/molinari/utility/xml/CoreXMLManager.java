@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.logging.Level;
 
 import javax.xml.transform.OutputKeys;
@@ -80,29 +81,39 @@ public class CoreXMLManager {
 		} // if
 		return singleton;
 	}
+	
+	private <T> T getElementValueByNode(String nodeName, Function<String, T> mapFunction, T defaultValue) {
+		Node nodo = UtilXml.getNodo(nodeName, doc);
+		Element elemento = UtilXml.getElement(nodo);
+		if (elemento != null) {
+			return mapFunction.apply(elemento.getAttribute("value"));
+		}
+		return defaultValue;
+	}
 
 	/**
 	 * @return il codice della lingua impostata come "Locale"
 	 */
 	public String getLanguage() {
-		Node nodo = UtilXml.getNodo("lang", doc);
-		Element elemento = UtilXml.getElement(nodo);
-		if (elemento != null) {
-			return elemento.getAttribute("locale");
-		}
-		return null;
+		return getElementValueByNode("lang", e -> e, "en");
+	}
+	
+	public Level getLogLevel() {
+		return getElementValueByNode("loglevel", e -> Level.parse(e), Level.INFO);
 	}
 
 	/**
 	 * @return true se è impostata la modalità di autoconfigurazione
 	 */
+	public String getDatabaseUrl() {
+		return getElementValueByNode("databaseurl", e -> e, "../database.sqlite");
+	}
+	
+	/**
+	 * @return true se è impostata la modalità di autoconfigurazione
+	 */
 	public boolean isAutoConfig() {
-		Node nodo = UtilXml.getNodo("auto-config", doc);
-		Element elemento = UtilXml.getElement(nodo);
-		if (elemento != null) {
-			return Boolean.parseBoolean(elemento.getAttribute("value"));
-		}
-		return false;
+		return getElementValueByNode("lang", e -> Boolean.parseBoolean(e), false);
 	}
 
 	/**

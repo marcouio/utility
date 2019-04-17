@@ -8,4 +8,6 @@
         <file nome="messaggi"/>
     </messaggi>
     <auto-config value="true"/>
+    <databaseurl value="database.sqlite"></databaseurl>
+    <loglevel value="SEVERE"></loglevel>
 </configs>
