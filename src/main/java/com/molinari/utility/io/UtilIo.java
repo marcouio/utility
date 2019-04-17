@@ -51,6 +51,70 @@ public class UtilIo {
 		sock.close();
 		in.close();
 	}
+	
+	/**
+	 * Il metodo serve per creare l'alberatura di directory parent di un file.
+	 * 
+	 * @param pathFile
+	 * @param isOnlyDir
+	 *            : specifica se il path contiene solo cartelle o anche il file
+	 *            finale.
+	 * @return
+	 * @throws IOException
+	 */
+	public static boolean creaParentDirForFile(final String pathFile,
+			boolean isOnlyDir) throws IOException {
+		final String[] pathSplittato = pathFile.split("/");
+		String path = "";
+		int lunghezza = isOnlyDir ? pathSplittato.length
+				: pathSplittato.length - 1;
+		for (int i = 0; i < lunghezza; i++) {
+			final String split = pathSplittato[i];
+			if (split != null && !split.equals("")) {
+				path += "/" + split;
+				final File f = new File(path);
+				if (!f.exists() && !f.isDirectory()) {
+					if (!f.mkdir()) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	
+	/**
+	 * @param pathDir
+	 * @return true se il path passato come parametro termina con un separatore
+	 *         di cartelle
+	 */
+	public static boolean endWithSeparator(final String pathDir) {
+
+		String separator = getSeparator(pathDir);
+		int lastIndexOf = pathDir.lastIndexOf(separator);
+
+		if (lastIndexOf != -1) {
+			if (lastIndexOf == pathDir.length() - 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param pathFile
+	 * @return il separatore utilizzato all'interno del path passato come
+	 *         parametro
+	 */
+	public static String getSeparator(String pathFile) {
+		int lastIndexOf = pathFile.lastIndexOf("/");
+		if (lastIndexOf == -1) {
+			return String.valueOf(File.separatorChar);
+		}
+		return "/";
+	}
+
 
 	public static String normalizePath(String pathFile) {
 		if (!pathFile.substring(pathFile.length() - 1, pathFile.length()).equals(UtilIo.slash())) {
