@@ -9,16 +9,30 @@ import java.util.ServiceLoader;
 import com.google.common.collect.Lists;
 import com.molinari.utility.GenericException;
 
-public class ServiceLoaderBase<T extends Extensible<T>> {
+public class ServiceLoaderStarter<T extends Extensible<T>> {
+	
+	public class ComparatorExtendibile implements Comparator<Extensible<T>> {
 
-	public T load(Class<T> clazz){
+		@Override
+		public int compare(Extensible<T> o1, Extensible<T> o2) {
+			int level1 = o1.getLevel().getValue();
+			int level2 = o2.getLevel().getValue();
+			if(level1 > level2){
+				return -1;
+			}else if(level1 < level2){
+				return 1;
+			}
+			return 0;
+		}
+	}
+	
+	public T load(Comparator<Extensible<T>> comparator, Class<T> clazz){
 		ServiceLoader<T> serviceLoader = ServiceLoader.load(clazz, Thread.currentThread().getContextClassLoader());
 		T result = null;
 		Iterator<T> iterator = serviceLoader.iterator();
 		List<T> lista = Lists.newArrayList(iterator);
 			
 		if(!lista.isEmpty()){
-			Comparator<Extensible<T>> comparator = lista.get(0).getComparator();
 			Collections.sort(lista, comparator);
 			result = lista.get(0);
 		}
@@ -27,5 +41,9 @@ public class ServiceLoaderBase<T extends Extensible<T>> {
 			throw new GenericException("Cannot find implementation for: " + clazz);
 		}	
 		return result;
+	}
+
+	public T load(Class<T> clazz){
+		return load(new ComparatorExtendibile(), clazz);
 	}
 }

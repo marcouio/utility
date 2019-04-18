@@ -1,10 +1,10 @@
 package com.molinari.utility.paint.objects.poligoni;
 
-import com.molinari.utility.paint.objects.painter.IPainter;
+import com.molinari.utility.paint.objects.painter.Painter2D;
 
 public class Quadrato extends Rettangolo {
 
-	public Quadrato(final String nome, final IPainter painter) {
+	public Quadrato(final String nome, final Painter2D<Rettangolo> painter) {
 		super(nome, painter);
 	}
 

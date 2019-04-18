@@ -7,7 +7,4 @@ public interface Starter extends Extensible<Starter>{
 	
 	void start(FrameBase frameBase);
 	
-	ControlloreBase getControllore();
-	
-	void setControllore(ControlloreBase controllore);
 }

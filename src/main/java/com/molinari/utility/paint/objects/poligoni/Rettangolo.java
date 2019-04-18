@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import com.molinari.utility.paint.UtilDisegno;
 import com.molinari.utility.paint.objects.IFormaGeometrica2D;
 import com.molinari.utility.paint.objects.painter.IPainter;
+import com.molinari.utility.paint.objects.painter.Painter2D;
 import com.molinari.utility.paint.objects.painter.PainterRettangolo;
 
 public class Rettangolo extends Poligono implements IFormaGeometrica2D {
@@ -24,7 +25,7 @@ public class Rettangolo extends Poligono implements IFormaGeometrica2D {
 		return mouseIsInRegion;
 	}
 
-	public Rettangolo(final String nome, final IPainter painter) {
+	public Rettangolo(final String nome, final IPainter<Rettangolo> painter) {
 		super(nome, painter);
 		init();
 	}

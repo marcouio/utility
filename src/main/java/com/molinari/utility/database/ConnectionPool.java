@@ -20,7 +20,6 @@ public abstract class ConnectionPool {
 	private final ArrayList<Connection> freeConnections; // La coda di
 															// connessioni
 															// libere
-	private Connection lastConnection;
 	private String dbUrl; // Il nome del database
 	private final String dbDriver; // Il driver del database
 	private final String dbUser; // Il login per il database
@@ -88,7 +87,7 @@ public abstract class ConnectionPool {
 				ControlloreBase.getLog().warning("Utilizzata ultima connessione disponibile.");
 			}
 			freeConnections.remove(0);
-			ControlloreBase.getLog().info(() -> "Connection removed. Connections available: " + freeConnections.size());
+			ControlloreBase.getLog().fine(() -> "Connection removed. Connections available: " + freeConnections.size());
 
 			try {
 				if (cn != null && cn.isClosed()) {
@@ -100,10 +99,9 @@ public abstract class ConnectionPool {
 				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
 
-			lastConnection = cn;
 		}
 		while(freeConnections.isEmpty()) {
-			System.out.println("I'm wating for a free connection");
+			ControlloreBase.getLog().warning("I'm wating for a free connection");
 		}
 		cn = freeConnections.get(0);
 		return cn;
@@ -141,8 +139,8 @@ public abstract class ConnectionPool {
 	public synchronized void releaseNewConnection() {
 		final Connection cn = newConnection();
 		releaseConnection(cn);
-		ControlloreBase.getLog().info("add a new connection to pool for closed previous connection.");
-		ControlloreBase.getLog().info(() -> "Now are available " + freeConnections.size() + " connections");
+		ControlloreBase.getLog().fine("Add a new connection to pool.");
+		ControlloreBase.getLog().finest(() -> "Now are available " + freeConnections.size() + " connections");
 	}
 
 	/**

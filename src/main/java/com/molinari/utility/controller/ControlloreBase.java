@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,14 +17,13 @@ import org.w3c.dom.NodeList;
 
 import com.molinari.utility.commands.AbstractCommand;
 import com.molinari.utility.commands.CommandManager;
-import com.molinari.utility.database.ConnectionPool;
 import com.molinari.utility.graphic.UtilComponenti;
 import com.molinari.utility.graphic.component.container.FrameBase;
 import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
 import com.molinari.utility.log.LoggerOggetto;
 import com.molinari.utility.messages.I18NManager;
-import com.molinari.utility.servicesloader.ServiceLoaderBase;
+import com.molinari.utility.servicesloader.ServiceLoaderStarter;
 import com.molinari.utility.xml.CoreXMLManager;
 import com.molinari.utility.xml.UtilXml;
 
@@ -133,10 +131,9 @@ public class ControlloreBase {
 		getStarter().start(frame);
 	}
 
-	private Starter createStarterInstance(ControlloreBase controlloreBase) {
-		ServiceLoaderBase<Starter> slb = new ServiceLoaderBase<>();
+	public Starter createStarterInstance(ControlloreBase controlloreBase) {
+		ServiceLoaderStarter<Starter> slb = new ServiceLoaderStarter<>();
 		Starter load = slb.load(Starter.class);
-		load.setControllore(controlloreBase);
 		return load;
 	}
 
