@@ -297,6 +297,13 @@ public class StyleBase {
 			addColorSetting(doc, styleElement, "255", "0", "0", StyleTable.FOREGROUND_SEL);
 			addColorSetting(doc, styleElement, "192", "192", "192", StyleTable.BACKGROUND_NOTSEL);
 			addColorSetting(doc, styleElement, "100", "100", "100", StyleTable.BACKGROUND_SEL);
+
+			addFontSetting(doc, addStyleElement(doc, rootElement, "StyleBaseToggle"));
+			addFontSetting(doc, addStyleElement(doc, rootElement, "StyleBaseL"));
+			addFontSetting(doc, addStyleElement(doc, rootElement, "StyleBaseLTP"));
+			addFontSetting(doc, addStyleElement(doc, rootElement, "StyleBaseB"));
+			addFontSetting(doc, addStyleElement(doc, rootElement, "TextAreaStyle"));
+			addFontSetting(doc, addStyleElement(doc, rootElement, "StyleBaseTF"));
 			
 			UtilXml.writeXmlFile(doc, pathFile);
 		}
@@ -312,14 +319,10 @@ public class StyleBase {
 
 	private static Element makeStyleBase(Document doc, Element rootElement, String name) {
 		//style
-		final Element styleElement = UtilXml.addElement(doc, rootElement, StyleBase.STYLE);
-		UtilXml.addAttribute(doc, styleElement, StyleBase.NAME, name);
+		final Element styleElement = addStyleElement(doc, rootElement, name);
 
 		//font
-		final Element fontElement = UtilXml.addElement(doc, styleElement, StyleBase.FONT_NODE);
-		UtilXml.addAttribute(doc, fontElement, StyleBase.FONTFAMILY_NODE, "Arial");
-		UtilXml.addAttribute(doc, fontElement, StyleBase.TYPE, "0");
-		UtilXml.addAttribute(doc, fontElement, StyleBase.SIZE, "15");
+		addFontSetting(doc, styleElement);
 
 		//foreground
 		final Element foregroundElement = UtilXml.addElement(doc, styleElement, StyleBase.FOREGROUND_NODE);
@@ -345,6 +348,19 @@ public class StyleBase {
 		UtilXml.addAttribute(doc, dimensionElement, StyleBase.WIDTH_NODE, "101");
 		UtilXml.addAttribute(doc, dimensionElement, StyleBase.HEIGHT_NODE, "131");
 		return styleElement;
+	}
+
+	private static Element addStyleElement(Document doc, Element rootElement, String name) {
+		final Element styleElement = UtilXml.addElement(doc, rootElement, StyleBase.STYLE);
+		UtilXml.addAttribute(doc, styleElement, StyleBase.NAME, name);
+		return styleElement;
+	}
+
+	private static void addFontSetting(Document doc, final Element styleElement) {
+		final Element fontElement = UtilXml.addElement(doc, styleElement, StyleBase.FONT_NODE);
+		UtilXml.addAttribute(doc, fontElement, StyleBase.FONTFAMILY_NODE, "Arial");
+		UtilXml.addAttribute(doc, fontElement, StyleBase.TYPE, "0");
+		UtilXml.addAttribute(doc, fontElement, StyleBase.SIZE, "15");
 	}
 
 }

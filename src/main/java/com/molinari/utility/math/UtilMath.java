@@ -30,7 +30,7 @@ public class UtilMath {
 		return value / 100 * percentage;
 	}
 
-	public static boolean checkDouble(final String doble) {
+	public static boolean isDouble(final String doble) {
 		return Doubles.tryParse(doble) != null;
 	}
 
@@ -79,6 +79,10 @@ public class UtilMath {
 		final String arrotondato = Long.toString(Math.round(moltiplicato));
 		return Double.parseDouble(arrotondato) / moltiplicatoreInt;
 
+	}
+	
+	public static boolean isInteger(String valore) {
+		return Ints.tryParse(valore) != null;
 	}
 
 	public static boolean isNumber(String valore) {

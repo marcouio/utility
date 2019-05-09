@@ -1,7 +1,9 @@
 package com.molinari.utility.graphic.component.base;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -212,12 +214,23 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		}
 		this.getStyle().setPadre(padre);
 		final Component padreComponent = (Component) padre;
-		padreComponent.setFont(this.getStyle().getFont());
-		padreComponent.setForeground(this.getStyle().getForeground());
+		
+		Font font = this.getStyle().getFont();
+		if(font != null) {
+			padreComponent.setFont(font);
+		}
+		Color foreground = this.getStyle().getForeground();
+		if(foreground != null) {
+			padreComponent.setForeground(foreground);
+		}
 		if(this.getStyle().getBackground() != null){
 			padreComponent.setBackground(this.getStyle().getBackground());
 		}
-		padreComponent.setSize(this.getStyle().getWidth(), this.getStyle().getHeight());
+		int widthStyle = this.getStyle().getWidth();
+		int heightStyle = this.getStyle().getHeight();
+		if(widthStyle > 0 && heightStyle > 0) {
+			padreComponent.setSize(widthStyle, heightStyle);
+		}
 		if (CoreXMLManager.getSingleton().isAutoConfig() && ihaveToSetDimension(this.getStyle(), padreComponent)) {
 			final int width = ((IComponenteBase) padreComponent).getLarghezza();
 			final int height = ((IComponenteBase) padreComponent).getAltezza();

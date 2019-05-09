@@ -15,6 +15,24 @@ import com.molinari.utility.graphic.component.style.StyleBase;
 
 public class ToggleBtnBase extends ToggleBtn implements IComponenteBase, IContainerBase {
 
+	public ToggleBtnBase(ImageIcon iconaMovimentiPic, int i, int j, final Container contenitore) {
+		super(iconaMovimentiPic, i, j);
+		makeGUI(contenitore);
+		init(contenitore, this);
+	}
+
+	public ToggleBtnBase(String text, ImageIcon icon, int xDistanzaBordoImmagine, int xPartenzaTesto, final Container contenitore) {
+		super(text, icon, xDistanzaBordoImmagine, xPartenzaTesto);
+		makeGUI(contenitore);
+		init(contenitore, this);
+	}
+
+	public ToggleBtnBase(String text, ImageIcon icon, JPanel padre, int xDistanzaBordoImmagine, int xPartenzaTesto, final Container contenitore) {
+		super(text, icon, padre, xDistanzaBordoImmagine, xPartenzaTesto);
+		makeGUI(contenitore);
+		init(contenitore, this);
+	}
+
 	public ToggleBtnBase(final ImageIcon icon, final Container contenitore) {
 		super(icon);
 		makeGUI(contenitore);

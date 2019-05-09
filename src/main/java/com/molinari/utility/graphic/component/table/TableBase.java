@@ -115,15 +115,40 @@ public class TableBase extends JTable implements FocusListener, IComponenteBase 
 		if(styleBase != null && styleBase instanceof StyleTable){
 			
 			final StyleTable styleTable = (StyleTable) styleBase;
-			this.setBackgroundNotSel(styleTable.getBackgroundNotSel());
-			this.setBackgroundPrimaColonna(styleTable.getBackgroundPrimaColonna());
-			this.setBackgroundPrimaRiga(styleTable.getBackgroundPrimaRiga());
-			this.setBackgroundSel(styleTable.getBackgroundSel());
-			this.setForegroundNotSel(styleTable.getForegroundNotSel());
-			this.setForegroundPrimaColonna(styleTable.getForegroundPrimaColonna());
-			this.setForegroundPrimaRiga(styleTable.getForegroundPrimaRiga());
-			this.setForegroundSel(styleTable.getForegroundSel());
-			this.setCellEditable(styleTable.isCellEditable());
+			Color backgroundNotSelStyle = styleTable.getBackgroundNotSel();
+			if(backgroundNotSelStyle != null) {
+				this.setBackgroundNotSel(backgroundNotSelStyle);
+			}
+			Color backgroundPrimaColonnaStyle = styleTable.getBackgroundPrimaColonna();
+			if(backgroundPrimaColonnaStyle != null) {
+				this.setBackgroundPrimaColonna(backgroundPrimaColonnaStyle);
+			}
+			Color backgroundPrimaRigaStyle = styleTable.getBackgroundPrimaRiga();
+			if(backgroundPrimaRigaStyle != null) {
+				this.setBackgroundPrimaRiga(backgroundPrimaRigaStyle);
+			}
+			Color backgroundSelStyle = styleTable.getBackgroundSel();
+			if(backgroundSelStyle != null) {
+				this.setBackgroundSel(backgroundSelStyle);
+			}
+			Color foregroundNotSelStyle = styleTable.getForegroundNotSel();
+			if(foregroundNotSelStyle != null) {
+				this.setForegroundNotSel(foregroundNotSelStyle);
+			}
+			Color foregroundPrimaColonnaStyle = styleTable.getForegroundPrimaColonna();
+			if(foregroundPrimaColonnaStyle != null) {
+				this.setForegroundPrimaColonna(foregroundPrimaColonnaStyle);
+			}
+			Color foregroundPrimaRigaStyle = styleTable.getForegroundPrimaRiga();
+			if(foregroundPrimaRigaStyle != null) {
+				this.setForegroundPrimaRiga(foregroundPrimaRigaStyle);
+			}
+			Color foregroundSelStyle = styleTable.getForegroundSel();
+			if(foregroundSelStyle != null) {
+				this.setForegroundSel(foregroundSelStyle);
+			}
+			boolean cellEditable = styleTable.isCellEditable();
+			this.setCellEditable(cellEditable);
 		}
 	}
 

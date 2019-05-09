@@ -1,6 +1,13 @@
 package com.molinari.utility.text;
 
 import java.awt.GraphicsEnvironment;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.logging.Level;
+
+import com.molinari.utility.controller.ControlloreBase;
 
 public class UtilText {
 
@@ -54,6 +61,11 @@ public class UtilText {
 				return false;
 			}
 		}
+		return true;
+	}
+	
+	public static boolean checkDate(String date, String pattern) {
+		DateTimeFormatter.ofPattern(pattern).parse(date);
 		return true;
 	}
 

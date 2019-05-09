@@ -154,6 +154,8 @@ public abstract class ConnectionPool {
 
 	public int executeUpdate(final String sql) throws SQLException {
 		
+		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
+		
 		int ritorno = 0;
 		try(final Connection cn = getConnection();
 			final Statement st = createStatement(cn);
