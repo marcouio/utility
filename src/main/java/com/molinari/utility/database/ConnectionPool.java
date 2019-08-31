@@ -165,6 +165,7 @@ public abstract class ConnectionPool {
 			}
 		}catch (Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			throw new DBException(e);
 		}finally {
 			releaseNewConnection();
 		}

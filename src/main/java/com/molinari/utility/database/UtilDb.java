@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -46,6 +47,23 @@ public class UtilDb {
 			mesi = Integer.toString(corrente);
 		}
 		return mesi;
+	}
+	
+	public static Comparator<String> comparatorStringData(String pattern) {
+		return (ds1, ds2) -> {
+			return sortStringData(pattern, ds1, ds2);
+		};
+	}
+
+	public static int sortStringData(String pattern, String ds1, String ds2) {
+		Date d1 = UtilDb.stringToDate(ds1, pattern);
+		Date d2 = UtilDb.stringToDate(ds2, pattern);
+		if(d1.after(d2)) {
+			return -1;
+		}else if(d1.before(d2)) {
+			return 1;
+		}
+		return 0;
 	}
 
 	/**

@@ -160,4 +160,8 @@ public class CoreXMLManager {
 	public Document getDoc() {
 		return doc;
 	}
+
+	public String getDateFormat() {
+		return getElementValueByNode("dateformat", d -> d, "yyyy/MM/dd");
+	}
 }

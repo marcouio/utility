@@ -48,7 +48,7 @@ public class I18NManager {
 		return key;
 	}
 
-	public String getMessaggio(final String key, final String[] params) {
+	public String getMessaggio(final String key, final String... params) {
 		try {
 			String messaggio = getMessaggio(key);
 			
