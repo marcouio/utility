@@ -52,6 +52,7 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 		this.applicaStile(new StyleBase("StyleBasePannello"), this);
 		this.setLayout(null);
 		contenitorePadre = contenitorePadre2;
+		this.setSize(getMaxDimensionX(), this.getMaxDimensionY());
 	}
 
 	@Override
