@@ -14,10 +14,12 @@ import com.molinari.utility.graphic.component.textfield.TextFieldBase;
 public class TextFieldData extends TextFieldBase {
 
 	private static final long serialVersionUID = 1L;
+	private String format;
 
 	public TextFieldData(final String format, final Container componentePadre) {
 		super(format, componentePadre);
 		setFormatter(new FormatterData(format));
+		this.setFormat(format);
 	}
 
 	@Override
@@ -27,5 +29,13 @@ public class TextFieldData extends TextFieldBase {
 			style = new StyleBase("StyleTFData");
 		}
 		super.applicaStile(style, comp);
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
 	}
 }

@@ -1,6 +1,7 @@
 package com.molinari.utility.database.dao;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 
+import com.molinari.utility.GenericException;
 import com.molinari.utility.commands.beancommands.AbstractOggettoEntita;
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.Clausola;
@@ -20,6 +22,8 @@ import com.molinari.utility.database.SelectBase;
 import com.molinari.utility.database.UpdateBase;
 import com.molinari.utility.database.dao.columninfo.ColumnDefinition;
 import com.molinari.utility.database.dao.columninfo.Definition;
+import com.molinari.utility.database.dao.columninfo.ManyToManyDefinition;
+import com.molinari.utility.database.dao.columninfo.ManyToManyDefinitionBase;
 
 public class GenericDAO<T extends AbstractOggettoEntita> extends Observable implements IDAO<T> {
 
@@ -91,9 +95,7 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 					if(definition instanceof ColumnDefinition){
 						Field field = definition.getField();
 						String colonna = ((ColumnDefinition) definition).getColumnName();
-						final String getMethodName = elabAnnotation.costruisciNomeGet(field.getName());
-						final Method method = getEntita().getClass().getMethod(getMethodName);
-						Object getterCampo = method.invoke(oggettoEntita);
+						Object getterCampo = invokeMethodFromField(oggettoEntita, field);
 						if (!colonna.equals(getNomeCampoId()) || isIdValido(getterCampo)) {
 							inserisciCampiValue(colonna, getterCampo, field.getType(), insertBase);
 						}
@@ -102,12 +104,33 @@ public class GenericDAO<T extends AbstractOggettoEntita> extends Observable impl
 				
 				Query q = new Query();
 				q.insert(insertBase);
+				
+				columnList.stream().filter(c -> c instanceof ManyToManyDefinitionBase).forEach(d ->{
+					ManyToManyDefinitionBase def = (ManyToManyDefinitionBase) d;
+					String relationTable = def.getRelationTable();
+					if(!relationTable.equals(elabAnnotation.getNomeTabella())) {
+						Field field = def.getField();
+						Object relObject = invokeMethodFromField(oggettoEntita, field);
+						insert((T) relObject);
+					}
+				});
 				//TODO JOIN
 			}	
 			return false;
 			
 		} catch (Exception e) {
 			throw new DAOException(e);
+		}
+	}
+
+	private Object invokeMethodFromField(T oggettoEntita, Field field) {
+		try {
+			final String getMethodName = elabAnnotation.costruisciNomeGet(field.getName());
+			final Method method = getEntita().getClass().getMethod(getMethodName);
+			return method.invoke(oggettoEntita);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			throw new GenericException(e);
 		}
 	}
 
