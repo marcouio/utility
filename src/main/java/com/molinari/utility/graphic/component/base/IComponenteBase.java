@@ -110,4 +110,5 @@ public interface IComponenteBase {
 	
 	public void makeGUI(final Container contenitorePadre);
 
+	public void setSize(Component componentToSize, boolean isPercent, int width, int height);
 }

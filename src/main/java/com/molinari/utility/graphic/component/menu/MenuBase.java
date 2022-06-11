@@ -154,6 +154,15 @@ public class MenuBase extends JMenu implements IContainerBase, IComponenteBase {
 	@Override
 	public void makeGUI(Container contenitorePadre) {
 		// TODO Auto-generated method stub
-		
 	}
+	
+	public void setSize(boolean isPercent, int width, int height) {
+		componenteBase.setSize(this, isPercent, width, height);
+	}
+
+	@Override
+	public void setSize(Component componentToSize, boolean isPercent, int width, int height) {
+		componenteBase.setSize(componentToSize, isPercent, width, height);
+	}
+	
 }

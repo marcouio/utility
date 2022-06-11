@@ -3,10 +3,12 @@ package com.molinari.utility.graphic.component.base;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Toolkit;
 
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -284,5 +286,17 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	public void setStyle(StyleBase style) {
 		this.style = style;
+	}
+
+	@Override
+	public void setSize(Component componentToSize, boolean isPercent, int width, int height) {
+		if(!isPercent) {
+			componentToSize.setSize(width, height);
+		}else {
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			int newWidth = (int) (screenSize.getWidth() / 100 * width);
+			int newHeight = (int) (screenSize.getHeight() / 100 * height);
+			componentToSize.setSize(newWidth, newHeight);
+		}
 	}
 }

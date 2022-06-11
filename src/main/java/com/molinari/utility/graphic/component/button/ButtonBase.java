@@ -203,4 +203,13 @@ public class ButtonBase extends JButton implements IComponenteBase, IContainerBa
 		//do nothing
 	}
 
+	public void setSize(boolean isPercent, int width, int height) {
+		componenteBase.setSize(this, isPercent, width, height);
+	}
+
+	@Override
+	public void setSize(Component componentToSize, boolean isPercent, int width, int height) {
+		componenteBase.setSize(componentToSize, isPercent, width, height);
+	}
+
 }

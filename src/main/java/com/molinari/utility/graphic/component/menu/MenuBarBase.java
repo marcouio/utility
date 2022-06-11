@@ -164,4 +164,12 @@ public class MenuBarBase extends JMenuBar implements IComponenteBase, IContainer
 	public void makeGUI(Container contenitorePadre) {
 		//Do nothing
 	}
+	public void setSize(boolean isPercent, int width, int height) {
+		componenteBase.setSize(this, isPercent, width, height);
+	}
+
+	@Override
+	public void setSize(Component componentToSize, boolean isPercent, int width, int height) {
+		componenteBase.setSize(componentToSize, isPercent, width, height);
+	}
 }

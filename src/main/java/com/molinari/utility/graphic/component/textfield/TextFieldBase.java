@@ -183,4 +183,12 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	public void setFormatter(IFormatterTF formatter) {
 		this.formatter = formatter;
 	}
+	public void setSize(boolean isPercent, int width, int height) {
+		componenteBase.setSize(this, isPercent, width, height);
+	}
+
+	@Override
+	public void setSize(Component componentToSize, boolean isPercent, int width, int height) {
+		componenteBase.setSize(componentToSize, isPercent, width, height);
+	}
 }

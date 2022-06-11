@@ -173,7 +173,15 @@ public class PasswordFieldBase extends JPasswordField implements FocusListener, 
 	@Override
 	public void focusLost(FocusEvent e) {
 		// default do nothing
-		
+	}
+
+	public void setSize(boolean isPercent, int width, int height) {
+		componenteBase.setSize(this, isPercent, width, height);
+	}
+
+	@Override
+	public void setSize(Component componentToSize, boolean isPercent, int width, int height) {
+		componenteBase.setSize(componentToSize, isPercent, width, height);
 	}
 
 }
