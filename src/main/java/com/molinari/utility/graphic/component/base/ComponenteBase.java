@@ -16,6 +16,7 @@ import javax.swing.JTree;
 import javax.swing.text.JTextComponent;
 
 import com.molinari.utility.controller.ControlloreBase;
+import com.molinari.utility.graphic.component.container.base.IContainerBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
 import com.molinari.utility.math.UtilMath;
 import com.molinari.utility.xml.CoreXMLManager;
@@ -293,10 +294,34 @@ public class ComponenteBase extends Component implements IComponenteBase {
 		if(!isPercent) {
 			componentToSize.setSize(width, height);
 		}else {
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			int newWidth = (int) (screenSize.getWidth() / 100 * width);
-			int newHeight = (int) (screenSize.getHeight() / 100 * height);
+			Dimension newSize = getPercentDimensionToSet();
+			int newWidth = (int) (newSize.getWidth() / 100 * width);
+			int newHeight = (int) (newSize.getHeight() / 100 * height);
 			componentToSize.setSize(newWidth, newHeight);
 		}
 	}
+	
+	private Dimension getPercentDimensionToSet() {
+		int widthToResize = getWidthToResize();
+		int heightToResize = getHeightToResize();
+		return new Dimension(widthToResize, heightToResize);
+	}
+
+	private int getHeightToResize() {
+		Container contenitorePadre = this.getContenitorePadre();
+		int maxDimensionY = contenitorePadre instanceof IContainerBase ? ((IContainerBase) contenitorePadre).getMaxDimensionY() : 30;
+		int maxAltezzaContainer = Math.max(contenitorePadre.getHeight(), maxDimensionY);
+		int maxAltezzaAppFrame = Math.max(ControlloreBase.getApplicationframe().getMaxDimensionY(), ControlloreBase.getApplicationframe().getHeight());
+		return Math.max(maxAltezzaContainer, maxAltezzaAppFrame);
+		
+	}
+
+	private int getWidthToResize() {
+		Container contenitorePadre = this.getContenitorePadre();
+		int maxDimensionX = contenitorePadre instanceof IContainerBase ? ((IContainerBase) contenitorePadre).getMaxDimensionX() : 100;
+		int maxContainerLarghezza = Math.max(contenitorePadre.getWidth(), maxDimensionX);
+		int maxAppFrameLarghezza = Math.max(ControlloreBase.getApplicationframe().getMaxDimensionX(), ControlloreBase.getApplicationframe().getWidth());
+		return Math.max(maxContainerLarghezza, maxAppFrameLarghezza);
+	}
+
 }

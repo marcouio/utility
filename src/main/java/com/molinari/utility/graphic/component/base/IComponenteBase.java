@@ -108,7 +108,13 @@ public interface IComponenteBase {
 
 	public Container getContenitorePadre();
 	
+	/**
+	 * Questo metodo è invocato all'interno del costruttore dei singoli componenti perché avviene prima dell'inizializzazione del parent. I componenti costruiti ed aggiunti qui dentro devono
+	 * avere le dimensioni impostate in modo da impostare le dimensioni successivamente del contenitore padre
+	 * @param contenitorePadre
+	 */
 	public void makeGUI(final Container contenitorePadre);
 
 	public void setSize(Component componentToSize, boolean isPercent, int width, int height);
+	
 }

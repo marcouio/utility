@@ -1,5 +1,6 @@
 package com.molinari.utility.controller;
 
+import com.molinari.utility.graphic.PercentageDimension;
 import com.molinari.utility.graphic.component.container.FrameBase;
 import com.molinari.utility.servicesloader.LoaderLevel;
 
@@ -22,6 +23,11 @@ public class StarterBase implements Starter {
 	@Override
 	public Starter createInstance(Object... args) {
 		return new StarterBase();
+	}
+
+	@Override
+	public PercentageDimension getPercentageDimension() {
+		return new PercentageDimension(true, 100, 100);
 	}
 
 }

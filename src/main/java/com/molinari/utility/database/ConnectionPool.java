@@ -127,6 +127,7 @@ public abstract class ConnectionPool {
 			con = DriverManager.getConnection(dbUrl + user + pass);
 		} catch (final SQLException e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			throw new DBException(e);
 		}
 		// restituisce la nuova connessione
 		return con;

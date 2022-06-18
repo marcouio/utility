@@ -1,7 +1,5 @@
 package com.molinari.utility.controller;
 
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
@@ -17,9 +15,9 @@ import org.w3c.dom.NodeList;
 
 import com.molinari.utility.commands.AbstractCommand;
 import com.molinari.utility.commands.CommandManager;
+import com.molinari.utility.graphic.PercentageDimension;
 import com.molinari.utility.graphic.UtilComponenti;
 import com.molinari.utility.graphic.component.container.FrameBase;
-import com.molinari.utility.graphic.component.container.PannelloBase;
 import com.molinari.utility.graphic.component.style.StyleBase;
 import com.molinari.utility.log.LoggerOggetto;
 import com.molinari.utility.messages.I18NManager;
@@ -82,31 +80,18 @@ public class ControlloreBase {
 		return singleton;
 	}
 	
-	public void myMain(final ControlloreBase controllore, final boolean dimensiona, final String nomeApplicazione) {
+	public void myMain(final ControlloreBase controllore, final String nomeApplicazione) {
 		this.nomeApplicazione = nomeApplicazione;
 		SwingUtilities.invokeLater(() -> {
 			try {
+				setStarter(createStarterInstance(this));
 				creaFileXmlConfigurazione();
 				creaFileXmlStyle();
 				init();
-				FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore);
+				PercentageDimension percentageDimension = getStarter() != null ? getStarter().getPercentageDimension() : null;
+				FrameBase frame = UtilComponenti.initContenitoreFrameApplicazione(null, controllore, percentageDimension);
 				ControlloreBase.setApplicationframe(frame);
 				controllore.mainOverridato(frame);
-				if (dimensiona) {
-					Container content = frame.getContentPane();
-					Component[] components = content.getComponents();
-					for (Component component : components) {
-						if(component instanceof PannelloBase){
-							PannelloBase pannello = (PannelloBase) component;
-							pannello.setSize(pannello.getLarghezza(), pannello.getAltezza());
-						}
-					}
-					int larghezza = frame.getLarghezza();
-					int altezza = frame.getAltezza();
-					frame.setSize(larghezza, altezza);
-					getLog().info("Frame, larghezza: " + frame.getSize().getWidth());
-					getLog().info("Frame, altezza: " + frame.getSize().getHeight());
-				}
 			} catch (Exception e) {
 				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			}
@@ -127,14 +112,19 @@ public class ControlloreBase {
 	 * @throws Exception 
 	 */
 	public void mainOverridato(FrameBase frame){
-		setStarter(createStarterInstance(this));
+		getStarter().getPercentageDimension();
 		getStarter().start(frame);
 	}
 
 	public Starter createStarterInstance(ControlloreBase controlloreBase) {
-		ServiceLoaderStarter<Starter> slb = new ServiceLoaderStarter<>();
-		Starter load = slb.load(Starter.class);
-		return load;
+		try {
+			ServiceLoaderStarter<Starter> slb = new ServiceLoaderStarter<>();
+			Starter load = slb.load(Starter.class);
+			return load;
+		} catch (Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
+		return null;
 	}
 
 	public static FrameBase getApplicationframe() {
@@ -239,7 +229,7 @@ public class ControlloreBase {
 	}
 	
 	public static void main(final String[] args) {
-		ControlloreBase.getSingleton().myMain(ControlloreBase.getSingleton(), false, "myApplication");
+		ControlloreBase.getSingleton().myMain(ControlloreBase.getSingleton(), "myApplication");
 	}
 
 	public void init(){
