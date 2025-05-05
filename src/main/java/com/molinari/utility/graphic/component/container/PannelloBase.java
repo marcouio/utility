@@ -22,6 +22,12 @@ public class PannelloBase extends JPanel implements IComponenteBase, IContainerB
 	private static final long serialVersionUID = 1L;
 	private final ComponenteBaseConPadreContenitore componenteBase = new ComponenteBaseConPadreContenitore(this);
 
+	public PannelloBase(final Container contenitore, Object... parametri) {
+		super();
+		makeGUI(contenitore, parametri);
+		init(contenitore, this);
+	}
+	
 	public PannelloBase(final Container contenitore) {
 		super();
 		makeGUI(contenitore);
