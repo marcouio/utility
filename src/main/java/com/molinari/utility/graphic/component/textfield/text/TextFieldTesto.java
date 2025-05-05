@@ -11,7 +11,7 @@ public class TextFieldTesto extends TextFieldBase {
 
 	public TextFieldTesto(final String testo, final IFormatterTF formatter, final Container contenitorePadre) {
 		super(testo, formatter, contenitorePadre);
-		this.setFormatter(new FormatterTesto());
+		this.setFormatter(formatter);
 	}
 
 	public TextFieldTesto(final String testo, final Container contenitorePadre) {
@@ -22,5 +22,12 @@ public class TextFieldTesto extends TextFieldBase {
 	public TextFieldTesto(final Container contenitorePadre) {
 		super(contenitorePadre);
 		setFormatter(new FormatterTesto());
+	}
+	
+	@Override
+	public void focusLost(FocusEvent arg0) {
+		if(getTestoConvertitoInTipo() != null) {
+			setText(getTestoConvertitoInTipo().toString());
+		} 
 	}
 }
