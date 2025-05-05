@@ -89,7 +89,7 @@ public class ComponenteBase extends Component implements IComponenteBase {
 
 	private boolean checkPreliminariForRepaint(final Object[] parametri, IComponenteBase componente) {
 		final boolean nessunParametro = parametri == null || parametri.length == 0;
-		return !(nessunParametro || (parametri.length > 1 && modelIsNull(componente, parametri[IComponenteBase.PARAM_REPAINT_MODEL])));
+		return  nessunParametro || !((parametri.length > 1 && modelIsNull(componente, parametri[IComponenteBase.PARAM_REPAINT_MODEL])));
 	}
 
 	protected boolean modelIsNull(final Object objForRepaint, final Object model) {
