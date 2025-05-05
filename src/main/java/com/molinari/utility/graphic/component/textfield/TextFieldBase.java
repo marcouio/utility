@@ -51,10 +51,10 @@ public class TextFieldBase extends JTextField implements FocusListener, ICompone
 	}
 
 	public Object getTestoConvertitoInTipo() {
-		final Object testoConvertito = null;
+		Object testoConvertito = null;
 		if (getFormatter() != null && getText() != null) {
 			try {
-				getFormatter().parsifica(getText());
+				testoConvertito = getFormatter().parsifica(getText());
 			} catch (final Exception e) {
 				getFormatter().metodoForCatch(e);
 			}
