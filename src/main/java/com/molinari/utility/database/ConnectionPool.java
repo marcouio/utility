@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Level;
 
@@ -27,8 +30,16 @@ public abstract class ConnectionPool {
 
 	private static ConnectionPool singleton;
 
+	private static final long CONNECTION_WAIT_TIMEOUT_MS = 30_000L;
+
+	private final int maxConnections;
+	private int createdConnections;
+	private final Map<Connection, List<Statement>> statementsByConnection;
+
 	protected ConnectionPool() {
 		freeConnections = new ArrayList<>();
+		statementsByConnection = new IdentityHashMap<>();
+		maxConnections = Math.max(1, getNumeroConnessioniDisponibili());
 		dbUrl = getDbUrl();
 		dbDriver = getDriver();
 		dbUser = getUser();
@@ -36,7 +47,7 @@ public abstract class ConnectionPool {
 
 		loadDriver();
 
-		for (int i = 0; i < getNumeroConnessioniDisponibili(); i++) {
+		for (int i = 0; i < maxConnections; i++) {
 			releaseNewConnection();
 		}
 	}
@@ -65,46 +76,66 @@ public abstract class ConnectionPool {
 	}
 	
 	public <R> R useConnection(Function<Connection, R> f) throws SQLException {
-		try (Connection connection = getConnection();){
+		final Connection connection = getConnection();
+		try {
 			return f.apply(connection);
-		}finally {
-			releaseNewConnection();
+		} finally {
+			releaseConnection(connection);
 		}
 	}
 
 	/**
 	 * Restituisce la prima connessione disponibile all'interno del pool di
-	 * connessioni disponibili
+	 * connessioni disponibili, rimuovendola dal pool fino al rilascio.
+	 * Se il pool e' vuoto crea una nuova connessione entro il limite massimo,
+	 * altrimenti attende il rilascio di una connessione.
 	 * 
 	 * @return {@link Connection}
 	 */
-	@SuppressWarnings("resource")
-	private synchronized Connection getConnection() {
-		Connection cn = null;
-		if (!freeConnections.isEmpty()) {
-			cn = freeConnections.get(0);
-			if (freeConnections.size() == 1) {
-				ControlloreBase.getLog().warning("Utilizzata ultima connessione disponibile.");
-			}
-			freeConnections.remove(0);
-			ControlloreBase.getLog().fine(() -> "Connection removed. Connections available: " + freeConnections.size());
-
-			try {
-				if (cn != null && cn.isClosed()) {
-					releaseNewConnection();
-					cn = getConnection();
+	private synchronized Connection getConnection() throws SQLException {
+		final long deadline = System.currentTimeMillis() + CONNECTION_WAIT_TIMEOUT_MS;
+		while (true) {
+			while (!freeConnections.isEmpty()) {
+				final Connection cn = freeConnections.remove(0);
+				if (isUsable(cn)) {
+					ControlloreBase.getLog().fine(() -> "Connection removed. Connections available: " + freeConnections.size());
+					return cn;
 				}
-			} catch (final SQLException e) {
-				cn = getConnection();
-				ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+				createdConnections--;
+				closeQuietly(cn);
 			}
 
+			if (createdConnections < maxConnections) {
+				final Connection cn = newConnection();
+				createdConnections++;
+				return cn;
+			}
+
+			final long remaining = deadline - System.currentTimeMillis();
+			if (remaining <= 0) {
+				throw new SQLException("Nessuna connessione disponibile nel pool entro il timeout di "
+						+ CONNECTION_WAIT_TIMEOUT_MS + " ms");
+			}
+			ControlloreBase.getLog().warning("In attesa di una connessione libera nel pool.");
+			try {
+				wait(remaining);
+			} catch (final InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new SQLException("Interrotto mentre si attendeva una connessione libera", e);
+			}
 		}
-		while(freeConnections.isEmpty()) {
-			ControlloreBase.getLog().warning("I'm wating for a free connection");
+	}
+
+	private boolean isUsable(final Connection cn) {
+		if (cn == null) {
+			return false;
 		}
-		cn = freeConnections.get(0);
-		return cn;
+		try {
+			return !cn.isClosed();
+		} catch (final SQLException e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+			return false;
+		}
 	}
 
 	/**
@@ -112,7 +143,7 @@ public abstract class ConnectionPool {
 	 * 
 	 * @return {@link Connection}
 	 */
-	private Connection newConnection() {
+	protected Connection newConnection() {
 
 		Connection con = null;
 
@@ -134,23 +165,47 @@ public abstract class ConnectionPool {
 	}
 
 	/**
-	 * Il metodo releaseConnection rilascia una connessione inserendola nella
-	 * coda delle connessioni libere
+	 * Crea una nuova connessione e la inserisce nella coda delle connessioni
+	 * libere, rispettando il limite massimo del pool.
 	 */
 	public synchronized void releaseNewConnection() {
+		if (createdConnections >= maxConnections) {
+			ControlloreBase.getLog().fine("Numero massimo di connessioni nel pool gia' raggiunto.");
+			return;
+		}
 		final Connection cn = newConnection();
-		releaseConnection(cn);
+		createdConnections++;
+		freeConnections.add(cn);
+		notifyAll();
 		ControlloreBase.getLog().fine("Add a new connection to pool.");
 		ControlloreBase.getLog().finest(() -> "Now are available " + freeConnections.size() + " connections");
 	}
 
 	/**
 	 * Il metodo releaseConnection rilascia una connessione inserendola nella
-	 * coda delle connessioni libere
+	 * coda delle connessioni libere. Le risorse (Statement) ancora associate
+	 * alla connessione vengono chiuse. Una connessione gia' chiusa viene
+	 * scartata e non reinserita nel pool.
 	 */
 	public synchronized void releaseConnection(final Connection con) {
-		// Inserisce la connessione nella coda
-		freeConnections.add(con);
+		if (con == null) {
+			return;
+		}
+		closeStatements(con);
+		try {
+			if (con.isClosed()) {
+				createdConnections--;
+			} else {
+				freeConnections.add(con);
+			}
+		} catch (final SQLException e) {
+			createdConnections--;
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
+		}
+		if (createdConnections < 0) {
+			createdConnections = 0;
+		}
+		notifyAll();
 	}
 
 	public int executeUpdate(final String sql) throws SQLException {
@@ -158,17 +213,16 @@ public abstract class ConnectionPool {
 		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
 		
 		int ritorno = 0;
-		try(final Connection cn = getConnection();
-			final Statement st = createStatement(cn);
-			){
-			if (cn != null && sql != null) {
+		final Connection cn = getConnection();
+		try (final Statement st = createStatement(cn)) {
+			if (sql != null) {
 				ritorno = st.executeUpdate(sql);
 			}
-		}catch (Exception e) {
+		} catch (final Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 			throw new DBException(e);
-		}finally {
-			releaseNewConnection();
+		} finally {
+			releaseConnection(cn);
 		}
 		return ritorno;
 	}
@@ -179,12 +233,57 @@ public abstract class ConnectionPool {
 
 	public ResultSet getResulSet(Connection cn, final String sql) throws SQLException {
 
-		ResultSet rs = null;
-		if (cn != null && sql != null) {
-			final Statement st = createStatement(cn);
-			rs = createResultSet(sql, st);
+		if (cn == null || sql == null) {
+			return null;
 		}
-		return rs;
+		final Statement st = createStatement(cn);
+		registerStatement(cn, st);
+		try {
+			return createResultSet(sql, st);
+		} catch (final SQLException e) {
+			unregisterStatement(cn, st);
+			closeQuietly(st);
+			throw e;
+		}
+	}
+
+	private synchronized void registerStatement(final Connection cn, final Statement st) {
+		List<Statement> statements = statementsByConnection.get(cn);
+		if (statements == null) {
+			statements = new ArrayList<>();
+			statementsByConnection.put(cn, statements);
+		}
+		statements.add(st);
+	}
+
+	private synchronized void unregisterStatement(final Connection cn, final Statement st) {
+		final List<Statement> statements = statementsByConnection.get(cn);
+		if (statements != null) {
+			statements.remove(st);
+			if (statements.isEmpty()) {
+				statementsByConnection.remove(cn);
+			}
+		}
+	}
+
+	private synchronized void closeStatements(final Connection cn) {
+		final List<Statement> statements = statementsByConnection.remove(cn);
+		if (statements != null) {
+			for (final Statement st : statements) {
+				closeQuietly(st);
+			}
+		}
+	}
+
+	private void closeQuietly(final AutoCloseable resource) {
+		if (resource == null) {
+			return;
+		}
+		try {
+			resource.close();
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.FINE, e.getMessage(), e);
+		}
 	}
 
 	private ResultSet createResultSet(final String sql, final Statement st) throws SQLException {
