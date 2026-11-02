@@ -2,18 +2,15 @@ package com.molinari.utility.database.dao;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -31,8 +28,6 @@ import com.molinari.utility.database.dao.columninfo.Definition;
 import com.molinari.utility.database.dao.columninfo.JoinColumnDefinition;
 import com.molinari.utility.database.dao.columninfo.ManyToManyDefinition;
 import com.molinari.utility.database.dao.columninfo.ManyToManyDefinitionBase;
-
-import sun.reflect.annotation.AnnotationType;
 
 public class ElaborateAnnotations<T> {
 
@@ -239,17 +234,12 @@ public class ElaborateAnnotations<T> {
 		return nameColonna;
 	}
 
-	@SuppressWarnings("restriction")
 	protected Object getOggettoByAnnotation(Annotation annotation, String tipo) {
 		Object oggetto = null;
-		final Class<? extends Annotation> annotationType = annotation.annotationType();
-		final AnnotationType instance = AnnotationType.getInstance(annotationType);
-		final Map<String, Method> members = instance.members();
-		final Method methodName = members.get(tipo);
-		final InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
 		try {
-			oggetto = invocationHandler.invoke(annotation, methodName, null);
-		} catch (Throwable e) {
+			final Method method = annotation.annotationType().getMethod(tipo);
+			oggetto = method.invoke(annotation);
+		} catch (Exception e) {
 			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 		return oggetto;

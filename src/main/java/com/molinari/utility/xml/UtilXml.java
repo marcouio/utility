@@ -1,13 +1,13 @@
 package com.molinari.utility.xml;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -21,9 +21,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.molinari.utility.controller.ControlloreBase;
-import com.molinari.utility.io.UtilIo;
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class UtilXml {
 	
@@ -151,28 +148,13 @@ public class UtilXml {
 		}
 
 	public static void writeXmlFile(Document doc, String path) throws IOException {
-
-		FileOutputStream fos = null;
-		final File file = new File(path);
 		try {
-			fos = new FileOutputStream(file);
-			// XERCES 1 or 2 additionnal classes.
-			final OutputFormat of = new OutputFormat("XML","ISO-8859-1",true);
-			of.setIndent(1);
-			of.setIndenting(true);
-			of.setDoctype(null,"users.dtd");
-			final XMLSerializer serializer = new XMLSerializer(fos,of);
-			// As a DOM Serializer
-			
-			serializer.asDOMSerializer();
-			serializer.serialize( doc);
-			fos.close();		
-
-		} catch (final Exception e1) {
-			ControlloreBase.getLog().log(Level.SEVERE, e1.getMessage(), e1);
-			writeXmlFile2(doc, new StreamResult(file));
-		}finally {
-			UtilIo.close(fos);
+			final Transformer xformer = TransformerFactory.newInstance().newTransformer();
+			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			xformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+			xformer.transform(new DOMSource(doc), new StreamResult(new File(path)));
+		} catch (final Exception e) {
+			ControlloreBase.getLog().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
