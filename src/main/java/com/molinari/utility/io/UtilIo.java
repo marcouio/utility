@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -267,7 +268,11 @@ public class UtilIo {
 	}
 
 	public static void scriviFileSuPiuRighe(final File file, final List<String> righe) {
-		try (final FileWriter fileWriter = createFileWriter(file);
+		scriviFileSuPiuRighe(file, righe, false);
+	}
+
+	public static void scriviFileSuPiuRighe(final File file, final List<String> righe, final boolean append) {
+		try (final FileWriter fileWriter = createFileWriter(file, append);
 				final BufferedWriter out = new BufferedWriter(fileWriter);) {
 
 			for (final String type : righe) {
@@ -279,8 +284,8 @@ public class UtilIo {
 		}
 	}
 
-	private static FileWriter createFileWriter(final File file) throws IOException {
-		return new FileWriter(file);
+	private static FileWriter createFileWriter(final File file, final boolean append) throws IOException {
+		return new FileWriter(file, append);
 	}
 
 	public static void close(Closeable... closeables) throws IOException {
@@ -349,6 +354,22 @@ public class UtilIo {
 			File to = new File(pathTo);
 			if(!sameFile(origine, to)) {
 				Files.move(origine, to);
+			}
+			return true;
+		} catch (IOException e) {
+			throw new GenericException(e);
+		}
+	}
+
+	public static boolean moveFile(final File origine, final File destinazione, final boolean overwrite) {
+		try {
+			makeDirsIfNotExists(destinazione.getAbsolutePath());
+			if(!sameFile(origine, destinazione)) {
+				if(overwrite) {
+					java.nio.file.Files.move(origine.toPath(), destinazione.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				}else {
+					java.nio.file.Files.move(origine.toPath(), destinazione.toPath());
+				}
 			}
 			return true;
 		} catch (IOException e) {

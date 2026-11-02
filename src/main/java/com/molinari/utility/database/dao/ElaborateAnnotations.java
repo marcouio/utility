@@ -17,10 +17,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 
 import com.molinari.utility.controller.ControlloreBase;
 import com.molinari.utility.database.ExecuteResultSet;
@@ -261,7 +261,7 @@ public class ElaborateAnnotations<T> {
 		Class<? extends Annotation> annotationType = annotation.annotationType();
 		String name = annotationType.getName();
 
-		if ("javax.persistence.Column".equals(name)) {
+		if ("jakarta.persistence.Column".equals(name)) {
 			nameColonna = getNomeColonnaByAnnotation(annotation);
 
 			if (stringIsEmpty(nameColonna)) {
@@ -277,7 +277,7 @@ public class ElaborateAnnotations<T> {
 
 			columnList.add(colDef);
 
-		} else if ("javax.persistence.ManyToOne".equals(name)) {
+		} else if ("jakarta.persistence.ManyToOne".equals(name)) {
 			JoinColumnDefinition colDef = new JoinColumnDefinition();
 			colDef.setField(field);
 
@@ -295,7 +295,7 @@ public class ElaborateAnnotations<T> {
 
 			columnList.add(colDef);
 
-		} else if ("javax.persistence.JoinColumns".equals(name)) {
+		} else if ("jakarta.persistence.JoinColumns".equals(name)) {
 
 			// TODO da rivedere
 
@@ -305,7 +305,7 @@ public class ElaborateAnnotations<T> {
 			// nameColonna = field.getName();
 			// }
 			// getMappaColumnJoin().put(nameColonna, field);
-		} else if ("javax.persistence.ManyToMany".equals(name)) {
+		} else if ("jakarta.persistence.ManyToMany".equals(name)) {
 
 			JoinTable joinTableAnn = field.getAnnotation(JoinTable.class);
 
@@ -358,7 +358,7 @@ public class ElaborateAnnotations<T> {
 			Annotation annotation = annotations[j];
 			Class<? extends Annotation> annotationType = annotation.annotationType();
 			String name = annotationType.getName();
-			if ("javax.persistence.Entity".equals(name) || "javax.persistence.Table".equals(name)) {
+			if ("jakarta.persistence.Entity".equals(name) || "jakarta.persistence.Table".equals(name)) {
 				ret = getNomeTabella(annotation);
 				if (ret != null && !"".equals(ret)) {
 					return ret;

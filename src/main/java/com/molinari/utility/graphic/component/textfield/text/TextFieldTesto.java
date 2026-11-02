@@ -1,6 +1,7 @@
 package com.molinari.utility.graphic.component.textfield.text;
 
 import java.awt.Container;
+import java.awt.event.FocusEvent;
 
 import com.molinari.utility.graphic.component.textfield.IFormatterTF;
 import com.molinari.utility.graphic.component.textfield.TextFieldBase;

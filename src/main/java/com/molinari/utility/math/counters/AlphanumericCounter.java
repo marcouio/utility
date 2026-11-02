@@ -8,7 +8,7 @@ public class AlphanumericCounter {
  
 	private List<Cifra> cifraList = new ArrayList<>();
 
-	private static String stringCodes = "0123456789abcdefghilmnopqrstuvzABCDEFGHILMNOPQRSTUVZ*#@§?.,'!�$&/()";
+	private static String stringCodes = "0123456789abcdefghilmnopqrstuvzABCDEFGHILMNOPQRSTUVZ*#@§?.,'!£$&/()";
 	private String[] codes = {};
 	private String current;
 	
