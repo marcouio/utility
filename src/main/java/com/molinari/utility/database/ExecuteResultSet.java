@@ -1,5 +1,6 @@
 package com.molinari.utility.database;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -45,6 +46,27 @@ public class ExecuteResultSet<T> {
 		}
 	}
 
+	public T executePrepared(String sql, PreparedStatementSetter setter) throws SQLException {
+
+		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
+
+		try {
+			return ConnectionPool.getSingleton().useConnection(cn -> {
+				try (final PreparedStatement ps = cn.prepareStatement(sql)) {
+					setter.setParameters(ps);
+					try (final ResultSet resulSet = ps.executeQuery()) {
+						return doWithResultSet(resulSet);
+					}
+				} catch (SQLException e) {
+					throw new GenericException(e);
+				}
+			});
+
+		} catch (GenericException e) {
+			throw new SQLException(e);
+		}
+	}
+
 	public List<T> executeList(ElaborateResultSet<T> elabRS, String sql) throws SQLException {
 		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
 		try {
@@ -61,6 +83,24 @@ public class ExecuteResultSet<T> {
 		}
 	}
 
+	public List<T> executePreparedList(ElaborateResultSet<T> elabRS, String sql, PreparedStatementSetter setter) throws SQLException {
+		ControlloreBase.getLog().info(() -> "Query in esecuzione: " + sql);
+		try {
+			return ConnectionPool.getSingleton().useConnection(cn -> {
+				try (final PreparedStatement ps = cn.prepareStatement(sql)) {
+					setter.setParameters(ps);
+					try (final ResultSet resulSet = ps.executeQuery()) {
+						return elabRS.elaborate(resulSet);
+					}
+				} catch (Exception e) {
+					throw new GenericException(e);
+				}
+			});
+		} catch (GenericException e) {
+			throw new SQLException(e);
+		}
+	}
+
 	protected T doWithResultSet(ResultSet resultSet) throws SQLException {
 		return null;
 	}
@@ -68,5 +108,10 @@ public class ExecuteResultSet<T> {
 	@FunctionalInterface
 	public interface ElaborateResultSet<T> {
 		List<T> elaborate(ResultSet resultSet);
+	}
+
+	@FunctionalInterface
+	public interface PreparedStatementSetter {
+		void setParameters(PreparedStatement ps) throws SQLException;
 	}
 }
