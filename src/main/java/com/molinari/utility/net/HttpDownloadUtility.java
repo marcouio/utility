@@ -2,12 +2,14 @@ package com.molinari.utility.net;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 import com.molinari.utility.io.UtilIo;
@@ -20,26 +22,34 @@ import com.molinari.utility.io.UtilIo;
  */
 public class HttpDownloadUtility {
 
-	public static void downloadFile(String fileURL, String saveDir) throws IOException {
+	public static void downloadFile(String fileURL, String savePath) throws IOException {
 		URL url = new URL(fileURL);
 		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-		int responseCode = httpConn.getResponseCode();
+		httpConn.setInstanceFollowRedirects(true);
+		try {
+			int responseCode = httpConn.getResponseCode();
+			if (responseCode != HttpURLConnection.HTTP_OK) {
+				throw new IOException("Risposta HTTP " + responseCode + " per " + fileURL);
+			}
 
-		// always check HTTP response code first
-		if (responseCode == HttpURLConnection.HTTP_OK) {
-			String contentType = httpConn.getContentType();
-			int contentLength = httpConn.getContentLength();
+			File targetFile = new File(savePath).getAbsoluteFile();
+			File parent = targetFile.getParentFile();
+			if (parent != null && !parent.exists() && !parent.mkdirs()) {
+				throw new IOException("Impossibile creare la cartella " + parent.getAbsolutePath());
+			}
 
-			System.out.println("Content-Type = " + contentType);
-			System.out.println("Content-Length = " + contentLength);
-
-			// opens input stream from the HTTP connection
-			InputStream inputStream = httpConn.getInputStream();
-			File targetFile = new File(saveDir);
-		    FileOutputStream fos = new FileOutputStream(targetFile);
-		    fos.write(inputStream.available());
-			fos.close();
-			
+			Path tempFile = Files.createTempFile(parent.toPath(), targetFile.getName(), ".part");
+			try {
+				try (InputStream inputStream = httpConn.getInputStream()) {
+					Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
+				}
+				Files.move(tempFile, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				Files.deleteIfExists(tempFile);
+				throw e;
+			}
+		} finally {
+			httpConn.disconnect();
 		}
 	}
 	
